@@ -1,0 +1,139 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use App\Builders\InvoiceBuilder;
+use App\Filament\Resources\InvoiceResource\Enums\BillingType;
+use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+/**
+ * @property InvoiceStatus $status
+ * @property string $payment_reference
+ *
+ * @method static uncollectibleInvoices() The collection of invoices that are registered as uncollected.
+ */
+final class Invoice extends Model
+{
+    use HasFactory;
+
+    /**
+     * The attributes that are protected from the mass assignment system.
+     *
+     * @var string[]
+     */
+    protected $guarded = ['id'];
+
+    /**
+     * Method for defining default values to the declared attributes in the array.
+     *
+     * @var array<string, object|int|string>
+     */
+    protected $attributes = [
+        'status' => InvoiceStatus::Draft,
+    ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        self::creating(function ($invoice): void {
+            $lastInvoice = self::orderBy('id', 'desc')->first();
+            $lastNumber = $lastInvoice ? (int) mb_substr($lastInvoice->payment_reference, -6) : 0;
+            $invoice->payment_reference = date('Y') . '-' . mb_str_pad((string) ($lastNumber + 1), 6, '0', STR_PAD_LEFT);
+        });
+    }
+
+    /**
+     * Data relation for all the invoice lines that are registered to an invoice.
+     *
+     * @return HasMany<BillingItem>
+     */
+    public function invoiceLines(): HasMany
+    {
+        return $this->hasMany(BillingItem::class);
+    }
+
+    /**
+     * Data relation for the lease where the invoice is attached to.
+     *
+     * @return BelongsTo<Lease, self>
+     */
+    public function lease(): BelongsTo
+    {
+        return $this->belongsTo(Lease::class);
+    }
+
+    /**
+     * @return Attribute<int|float, never-return>
+     */
+    public function invoiceTotal(): Attribute
+    {
+        return Attribute::get(fn(): int|float => $this->getSubTotal() - $this->getDiscountTotal());
+    }
+
+    public function getDiscountTotal(): int|float|string
+    {
+        return $this->invoiceLines()->where('type', BillingType::Discount)->sum('total_price');
+    }
+
+    public function getSubTotal(): int|float|string
+    {
+        return $this->invoiceLines()->where('type', BillingType::BillingLine)->sum('total_price');
+    }
+
+    /**
+     * Data relation for the tenant (customer) that will be billed for the lease;
+     *
+     * @return BelongsTo<Tenant, self>
+     */
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class, 'customer_id');
+    }
+
+    /**
+     * Data relation for the user that created the invoice in the database storage.
+     *
+     * @return BelongsTo<User, Invoice>
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * This method overrides the default Eloquent builder with a custom
+     * InvoiceBuilder, providing additional methods and functionality
+     * specific to invoices.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query  The base query builder instance.
+     * @return InvoiceBuilder<self>                        The custom query builder instance for invoices.
+     */
+    public function newEloquentBuilder($query): InvoiceBuilder
+    {
+        return new InvoiceBuilder($query);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, class-string|string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'due_at' => 'date',
+            'quotation_due_at' => 'date',
+            'status' => InvoiceStatus::class,
+        ];
+    }
+}

@@ -1,0 +1,58 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+// $font-family-sans-serif: 'Nunito', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+$table-bg: #fff;
+
+    // Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+.text-brown {
+    color: #572600;
+}
+
+.icon-thin {
+    stroke-width: 1.5;
+}
+
+.icon-md {
+    line-height: 1.5;
+    font-size: 1.1rem;
+}
+
+.icon-lg {
+    font-size: 2rem;
+}
+
+.icon-xl {
+    font-size: 4rem;
+}
+
+
+.icon-filled {
+    fill: currentColor;
+}
+
+.icon-sm {
+    width: .8rem !important;
+    height: .8rem !important;
+}
+
+.icon {
+    color: #572600;
+    width: 1em;
+    height: 1em;
+    font-size: 16px;
+    vertical-align: -0.2em;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
