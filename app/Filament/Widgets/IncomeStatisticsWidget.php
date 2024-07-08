@@ -50,7 +50,7 @@ final class IncomeStatisticsWidget extends BaseWidget
      */
     public static function canView(): bool
     {
-        return (auth()->user()->user_group === UserGroup::Rvb || auth()->user()->user_group === UserGroup::Webmaster)
+        return (UserGroup::Rvb === auth()->user()->user_group || UserGroup::Webmaster === auth()->user()->user_group)
             && Features::enabled(Features::utilityMetrics());
     }
 

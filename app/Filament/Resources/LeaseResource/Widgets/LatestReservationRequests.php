@@ -30,7 +30,7 @@ final class LatestReservationRequests extends BaseWidget
                 Tables\Actions\Action::make('verhuringen')
                     ->color('gray')
                     ->icon('heroicon-o-eye')
-                    ->url(LeaseResource::getUrl('index'))
+                    ->url(LeaseResource::getUrl('index')),
             ])
             ->defaultSort('arrival_date', 'ASC')
             ->columns([

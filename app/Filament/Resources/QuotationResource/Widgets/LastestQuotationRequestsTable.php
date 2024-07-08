@@ -54,7 +54,7 @@ final class LastestQuotationRequestsTable extends BaseWidget
                 Tables\Actions\Action::make('offertes')->label('Offertes')->url(QuotationResource::getUrl())->color('gray')->icon('heroicon-o-eye'),
             ])
             ->actions([
-                Tables\Actions\Action::make('Open')->url(fn (Invoice $record): string => QuotationResource::getUrl('view', ['record' => $record])),
+                Tables\Actions\Action::make('Open')->url(fn(Invoice $record): string => QuotationResource::getUrl('view', ['record' => $record])),
             ])
             ->columns([
                 Tables\Columns\TextColumn::make('payment_reference')->label('Referentie nr.')->sortable()->weight(FontWeight::Bold)->color('primary'),

@@ -63,7 +63,7 @@ class MakeUserCommand extends Command
             'email' => $this->options['email'] ?? text(
                 label: 'Email address',
                 required: true,
-                validate: fn (string $email): ?string => match (true) {
+                validate: fn(string $email): ?string => match (true) {
                     ! filter_var($email, FILTER_VALIDATE_EMAIL) => 'The email address must be valid.',
                     static::getUserModel()::where('email', $email)->exists() => 'A user with this email address already exists',
                     default => null,
@@ -76,7 +76,7 @@ class MakeUserCommand extends Command
             )),
 
             'user_group' => $this->choice('What user group does the account have.', [
-                UserGroup::Webmaster->value, UserGroup::Leiding->value, UserGroup::Rvb->value, UserGroup::Vzw->value
+                UserGroup::Webmaster->value, UserGroup::Leiding->value, UserGroup::Rvb->value, UserGroup::Vzw->value,
             ], UserGroup::Leiding->value),
         ];
     }
