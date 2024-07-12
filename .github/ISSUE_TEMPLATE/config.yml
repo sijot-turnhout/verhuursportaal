@@ -3,9 +3,6 @@ contact_links:
   - name: Stel een vraag
     url: https://github.com/just-another-hackaton/reiziger-filament/discussions/categories/q-a
     about: Vraag de community om hulp.
-  - name: Vraag een nieuwe functie aan
-    url: https://github.com/just-another-hackaton/reiziger-filament/discussions/categories/ideas
-    about: Deel ideen omtrent nieuwe functionaliteiten
   - name: Rapporteer een veiligheidslek
     url: https://github.com/just-another-hackaton/reiziger-filament/security/policy
     about: Ontdek hoe u ons op de hoogte kunt stellen van gevoelige bugs
