@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Builders\IssueBuider;
+use App\Builders\IssueBuilder;
 use App\Filament\Resources\LocalResource\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -57,9 +57,9 @@ class Issue extends Model
     /**
      * @return IssueBuider<self>
      */
-    public function newEloquentBuilder($query): IssueBuider
+    public function newEloquentBuilder($query): IssueBuilder
     {
-        return new IssueBuider($query);
+        return new IssueBuilder($query);
     }
 
     /**

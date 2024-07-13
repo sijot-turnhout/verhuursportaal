@@ -91,7 +91,7 @@ final class UtilitiesRelationManager extends RelationManager
                     ->label('Type verbruik'),
                 Tables\Columns\TextColumn::make('start_value')
                     ->label('Meterstand (start)')
-                    ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix())
+                    ->suffix(fn (Utility $utility): string => ' ' . $utility->name->getSuffix())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('usage_total')
                     ->label('Verbruik')
@@ -99,11 +99,11 @@ final class UtilitiesRelationManager extends RelationManager
                     ->color('warning')
                     ->weight(FontWeight::Bold)
                     ->prefix('+')
-                    ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix()),
+                    ->suffix(fn (Utility $utility): string => ' ' . $utility->name->getSuffix()),
                 Tables\Columns\TextColumn::make('end_value')
                     ->label('Meterstand (eind)')
                     ->sortable()
-                    ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix()),
+                    ->suffix(fn (Utility $utility): string => ' ' . $utility->name->getSuffix()),
                 Tables\Columns\TextColumn::make('unit_price')->label('Eenheidsprijs')
                     ->money('EUR')
                     ->weight(FontWeight::ExtraBold),

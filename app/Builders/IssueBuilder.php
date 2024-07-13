@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @template TModelClass of \App\Models\Issue>
  * @extends Builder<\App\Models\Issue>
  */
-final class IssueBuider extends Builder
+final class IssueBuilder extends Builder
 {
     public function markAsClosed(): bool
     {
