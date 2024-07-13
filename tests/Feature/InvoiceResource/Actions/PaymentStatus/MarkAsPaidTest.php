@@ -72,10 +72,10 @@ test('it can mark an invoice as paid when the invoice is due', function (): void
 
 /**
  * @test
- * @covers
- * @description
- * @precondition
- * @expected
+ * @covers          Invoice payment functionality
+ * @description     Ensure that a paid invoice cannot be marked again as paid
+ * @precondition    A paid invoice must exist
+ * @expected        The invoice status should not be updated and the registration stays unchanged.
  */
 test('it cannot mark an invoice as paid when invoice is already paid', function (): void {
     $this->assertTrue(true);
