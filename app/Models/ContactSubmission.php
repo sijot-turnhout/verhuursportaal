@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class COntactSubmission
+ * Class ContactSubmission
  *
  * @property int                        $id            The unique identifier (PK) from the record in the database storage
  * @property string                     $first_name    The first name of the sender
@@ -20,8 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string                     $message       The question that is sended to us from the sender
  * @property \Illuminate\Support\Carbon $updated_at    The timestamp for when the record is last edited in the database storage
  * @property \Illuminate\Support\Carbon $created_at    The timestamp for when the record is created in the database storage.
- *
- * @todo <1.0.0 Rename the ContactSubmission class name to ContactMessage
  */
 final class ContactSubmission extends Model
 {

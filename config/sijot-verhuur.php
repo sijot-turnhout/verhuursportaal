@@ -12,9 +12,6 @@ declare(strict_types=1);
 use App\Support\Features;
 
 return [
-    /**
-     * @todo document this configuration in a later phase of the project.
-     */
     'billing' => [
         'price_per_night' => '5.5',
         'guarantee_payment_amount' => 250,
