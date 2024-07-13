@@ -16,8 +16,6 @@ use Illuminate\Support\Carbon;
  * Trait HasFeedbackSupport
  *
  * This trait provides feedback-related functionalities for a model.
- *
- * @todo Document feedback system
  */
 trait HasFeedbackSupport
 {

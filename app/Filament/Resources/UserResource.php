@@ -15,7 +15,6 @@ use Filament\Tables\Table;
 
 /**
  * @todo Fill in the empty table rows in the overview of the users.
- * @todo Implement the relation manager for displaying the supervised leases for the user.
  */
 final class UserResource extends Resource
 {

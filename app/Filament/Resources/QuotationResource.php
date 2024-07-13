@@ -21,7 +21,6 @@ use Filament\Tables\Table;
 /**
  * @todo Docblock this class.
  * @todo Implement badge on the navigation item that counts the quotation requests
- * @todo
  */
 final class QuotationResource extends Resource
 {

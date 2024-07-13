@@ -62,12 +62,9 @@ final class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
-    /**
-     * @todo Returns simply true for now in a later phase we need to think about a possible security check.
-     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return auth()->check();
     }
 
     /**
