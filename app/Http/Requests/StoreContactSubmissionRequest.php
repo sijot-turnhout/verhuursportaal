@@ -8,9 +8,6 @@ use App\DataObjects\ContactSubmissionData;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\LaravelData\WithData;
 
-/**
- * @todo 2024-05-05: Wrtie architecture test to ensure that the request classes are final in the project.
- */
 final class StoreContactSubmissionRequest extends FormRequest
 {
     /**
