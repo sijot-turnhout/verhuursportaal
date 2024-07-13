@@ -22,7 +22,7 @@ final class ReopenIssueAction extends Action
             ->color('warning')
             ->visible(fn(Issue $issue): bool => Gate::allows('reopen', $issue))
             ->action(function (Issue $issue): void {
-                $issue->update(['status' => Status::Open]);
+                $issue->update(['status' => Status::Open, 'closed_at' => null]);
                 Notification::make()->title('Het werkpunt is met success heropend.')->success()->send();
             });
     }

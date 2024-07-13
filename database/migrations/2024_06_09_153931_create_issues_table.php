@@ -22,6 +22,7 @@ return new class () extends Migration {
             $table->string('status');
             $table->string('title');
             $table->text('description')->nullable();
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
     }

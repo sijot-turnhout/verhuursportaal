@@ -33,7 +33,8 @@ final readonly class IssuePolicy
         return $user->owns($issue, 'creator_id')
             || $user->owns($issue, 'user_id')
             || $user->user_group->isWebmaster()
-            || $user->user_group->isRvb();
+            || $user->user_group->isRvb()
+            && null !== $issue->closed_at;
     }
 
     /**

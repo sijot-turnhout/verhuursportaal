@@ -55,7 +55,7 @@ class Issue extends Model
     }
 
     /**
-     * @return IssueBuider<self>
+     * @return IssueBuilder<self>
      */
     public function newEloquentBuilder($query): IssueBuilder
     {

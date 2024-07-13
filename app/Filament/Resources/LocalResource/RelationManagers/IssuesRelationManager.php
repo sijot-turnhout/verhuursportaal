@@ -21,7 +21,6 @@ use Filament\Tables\Table;
 /**
  * @todo Implement unit tests for the relation manager.
  * @todo See if we can implement a cron job console command to register a issue ticket as inactive after X months.
- * @todo Implement the 'closed_at' timestamp in the underlying database tables;
  *
  * @see \App\Policies\IssuePolicy::class
  */

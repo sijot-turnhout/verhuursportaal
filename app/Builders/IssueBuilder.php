@@ -15,7 +15,7 @@ final class IssueBuilder extends Builder
 {
     public function markAsClosed(): bool
     {
-        return $this->model->update(['status' => Status::Closed]);
+        return $this->model->update(['status' => Status::Closed, 'closed_at' => now()]);
     }
 
 }
