@@ -10,7 +10,7 @@ use Spatie\LaravelPdf\PdfBuilder;
 
 use function Spatie\LaravelPdf\Support\pdf;
 
-class DownloadInvoiceController extends Controller
+final readonly class DownloadInvoiceController
 {
     public function __invoke(Invoice $record): PdfBuilder
     {

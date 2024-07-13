@@ -11,7 +11,7 @@ use Illuminate\Contracts\Support\Renderable;
  *
  * @todo <1.0.0 Document the procedure for changing the logo and org details in the footer.
  */
-final class FrontPageController extends Controller
+final readonly class FrontPageController
 {
     public function __invoke(): Renderable
     {

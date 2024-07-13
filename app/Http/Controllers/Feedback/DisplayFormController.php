@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Feedback;
 
-use App\Http\Controllers\Controller;
 use App\Models\Lease;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;

@@ -18,7 +18,7 @@ use Spatie\LaravelData\Exceptions\InvalidDataClass;
  *
  * @package App\Http\Controllers
  */
-final class BookingController extends Controller
+final readonly class BookingController
 {
     /**
      * Handle the incoming booking request.

@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 
-final class PriceInformationController extends Controller
+final readonly class PriceInformationController
 {
     public function __invoke(): Renderable
     {
