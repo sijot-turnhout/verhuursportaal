@@ -143,6 +143,6 @@ final class Lease extends Model
      */
     protected function period(): Attribute
     {
-        return Attribute::get(fn (): string => "{$this->arrival_date->format('d/m/Y H:i')} - {$this->departure_date->format('d/m/Y H:i')}");
+        return Attribute::get(fn(): string => "{$this->arrival_date->format('d/m/Y H:i')} - {$this->departure_date->format('d/m/Y H:i')}");
     }
 }

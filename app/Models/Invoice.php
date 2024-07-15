@@ -87,7 +87,7 @@ final class Invoice extends Model
      */
     public function invoiceTotal(): Attribute
     {
-        return Attribute::get(fn (): int|float => $this->getSubTotal() - $this->getDiscountTotal());
+        return Attribute::get(fn(): int|float => $this->getSubTotal() - $this->getDiscountTotal());
     }
 
     public function getDiscountTotal(): int|float|string
