@@ -23,11 +23,15 @@ final class LatestReservationRequests extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon('heroicon-o-queue-list')
+            ->emptyStateHeading('Geen aanvragen gevonden')
+            ->emptyStateDescription('Momenteel zijn er geen nieuwe verhuringen aangevraagd door personen in het systeem')
             ->extremePaginationLinks()
             ->paginated([3, 6, 9, 12])
             ->query(LeaseResource::getEloquentQuery()->where('status', LeaseStatus::Request))
             ->headerActions([
                 Tables\Actions\Action::make('verhuringen')
+                    ->visible(fn (Lease $lease): bool => $lease->where('status', LeaseStatus::Request)->count() > 0)
                     ->color('gray')
                     ->icon('heroicon-o-eye')
                     ->url(LeaseResource::getUrl('index')),
