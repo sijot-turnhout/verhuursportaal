@@ -15,8 +15,17 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * @property string $firstName The first name of the tenant that is stored in the database
- * @property string $lastName  The last name of the tenant that is stored in the database
+ * Class Tenant
+ *
+ * @property string                          $name          The full name of the tenant. Virually generated bases on the firstName and LastName.
+ * @property string                          $firstName     The first name of the tenant that is stored in the database
+ * @property string                          $lastName      The last name of the tenant that is stored in the database
+ * @property string                          $email         The email address of the tenant in the application
+ * @property string|null                     $phone_number  The phone number of the tenant in the application.
+ * @property string|null                     $address       The billing address for the tenant in the application.
+ * @property \Illuminate\Support\Carbon|null $banned_at     The timestamp that indicates when the tenant is marked as 'bannad tenant' in the application.
+ * @property \Illuminate\Support\Carbon      $created_at    The timestamp that indicated when the record has been created in the database.
+ * @property \Illuminate\Support\Carbon      $updated_at    The timestamp that indicates when the record has been updated for the last time.
  */
 final class Tenant extends Model implements BannableInterface
 {
