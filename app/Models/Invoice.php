@@ -14,8 +14,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property InvoiceStatus $status
- * @property string $payment_reference
+ * Class Invoice
+ *
+ * @property int                              $id                 The Unique identifier from the invoice in the database
+ * @property string                           $payment_reference  The reference number for the invoice
+ * @property InvoiceStatus                    $status             The status from the invoice in the application storage.
+ * @property int                              $creator_id         The unique identifier from the application user who created the invoice.
+ * @property int                              $lease_id           The unique identifier from the lease that is attached to the invoice.
+ * @property int                              $customer_id        The unique identifier from the customer (tenant) that is attached to the invoice.
+ * @property string                           $description        The extra information that will be placed on the invoice.
+ * @property \Illuminate\Support\Carbon|null  $due_at             The timestamp that indicates when the invoice is due.
+ * @property \Illuminate\Support\Carbon|null  $paid_at            The timestamp that indicates when the invoice is registered as paid.
+ * @property \Illuminate\Support\Carbon|null  $cancelled_at       The timestamp that indicates when the invoice is registered as cancelled
+ * @property \Illuminate\Support\Carbon|null  $created_at         The timestamp that indicates when the record has been added to the database.
+ * @property \Illuminate\Support\Carbon|null  $updated_at         The timestamp that indicates when the record has updated for the last time.
  *
  * @method static uncollectibleInvoices() The collection of invoices that are registered as uncollected.
  */
@@ -75,7 +87,7 @@ final class Invoice extends Model
      */
     public function invoiceTotal(): Attribute
     {
-        return Attribute::get(fn(): int|float => $this->getSubTotal() - $this->getDiscountTotal());
+        return Attribute::get(fn (): int|float => $this->getSubTotal() - $this->getDiscountTotal());
     }
 
     public function getDiscountTotal(): int|float|string

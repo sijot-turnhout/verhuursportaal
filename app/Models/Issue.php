@@ -11,7 +11,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property Status $status
+ * Class Issue
+ *
+ * @property int                              $id           The unique identifier from the issue ticket in the database.
+ * @property int                              $local_id     The unique identifier from the facility that is attached to the issue ticket.
+ * @property int                              $creator_id   The unique identifier from the user who created the issue ticket.
+ * @property int                              $user_id      The unique identifier from the user who is assigned to the issue ticket.
+ * @property Status                           $status       The current registered status of the issue ticket.
+ * @property string                           $title        The title of the issue ticket.
+ * @property string                           $description  The description of the issue ticket.
+ * @property \Illuminate\Support\Carbon|null  $created_at   The timestamp from when the record has been created in the database?
+ * @property \Illuminate\Support\Carbon|null  $updated_at   The timestamp from when the record has been updated for the last time.
+ *
  * @method markAsClosed()
  */
 class Issue extends Model

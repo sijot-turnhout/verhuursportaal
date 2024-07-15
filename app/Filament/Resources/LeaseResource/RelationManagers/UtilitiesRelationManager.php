@@ -26,8 +26,6 @@ use Illuminate\Support\Facades\Gate;
  * For modifying the unit prices consult the billing section in the configuration array for the platform,
  * that is located at /config/reiziger.php
  *
- * @template TModel of \App\Models\Lease
- *
  * @method \App\Models\Lease getOwnerRecord()
  *
  * @todo We need to implement a icon on the tab of the relation mananger.
@@ -38,20 +36,24 @@ final class UtilitiesRelationManager extends RelationManager
 {
     /**
      * Variable for registering a custom name to the panel in the relation manager.
+     *
+     * @car string|null
      */
     protected static ?string $title = 'Verbruik';
 
     /**
      * Variable for defining the name of the relation that will be used in this relation manager.
+     *
+     * @var string
      */
     protected static string $relationship = 'utilityStatistics';
 
     /**
      * Method for determining whether the utility metric panel is visible of not.
      *
-     * @param  TModel  $ownerRecord  The owner record of the relation entity. In this case it is the lease entity.
-     *
-     * @see \App\Policies\LeasePolicy::finalizeMetrics()
+     * @param  Model   $ownerRecord  The owner record of the relation entity. In this case it is the lease entity.
+     * @param  string  $pageClass
+     * @return bool
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
@@ -62,6 +64,7 @@ final class UtilitiesRelationManager extends RelationManager
      * Method for building up the modal that allows us to edit/view the form for the energy metrics.
      *
      * @param  Form  $form  The form builder class that will be used to build the edit form for the utility metrics.
+     * @return Form
      */
     public function form(Form $form): Form
     {
@@ -76,7 +79,8 @@ final class UtilitiesRelationManager extends RelationManager
     /**
      * The method that allows us to define the view table for the relation manager.
      *
-     * @todo Build up an action to revoke the finalization of the energy metrics registration for when a user has made an error and needs to correct it. It only can be performed by administrators and webmasters.
+     * @param  Table $table The table builder instance that will be used to render the information table.
+     * @return Table
      */
     public function table(Table $table): Table
     {
