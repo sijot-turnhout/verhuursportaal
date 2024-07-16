@@ -31,7 +31,7 @@ final class LatestReservationRequests extends BaseWidget
             ->query(LeaseResource::getEloquentQuery()->where('status', LeaseStatus::Request))
             ->headerActions([
                 Tables\Actions\Action::make('verhuringen')
-                    ->visible(fn (Lease $lease): bool => $lease->where('status', LeaseStatus::Request)->count() > 0)
+                    ->visible(fn(Lease $lease): bool => $lease->where('status', LeaseStatus::Request)->count() > 0)
                     ->color('gray')
                     ->icon('heroicon-o-eye')
                     ->url(LeaseResource::getUrl('index')),
