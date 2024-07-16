@@ -11,13 +11,34 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class NotesRelationManager extends RelationManager
+final class NotesRelationManager extends RelationManager
 {
+    /**
+     * The declaration of the relation that will be used in the relation manager.
+     */
     protected static string $relationship = 'notes';
+
+    /**
+     * The singular name for the model defenition.
+     */
     protected static ?string $modelLabel = 'Notitie';
+
+    /**
+     * The plural model name definition for the relation manager.
+     */
     protected static ?string $pluralModelLabel = 'Notities';
+
+    /**
+     * The panel title declaration for the panel.
+     */
     protected static ?string $title = 'Notities';
 
+    /**
+     * Method to initiate the form to create of edit notes in the relation manager.
+     *
+     * @param  Form $form The form builder that will be used to render the form in the relation manager.
+     * @return Form
+     */
     public function form(Form $form): Form
     {
         return $form
@@ -27,9 +48,17 @@ class NotesRelationManager extends RelationManager
             ])->columns(12);
     }
 
+    /**
+     * Method to render the data table in the view.
+     *
+     * @param  Table $table The table builder that will be used to render the data table.
+     */
     public function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon('heroicon-o-book-open')
+            ->emptyStateHeading('Geen notities gevonden voor de huurder')
+            ->emptyStateDescription('Momenteel zijn er geen notities opgeslagen voor de huurder in het systeem. Om te starten met notities kunt u er simpel weg een aanmaken.')
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('#')->weight(FontWeight::Bold),
                 Tables\Columns\TextColumn::make('author.name')->label('Ingevoegd door'),

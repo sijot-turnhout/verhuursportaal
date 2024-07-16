@@ -50,7 +50,6 @@ final class UserResource extends Resource
      * Method to render the creation/edit form in the UserReource.
      *
      * @param  Form $form The form builder instance that will be used to render the forms in the UserResource.
-     * @return Form
      */
     public static function form(Form $form): Form
     {
@@ -77,7 +76,7 @@ final class UserResource extends Resource
                         Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->password()->revealable(),
                         Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
                     ])
-                    ->hidden(fn(string $operation): bool => 'edit' === $operation)
+                    ->hidden(fn (string $operation): bool => 'edit' === $operation)
                     ->columns(['sm' => 12, 'md' => 12, 'lg' => 12, 'xl' => 12, '2xl' => 12]),
             ]);
     }
@@ -86,7 +85,6 @@ final class UserResource extends Resource
      * Method to display the information overview table.
      *
      * @param  Table $table The table builder instance that will be used to render the overview table of the resource.
-     * @return Table
      */
     public static function table(Table $table): Table
     {
