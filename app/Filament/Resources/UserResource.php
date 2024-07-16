@@ -66,7 +66,7 @@ final class UserResource extends Resource
                         Forms\Components\TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required(),
                         Forms\Components\TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->email(),
                         Forms\Components\TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
-                    ])->columns(12),
+                    ])->columns(['sm' => 12, 'md' => 12, 'lg' => 12, 'xl' => 12, '2xl' => 12]),
 
                 // Section that is related to the security information from the user account.
                 // Only things such as the password will be handled/registered here.
@@ -78,7 +78,7 @@ final class UserResource extends Resource
                         Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
                     ])
                     ->hidden(fn(string $operation): bool => 'edit' === $operation)
-                    ->columns(12),
+                    ->columns(['sm' => 12, 'md' => 12, 'lg' => 12, 'xl' => 12, '2xl' => 12]),
             ]);
     }
 
