@@ -76,6 +76,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('img/sijot.png'))
             ->favicon(asset('img/favicon/favicon.ico'))
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->widgets([
                 IncomeStatisticsWidget::class,
                 StatsOverview::class,

@@ -18,10 +18,13 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
+use App\Filament\Clusters\Billing;
 
 final class InvoiceResource extends Resource
 {
     use InvoiceInfolist;
+
+    protected static ?string $cluster = Billing::class;
 
     /**
      * The database model entity that will be used by the resource.

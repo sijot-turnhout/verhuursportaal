@@ -17,6 +17,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Clusters\Billing;
 
 /**
  * @todo Docblock this class.
@@ -24,6 +25,8 @@ use Filament\Tables\Table;
  */
 final class QuotationResource extends Resource
 {
+    protected static ?string $cluster = Billing::class;
+
     protected static ?string $model = Invoice::class;
 
     protected static ?string $modelLabel = 'Offerte';

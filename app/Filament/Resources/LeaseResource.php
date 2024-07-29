@@ -185,11 +185,22 @@ final class LeaseResource extends Resource
         return $record->period;
     }
 
+    /**
+     * Method to define the global query that will be used by the search functionality related to the leases in the application.
+     *
+     * @return Builder
+     */
     public static function getGlobalSearchEloquentQuery(): Builder
     {
         return parent::getGlobalSearchEloquentQuery()->with(['tenant'])->limit(5);
     }
 
+    /**
+     * Method to define the view in the search results that are related to the leases in the application.
+     *
+     * @param  Model $record  The record entoty that will be rteturned by the search functionality
+     * @return array
+     */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
