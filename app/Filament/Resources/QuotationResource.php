@@ -86,6 +86,8 @@ final class QuotationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading(trans('Geen offertes gevonden'))
+            ->emptyStateDescription(trans('Momenteel zijn er nog geen offertes gevonden in het systeem aangemaakt of gevonden die voldoen aan de opgegeven criteria.'))
             ->modifyQueryUsing(fn(Invoice $builder) => $builder->onlyQuotations())
             ->columns([
                 Tables\Columns\TextColumn::make('payment_reference')->label(trans('Referentie nr.'))->weight(FontWeight::Bold)->color('primary')->searchable(),
