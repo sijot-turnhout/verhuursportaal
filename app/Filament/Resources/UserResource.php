@@ -76,7 +76,7 @@ final class UserResource extends Resource
                         Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->password()->revealable(),
                         Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
                     ])
-                    ->hidden(fn (string $operation): bool => 'edit' === $operation)
+                    ->hidden(fn(string $operation): bool => 'edit' === $operation)
                     ->columns(['sm' => 12, 'md' => 12, 'lg' => 12, 'xl' => 12, '2xl' => 12]),
             ]);
     }
