@@ -13,6 +13,4 @@ namespace App\Filament\Resources\LeaseResource\States;
  * In this state, the lease agreement is binding, and all terms have been accepted. This state indicates
  * that the lease is ready to be executed, and any preliminary conditions or prerequisites have been satisfied.
  */
-final class ConfirmedLeaseState extends LeaseState
-{
-}
+final class ConfirmedLeaseState extends LeaseState {}

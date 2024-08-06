@@ -13,6 +13,4 @@ namespace App\Filament\Resources\LeaseResource\States;
  * In this state, the lease is newly requested and awaiting further action, such as review, approval, or
  * additional information. This is typically the starting point in the lease lifecycle.
  */
-final class NewLeaseRequestState extends LeaseState
-{
-}
+final class NewLeaseRequestState extends LeaseState {}
