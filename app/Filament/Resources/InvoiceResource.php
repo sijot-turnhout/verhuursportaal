@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\Billing;
 use App\Filament\Resources\InvoiceResource\Infolists\InvoiceInfolist;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Filament\Resources\InvoiceResource\Pages\ListInvoices;
@@ -18,7 +19,6 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
-use App\Filament\Clusters\Billing;
 
 final class InvoiceResource extends Resource
 {

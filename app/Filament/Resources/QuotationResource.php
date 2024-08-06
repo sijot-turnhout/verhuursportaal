@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\Billing;
 use App\Filament\Resources\InvoiceResource\RelationManagers\InvoiceLinesRelationManager;
 use App\Filament\Resources\QuotationResource\Pages;
 use App\Models\Invoice;
@@ -17,7 +18,6 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Clusters\Billing;
 
 /**
  * @todo Docblock this class.
