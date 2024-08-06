@@ -11,6 +11,11 @@ use App\Support\Features;
 
 final readonly class LeasePolicy
 {
+    public function update(User $user, Lease $lease): bool
+    {
+        return true;
+    }
+
     public function finalizeMetrics(User $user, Lease $lease): bool
     {
         return $this->featureIsEnabled() && ($lease->isFinalized() || $lease->isConfirmed());

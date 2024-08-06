@@ -8,6 +8,8 @@ use App\Builders\LeaseBuilder;
 use App\Concerns\HasFeedbackSupport;
 use App\Concerns\HasUtilityMetrics;
 use App\Enums\LeaseStatus;
+use App\Filament\Resources\LeaseResource\States\Contracts\LeaseStateContract;
+use App\Filament\Resources\LeaseResource\States;
 use App\Observers\LeaseObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -35,8 +37,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property \Illuminate\Support\Carbon|null $created_at             The timestamp from when the record has been created in the database storage.
  * @property \Illuminate\Support\Carbon|null $updated_at             The timestamp from when the record has been updated last time in the database.
  *
- * @property mixed $tenant
- * @property Invoice $invoice
+ * @property Tenant  $tenant    The instance of the customer (tenant) that is connected to the lease.
+ * @property Invoice $invoice   The instance of the invoice that is connected to the lease.
  */
 #[ObservedBy(LeaseObserver::class)]
 final class Lease extends Model
@@ -56,6 +58,27 @@ final class Lease extends Model
      * @var array<string, object|int|string>
      */
     protected $attributes = ['status' => LeaseStatus::Request];
+
+    /**
+     * Get the current state of the lease based on its status.
+     *
+     * This method returns an instance of a class that implements the LeaseStateContract interface,
+     * representing the current state of the lease. It uses a match expression to determine the appropriate
+     * state class to instantiate based on the lease's status.
+     *
+     * @return LeaseStateContract The state instance corresponding to the current lease status.
+     */
+    public function state(): LeaseStateContract
+    {
+        return match ($this->status) {
+            LeaseStatus::Quotation => new States\LeaseQuotationRequestState($this),
+            LeaseStatus::Request => new States\NewLeaseRequestState($this),
+            LeaseStatus::Option => new States\LeaseOptionState($this),
+            LeaseStatus::Confirmed => new States\ConfirmedLeaseState($this),
+            LeaseStatus::Finalized => new States\FinalizedLeaseState($this),
+            LeaseStatus::Cancelled => new States\CancelledLeaseState($this),
+        };
+    }
 
     /**
      * The data relation for getting the user information from the user who performs the follow-up of the lease.

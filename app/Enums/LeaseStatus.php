@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
@@ -17,6 +18,8 @@ use Filament\Support\Contracts\HasLabel;
  */
 enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
 {
+    use Comparable;
+    
     /**
      * State: Quotation
      *
@@ -25,6 +28,8 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      *
      * Typical secenario: This status is set when the organisation that organizes the lease sends a quote to the customer
      * outlining the terms and associated costs with the lease. It serves as a formal proposal which the customer can consider before committing.
+     *
+     * @todo This status should be included into the new reservation requests. For now only the Request state is implemented.
      */
     case Quotation = 'optie (offerte)';
 
