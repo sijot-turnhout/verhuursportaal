@@ -27,7 +27,7 @@ class LeaseState implements LeaseStateAllowanceChecker, LeaseStateContract
     use UsesAuthenticatedUser;
 
     public function __construct(
-        public readonly Lease $lease
+        public readonly Lease $lease,
     ) {}
 
     /**{@inheritDoc} */

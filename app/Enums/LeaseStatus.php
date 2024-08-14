@@ -19,7 +19,7 @@ use Filament\Support\Contracts\HasLabel;
 enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
 {
     use Comparable;
-    
+
     /**
      * State: Quotation
      *

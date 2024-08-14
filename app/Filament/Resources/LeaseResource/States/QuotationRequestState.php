@@ -26,14 +26,8 @@ final class QuotationRequestState extends LeaseState
     }
 
     /** {@inhertitDoc} */
-    public function transitionToCancelled(): void
-    {
-
-    }
+    public function transitionToCancelled(): void {}
 
     /** {@inhertitDoc} */
-    public function transitionToOption(): void
-    {
-
-    }
+    public function transitionToOption(): void {}
 }

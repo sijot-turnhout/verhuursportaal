@@ -14,7 +14,6 @@ use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
-use Illuminate\Support\Facades\Gate;
 
 final class ViewLease extends ViewRecord
 {
@@ -44,22 +43,22 @@ final class ViewLease extends ViewRecord
                 ->label(LeaseStatus::Quotation->getLabel())
                 ->color(LeaseStatus::Quotation->getColor())
                 ->icon(LeaseStatus::Quotation->getIcon())
-                ->visible(fn (Lease $lease): bool => $lease->state()->allowTransitionToQuotationOption())
-                ->action(fn (Lease $lease) => $lease->state()->transitionToQuotationOption()),
+                ->visible(fn(Lease $lease): bool => $lease->state()->allowTransitionToQuotationOption())
+                ->action(fn(Lease $lease) => $lease->state()->transitionToQuotationOption()),
 
             Action::make(LeaseStatus::Option->getLabel())
                 ->label(LeaseStatus::Option->getLabel())
                 ->color(LeaseStatus::Option->getColor())
                 ->icon(LeaseStatus::Option->getIcon())
-                ->visible(fn (Lease $lease): bool => $lease->state()->allowTransitionToOption())
-                ->action(fn (Lease $lease) => $lease->state()->transitionToOption()),
+                ->visible(fn(Lease $lease): bool => $lease->state()->allowTransitionToOption())
+                ->action(fn(Lease $lease) => $lease->state()->transitionToOption()),
 
             Action::make(LeaseStatus::Confirmed->getLabel())
                 ->label(LeaseStatus::Confirmed->getLabel())
                 ->color(LeaseStatus::Confirmed->getColor())
                 ->icon(LeaseStatus::Confirmed->getIcon())
-                ->visible(fn (Lease $lease): bool => $lease->state()->allowTransitionToConfirmed())
-                ->action(fn (Lease $lease) => $lease->state()->transitionToConfirmed()),
+                ->visible(fn(Lease $lease): bool => $lease->state()->allowTransitionToConfirmed())
+                ->action(fn(Lease $lease) => $lease->state()->transitionToConfirmed()),
 
             // These are final states for the lease.
             // From this states we can't recover and the lease will be registered as 'final'
@@ -68,21 +67,21 @@ final class ViewLease extends ViewRecord
                     ->label(LeaseStatus::Cancelled->getLabel())
                     ->color(LeaseStatus::Cancelled->getColor())
                     ->icon(LeaseStatus::Cancelled->getIcon())
-                    ->visible(fn (Lease $lease): bool => $lease->state()->allowTransitionToCancelled())
-                    ->action(fn (Lease $lease) => $lease->state()->transitionToCancelled()),
+                    ->visible(fn(Lease $lease): bool => $lease->state()->allowTransitionToCancelled())
+                    ->action(fn(Lease $lease) => $lease->state()->transitionToCancelled()),
 
                 Action::make(LeaseStatus::Finalized->getLabel())
                     ->label(LeaseStatus::Finalized->getLabel())
                     ->color(LeaseStatus::Finalized->getColor())
                     ->icon(LeaseStatus::Finalized->getIcon())
-                    ->visible(fn (Lease $lease): bool => $lease->state()->allowTransitionToFinalized())
-                    ->action(fn (Lease $lease) => $lease->state()->transitionToFinalized())
-            ])->dropdown(false)
+                    ->visible(fn(Lease $lease): bool => $lease->state()->allowTransitionToFinalized())
+                    ->action(fn(Lease $lease) => $lease->state()->transitionToFinalized()),
+            ])->dropdown(false),
         ])
-        ->button()
-        ->label(trans('Markeren als'))
-        ->icon('heroicon-o-tag')
-        ->color('gray');
+            ->button()
+            ->label(trans('Markeren als'))
+            ->icon('heroicon-o-tag')
+            ->color('gray');
     }
 
     /**
@@ -98,7 +97,7 @@ final class ViewLease extends ViewRecord
             ViewInvoice::make(),
             DownloadInvoiceAction::make(),
 
-            Actions\ActionGroup::make([
+            ActionGroup::make([
                 Actions\DeleteAction::make(),
             ])->dropdown(false),
         ])

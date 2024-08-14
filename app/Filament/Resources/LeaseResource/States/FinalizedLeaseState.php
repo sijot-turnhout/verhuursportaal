@@ -16,6 +16,4 @@ namespace App\Filament\Resources\LeaseResource\States;
  *
  * @see tests/Feature/LeaseResource/States/FinalizedLeaseStateTest.php
  */
-final class FinalizedLeaseState extends LeaseState
-{
-}
+final class FinalizedLeaseState extends LeaseState {}
