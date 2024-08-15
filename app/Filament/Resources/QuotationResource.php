@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\Billing;
 use App\Filament\Resources\InvoiceResource\RelationManagers\InvoiceLinesRelationManager;
 use App\Filament\Resources\QuotationResource\Pages;
 use App\Models\Invoice;
@@ -24,6 +25,8 @@ use Filament\Tables\Table;
  */
 final class QuotationResource extends Resource
 {
+    protected static ?string $cluster = Billing::class;
+
     protected static ?string $model = Invoice::class;
 
     protected static ?string $modelLabel = 'Offerte';
@@ -86,6 +89,8 @@ final class QuotationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading(trans('Geen offertes gevonden'))
+            ->emptyStateDescription(trans('Momenteel zijn er nog geen offertes gevonden in het systeem aangemaakt of gevonden die voldoen aan de opgegeven criteria.'))
             ->modifyQueryUsing(fn(Invoice $builder) => $builder->onlyQuotations())
             ->columns([
                 Tables\Columns\TextColumn::make('payment_reference')->label(trans('Referentie nr.'))->weight(FontWeight::Bold)->color('primary')->searchable(),

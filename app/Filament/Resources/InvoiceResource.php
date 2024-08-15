@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\Billing;
 use App\Filament\Resources\InvoiceResource\Infolists\InvoiceInfolist;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Filament\Resources\InvoiceResource\Pages\ListInvoices;
@@ -22,6 +23,8 @@ use Illuminate\Support\HtmlString;
 final class InvoiceResource extends Resource
 {
     use InvoiceInfolist;
+
+    protected static ?string $cluster = Billing::class;
 
     /**
      * The database model entity that will be used by the resource.

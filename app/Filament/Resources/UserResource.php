@@ -93,8 +93,8 @@ final class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('Naam')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('user_group')->label('Gebruikers groep')->sortable()->badge(),
                 Tables\Columns\TextColumn::make('email')->label('Email adres')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('phone_number')->label('Tel. nummer')->searchable(),
-                Tables\Columns\TextColumn::make('last_seen_at')->label('Laatst gezien')->since(),
+                Tables\Columns\TextColumn::make('phone_number')->label('Tel. nummer')->searchable()->placeholder('-'),
+                Tables\Columns\TextColumn::make('last_seen_at')->label('Laatst gezien')->since()->placeholder('-'),
                 Tables\Columns\TextColumn::make('created_at')->label('Registratie datum'),
             ])
             ->actions([
