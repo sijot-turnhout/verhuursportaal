@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d77fddaf8a827b479893cc1bf7814880",
+    "content-hash": "7a2bc5bf5f32b7b9e846270c3291862b",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -999,6 +999,52 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.2.22"
             },
             "time": "2024-03-22T12:56:46+00:00"
+        },
+        {
+            "name": "archtechx/enums",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/archtechx/enums.git",
+                "reference": "37326d5e26cdfcc2810f4664cdd625ea4fd528d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/archtechx/enums/zipball/37326d5e26cdfcc2810f4664cdd625ea4fd528d7",
+                "reference": "37326d5e26cdfcc2810f4664cdd625ea4fd528d7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.4",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ArchTech\\Enums\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel Štancl",
+                    "email": "samuel@archte.ch"
+                }
+            ],
+            "description": "Helpers for making PHP enums more lovable.",
+            "support": {
+                "issues": "https://github.com/archtechx/enums/issues",
+                "source": "https://github.com/archtechx/enums/tree/v1.1.0"
+            },
+            "time": "2024-07-15T14:28:34+00:00"
         },
         {
             "name": "awcodes/filament-quick-create",

@@ -33,10 +33,22 @@ final class MarkAsUncollectedAction extends Action
         return parent::make('Markeer als achterstallig')
             ->icon('heroicon-o-exclamation-triangle')
             ->color('warning')
-            ->visible(fn(Invoice $invoice): bool => Gate::allows('update-payment-status', $invoice))
+            ->visible(fn (Invoice $invoice): bool => self::canMarkAsUncollected($invoice))
             ->action(function (Invoice $invoice): void {
                 $invoice->update(['status' => InvoiceStatus::Uncollected]);
                 Notification::make()->title(trans('De factuur status is met success aangepast naar verstreken'))->danger()->send();
             });
+    }
+
+    /**
+     * Method for checking if the currently authenticated user is permitted to perform payment status update.
+     *
+     * @param  Invoice $invoice The instance of the invoice that needs the paymentStatus update
+     * @return bool             True is the user is permitted to perform the update of the payment status
+     */
+    private static function canMarkAsUncollected(Invoice $invoice): bool
+    {
+        return Gate::allows('update-payment-status', $invoice)
+            && $invoice->status->isNot(InvoiceStatus::Uncollected);
     }
 }

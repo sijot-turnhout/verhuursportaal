@@ -33,10 +33,22 @@ final class MarkAsPaidAction extends Action
         return parent::make('markeer als betaald')
             ->icon('heroicon-o-check-circle')
             ->color('success')
-            ->visible(fn(Invoice $invoice): bool => Gate::allows('update-payment-status', $invoice))
+            ->visible(fn(Invoice $invoice): bool => self::canMarkAsPaid($invoice))
             ->action(function (Invoice $invoice): void {
                 $invoice->update(['status' => InvoiceStatus::Paid, 'paid_at' => now(), 'due_at' => null]);
                 Notification::make()->title('De factuur is geregistreerd als betaald.')->success()->send();
             });
+    }
+
+    /**
+     * Method for checking if the currently authenticated user is permitted to perform payment status update.
+     *
+     * @param  Invoice $invoice The instance of the invoice that needs the paymentStatus update
+     * @return bool             True is the user is permitted to perform the update of the payment status
+     */
+    private static function canMarkAsPaid(Invoice $invoice): bool
+    {
+        return Gate::allows('update-payment-status', $invoice)
+            && $invoice->status->isNot(InvoiceStatus::Paid);
     }
 }
