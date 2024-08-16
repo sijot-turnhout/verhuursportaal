@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\InvoiceResource\RelationManagers;
 
+use App\Filament\Resources\InvoiceResource\Enums\BillingType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -72,6 +73,11 @@ class InvoiceLinesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('type')
+                    ->label('Regel types')
+                    ->options(BillingType::class),
             ]);
     }
 }

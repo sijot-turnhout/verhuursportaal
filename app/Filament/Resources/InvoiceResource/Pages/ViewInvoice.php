@@ -23,7 +23,7 @@ final class ViewInvoice extends ViewRecord
         return [
             Actions\ActionGroup::make([MarkAsPaidAction::make(), MarkAsUncollectedAction::make(), MarkAsVoidedAction::make()])
                 ->label('Factuur status')
-                ->color('warning')
+                ->color('gray')
                 ->button(),
 
             DownloadInvoiceAction::make(),

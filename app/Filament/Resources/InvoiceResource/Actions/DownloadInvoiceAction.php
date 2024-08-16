@@ -31,7 +31,7 @@ final class DownloadInvoiceAction extends Action
         return parent::make($name ?? trans('exporteer factuur'))
             ->icon('heroicon-o-arrow-down-tray')
             ->url(fn(Invoice $record) => route('invoices.download', $record))
-            ->color('gray')
+            ->color('primary')
             ->visible(fn(Invoice $invoice) => Gate::allows('download-invoice', $invoice))
             ->openUrlInNewTab();
     }

@@ -76,7 +76,7 @@ final readonly class InvoicePolicy
      */
     public function updatePaymentStatus(User $user, Invoice $invoice): bool
     {
-        return ($user->user_group->isRvb() || $user->user_group->isWebmaster());
+        return $user->user_group->isRvb() || $user->user_group->isWebmaster();
     }
 
     /**
