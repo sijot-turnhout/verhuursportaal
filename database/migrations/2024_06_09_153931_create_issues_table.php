@@ -25,6 +25,14 @@ return new class () extends Migration {
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('changelogs', function (Blueprint $table): void {
+            $table->id();
+            $table->foreignIdFor(User::class)->nullable()->references('id')->on('users')->nullOnDelete();
+            $table->string('title');
+            $table->text('description');
+            $table->timestamps();
+        });
     }
 
     /**
