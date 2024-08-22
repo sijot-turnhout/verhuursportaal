@@ -16,7 +16,7 @@ return new class () extends Migration {
     {
         Schema::create('issues', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(Local::class)->references('id')->on('locals')->cascadeOnDelete();
+            $table->morphs('issueable');
             $table->foreignIdFor(User::class, 'creator_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(User::class)->nullable()->references('id')->on('users')->nullOnDelete();
             $table->string('status');
@@ -29,6 +29,7 @@ return new class () extends Migration {
         Schema::create('changelogs', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->references('id')->on('users')->nullOnDelete();
+            $table->string('status')->nullable();
             $table->string('title');
             $table->text('description');
             $table->timestamps();

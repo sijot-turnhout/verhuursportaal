@@ -9,6 +9,9 @@ use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\Pages;
 use App\Models\Changelog;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -66,11 +69,40 @@ final class ChangelogResource extends Resource
     protected static ?string $cluster = PropertyManagement::class;
 
     /**
+     * Configure the infolist schema for displaying changelog details.
+     *
+     * This method defines the structure of the infolist used to present a detailed view of a `Changelog` record.
+     * It organizes the information into a collapsible, compact section, providing a quick overview of key details.
+     * The infolist displays attributes such as the title, status, assigned user, and description.
+     *
+     * @param  Infolist $infolist  The infolist instance to be configured.
+     * @return Infolist            The configured infolist instance with the defined schema.
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            Section::make(trans('Werklijst informatie'))
+                ->icon('heroicon-o-clipboard-document-list')
+                ->iconColor('primary')
+                ->description(trans('Hier krijgt u de belangrijkste informatie in één oogopslag. Of u nu op zoek bent naar basisgegevens of specifieke details, dit paneel helpt u snel en gemakkelijk de juiste informatie te vinden.'))
+                ->columns(12)
+                ->collapsible()
+                ->compact()
+                ->schema([
+                    TextEntry::make('title')->label('Titel')->columnSpan(6),
+                    TextEntry::make('status')->label('Status')->columnSpan(3)->badge(),
+                    TextEntry::make('user.name')->label('Opgevolgd door')->placeholder('-')->columnSpan(3),
+                    TextEntry::make('description')->label(trans('Beschrijving/extra informatie'))->placeholder('-')->columnSpan(12),
+                ]),
+        ]);
+    }
+
+    /**
      * Defines the form schema for creatiung and editing changelogs.
      * This schema includes fields for title and any other necessary information.
      *
      * @param  Form $form  The form instance
-     * @return Form        THe form configured with the schema for changelogs.
+     * @return Form        The form configured with the schema for changelogs.
      */
     public static function form(Form $form): Form
     {
@@ -115,12 +147,17 @@ final class ChangelogResource extends Resource
             ->emptyStateHeading('Geen werklijsten gevonden')
             ->emptyStateDescription(trans('Momenteel zijn er geen werklijsten gevonden voor de lokalen met de matchende cirteria. Indien u er een wilt aanmaken kan dat met de bovenste hoek.'))
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id')->label('#'),
+                Tables\Columns\TextColumn::make('status')->badge()->sortable(),
+                Tables\Columns\TextColumn::make('user.name')->label('Opgevolgd door'),
+                Tables\Columns\TextColumn::make('title')->label('Werklijst')->sortable()->searchable(),
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
                 ]),
             ])
             ->bulkActions([
@@ -141,6 +178,7 @@ final class ChangelogResource extends Resource
         return [
             'index' => Pages\ListChangelogs::route('/'),
             'create' => Pages\CreateChangelog::route('/create'),
+            'view' => Pages\ViewChangelog::route('/{record}'),
             'edit' => Pages\EditChangelog::route('/{record}/edit'),
         ];
     }
