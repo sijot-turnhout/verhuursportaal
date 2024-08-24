@@ -6,6 +6,7 @@ namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\Pages;
+use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\RelationManagers\IssuesRelationManager;
 use App\Models\Changelog;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -123,6 +124,7 @@ final class ChangelogResource extends Resource
                         Forms\Components\Select::make('user_id')
                             ->label('Verantwoordelijke')
                             ->relationship(name: 'user', titleAttribute: 'name')
+                            ->placeholder('-')
                             ->columnSpan(4),
                         Forms\Components\Textarea::make('description')
                             ->label('Beschrijving/Extra informatie')
@@ -149,7 +151,7 @@ final class ChangelogResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('#'),
                 Tables\Columns\TextColumn::make('status')->badge()->sortable(),
-                Tables\Columns\TextColumn::make('user.name')->label('Opgevolgd door'),
+                Tables\Columns\TextColumn::make('user.name')->label('Opgevolgd door')->placeholder('-'),
                 Tables\Columns\TextColumn::make('title')->label('Werklijst')->sortable()->searchable(),
 
             ])
@@ -165,6 +167,13 @@ final class ChangelogResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            IssuesRelationManager::class,
+        ];
     }
 
     /**

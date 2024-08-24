@@ -9,6 +9,7 @@ use App\Filament\Resources\LocalResource\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
@@ -66,6 +67,11 @@ class Issue extends Model
     public function issueable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function changelogs(): BelongsToMany
+    {
+        return $this->belongsToMany(Changelog::class);
     }
 
     /**

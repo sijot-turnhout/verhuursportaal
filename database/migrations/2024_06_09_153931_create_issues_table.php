@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\Changelog;
+use App\Models\Issue;
 use App\Models\Local;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -32,6 +34,13 @@ return new class () extends Migration {
             $table->string('status')->nullable();
             $table->string('title');
             $table->text('description');
+            $table->timestamps();
+        });
+
+        Schema::create('changelog_issue', function (Blueprint $table): void {
+            $table->id();
+            $table->foreignIdFor(Changelog::class)->references('id')->on('changelogs')->cascadeOnDelete();
+            $table->foreignIdFor(Issue::class)->references('id')->on('issues')->cascadeOnDelete();
             $table->timestamps();
         });
     }

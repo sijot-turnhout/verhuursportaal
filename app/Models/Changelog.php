@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\Enums\ChangelogStatus;
+use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\States\ChangelogStateContract;
+use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\States;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class Changelog
@@ -46,6 +49,37 @@ final class Changelog extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the current state instance for the changelog.
+     *
+     * This method returns an instance of a state class that implements the `ChangelogStateContract`
+     * interface, based on the current status of the changelog. The state object returned allows
+     * for state-specific behavior and transitions to be managed according to the current status.
+     *
+     * @return ChangelogStateContract   The state object representing the current state of the changelog.
+     */
+    public function state(): ChangelogStateContract
+    {
+        return match($this->status) {
+            ChangelogStatus::Open => new States\OpenChangelogState($this),
+            ChangelogStatus::Closed => new States\ClosedChangelogState($this),
+        };
+    }
+
+    /**
+     * Define a many-to-many relationship between the `Changelog` and `Issue` models.
+     *
+     * This method establishes a BelongsToMany relationship, indicating that a single changelog
+     * can be associated with multiple issues and vice versa. It returns the relationship definition
+     * that can be used for querying and eager loading related issues.
+     *
+     * @return BelongsToMany
+     */
+    public function issues(): BelongsToMany
+    {
+        return $this->belongsToMany(Issue::class);
     }
 
     /**
