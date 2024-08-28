@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\Pages;
 
 use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource;
-use App\Models\Changelog;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

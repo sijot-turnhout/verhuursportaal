@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists;
 
-use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 
 /**
  * Defines the information list for displaying issue details.
@@ -46,7 +46,7 @@ final class IssueInformationInfolist
                         TextEntry::make('title')->label('Titel')->columnSpan(8),
                         TextEntry::make('status')->label('Status')->columnSpan(4)->badge(),
                         TextEntry::make('description')->label('Beschrijving')->columnSpan(12),
-                    ])
+                    ]),
             ]);
     }
 }

@@ -31,7 +31,7 @@ final class CloseChangelogAction extends Action
         return parent::make($name ?? trans('Werklijst afsluiten'))
             ->color('success')
             ->icon('heroicon-o-check')
-            ->visible(fn (Changelog $changelog): bool => auth()->user()->can('close-changelog', $changelog))
-            ->action(fn (Changelog $changelog) => $changelog->state()->transitionToClosed());
+            ->visible(fn(Changelog $changelog): bool => auth()->user()->can('close-changelog', $changelog))
+            ->action(fn(Changelog $changelog) => $changelog->state()->transitionToClosed());
     }
 }

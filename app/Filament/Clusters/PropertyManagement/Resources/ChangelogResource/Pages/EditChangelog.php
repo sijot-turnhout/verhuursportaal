@@ -32,13 +32,13 @@ final class EditChangelog extends EditRecord
     protected static string $resource = ChangelogResource::class;
 
     /**
-      * Get the actions to display in the header of the edit page.
-      *
-      * This method returns an array of actions to be shown in the header of the edit page.
-      * In this case, it includes a delete action, allowing the user to remove the changelog directly from the edit page.
-      *
-      * @return array<\Filament\Actions\Action>     An array of actions to be displayed in the header.
-      */
+     * Get the actions to display in the header of the edit page.
+     *
+     * This method returns an array of actions to be shown in the header of the edit page.
+     * In this case, it includes a delete action, allowing the user to remove the changelog directly from the edit page.
+     *
+     * @return array<\Filament\Actions\Action>     An array of actions to be displayed in the header.
+     */
     protected function getHeaderActions(): array
     {
         return [
@@ -50,9 +50,9 @@ final class EditChangelog extends EditRecord
                     Actions\DeleteAction::make()->icon('heroicon-o-trash'),
                 ])->dropdown(false),
             ])
-            ->button()
-            ->icon('heroicon-o-cog-8-tooth')
-            ->color('gray')
+                ->button()
+                ->icon('heroicon-o-cog-8-tooth')
+                ->color('gray'),
         ];
     }
 }

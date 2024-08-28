@@ -47,11 +47,11 @@ final class ViewChangelog extends ViewRecord
 
                 Actions\ActionGroup::make([
                     Actions\DeleteAction::make(),
-                ])->dropdown(false)
+                ])->dropdown(false),
             ])
-            ->button()
-            ->color('gray')
-            ->icon('heroicon-o-cog-8-tooth'),
+                ->button()
+                ->color('gray')
+                ->icon('heroicon-o-cog-8-tooth'),
         ];
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\IssueBuilder;
-use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States\IssueStateContract;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States\IssueStateContract;
 use App\Filament\Resources\LocalResource\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

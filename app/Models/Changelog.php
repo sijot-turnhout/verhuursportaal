@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\Enums\ChangelogStatus;
-use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\States\ChangelogStateContract;
 use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\States;
+use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\States\ChangelogStateContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

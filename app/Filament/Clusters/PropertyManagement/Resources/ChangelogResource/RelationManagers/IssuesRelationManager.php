@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\RelationManagers;
 
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
@@ -74,7 +76,7 @@ final class IssuesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->modalIcon('heroicon-o-information-circle')
-                    ->modalDescription(fn (Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
+                    ->modalDescription(fn(Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
                     ->modalIconColor('primary')
                     ->slideOver(),
 

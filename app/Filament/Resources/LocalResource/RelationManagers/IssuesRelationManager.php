@@ -12,8 +12,6 @@ use App\Models\User;
 use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Fieldset;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
@@ -114,7 +112,7 @@ final class IssuesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->modalIcon('heroicon-o-information-circle')
-                    ->modalDescription(fn (Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
+                    ->modalDescription(fn(Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
                     ->modalIconColor('primary')
                     ->slideOver(),
 

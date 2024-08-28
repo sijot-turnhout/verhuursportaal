@@ -32,7 +32,7 @@ final class ReopenChangelogAction extends Action
         return parent::make($name ?? trans('Werklijst heropenen'))
             ->color('warning')
             ->icon('heroicon-o-arrow-path')
-            ->visible(fn (Changelog $changelog): bool => auth()->user()->can('reopen-changelog', $changelog))
-            ->action(fn (Changelog $changelog) => $changelog->state()->transitionToOpen());
+            ->visible(fn(Changelog $changelog): bool => auth()->user()->can('reopen-changelog', $changelog))
+            ->action(fn(Changelog $changelog) => $changelog->state()->transitionToOpen());
     }
 }

@@ -7,14 +7,12 @@ namespace App\Filament\Clusters\PropertyManagement\Resources;
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Pages;
-use App\Filament\Resources\LocalResource\Enums\Status;
 use App\Models\Issue;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Resource class for managing issues within the property management cluster.
@@ -97,14 +95,14 @@ final class IssueResource extends Resource
      * when creating or editing instances of the resource. The schema array can include
      * various types of form fields, such as text inputs, selects, checkboxes, etc.
      *
-     * @param \Filament\Forms\Form $form
-     * @return \Filament\Forms\Form
+     * @param Form $form
+     * @return Form
      */
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+
             ]);
     }
 
@@ -135,8 +133,8 @@ final class IssueResource extends Resource
      * when displaying a list of resource records in the application. The schema array can
      * include various types of columns, such as text columns, badge columns, date columns, etc.
      *
-     * @param \Filament\Tables\Table $table
-     * @return \Filament\Tables\Table
+     * @param Table $table
+     * @return Table
      */
     public static function table(Table $table): Table
     {

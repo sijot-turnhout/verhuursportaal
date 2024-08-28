@@ -34,8 +34,8 @@ final class ChangelogPolicy
      */
     public function closeChangelog(User $user, Changelog $changelog): bool
     {
-        return ($user->user_group === UserGroup::Webmaster || $user->user_group === UserGroup::Rvb || $changelog->user()->is($user))
-            && $changelog->status === ChangelogStatus::Open;
+        return (UserGroup::Webmaster === $user->user_group || UserGroup::Rvb === $user->user_group || $changelog->user()->is($user))
+            && ChangelogStatus::Open === $changelog->status;
     }
 
     /**
@@ -49,7 +49,7 @@ final class ChangelogPolicy
      */
     public function reopenChangelog(User $user, Changelog $changelog): bool
     {
-        return ($user->user_group === UserGroup::Webmaster || $user->user_group === UserGroup::Rvb || $changelog->user()->is($user))
-            && $changelog->status === ChangelogStatus::Closed;
+        return (UserGroup::Webmaster === $user->user_group || UserGroup::Rvb === $user->user_group || $changelog->user()->is($user))
+            && ChangelogStatus::Closed === $changelog->status;
     }
 }
