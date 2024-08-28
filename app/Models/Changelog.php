@@ -25,7 +25,7 @@ final class Changelog extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['user_id', 'title', 'description'];
+    protected $fillable = ['user_id', 'title', 'description', 'status'];
 
     /**
      * The default model attributes and their corresponding casts or value objects.

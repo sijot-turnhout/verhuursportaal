@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\IssueBuilder;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States\IssueStateContract;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States;
 use App\Filament\Resources\LocalResource\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,6 +47,28 @@ class Issue extends Model
     protected $attributes = [
         'status' => Status::Open,
     ];
+
+    /**
+     * Retrieves the corresponding issue state object based on the current status.
+     *
+     * This method returns an instance of a class that implements the `IssueStateContract`,
+     * representing the state of the issue based on its current status. Depending on whether
+     * the status is `Open` or `Closed`, it returns an instance of `OpenIssueState` or `ClosedIssueState`,
+     * respectively. These state classes manage the behavior and logic for issues in their respective states.
+     *
+     * This approach enables a state pattern, allowing the behavior of the issue to change dynamically
+     * depending on its state. By using this method, developers can easily retrieve the appropriate state
+     * object and interact with it according to the current status of the issue.
+     *
+     * @return IssueStateContract   The state object corresponding to the current status of the issue.
+     */
+    public function status(): IssueStateContract
+    {
+        return match($this) {
+            Status::Open => new States\OpenIssueState($this),
+            Status::Closed => new States\ClosedIssueState($this),
+        };
+    }
 
     /**
      * The data relation that registers the creator of the issue ticket to the record.

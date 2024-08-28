@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\States;
 
+use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\Enums\ChangelogStatus;
+
 /**
  * Represents the 'open' state of a changelog.
  *
@@ -19,6 +21,6 @@ final class OpenChangelogState extends ChangelogStatusState
      */
     public function transitionToClosed(): void
     {
-
+        $this->changelog->update(['status' => ChangelogStatus::Closed]);
     }
 }

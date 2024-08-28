@@ -2,6 +2,9 @@
 
 namespace App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\RelationManagers;
 
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
+use App\Models\Issue;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -31,6 +34,17 @@ final class IssuesRelationManager extends RelationManager
     protected static string $relationship = 'issues';
 
     /**
+     * Method to define the infolist view for the information view of the issue ticket;
+     *
+     * @param  Infolist  $infolist  The infolist builder instance to build up the infolist
+     * @return Infolist
+     */
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return IssueInformationInfolist::make($infolist);
+    }
+
+    /**
      * Configure the table that displays the issues related to the changelog.
      *
      * This method sets up the table to display related issues, including columns, actions,
@@ -47,16 +61,23 @@ final class IssuesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable(),
             ])
-            ->filters([
-                //
-            ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
+                    ->modalHeading(trans('Werkpunt koppelen aan deze werklijst'))
+                    ->modalIcon('heroicon-o-link')
+                    ->modalIconColor('primary')
+                    ->modalDescription(trans('Koppel deze werklijst aan gerelateerde werkpunten. Dit helpt bij het verbinden en organiseren van gerelateerde information binnen het systeem'))
+                    ->slideOver()
                     ->preloadRecordSelect()
                     ->icon('heroicon-o-link'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->modalIcon('heroicon-o-information-circle')
+                    ->modalDescription(fn (Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
+                    ->modalIconColor('primary')
+                    ->slideOver(),
+
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DetachAction::make(),
