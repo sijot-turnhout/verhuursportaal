@@ -62,9 +62,9 @@ class Issue extends Model
      *
      * @return IssueStateContract   The state object corresponding to the current status of the issue.
      */
-    public function status(): IssueStateContract
+    public function state(): IssueStateContract
     {
-        return match($this) {
+        return match($this->status) {
             Status::Open => new States\OpenIssueState($this),
             Status::Closed => new States\ClosedIssueState($this),
         };

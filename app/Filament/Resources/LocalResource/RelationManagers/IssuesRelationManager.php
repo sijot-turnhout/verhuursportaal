@@ -73,6 +73,8 @@ final class IssuesRelationManager extends RelationManager
      * @param  Table  $table  The table builder instance that will be used to display the issue overview table.
      * @return Table
      *
+     * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
+     *
      * @throws Exception
      */
     public function table(Table $table): Table
@@ -114,7 +116,21 @@ final class IssuesRelationManager extends RelationManager
                     ->modalIcon('heroicon-o-information-circle')
                     ->modalDescription(fn(Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
                     ->modalIconColor('primary')
-                    ->slideOver(),
+                    ->slideOver()
+                    ->modalCancelAction(false)
+                    ->extraModalFooterActions([
+                        Tables\Actions\Action::make('Werkpunt afsluiten')
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('close', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToClosed())
+                            ->color('danger')
+                            ->icon('heroicon-o-document-check'),
+
+                        Tables\Actions\Action::make('Werkpunt heropenen')
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('reopen', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToOpen())
+                            ->color('gray')
+                            ->icon('heroicon-o-arrow-path'),
+                    ]),
 
                 Tables\Actions\ActionGroup::make([
                     IssueResource\Actions\ConnectUserAction::make(),

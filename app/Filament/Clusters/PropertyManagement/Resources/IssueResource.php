@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Actions\CloseIssueAction;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Pages;
 use App\Models\Issue;
@@ -133,6 +134,8 @@ final class IssueResource extends Resource
      * when displaying a list of resource records in the application. The schema array can
      * include various types of columns, such as text columns, badge columns, date columns, etc.
      *
+     * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
+     *
      * @param Table $table
      * @return Table
      */
@@ -149,7 +152,17 @@ final class IssueResource extends Resource
                     ->slideOver()
                     ->modalCancelAction(false)
                     ->extraModalFooterActions([
+                        Tables\Actions\Action::make('Werkpunt afsluiten')
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('close', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToClosed())
+                            ->color('danger')
+                            ->icon('heroicon-o-document-check'),
 
+                        Tables\Actions\Action::make('Werkpunt heropenen')
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('reopen', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToOpen())
+                            ->color('gray')
+                            ->icon('heroicon-o-arrow-path'),
                     ]),
 
                 Tables\Actions\ActionGroup::make([

@@ -31,6 +31,6 @@ final class OpenIssueState extends IssueState
      */
     public function transitionToClosed(): void
     {
-        $this->issue->update(['status' => Status::Open]);
+        $this->issue->update(['status' => Status::Closed, 'closed_at' => now()]);
     }
 }

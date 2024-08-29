@@ -8,6 +8,7 @@ use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\I
 use App\Models\Issue;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -52,6 +53,8 @@ final class IssuesRelationManager extends RelationManager
      * This method sets up the table to display related issues, including columns, actions,
      * and bulk actions. It also defines an empty state message and icon when no issues are linked.
      *
+     * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
+     *
      * @param  Table $table     The table instance to be configured.
      * @return Table            The configured table instance.
      */
@@ -61,7 +64,12 @@ final class IssuesRelationManager extends RelationManager
             ->emptyStateIcon('heroicon-o-wrench-screwdriver')
             ->emptyStateDescription('Momenteel zijn er nog geen werkpunt gekoppeld aan deze werklijst.')
             ->columns([
-                Tables\Columns\TextColumn::make('title')->searchable(),
+                Tables\Columns\TextColumn::make('id')->label('#')->weight(FontWeight::Bold),
+                Tables\Columns\TextColumn::make('user.name')->searchable()->sortable()->icon('heroicon-o-user-circle')->iconColor('primary')->label('Opgevolgd door'),
+                Tables\Columns\TextColumn::make('status')->badge()->sortable(),
+                Tables\Columns\TextColumn::make('title')->label('titel')->searchable(),
+                Tables\Columns\TextColumn::make('description')->label('beschrijving')->searchable(),
+                Tables\Columns\TextColumn::make('created_at')->label('aangemaakt op')->date(),
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
@@ -69,16 +77,30 @@ final class IssuesRelationManager extends RelationManager
                     ->modalIcon('heroicon-o-link')
                     ->modalIconColor('primary')
                     ->modalDescription(trans('Koppel deze werklijst aan gerelateerde werkpunten. Dit helpt bij het verbinden en organiseren van gerelateerde information binnen het systeem'))
-                    ->slideOver()
                     ->preloadRecordSelect()
-                    ->icon('heroicon-o-link'),
+                    ->icon('heroicon-o-link')
+                    ->slideOver()
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->modalIcon('heroicon-o-information-circle')
                     ->modalDescription(fn(Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
                     ->modalIconColor('primary')
-                    ->slideOver(),
+                    ->slideOver()
+                    ->modalCancelAction(false)
+                    ->extraModalFooterActions([
+                        Tables\Actions\Action::make('Werkpunt afsluiten')
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('close', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToClosed())
+                            ->color('danger')
+                            ->icon('heroicon-o-document-check'),
+
+                        Tables\Actions\Action::make('Werkpunt heropenen')
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('reopen', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToOpen())
+                            ->color('gray')
+                            ->icon('heroicon-o-arrow-path'),
+                    ]),
 
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
