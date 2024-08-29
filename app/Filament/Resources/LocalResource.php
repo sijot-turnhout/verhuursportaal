@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Resources\LocalResource\Forms\LocalResourceForm;
 use App\Filament\Resources\LocalResource\Pages;
 use App\Filament\Resources\LocalResource\RelationManagers\IssuesRelationManager;
@@ -13,6 +14,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
+/**
+ * @todo Relocate this resource class to the Property Management Cluster.
+ */
 final class LocalResource extends Resource
 {
     /**
@@ -26,14 +30,19 @@ final class LocalResource extends Resource
     protected static ?string $modelLabel = 'Lokaal';
 
     /**
+     * The name from the icon that will be displayed in the navigation in the application backend.
+     */
+    protected static ?string $navigationIcon = 'heroicon-o-home-modern';
+
+    /**
      * The plural resource name.
      */
     protected static ?string $pluralModelLabel = 'Lokalen';
 
     /**
-     * The name of the icon that will be displayed in the application navigation.
+     * The cluster of resources where this resource is placed in.
      */
-    protected static ?string $navigationIcon = 'heroicon-o-home-modern';
+    protected static ?string $cluster = PropertyManagement::class;
 
     /**
      * Method to create the edit/create form of the resource in the application backend.
@@ -61,7 +70,7 @@ final class LocalResource extends Resource
     }
 
     /**
-     * The implementation of the resource enpoints in the resource.
+     * The implementation of the resource endpoints in the resource.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */

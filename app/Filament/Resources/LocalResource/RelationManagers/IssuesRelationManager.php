@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LocalResource\RelationManagers;
 
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Resources\IssueResource;
 use App\Filament\Resources\LocalResource\Enums\Status;
 use App\Models\Issue;
@@ -11,7 +12,6 @@ use App\Models\User;
 use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
@@ -64,16 +64,7 @@ final class IssuesRelationManager extends RelationManager
      */
     public function infolist(Infolist $infolist): Infolist
     {
-        return $infolist
-            ->columns(12)
-            ->schema([
-                TextEntry::make('creator.name')->label('Aangemaakt door')->columnSpan(4)->icon('heroicon-o-user-circle')->iconColor('primary'),
-                TextEntry::make('user.name')->label('Opgevolgd door')->columnSpan(4)->icon('heroicon-o-user-circle')->iconColor('primary'),
-                TextEntry::make('created_at')->label('Aangemaakt op')->columnSpan(4)->icon('heroicon-o-clock')->iconColor('primary'),
-                TextEntry::make('title')->label('Titel')->columnSpan(8),
-                TextEntry::make('status')->label('Status')->columnSpan(4)->badge(),
-                TextEntry::make('description')->label('Beschrijving')->columnSpan(12),
-            ]);
+        return IssueInformationInfolist::make($infolist);
     }
 
     /**
@@ -81,6 +72,8 @@ final class IssuesRelationManager extends RelationManager
      *
      * @param  Table  $table  The table builder instance that will be used to display the issue overview table.
      * @return Table
+     *
+     * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
      *
      * @throws Exception
      */
@@ -119,7 +112,26 @@ final class IssuesRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->modalIcon('heroicon-o-information-circle')
+                    ->modalDescription(fn(Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
+                    ->modalIconColor('primary')
+                    ->slideOver()
+                    ->modalCancelAction(false)
+                    ->extraModalFooterActions([
+                        Tables\Actions\Action::make('Werkpunt afsluiten')
+                            ->visible(fn(Issue $issue): bool => auth()->user()->can('close', $issue))
+                            ->action(fn(Issue $issue) => $issue->state()->transitionToClosed())
+                            ->color('danger')
+                            ->icon('heroicon-o-document-check'),
+
+                        Tables\Actions\Action::make('Werkpunt heropenen')
+                            ->visible(fn(Issue $issue): bool => auth()->user()->can('reopen', $issue))
+                            ->action(fn(Issue $issue) => $issue->state()->transitionToOpen())
+                            ->color('gray')
+                            ->icon('heroicon-o-arrow-path'),
+                    ]),
+
                 Tables\Actions\ActionGroup::make([
                     IssueResource\Actions\ConnectUserAction::make(),
                     Tables\Actions\EditAction::make(),
