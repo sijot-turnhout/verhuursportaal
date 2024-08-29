@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Pages;
 
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 /**
@@ -26,19 +25,4 @@ final class ListIssues extends ListRecords
      * @var string
      */
     protected static string $resource = IssueResource::class;
-
-    /**
-     * Get the actions to be displayed in the header of the issues list page.
-     *
-     * This method returns an array of actions that will appear in the header section of the issues list page.
-     * By default, it includes the action to create a new issue, represented by an icon.
-     *
-     * @return array<\Filament\Actions\Action>  An array of actions for the header.
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()->icon('heroicon-o-plus'),
-        ];
-    }
 }

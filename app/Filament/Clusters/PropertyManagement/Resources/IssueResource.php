@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
-use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Actions\CloseIssueAction;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Pages;
 use App\Models\Issue;
-use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -88,24 +86,6 @@ final class IssueResource extends Resource
      * @var string|null
      */
     protected static ?string $cluster = PropertyManagement::class;
-
-    /**
-     * Defines the form schema used for creating and editing resource records.
-     *
-     * This method returns a Form instance that defines the fields and layout used
-     * when creating or editing instances of the resource. The schema array can include
-     * various types of form fields, such as text inputs, selects, checkboxes, etc.
-     *
-     * @param Form $form
-     * @return Form
-     */
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-
-            ]);
-    }
 
     /**
      * Configures the infolist for the resource.
@@ -218,7 +198,6 @@ final class IssueResource extends Resource
     {
         return [
             'index' => Pages\ListIssues::route('/'),
-            'create' => Pages\CreateIssue::route('/create'),
             'edit' => Pages\EditIssue::route('/{record}/edit'),
         ];
     }
