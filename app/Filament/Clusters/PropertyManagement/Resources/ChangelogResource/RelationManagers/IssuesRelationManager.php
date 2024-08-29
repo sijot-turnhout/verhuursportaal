@@ -79,7 +79,7 @@ final class IssuesRelationManager extends RelationManager
                     ->modalDescription(trans('Koppel deze werklijst aan gerelateerde werkpunten. Dit helpt bij het verbinden en organiseren van gerelateerde information binnen het systeem'))
                     ->preloadRecordSelect()
                     ->icon('heroicon-o-link')
-                    ->slideOver()
+                    ->slideOver(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -90,14 +90,14 @@ final class IssuesRelationManager extends RelationManager
                     ->modalCancelAction(false)
                     ->extraModalFooterActions([
                         Tables\Actions\Action::make('Werkpunt afsluiten')
-                            ->visible(fn (Issue $issue): bool => auth()->user()->can('close', $issue))
-                            ->action(fn (Issue $issue) => $issue->state()->transitionToClosed())
+                            ->visible(fn(Issue $issue): bool => auth()->user()->can('close', $issue))
+                            ->action(fn(Issue $issue) => $issue->state()->transitionToClosed())
                             ->color('danger')
                             ->icon('heroicon-o-document-check'),
 
                         Tables\Actions\Action::make('Werkpunt heropenen')
-                            ->visible(fn (Issue $issue): bool => auth()->user()->can('reopen', $issue))
-                            ->action(fn (Issue $issue) => $issue->state()->transitionToOpen())
+                            ->visible(fn(Issue $issue): bool => auth()->user()->can('reopen', $issue))
+                            ->action(fn(Issue $issue) => $issue->state()->transitionToOpen())
                             ->color('gray')
                             ->icon('heroicon-o-arrow-path'),
                     ]),
