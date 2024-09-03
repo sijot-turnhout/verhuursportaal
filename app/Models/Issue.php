@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\IssueBuilder;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Enums\Priority;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States\IssueStateContract;
 use App\Filament\Resources\LocalResource\Enums\Status;
@@ -46,6 +47,7 @@ class Issue extends Model
      */
     protected $attributes = [
         'status' => Status::Open,
+        'priority' => Priority::Medium,
     ];
 
     /**
@@ -129,6 +131,9 @@ class Issue extends Model
      */
     protected function casts(): array
     {
-        return ['status' => Status::class];
+        return [
+            'status' => Status::class,
+            'priority' => Priority::class,
+        ];
     }
 }
