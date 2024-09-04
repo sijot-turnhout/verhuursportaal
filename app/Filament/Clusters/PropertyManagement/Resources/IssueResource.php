@@ -7,6 +7,7 @@ namespace App\Filament\Clusters\PropertyManagement\Resources;
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Pages;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Support\IssueOverviewTable;
 use App\Models\Issue;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -116,17 +117,13 @@ final class IssueResource extends Resource
      *
      * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
      *
-     * @param Table $table
+     * @param  Table $table
      * @return Table
      */
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('title')->label('Werkpunt')->searchable(),
-                Tables\Columns\TextColumn::make('status')->badge(),
-                Tables\Columns\TextColumn::make('created_at')->label('Aangemaakt op')->sortable()->date(),
-            ])
+            ->columns(IssueOverviewTable::columns())
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->slideOver()

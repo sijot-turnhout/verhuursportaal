@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LocalResource\RelationManagers;
 
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Enums\Priority;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Resources\IssueResource;
 use App\Filament\Resources\LocalResource\Enums\Status;
@@ -15,6 +16,7 @@ use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -50,8 +52,9 @@ final class IssuesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label('Titel')->required()->maxLength(255)->columnSpan(8),
-                Forms\Components\Select::make('user_id')->label('Opgevolgd door')->options(User::query()->pluck('name', 'id'))->searchable()->columnSpan(4),
+                Forms\Components\TextInput::make('title')->label('Titel')->required()->maxLength(255)->columnSpan(12),
+                Forms\Components\Select::make('user_id')->label('Opgevolgd door')->options(User::query()->pluck('name', 'id'))->searchable()->columnSpan(6),
+                Forms\Components\Select::make('priority')->label('Prioriteit')->options(Priority::class)->columnSpan(6)->default(Priority::Low)->selectablePlaceholder(false),
                 Forms\Components\Textarea::make('description')->label('Beschrijving')->autosize()->rows(4)->columnSpan(12),
             ])->columns(12);
     }
@@ -107,6 +110,7 @@ final class IssuesRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()->icon('heroicon-o-plus')
+                    ->slideOver()
                     ->after(function (Issue $issue): void {
                         $issue->creator()->associate(auth()->user())->save();
                     }),
@@ -134,7 +138,9 @@ final class IssuesRelationManager extends RelationManager
 
                 Tables\Actions\ActionGroup::make([
                     IssueResource\Actions\ConnectUserAction::make(),
-                    Tables\Actions\EditAction::make(),
+
+                    Tables\Actions\EditAction::make()->slideOver(),
+                    
                     IssueResource\Actions\CloseIssueAction::make(),
                     IssueResource\Actions\ReopenIssueAction::make(),
                     Tables\Actions\DeleteAction::make(),
