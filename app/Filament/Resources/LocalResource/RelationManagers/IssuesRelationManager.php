@@ -16,7 +16,6 @@ use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -140,7 +139,7 @@ final class IssuesRelationManager extends RelationManager
                     IssueResource\Actions\ConnectUserAction::make(),
 
                     Tables\Actions\EditAction::make()->slideOver(),
-                    
+
                     IssueResource\Actions\CloseIssueAction::make(),
                     IssueResource\Actions\ReopenIssueAction::make(),
                     Tables\Actions\DeleteAction::make(),
