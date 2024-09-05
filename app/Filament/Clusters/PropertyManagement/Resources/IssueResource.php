@@ -122,6 +122,9 @@ final class IssueResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon('heroicon-o-wrench-screwdriver')
+            ->emptyStateHeading('Geen werkpunten gevonden')
+            ->emptyStateDescription(trans('Momenteel zijn er geen werkpunten gevonden in het systeem. Om een werkpunt aan te maken kunt u naar het betrefferende lokaal gaan en op de knop "werkpunt" aanmaken.'))
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('Werkpunt')->searchable(),
                 Tables\Columns\TextColumn::make('status')->badge(),
