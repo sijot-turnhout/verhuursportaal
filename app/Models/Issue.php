@@ -67,7 +67,7 @@ class Issue extends Model
      */
     public function state(): IssueStateContract
     {
-        return match($this->status) {
+        return match ($this->status) {
             Status::Open => new States\OpenIssueState($this),
             Status::Closed => new States\ClosedIssueState($this),
         };
@@ -153,7 +153,7 @@ class Issue extends Model
     protected function referenceNumber(): Attribute
     {
         return Attribute::make(
-            get: fn (): string => trans('WERKPUNT-:number', ['number' => $this->id]),
+            get: fn(): string => trans('WERKPUNT-:number', ['number' => $this->id]),
         );
     }
 }

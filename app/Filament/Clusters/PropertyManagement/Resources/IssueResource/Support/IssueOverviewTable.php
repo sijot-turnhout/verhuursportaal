@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Support;
 
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 
 /**
  * Class IssueOverviewTable

@@ -80,7 +80,7 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      */
     public function getColor(): string|array|null
     {
-        return match($this) {
+        return match ($this) {
             self::Low => 'info',
             self::Medium => 'success',
             self::High => 'warning',
@@ -98,7 +98,7 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      */
     public function getLabel(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Low => trans('Geen prioriteit'),
             self::Medium => trans('Lage prioriteit'),
             self::High => trans('Hoge prioriteit'),
@@ -116,7 +116,7 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      */
     public function getIcon(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Low => 'heroicon-o-ellipsis-horizontal-circle',
             self::Medium => 'heroicon-o-arrow-down-circle',
             self::High => 'heroicon-o-arrow-up-circle',

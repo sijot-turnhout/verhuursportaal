@@ -50,7 +50,7 @@ final class UtilityUsageWidget extends LineChartBase
      */
     protected function getData(): array
     {
-        $utilityUsageStatistics = match($this->filter) {
+        $utilityUsageStatistics = match ($this->filter) {
             'unit' => $this->getUsageInformation(),
             'price' => $this->getUsageInformation('billing_amount'),
             default => $this->getUsageInformation(),
