@@ -90,7 +90,7 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      */
     public function getColor(): string|array|null
     {
-        return match($this) {
+        return match ($this) {
             self::Request => 'info',
             self::Option, self::Quotation => 'warning',
             self::Confirmed => 'success',
@@ -110,7 +110,7 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      */
     public function getIcon(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Request => 'heroicon-m-plus-circle',
             self::Option, self::Quotation => 'heroicon-m-document-text',
             self::Confirmed => 'heroicon-m-check-badge',

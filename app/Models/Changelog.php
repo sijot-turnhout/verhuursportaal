@@ -64,7 +64,7 @@ final class Changelog extends Model
      */
     public function state(): ChangelogStateContract
     {
-        return match($this->status) {
+        return match ($this->status) {
             ChangelogStatus::Open => new States\OpenChangelogState($this),
             ChangelogStatus::Closed => new States\ClosedChangelogState($this),
         };

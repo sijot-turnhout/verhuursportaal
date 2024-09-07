@@ -39,7 +39,7 @@ enum ChangelogStatus: int implements HasLabel, HasColor
      */
     public function getLabel(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Open => trans('open'),
             self::Closed => trans('gesloten'),
         };
@@ -55,7 +55,7 @@ enum ChangelogStatus: int implements HasLabel, HasColor
      */
     public function getColor(): string|array|null
     {
-        return match($this) {
+        return match ($this) {
             self::Open => 'success',
             self::Closed => 'danger',
         };
