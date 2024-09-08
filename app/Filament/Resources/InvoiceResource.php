@@ -20,37 +20,70 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 
+/**
+ * Class InvoiceResource
+ *
+ * This resource handles the management of the `Invoice` model, providing forms, tables, and views for creating, editing, and listing invoices.
+ * The class also integrates widgets and relation managers to offer a comprehensive interface for working with invoices.
+ * Invoices can be filtered, displayed with specific data, and various actions can be performed on them, such as viewing, editing, and deleting.
+ *
+ * @package App\Filament\Resources
+ */
 final class InvoiceResource extends Resource
 {
     use InvoiceInfolist;
 
+    /**
+     * Specifies the cluster to which this resource belongs.
+     * In this case, the resource is grouped under the "Billing" cluster in the application.
+     *
+     * @var string|null
+     */
     protected static ?string $cluster = Billing::class;
 
     /**
-     * The database model entity that will be used by the resource.
+     * The database model used by this resource.
+     *
+     * @var string|null
      */
     protected static ?string $model = Invoice::class;
 
     /**
-     * The singular name of the resource class in the views.
+     * The singular label for the resource used in views.
+     *
+     * @var string|null
      */
     protected static ?string $modelLabel = 'Factuur';
 
     /**
-     * The plural resource name.
+     * The plural label for the resource, shown in navigation and table views.
+     *
+     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Facturen';
 
     /**
-     * The name of the icon that will be displayed in the application navigation.
+     * The navigation icon for the resource.
+     * This icon is shown in the sidebar navigation.
+     *
+     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
 
     /**
-     * The navigation group where the resource is placed under.
+     * The navigation group under which this resource is listed.
+     *
+     * @var string|null
      */
     protected static ?string $navigationGroup = 'Facturatie';
 
+    /**
+     * Defines the form schema for creating or editing invoices.
+     * In this case, the form only allows for editing the `description` (notes) of the invoice.
+     *
+     * @param  Form $form The instance that will be used to build the form in the resource view.
+     * @return Form
+     */
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -73,11 +106,22 @@ final class InvoiceResource extends Resource
         ]);
     }
 
+    /**
+     * Defines the widgets used on the invoice overview page, such as the `InvoiceStats` widget.
+     *
+     * @return array
+     */
     public static function getWidgets(): array
     {
         return [InvoiceStats::class];
     }
 
+    /**
+     * Defines the infolist used on the invoice information displays.
+     *
+     * @param  Infolist $infolist The instance that will be usezd to build the infolist view.
+     * @return Infolist
+     */
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
@@ -85,6 +129,15 @@ final class InvoiceResource extends Resource
         ]);
     }
 
+    /**
+     * Defines the table schema for listing invoices.
+     *
+     * The table includes various columns, such as the payment reference, lease period, creator, customer, and due date.
+     * The table supports searchable and sortable columns, as well as specific actions like viewing, editing, and deleting invoices.
+     *
+     * @param  Table $table The instance that will be used to render the information table on the overview page.
+     * @return Table
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -121,6 +174,12 @@ final class InvoiceResource extends Resource
             ]);
     }
 
+    /**
+     * Returns the number of active invoices as a navigation badge.
+     * This badge will display the number of invoices that are not quotations.
+     *
+     * @return string|null
+     */
     public static function getNavigationBadge(): ?string
     {
         if ($count = Invoice::query()->excludeQuotations()->count()) {
@@ -130,11 +189,23 @@ final class InvoiceResource extends Resource
         return null;
     }
 
+    /**
+     * Defines the relation managers for the resource.
+     * In this case, it includes `InvoiceLinesRelationManager` which manages invoice lines associated with each invoice.
+     *
+     * @return array
+     */
     public static function getRelations(): array
     {
         return [InvoiceLinesRelationManager::class];
     }
 
+    /**
+     * Defines the resource's pages and their respective routes.
+     * Includes pages for listing, creating, viewing, and editing invoices.
+     *
+     * @return array
+     */
     public static function getPages(): array
     {
         return [
