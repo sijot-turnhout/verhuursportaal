@@ -20,8 +20,8 @@ use Filament\Tables\Table;
  * This class defines the resource for managing `Local` entities in the Property Management system.
  * It handles the configuration of forms, tables, pages, and relations for interacting with `Local` records.
  *
- * @todo GH #19 - Proper unit test suite for the LocalResource class
- * @todo GH #20 - Herlocatie van de LocalResource class
+ * @todo sijot-turnhout/verhuursportaal#19 - Proper unit test suite for the LocalResource class
+ * @todo sijot-turnhout/verhuursportaal#20 - Herlocatie van de LocalResource class
  *
  * @package App\Filament\Resources
  */
