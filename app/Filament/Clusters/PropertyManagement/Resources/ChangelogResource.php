@@ -169,6 +169,15 @@ final class ChangelogResource extends Resource
             ]);
     }
 
+    /**
+     * Get the relation managers associated with this resource.
+     *
+     * This method returns an array of relation managers that define the relationships
+     * of the current resource with other entities. Relation managers help in handling
+     * related data such as displaying, creating, updating, or deleting associated models.
+     *
+     * @return array The list of relation managers for the resource.
+     */
     public static function getRelations(): array
     {
         return [

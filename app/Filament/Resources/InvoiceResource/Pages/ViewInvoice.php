@@ -14,10 +14,33 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
+/**
+ * Class ViewInvoice
+ *
+ * Represents the page for viewing an existing invoice record within the Filament admin panel.
+ * This class extends the `ViewRecord` page from Filament, providing the configuration needed
+ * for displaying and interacting with invoice records through the Filament resource management system.
+ *
+ * @package App\Filament\Resources\InvoiceResource\Pages
+ */
 final class ViewInvoice extends ViewRecord
 {
+    /**
+     * The Filament resource class associated with this page.
+     *
+     * @var string
+     */
     protected static string $resource = InvoiceResource::class;
 
+    /**
+     * Retrieves the actions available in the header of the view page.
+     *
+     * This method defines and returns an array of actions that are displayed in the header
+     * of the view invoice page. It includes actions for marking the invoice with different
+     * payment statuses, downloading the invoice, editing the invoice, and deleting the invoice.
+     *
+     * @return array  An array of header action objects.
+     */
     public function getHeaderActions(): array
     {
         return [

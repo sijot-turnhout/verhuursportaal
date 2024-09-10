@@ -11,10 +11,34 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class InvoiceLinesRelationManager extends RelationManager
+/**
+ * Class InvoiceLinesRelationManager
+ *
+ * Manages the relation between an invoice and its associated invoice lines.
+ * This class provides the configuration for displaying and managing invoice lines
+ * through the Filament resource management system.
+ *
+ * @package App\Filament\Resources\InvoiceResource\RelationManagers;
+ */
+final class InvoiceLinesRelationManager extends RelationManager
 {
+    /**
+     * The relationship name for the invoice lines.
+     *
+     * @var string
+     */
     protected static string $relationship = 'invoiceLines';
 
+    /**
+     * Configures the form schema for creating or editing invoice lines.
+     *
+     * This method defines the form fields and their properties for managing
+     * invoice lines, including fields for item name, quantity, unit price, and
+     * whether the item is a discount on the invoice.
+     *
+     * @param  Form $form  The form instance to configure.
+     * @return Form        The configured form instance.
+     */
     public function form(Form $form): Form
     {
         return $form
@@ -44,6 +68,16 @@ class InvoiceLinesRelationManager extends RelationManager
             ])->columns(12);
     }
 
+    /**
+     * Configures the table schema for displaying invoice lines.
+     *
+     * This method defines the table columns and actions for listing and managing
+     * invoice lines, including columns for item ID, type, name, quantity, unit price,
+     * and total price, as well as actions for creating, editing, and deleting invoice lines.
+     *
+     * @param  Table $table  The table instance to configure.
+     * @return Table         The configured table instance.
+     */
     public function table(Table $table): Table
     {
         return $table

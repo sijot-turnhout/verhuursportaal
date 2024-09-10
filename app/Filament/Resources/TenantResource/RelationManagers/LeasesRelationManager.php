@@ -13,19 +13,56 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 /**
+ * Class LeasesRelationManager
+ *
+ * Manages the relationship between tenants and their leases within the Filament admin panel.
+ * This relation manager provides functionalities to display, create, edit, and delete lease records
+ * associated with a tenant. It also allows customization of forms and tables used for managing leases.
+ *
  * @todo Write documentation for this resource.
- * @todo Write implementation for attach 'lopkalen' to the lease in the backend.
+ *
+ * @package App\Filament\Resources\TenantResource\RelationManagers
  */
 final class LeasesRelationManager extends RelationManager
 {
+    /**
+     * The name of the relationship being managed by this relation manager.
+     * This relationship should be defined in the Tenant model.
+     *
+     * @var string
+     */
     protected static string $relationship = 'leases';
 
+    /**
+     * The singular label for the model managed by this relation manager.
+     * This label is used in various places, such as forms and tables.
+     *
+     * @var string|null
+     */
     protected static ?string $modelLabel = 'Verhuring';
 
+    /**
+     * The plural label for the model managed by this relation manager.
+     * This label is used when referring to multiple records of this model.
+     *
+     * @var string|null
+     */
     protected static ?string $pluralModelLabel = 'Verhuringen';
 
+    /**
+     * The title for the relation manager page.
+     * This title is displayed in the page header.
+     *
+     * @var string|null
+     */
     protected static ?string $title = 'Verhuringen';
 
+    /**
+     * Configures the form used to create or edit lease records.
+     *
+     * @param  Form  $form  The form builder instance to configure.
+     * @return Form         The configured form instance.
+     */
     public function form(Form $form): Form
     {
         return $form
@@ -40,6 +77,12 @@ final class LeasesRelationManager extends RelationManager
             ])->columns(12);
     }
 
+    /**
+     * Configures the table used to display lease records.
+     *
+     * @param  Table  $table  The table builder instance to configure.
+     * @return Table          The configured table instance.
+     */
     public function table(Table $table): Table
     {
         return $table

@@ -19,7 +19,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @todo Write documentation for this resource
+ * Class ContactSubmissionResource
+ *
+ * Manages the ContactSubmission resource within the Filament admin panel.
+ * This resource handles the display, management, and interaction with contact submissions
+ * through various pages, tables, and widgets.
+ *
+ * @package App\Filament\Resources
  */
 final class ContactSubmissionResource extends Resource
 {
