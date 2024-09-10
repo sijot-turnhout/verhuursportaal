@@ -18,9 +18,10 @@ return new class () extends Migration {
         Schema::create('issues', function (Blueprint $table): void {
             $table->id();
             $table->morphs('issueable');
-            $table->foreignIdFor(User::class, 'creator_id')->nullable()->references('id')->on('users')->nullOnDelete();
-            $table->foreignIdFor(User::class)->nullable()->references('id')->on('users')->nullOnDelete();
+            $table->foreignIdFor(User::class, 'creator_id')->nullable()->comment('The unique identifier from the user who created the issue.')->references('id')->on('users')->nullOnDelete();
+            $table->foreignIdFor(User::class)->nullable()->comment('The unique identifier from the user who is assigned to the issue ticket.')->references('id')->on('users')->nullOnDelete();
             $table->string('status');
+            $table->string('priority');
             $table->string('title');
             $table->text('description')->nullable();
             $table->timestamp('closed_at')->nullable();
@@ -29,7 +30,7 @@ return new class () extends Migration {
 
         Schema::create('changelogs', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable()->references('id')->on('users')->nullOnDelete();
+            $table->foreignIdFor(User::class)->nullable()->comment('The unique identifier from the user that is responsible for the changelog.')->references('id')->on('users')->nullOnDelete();
             $table->string('status')->nullable();
             $table->string('title');
             $table->text('description');
@@ -38,8 +39,8 @@ return new class () extends Migration {
 
         Schema::create('changelog_issue', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(Changelog::class)->references('id')->on('changelogs')->cascadeOnDelete();
-            $table->foreignIdFor(Issue::class)->references('id')->on('issues')->cascadeOnDelete();
+            $table->foreignIdFor(Changelog::class)->comment('The unique indentifier from the changelog where the issue is associated with.')->references('id')->on('changelogs')->cascadeOnDelete();
+            $table->foreignIdFor(Issue::class)->comment('The unique identifier from the issue where the changelog is associated with.')->references('id')->on('issues')->cascadeOnDelete();
             $table->timestamps();
         });
     }

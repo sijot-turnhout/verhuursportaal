@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\IssueBuilder;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Enums\Priority;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\States\IssueStateContract;
 use App\Filament\Resources\LocalResource\Enums\Status;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,6 +48,7 @@ class Issue extends Model
      */
     protected $attributes = [
         'status' => Status::Open,
+        'priority' => Priority::Medium,
     ];
 
     /**
@@ -129,6 +132,28 @@ class Issue extends Model
      */
     protected function casts(): array
     {
-        return ['status' => Status::class];
+        return [
+            'status' => Status::class,
+            'priority' => Priority::class,
+        ];
+    }
+
+    /**
+     * Get the formatted reference number for the issue.
+     *
+     * This protected method returns an attribute that generates a formatted reference number for the issue.
+     * The reference number is constructed by translating the string 'werkpunt-:number' with the issue's ID
+     * substituted in place of `:number`. This method is useful for displaying a user-friendly and consistent
+     * reference number for each issue in the system.
+     *
+     * Example: If the issue ID is 123, the reference number would be 'werkpunt-123'.
+     *
+     * @return Attribute  The attribute that provides the formatted reference number.
+     */
+    protected function referenceNumber(): Attribute
+    {
+        return Attribute::make(
+            get: fn(): string => trans('WERKPUNT-:number', ['number' => $this->id]),
+        );
     }
 }

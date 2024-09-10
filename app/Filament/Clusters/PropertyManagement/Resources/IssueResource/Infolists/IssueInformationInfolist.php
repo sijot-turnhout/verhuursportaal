@@ -16,7 +16,7 @@ use Filament\Infolists\Infolist;
  * It organizes the data into fieldsets, showing key information such as the creator, the user
  * responsible for follow-up, and details about the issue itself.
  */
-final class IssueInformationInfolist
+final readonly class IssueInformationInfolist
 {
     /**
      * Create and configure the infolist for an issue.
@@ -43,8 +43,9 @@ final class IssueInformationInfolist
                 Fieldset::make(trans('Werkpunt informatie'))
                     ->columns(12)
                     ->schema([
-                        TextEntry::make('title')->label('Titel')->columnSpan(8),
-                        TextEntry::make('status')->label('Status')->columnSpan(4)->badge(),
+                        TextEntry::make('title')->label('Titel')->columnSpan(6),
+                        TextEntry::make('status')->label('Status')->columnSpan(3)->badge(),
+                        TextEntry::make('priority')->label('Prioriteit')->columnSpan(3)->badge(),
                         TextEntry::make('description')->label('Beschrijving')->columnSpan(12),
                     ]),
             ]);
