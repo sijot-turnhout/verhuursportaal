@@ -13,6 +13,15 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class LastestQuotationRequestsTable
+ *
+ * Represents a widget that displays the latest quotation requests in a table format
+ * on the Filament dashboard. This widget provides an overview of new quotation requests
+ * with options for viewing detailed information.
+ *
+ * @package App\Filament\Resources\QuotationResource\Widgets
+ */
 final class LastestQuotationRequestsTable extends BaseWidget
 {
     /**
@@ -27,7 +36,6 @@ final class LastestQuotationRequestsTable extends BaseWidget
 
     /**
      * Configure the sorting option in the dashboard.
-     * x
      */
     protected static ?int $sort = 3;
 

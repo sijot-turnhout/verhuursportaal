@@ -11,13 +11,51 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+/**
+ * Class NotesRelationManager
+ *
+ * Manages the "notes" relationship within the Lease resource. This relation manager allows for the creation, viewing, and management
+ * of notes associated with a lease. It provides a form for adding and editing notes, as well as a table for displaying and interacting
+ * with the notes in the admin panel.
+ *
+ * @package App\Filament\Resources\LeaseResource\RelationManagers
+ */
 class NotesRelationManager extends RelationManager
 {
+    /**
+     * The name of the relationship that this manager handles.
+     *
+     * @var string
+     */
     protected static string $relationship = 'notes';
+
+    /**
+     * The singular label for the model managed by this relation manager.
+     *
+     * @var string|null
+     */
     protected static ?string $modelLabel = 'Notitie';
+
+    /**
+     * The plural label for the model managed by this relation manager.
+     *
+     * @var string|null
+     */
     protected static ?string $pluralModelLabel = 'Notities';
+
+    /**
+     * The title of the relation manager section.
+     *
+     * @var string|null
+     */
     protected static ?string $title = 'Notities';
 
+    /**
+     * Configures the form for creating and editing notes.
+     *
+     * @param  Form $form  The form builder instance to configure.
+     * @return Form        The configured form instance.
+     */
     public function form(Form $form): Form
     {
         return $form
@@ -27,6 +65,12 @@ class NotesRelationManager extends RelationManager
             ])->columns(12);
     }
 
+    /**
+     * Configures the table for displaying and managing notes.
+     *
+     * @param  Table $table The table builder instance to configure.
+     * @return Table        The configured table instance.
+     */
     public function table(Table $table): Table
     {
         return $table

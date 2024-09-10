@@ -7,6 +7,13 @@ namespace App\Filament\Clusters\PropertyManagement\Resources\IssueResource\State
 use App\Models\Issue;
 use Exception;
 
+/**
+ * Class IssueState
+ *
+ * Represents the base state for an issue in the property management system.
+ * This class provides default behavior for state transitions and prevents invalid state transitions.
+ * Each specific state of an issue should extend this class and override the methods as needed.
+ */
 class IssueState implements IssueStateContract
 {
     public function __construct(

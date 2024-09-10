@@ -124,6 +124,9 @@ final class IssueResource extends Resource
     {
         return $table
             ->columns(IssueOverviewTable::columns())
+            ->emptyStateIcon('heroicon-o-wrench-screwdriver')
+            ->emptyStateHeading('Geen werkpunten gevonden')
+            ->emptyStateDescription(trans('Momenteel zijn er geen werkpunten gevonden in het systeem. Om een werkpunt aan te maken kunt u naar het betrefferende lokaal gaan en op de knop "werkpunt" aanmaken.'))
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->slideOver()

@@ -20,10 +20,18 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 /**
+ * Class IssuesRelationManager
+ *
+ * Manages the relationship between the local resource and issues. This relation manager handles
+ * the creation, editing, and overview of issues associated with a specific local resource.
+ * It provides methods to configure forms, tables, and infolists for managing issues.
+ *
  * @todo Implement unit tests for the relation manager.
  * @todo See if we can implement a cron job console command to register a issue ticket as inactive after X months.
  *
  * @see \App\Policies\IssuePolicy::class
+ *
+ * @package App\Filament\Resources\LocalResource\RelationManagers
  */
 final class IssuesRelationManager extends RelationManager
 {

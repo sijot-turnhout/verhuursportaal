@@ -14,6 +14,15 @@ use Flowframe\Trend\TrendValue;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
+/**
+ * Class StatsOverview
+ *
+ * Represents a line chart widget that provides an overview of various statistics related to leases,
+ * tenants, contact submissions, and feedback. This widget is part of the Filament resource management system
+ * and displays data on a yearly basis.$
+ *
+ * @package App\FIlament\Resources\LeaseResource\Widgets
+ */
 final class StatsOverview extends LineChartBase
 {
     /**

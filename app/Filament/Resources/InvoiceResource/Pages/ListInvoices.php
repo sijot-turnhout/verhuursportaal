@@ -19,6 +19,8 @@ use Filament\Resources\Pages\ListRecords;
  * different invoice statuses.
  *
  * @todo Refactor this class in a later phase.
+ *
+ * @package App\Filament\Resources\InvoiceResource\Pages
  */
 final class ListInvoices extends ListRecords
 {
@@ -105,6 +107,7 @@ final class ListInvoices extends ListRecords
 
     /**
      * Get the tab for invoice proposals.
+     *
      * @return Tab
      */
     private function getInvoiceProposalsTab(): Tab

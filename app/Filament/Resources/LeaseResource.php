@@ -25,13 +25,23 @@ use Illuminate\Database\Eloquent\Model;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 /**
- * @todo Write documentation for creating a tenant through the creation view of the lease.
- * @todo Implement cron job command that registers automatically all open leases to closed when the departure date is due
+ * Class LeaseResource
+ *
+ * The `LeaseResource` class defines the resource for managing lease records in the Filament admin panel.
+ * It provides configurations for forms, tables, global search, and related pages, as well as integrating
+ * functionalities like creating, viewing, editing, and deleting lease records.
+ *
+ * @todo sijot-turnhout/verhuur-portaal-documentatie#7 - Write documentation for creating a tenant through the creation view of the lease.
+ * @todo verhuursportaal/issues#21                     - Implement cron job command that registers automatically all open leases to closed when the departure date is due
+ *
+ * @package App\Filament\Resources
  */
 final class LeaseResource extends Resource
 {
     /**
-     * The database entity for this resource.
+     * The Eloquent model associated with this resource.
+     *
+     * This property specifies the model that the resource is managing. In this case, it is the `Lease` model.
      *
      * @var ?string
      */
@@ -40,30 +50,42 @@ final class LeaseResource extends Resource
     protected static ?string $recordTitleAttribute = 'periode';
 
     /**
-     * The singular name for the resource entity.
+     * The attribute used as the title for records in this resource.
+     *
+     * This property defines the attribute of the model that will be used as the title in various views of this resource.
      *
      * @var ?string
      */
     protected static ?string $modelLabel = 'verhuring';
 
     /**
-     * The plural model name for resource enitity.
+     * The singular label for this resource.
+     *
+     * This property specifies the singular name of the resource entity used in the UI.
      *
      * @var ?string
      */
     protected static ?string $pluralModelLabel = 'Verhuringen';
 
     /**
-     * The navigation icon name for the navigation bar.
+     * The icon used for navigation in the admin panel.
+     *
+     * This property sets the icon that represents this resource in the navigation bar.
+     *
+     * @var ?string
      */
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 
     /**
-     * Method to render the creation of the create and edit form for a lease in the resource.
+     * Defines the form schema for creating and editing lease records.
      *
-     * @todo Fix the bug where user can still update the status of the lease when they are cancelled of completed.
+     * This method returns the form schema used for creating and editing lease records in the admin panel.
+     * It defines the fields and their properties, including relationships and validation rules.
      *
-     * @param  Form  $form  THe form builder instance that will be used to create the edit and creation form in the backend.
+     * @param  Form $form   The form builder instance used to define the form schema.
+     * @return Form         The configured form instance.
+     *
+     * @todo sijot-turnhout/verhuursportaal#22 - Gebruikers kunnen nog steeds de status aanpassen.
      */
     public static function form(Form $form): Form
     {
@@ -113,14 +135,13 @@ final class LeaseResource extends Resource
     }
 
     /**
-     * This method takes an Infolist object as a parameter and returns a new
-     * Infolist object created by the LeaseInfolist::make() method. This function
-     * serves as a wrapper around the LeaseInfolist::make method, providing a
-     * simplified interface for creating LeaseInfolist instances from existing
-     * Infolist objects.
+     * Creates an infolist for the lease resource.
      *
-     * @param  Infolist  $infolist  The Infolist object that serves as the input to the LeaseInfolist::make method.
-     * @return Infolist             A new Infolist object as returned by the LeaseInfolist::make method.
+     * This method wraps the `LeaseInfolist::make()` method, allowing customization and configuration of the infolist
+     * used to display additional information about lease records.
+     *
+     * @param  Infolist $infolist   The existing infolist object to be customized.
+     * @return Infolist             The customized infolist object.
      */
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -128,9 +149,13 @@ final class LeaseResource extends Resource
     }
 
     /**
-     * Method to render data overview table in the Filament backend of the application.
+     * Defines the table schema for displaying lease records.
      *
-     * @param Table $table The instance that is used to build the table.
+     * This method returns the table configuration used to display a list of lease records in the admin panel,
+     * including columns, actions, filters, and bulk actions.
+     *
+     * @param  Table $table  The table builder instance used to define the table schema.
+     * @return Table         The configured table instance.
      *
      * @throws Exception
      */
@@ -175,20 +200,39 @@ final class LeaseResource extends Resource
             ]);
     }
 
+    /**
+     * Retrieves an array of attributes that are globally searchable for the lease resource.
+     *
+     * This method defines which attributes of the `Lease` resource can be searched using global search functionality
+     * in the application, such as the tenant's name, group, and key dates like departure and arrival.
+     *
+     * @return array The list of searchable attributes.
+     */
     public static function getGloballySearchableAttributes(): array
     {
         return ['tenant.name', 'group', 'departure_date', 'arrival_date'];
     }
 
+    /**
+     * Retrieves the title for a lease record when it appears in global search results.
+     *
+     * This method returns the lease's period to be displayed as the title in global search results.
+     *
+     * @param  Model $record  The lease record being displayed in search results.
+     * @return string|\Illuminate\Contracts\Support\Htmlable
+     */
     public static function getGlobalSearchResultTitle(Model $record): string|\Illuminate\Contracts\Support\Htmlable
     {
         return $record->period;
     }
 
     /**
-     * Method to define the global query that will be used by the search functionality related to the leases in the application.
+     * Defines the global search query used for lease records.
      *
-     * @return Builder
+     * This method customizes the query used in global search to retrieve lease records,
+     * ensuring that the tenant relationship is eager loaded and the number of results is limited.
+     *
+     * @return Builder The Eloquent query used for global search.
      */
     public static function getGlobalSearchEloquentQuery(): Builder
     {
@@ -196,10 +240,13 @@ final class LeaseResource extends Resource
     }
 
     /**
-     * Method to define the view in the search results that are related to the leases in the application.
+     * Defines the details of a lease record for the global search result view.
      *
-     * @param  Model $record  The record entoty that will be rteturned by the search functionality
-     * @return array
+     * This method returns an array of attributes to be displayed when a lease record is shown in global search results,
+     * including the tenant's name and the organization (group) associated with the lease.
+     *
+     * @param  Model $record  The lease record being displayed.
+     * @return array          The details of the lease record for search results.
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
@@ -210,9 +257,12 @@ final class LeaseResource extends Resource
     }
 
     /**
-     * Method to define the associated relation managers (views) to the resource.
+     * Defines the associated relation managers for the lease resource.
      *
-     * @return array<class-string>
+     * This method specifies the relation managers associated with the lease resource,
+     * such as utilities and notes, which provide additional management views in the application.
+     *
+     * @return array<class-string> An array of relation manager class names.
      */
     public static function getRelations(): array
     {
@@ -223,9 +273,12 @@ final class LeaseResource extends Resource
     }
 
     /**
-     * Method to get the pages of the lease resource in the application back-end.
+     * Retrieves the pages associated with the lease resource.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     * This method returns an array of page registrations for the lease resource, including routes for listing,
+     * creating, viewing, and editing lease records in the application back-end.
+     *
+     * @return array<string, \Filament\Resources\Pages\PageRegistration> The list of pages with their routes.
      */
     public static function getPages(): array
     {

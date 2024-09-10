@@ -10,8 +10,22 @@ use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 
+/**
+ * Class ConnectUserAction
+ *
+ * Represents an action for connecting a user to an issue within the Filament admin panel. This action allows an admin to assign
+ * a user to an issue, making them responsible for the issue. It is only visible if the issue does not already have a user assigned.
+ *
+ * @package App\Filament\Resources\IssueResource\Actions
+ */
 final class ConnectUserAction extends Action
 {
+    /**
+     * Creates a new instance of ConnectUserAction with default or provided name.
+     *
+     * @param  string|null $name  The name of the action. Defaults to 'Koppelen' if not provided.
+     * @return static             The newly created instance of ConnectUserAction.
+     */
     public static function make(?string $name = null): static
     {
         return parent::make($name ?? 'Koppelen')
