@@ -7,6 +7,9 @@ namespace App\Policies;
 use App\Models\Issue;
 use App\Models\User;
 
+/**
+ * @todo Write tests for the policy methods
+ */
 final readonly class IssuePolicy
 {
     /**
