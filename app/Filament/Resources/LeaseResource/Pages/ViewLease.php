@@ -9,11 +9,15 @@ use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
 use App\Filament\Resources\LeaseResource;
+use App\Filament\Support\StateMachines\StateTransitionGuard;
+use App\Filament\Support\StateMachines\StateTransitionGuardContract;
+use App\Models\Lease;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ViewLease
@@ -22,17 +26,17 @@ use Filament\Resources\Pages\ViewRecord;
  * within the system. It extends the `ViewRecord` class to provide functionality for
  * viewing a specific lease and integrates additional actions related to invoices.
  *
- * @package App\Filament\Resources\LeaseResource\Pages
+ * @todo Document the methods in this class
  */
-final class ViewLease extends ViewRecord
+final class ViewLease extends ViewRecord implements StateTransitionGuardContract
 {
+    use StateTransitionGuard;
+
     /**
      * The associated resource for the view page.
      *
      * This property links the `ViewLease` page to the `LeaseResource` class, which defines
      * the schema and behavior for managing lease records.
-     *
-     * @var string
      */
     protected static string $resource = LeaseResource::class;
 
@@ -47,7 +51,25 @@ final class ViewLease extends ViewRecord
     protected function registerStatusManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
-            $this->changeStateTransitionAction(state: LeaseStatus::Option),
+            $this->changeStateTransitionAction(state: LeaseStatus::Option)
+                ->visible(fn (Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation]))
+                ->action(fn (Lease $lease): bool => $lease->state()->transitionToOption()),
+
+            $this->changeStateTransitionAction(state: LeaseStatus::Quotation)
+                ->visible(fn (Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request]))
+                ->action(fn (Lease $lease): bool => $lease->state()->transitionToQuotationRequest()),
+
+            $this->changeStateTransitionAction(state: LeaseStatus::Confirmed)
+                ->visible(fn (Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Option, LeaseStatus::Quotation]))
+                ->action(fn (Lease $lease): bool => $lease->state()->transitionToConfirmed()),
+
+            $this->changeStateTransitionAction(state: LeaseStatus::Finalized)
+                ->visible(fn (Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Confirmed]))
+                ->action(fn (Lease $lease): bool => $lease->state()->transitionToCompleted()),
+
+            $this->changeStateTransitionAction(state: LeaseStatus::Cancelled)
+                ->visible(fn (Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation, LeaseStatus::Option, LeaseStatus::Confirmed]))
+                ->action(fn (Lease $lease): bool => $lease->state()->transitionToCancelled()),
         ])
             ->button()
             ->label(trans('markeren als'))

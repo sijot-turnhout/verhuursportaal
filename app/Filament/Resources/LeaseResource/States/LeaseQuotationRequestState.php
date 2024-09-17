@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\States;
 
+use App\Enums\LeaseStatus;
+
 /**
  * Class LeaseQuotationRequestState
  *
@@ -15,4 +17,29 @@ namespace App\Filament\Resources\LeaseResource\States;
  *
  * @package App\Filament\Resources\LeaseResource\States
  */
-final class LeaseQuotationRequestState extends LeaseState {}
+final class LeaseQuotationRequestState extends LeaseState
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function transitionToCompleted(): bool
+    {
+        return $this->lease->markAs(LeaseStatus::Confirmed);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function transitionToOption(): bool
+    {
+        return $this->lease->markAs(LeaseStatus::Option);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function transitionToCancelled(): bool
+    {
+        return $this->lease->markAs(LeaseStatus::Cancelled);
+    }
+}

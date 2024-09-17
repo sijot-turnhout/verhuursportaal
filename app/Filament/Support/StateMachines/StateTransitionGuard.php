@@ -33,8 +33,8 @@ trait StateTransitionGuard
      * @param  array $allowedStates  An array of states that the model should not be in for the transition to be allowed.
      * @return bool                  True if the transition to the specified state(s) is allowed, false otherwise.
      */
-    public function allowTransitionTo(Model $model, array $disallowedStates): bool
+    public function allowTransitionTo(Model $model, array $allowedStates): bool
     {
-        return Gate::allows('update', $model) && $model->status->notIn($disallowedStates);
+        return Gate::allows('update', $model) && $model->status->in($allowedStates);
     }
 }

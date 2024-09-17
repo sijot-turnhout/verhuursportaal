@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LogicException;
 
 /**
  * Class Lease
@@ -41,7 +40,7 @@ use LogicException;
  * @property mixed $tenant
  * @property Invoice $invoice
  *
- * @method bool maskAs()
+ * @method bool markAs($leaseStatus)
  */
 #[ObservedBy(LeaseObserver::class)]
 final class Lease extends Model
@@ -80,7 +79,7 @@ final class Lease extends Model
             LeaseStatus::Option => new States\LeaseOptionState($this),
             LeaseStatus::Confirmed => new States\LeaseConfirmedState($this),
             LeaseStatus::Finalized => new States\LeaseFinalizedState($this),
-            LeaseStatus::Cancelled => throw new LogicException('State transition class needs to be implemented'),
+            LeaseStatus::Cancelled => new States\LeaseCancelledState($this),
         };
     }
 
