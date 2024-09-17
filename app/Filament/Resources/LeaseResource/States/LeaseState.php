@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\States;
 
+use App\Filament\Support\StateMachines\StateTransitionGuard;
+use App\Filament\Support\StateMachines\StateTransitionGuardContract;
 use App\Models\Lease;
 use LogicException;
-use App\Filament\Support\StateMachines\StateTransitionGuardContract;
-use App\Filament\Support\StateMachines\StateTransitionGuard;
 
 /**
  * Class LeaseState

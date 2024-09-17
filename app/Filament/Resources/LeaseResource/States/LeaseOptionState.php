@@ -21,15 +21,9 @@ final class LeaseOptionState extends LeaseState
     /**
      * {@inheritDoc}
      */
-    public function transitionToCancelled(): bool
-    {
-
-    }
+    public function transitionToCancelled(): bool {}
     /**
      * {@inheritDoc}
      */
-    public function transitionToConfirmed(): bool
-    {
-
-    }
+    public function transitionToConfirmed(): bool {}
 }

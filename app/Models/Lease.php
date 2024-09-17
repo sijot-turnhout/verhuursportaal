@@ -8,8 +8,8 @@ use App\Builders\LeaseBuilder;
 use App\Concerns\HasFeedbackSupport;
 use App\Concerns\HasUtilityMetrics;
 use App\Enums\LeaseStatus;
-use App\Filament\Resources\LeaseResource\States\LeaseStateContract;
 use App\Filament\Resources\LeaseResource\States;
+use App\Filament\Resources\LeaseResource\States\LeaseStateContract;
 use App\Observers\LeaseObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use LogicException;
 
 /**
  * Class Lease
@@ -73,13 +74,13 @@ final class Lease extends Model
      */
     public function state(): LeaseStateContract
     {
-        return match($this->status) {
+        return match ($this->status) {
             LeaseStatus::Request => new States\LeaseRequestState($this),
             LeaseStatus::Quotation => new States\LeaseQuotationRequestState($this),
             LeaseStatus::Option => new States\LeaseOptionState($this),
             LeaseStatus::Confirmed => new States\LeaseConfirmedState($this),
             LeaseStatus::Finalized => new States\LeaseFinalizedState($this),
-            LeaseStatus::Cancelled => throw new \LogicException('State transition class needs to be implemented'),
+            LeaseStatus::Cancelled => throw new LogicException('State transition class needs to be implemented'),
         };
     }
 

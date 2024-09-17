@@ -16,6 +16,4 @@ namespace App\Filament\Resources\LeaseResource\States;
  *
  * @package App\Filament\Resources\LeaseResource\States
  */
-final class LeaseConfirmedState extends LeaseState
-{
-}
+final class LeaseConfirmedState extends LeaseState {}

@@ -38,7 +38,7 @@ class LeaseFactory extends Factory
      */
     public function quotationOption(): static
     {
-        return $this->state(fn (array $attributes): array => ['status' => LeaseStatus::Quotation]);
+        return $this->state(fn(array $attributes): array => ['status' => LeaseStatus::Quotation]);
     }
 
     /**
@@ -48,7 +48,7 @@ class LeaseFactory extends Factory
      */
     public function newRequest(): static
     {
-        return $this->state(fn (array $attributes): array => ['status' => LeaseStatus::Request]);
+        return $this->state(fn(array $attributes): array => ['status' => LeaseStatus::Request]);
     }
 
     /**
@@ -58,7 +58,7 @@ class LeaseFactory extends Factory
      */
     public function option(): static
     {
-        return $this->state(fn (array $attributes): array => ['status' => LeaseStatus::Option]);
+        return $this->state(fn(array $attributes): array => ['status' => LeaseStatus::Option]);
     }
 
     /**
@@ -68,7 +68,7 @@ class LeaseFactory extends Factory
      */
     public function confirmed(): static
     {
-        return $this->state(fn (array $attributes): array => ['status' => LeaseStatus::Confirmed]);
+        return $this->state(fn(array $attributes): array => ['status' => LeaseStatus::Confirmed]);
     }
 
     /**
@@ -78,7 +78,7 @@ class LeaseFactory extends Factory
      */
     public function finalized(): static
     {
-        return $this->state(fn (array $attributes): array => ['status' => LeaseStatus::Finalized]);
+        return $this->state(fn(array $attributes): array => ['status' => LeaseStatus::Finalized]);
     }
 
     /**
@@ -88,6 +88,6 @@ class LeaseFactory extends Factory
      */
     public function cancelled(): static
     {
-        return $this->state(fn (array $attributes): array => ['status' => LeaseStatus::Cancelled]);
+        return $this->state(fn(array $attributes): array => ['status' => LeaseStatus::Cancelled]);
     }
 }

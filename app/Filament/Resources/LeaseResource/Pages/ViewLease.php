@@ -10,9 +10,9 @@ use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
 use App\Filament\Resources\LeaseResource;
 use Filament\Actions\Action;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
 /**
@@ -49,10 +49,10 @@ final class ViewLease extends ViewRecord
         return ActionGroup::make([
             $this->changeStateTransitionAction(state: LeaseStatus::Option),
         ])
-        ->button()
-        ->label(trans('markeren als'))
-        ->icon('heroicon-o-tag')
-        ->color('gray');
+            ->button()
+            ->label(trans('markeren als'))
+            ->icon('heroicon-o-tag')
+            ->color('gray');
     }
 
     protected function registerManipulationActions(): ActionGroup
@@ -67,10 +67,10 @@ final class ViewLease extends ViewRecord
                 DeleteAction::make(),
             ])->dropdown(false),
         ])
-        ->button()
-        ->label('opties')
-        ->icon('heroicon-o-cog-8-tooth')
-        ->color('primary');
+            ->button()
+            ->label('opties')
+            ->icon('heroicon-o-cog-8-tooth')
+            ->color('primary');
     }
 
     private function changeStateTransitionAction(LeaseStatus $state): Action

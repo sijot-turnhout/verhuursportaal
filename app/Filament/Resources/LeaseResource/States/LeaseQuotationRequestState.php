@@ -15,6 +15,4 @@ namespace App\Filament\Resources\LeaseResource\States;
  *
  * @package App\Filament\Resources\LeaseResource\States
  */
-final class LeaseQuotationRequestState extends LeaseState
-{
-}
+final class LeaseQuotationRequestState extends LeaseState {}
