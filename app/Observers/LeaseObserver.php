@@ -28,23 +28,4 @@ final readonly class LeaseObserver
     {
         RegisterInitialUtilityMetrics::dispatch($lease);
     }
-
-    /**
-     * Handle the Lease "updated" event.
-     *
-     * When a lease is updated, this method checks if feedback notification
-     * can be sent. If so, it schedules the feedback notification to be sent
-     * in 2 months.
-     *
-     * @todo Refactor this to the state machine transition of the lease.
-     *
-     * @param  Lease $lease The lease instance that was updated.
-     * @return void
-     */
-    public function updated(Lease $lease): void
-    {
-        if ($lease->canSendOutFeedbackNotification()) {
-            $lease->sendFeedbackNotification(now()->addMonths(2));
-        }
-    }
 }

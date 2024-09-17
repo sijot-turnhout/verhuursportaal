@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Concerns;
 
-use App\Enums\LeaseStatus;
 use App\Models\Feedback;
 use App\Models\Lease;
 use App\Notifications\FeedbackNotification;
@@ -36,12 +35,11 @@ trait HasFeedbackSupport
      * with a validity period specified by $validUntil.
      *
      * @param  Carbon  $validUntil  The timestamp until the feedback request is valid.
-     * @return void
      */
     public function sendFeedbackNotification(Carbon $validUntil): void
     {
-        $this->markAsFeedbackRequested($validUntil);
         $this->tenant->notify(new FeedbackNotification($validUntil, $this));
+        $this->markAsFeedbackRequested($validUntil);
     }
 
     /**
@@ -54,8 +52,7 @@ trait HasFeedbackSupport
      */
     public function canSendOutFeedbackNotification(): bool
     {
-        return ($this->feedback()->doesntExist() && null === $this->feedback_valid_until)
-            && LeaseStatus::Finalized === $this->status
+        return ($this->feedback()->doesntExist() && is_null($this->feedback_valid_until))
             && Features::enabled(Features::feedback());
     }
 

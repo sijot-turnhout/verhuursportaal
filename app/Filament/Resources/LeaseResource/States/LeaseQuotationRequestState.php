@@ -22,7 +22,7 @@ final class LeaseQuotationRequestState extends LeaseState
     /**
      * {@inheritdoc}
      */
-    public function transitionToCompleted(): bool
+    public function transitionToConfirmed(): bool
     {
         return $this->lease->markAs(LeaseStatus::Confirmed);
     }
