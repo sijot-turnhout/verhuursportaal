@@ -127,7 +127,7 @@ final class LeaseResource extends Resource
                         Forms\Components\Select::make('supervisor_id')->label('Aanspreekpunt / Verantwoordelijke')->relationship('supervisor', 'name')->columnSpan(3),
                         Forms\Components\ToggleButtons::make('status')
                             ->inline()
-                            ->visible(fn (string $operation): bool => $operation === 'create')
+                            ->visible(fn(string $operation): bool => 'create' === $operation)
                             ->options(LeaseStatus::class)
                             ->required()
                             ->columnSpan(12),
