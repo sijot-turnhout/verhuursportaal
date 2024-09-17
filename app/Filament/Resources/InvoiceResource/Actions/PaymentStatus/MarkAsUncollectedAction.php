@@ -33,7 +33,7 @@ final class MarkAsUncollectedAction extends Action
         return parent::make('Markeer als achterstallig')
             ->icon('heroicon-o-exclamation-triangle')
             ->color('warning')
-            ->visible(fn (Invoice $invoice): bool => self::canMarkAsUncollected($invoice))
+            ->visible(fn(Invoice $invoice): bool => self::canMarkAsUncollected($invoice))
             ->action(function (Invoice $invoice): void {
                 $invoice->update(['status' => InvoiceStatus::Uncollected]);
                 Notification::make()->title(trans('De factuur status is met success aangepast naar verstreken'))->danger()->send();
