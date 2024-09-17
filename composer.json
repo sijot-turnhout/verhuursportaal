@@ -8,6 +8,7 @@
         "php": "^8.2",
         "ext-intl": "*",
         "akaunting/laravel-money": "^5.2",
+        "archtechx/enums": "^1.1",
         "awcodes/filament-quick-create": "^3.3",
         "barryvdh/laravel-dompdf": "^2.2",
         "blade-ui-kit/blade-heroicons": "^2.3",

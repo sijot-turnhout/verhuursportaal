@@ -8,6 +8,8 @@ use App\Builders\LeaseBuilder;
 use App\Concerns\HasFeedbackSupport;
 use App\Concerns\HasUtilityMetrics;
 use App\Enums\LeaseStatus;
+use App\Filament\Resources\LeaseResource\States\LeaseStateContract;
+use App\Filament\Resources\LeaseResource\States;
 use App\Observers\LeaseObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -37,6 +39,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  *
  * @property mixed $tenant
  * @property Invoice $invoice
+ *
+ * @method bool maskAs()
  */
 #[ObservedBy(LeaseObserver::class)]
 final class Lease extends Model
@@ -56,6 +60,28 @@ final class Lease extends Model
      * @var array<string, object|int|string>
      */
     protected $attributes = ['status' => LeaseStatus::Request];
+
+    /**
+     * Returns the appropriate LeaseState instance based on the current lease status.
+     *
+     * This method uses a `match` expression to determine the current state of the lease based on its status.
+     * It then returns an instance of the corresponding state class, which handles specific behaviors and transitions
+     * for that state. Each lease status maps to a different state class, ensuring the correct state logic is applied
+     * at any given point in the lease lifecycle.
+     *
+     * @return LeaseStateContract   The corresponding state class for the current lease status.
+     */
+    public function state(): LeaseStateContract
+    {
+        return match($this->status) {
+            LeaseStatus::Request => new States\LeaseRequestState($this),
+            LeaseStatus::Quotation => new States\LeaseQuotationRequestState($this),
+            LeaseStatus::Option => new States\LeaseOptionState($this),
+            LeaseStatus::Confirmed => new States\LeaseConfirmedState($this),
+            LeaseStatus::Finalized => new States\LeaseFinalizedState($this),
+            LeaseStatus::Cancelled => throw new \LogicException('State transition class needs to be implemented'),
+        };
+    }
 
     /**
      * The data relation for getting the user information from the user who performs the follow-up of the lease.

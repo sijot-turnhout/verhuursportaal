@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Filament\Clusters\PropertyManagement;
 
+use App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource;
+
 beforeEach(function (): void {});
 
-test('it can render the index page', function (): void {});
+test('it can render the index page', function (): void {
+    $this->get(ChangelogResource::getUrl('index'))->assertSuccessful();
+});
 
 test('it can lists changelogs', function (): void {});
 

@@ -47,7 +47,7 @@ final class UserFactory extends Factory
     /**
      * Indicate that the user has the webmaster role in the application.
      *
-     * @retrun static
+     * @return static
      */
     public function webmaster(): static
     {

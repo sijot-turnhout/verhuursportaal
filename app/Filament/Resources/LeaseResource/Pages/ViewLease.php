@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\Pages;
 
+use App\Enums\LeaseStatus;
 use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
 use App\Filament\Resources\LeaseResource;
-use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
 
 /**
@@ -32,33 +36,47 @@ final class ViewLease extends ViewRecord
      */
     protected static string $resource = LeaseResource::class;
 
-    /**
-     * Get the header actions available on the view page.
-     *
-     * This method returns an array of actions that are displayed in the header of the view
-     * page. It includes an action group with options for editing, generating, viewing,
-     * and downloading invoices related to the lease. Additionally, it provides a delete
-     * action grouped in a dropdown.
-     *
-     * @return array An array of actions for the view page header.
-     */
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ActionGroup::make([
-                Actions\EditAction::make()->color('gray'),
-                GenerateInvoice::make(),
-                ViewInvoice::make(),
-                DownloadInvoiceAction::make(),
-
-                Actions\ActionGroup::make([
-                    Actions\DeleteAction::make(),
-                ])->dropdown(false),
-            ])
-                ->button()
-                ->label('opties')
-                ->icon('heroicon-o-cog-8-tooth')
-                ->color('gray'),
+            $this->registerStatusManipulationActions(),
+            $this->registerManipulationActions(),
         ];
+    }
+
+    protected function registerStatusManipulationActions(): ActionGroup
+    {
+        return ActionGroup::make([
+            $this->changeStateTransitionAction(state: LeaseStatus::Option),
+        ])
+        ->button()
+        ->label(trans('markeren als'))
+        ->icon('heroicon-o-tag')
+        ->color('gray');
+    }
+
+    protected function registerManipulationActions(): ActionGroup
+    {
+        return ActionGroup::make([
+            EditAction::make()->color('gray'),
+            GenerateInvoice::make(),
+            ViewInvoice::make(),
+            DownloadInvoiceAction::make(),
+
+            ActionGroup::make([
+                DeleteAction::make(),
+            ])->dropdown(false),
+        ])
+        ->button()
+        ->label('opties')
+        ->icon('heroicon-o-cog-8-tooth')
+        ->color('primary');
+    }
+
+    private function changeStateTransitionAction(LeaseStatus $state): Action
+    {
+        return Action::make(trans($state->getLabel()))
+            ->color($state->getColor())
+            ->icon($state->getIcon());
     }
 }
