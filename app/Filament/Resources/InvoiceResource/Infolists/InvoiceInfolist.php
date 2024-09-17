@@ -11,11 +11,42 @@ use Filament\Infolists\Infolist;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 
+/**
+ * Trait InvoiceInfolist
+ *
+ * Provides functionality to render an infolist specifically designed to display invoice details
+ * in a Filament resource. This trait includes a method to configure and render an infolist with
+ * various sections and fields related to invoice information.
+ *
+ *  @package App\Filament\Resources\InvoiceResource\Infolists
+ */
 trait InvoiceInfolist
 {
+    /**
+     * The title of the infolist section. If not set, defaults to 'Factuur informatie'.
+     *
+     * @var string|null
+     */
     protected static ?string $infolistSectionTitle = null;
+
+    /**
+     * The description of the infolist section. If not set, defaults to 'De algemene informatie omtrent de factuur.'
+     *
+     * @var string|null
+     */
     protected static ?string $infolistSectionDescription = null;
 
+    /**
+     * Configures and renders the infolist schema for displaying invoice details.
+     *
+     * This method sets up the layout and content of the infolist, including various sections and fields
+     * to present invoice-related information such as payment references, creator details, lease periods,
+     * invoice totals, statuses, and due dates. It also includes customer details and any extra information
+     * related to the invoice.
+     *
+     * @param  Infolist $infolist  The infolist instance that is being configured.
+     * @return Infolist            The configured infolist instance with the defined schema.
+     */
     public static function renderInfolist(Infolist $infolist): Infolist
     {
         return $infolist

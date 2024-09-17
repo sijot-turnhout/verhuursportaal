@@ -79,12 +79,35 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
      */
     case Uncollected = 'uncollected';
 
+    /**
+     * Status: Quotation Request
+     *
+     * Indicates that the customer has requested a quotation, which is a preliminary step before an official invoice is created.
+     * In this status, the quotation can still be modified or refined before it's sent to the customer for approval.
+     */
     case Quotation_Request = 'offerte aanvraag';
 
+    /**
+     * Status: Quotation
+     *
+     * Represents an open quotation that has been provided to the customer but is awaiting acceptance or further action.
+     * In this stage, the customer can approve or decline the quotation, which will then determine the next course of action.
+     */
     case Quotation = 'openstaande offerte';
 
+    /**
+     * Status: Quotation Declined
+     *
+     * The customer has reviewed and declined the quotation, indicating that no further action will be taken on this specific offer.
+     * The quotation remains in the system for reference, but no financial transactions or invoicing will occur.
+     */
     case Quotation_Declined = 'afgewezen offerte';
 
+    /**
+     * Get the color associated with each invoice status for UI purposes.
+     *
+     * @return string|array|null  The color code(s) representing the status.
+     */
     public function getColor(): string|array|null
     {
         return match ($this) {
@@ -95,6 +118,11 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
         };
     }
 
+    /**
+     * Get the user-friendly label for each invoice status.
+     *
+     * @return string|null  The localized label representing the status.
+     */
     public function getLabel(): ?string
     {
         return match ($this) {
@@ -109,6 +137,11 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
         };
     }
 
+    /**
+     * Get the icon associated with each invoice status for UI purposes.
+     *
+     * @return string|null  The icon representing the status.
+     */
     public function getIcon(): ?string
     {
         return match ($this) {

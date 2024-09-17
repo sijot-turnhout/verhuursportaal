@@ -12,8 +12,24 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class LocalResourceTable
+ *
+ * This class defines the table structure and actions for displaying `Local` records in the Filament admin panel.
+ * It includes the columns to be displayed, such as name, storage location, issue count, description, and the last
+ * updated timestamp. It also sets up actions for editing, deleting individual records, and bulk actions for deleting
+ * multiple records.
+ *
+ * @package App\Filament\Resources\LocalResource\Tables
+ */
 final readonly class LocalResourceTable
 {
+    /**
+     * Configure and return the table instance with the specified columns, actions, and bulk actions.
+     *
+     * @param  Table $table  The table builder instance to configure.
+     * @return Table         The configured table instance.
+     */
     public static function make(Table $table): Table
     {
         return $table
@@ -23,8 +39,10 @@ final readonly class LocalResourceTable
                     ->weight(FontWeight::Bold)
                     ->searchable()
                     ->sortable(),
+
                 IconColumn::make('storage_location')->label('Opslag locatie')
                     ->boolean(),
+
                 TextColumn::make('issues_count')
                     ->label('Aantal werkpunten')
                     ->counts([
@@ -33,10 +51,12 @@ final readonly class LocalResourceTable
                     ->badge()
                     ->icon('heroicon-o-adjustments-horizontal')
                     ->color('warning'),
+
                 TextColumn::make('description')
                     ->label('Beschrijving / Extra informatie')
                     ->searchable()
                     ->placeholder('(niets opgegeven)'),
+
                 TextColumn::make('updated_at')
                     ->label('Laast bijgewerkt')
                     ->date(),

@@ -6,7 +6,6 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Filament\Notifications\Notification;
-
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 

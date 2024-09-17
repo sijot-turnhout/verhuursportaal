@@ -11,15 +11,30 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+/**
+ * Class NotesRelationManager
+ *
+ * Manages the relationship between tenants and their notes within the Filament admin panel.
+ * This relation manager provides functionalities to display, create, edit, and delete notes
+ * associated with a tenant. It also allows customization of forms and tables used for managing notes.
+ *
+ * @package App\Filament\Resources\TenantResource\RelationManagers
+ */
 final class NotesRelationManager extends RelationManager
 {
     /**
-     * The declaration of the relation that will be used in the relation manager.
+     * The name of the relationship being managed by this relation manager.
+     * This relationship should be defined in the Tenant model.
+     *
+     * @var string
      */
     protected static string $relationship = 'notes';
 
     /**
-     * The singular name for the model defenition.
+     * The singular label for the model managed by this relation manager.
+     * This label is used in various places, such as forms and tables.
+     *
+     * @var string|null
      */
     protected static ?string $modelLabel = 'Notitie';
 
@@ -29,15 +44,18 @@ final class NotesRelationManager extends RelationManager
     protected static ?string $pluralModelLabel = 'Notities';
 
     /**
-     * The panel title declaration for the panel.
+     * The title for the relation manager page.
+     * This title is displayed in the page header.
+     *
+     * @var string|null
      */
     protected static ?string $title = 'Notities';
 
     /**
      * Method to initiate the form to create of edit notes in the relation manager.
      *
-     * @param  Form $form The form builder that will be used to render the form in the relation manager.
-     * @return Form
+     * @param  Form $form  The form builder that will be used to render the form in the relation manager.
+     * @return Form        The configured form instance.
      */
     public function form(Form $form): Form
     {
@@ -49,9 +67,10 @@ final class NotesRelationManager extends RelationManager
     }
 
     /**
-     * Method to render the data table in the view.
+     * Configures the table used to display notes.
      *
-     * @param  Table $table The table builder that will be used to render the data table.
+     * @param  Table  $table  The table builder instance to configure.
+     * @return Table          The configured table instance.
      */
     public function table(Table $table): Table
     {
