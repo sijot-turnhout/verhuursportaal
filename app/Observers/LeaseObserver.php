@@ -36,6 +36,8 @@ final readonly class LeaseObserver
      * can be sent. If so, it schedules the feedback notification to be sent
      * in 2 months.
      *
+     * @todo Refactor this to the state machine transition of the lease.
+     *
      * @param  Lease $lease The lease instance that was updated.
      * @return void
      */
