@@ -52,7 +52,7 @@ trait HasFeedbackSupport
      */
     public function canSendOutFeedbackNotification(): bool
     {
-        return ($this->feedback()->doesntExist() && is_null($this->feedback_valid_until))
+        return ($this->feedback()->doesntExist() && null === $this->feedback_valid_until)
             && Features::enabled(Features::feedback());
     }
 
