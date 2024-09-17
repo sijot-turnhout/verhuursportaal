@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
@@ -19,15 +20,7 @@ use Filament\Support\Contracts\HasLabel;
  */
 enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
 {
-    /**
-     * Quotation Status
-     *
-     * Indicates that a quotation has been provided for the lease.
-     * Typically used when an initial offer has been made but not yet accepted.
-     *
-     *  @var string
-     */
-    case Quotation = 'optie (offerte)';
+    use Comparable;
 
     /**
      * Request Status
@@ -38,6 +31,16 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      * @var string
      */
     case Request = 'nieuwe aanvraag';
+
+    /**
+     * Quotation Status
+     *
+     * Indicates that a quotation has been provided for the lease.
+     * Typically used when an initial offer has been made but not yet accepted.
+     *
+     *  @var string
+     */
+    case Quotation = 'optie (offerte)';
 
     /**
      * Option Status
@@ -78,7 +81,6 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      * @var string
      */
     case Cancelled = 'geannuleerd';
-
 
     /**
      * Get the associated color for the current lease status.

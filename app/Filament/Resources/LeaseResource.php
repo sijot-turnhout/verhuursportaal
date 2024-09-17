@@ -123,13 +123,14 @@ final class LeaseResource extends Resource
                             ->multiple()
                             ->relationship('locals', 'name')
                             ->options(fn() => Local::query()->where('storage_location', false)->pluck('name', 'id'))
-                            ->columnSpan(12),
-                        Forms\Components\Select::make('supervisor_id')->label('Aanspreekpunt / Verantwoordelijke')->relationship('supervisor', 'name')->columnSpan(5),
+                            ->columnSpan(9),
+                        Forms\Components\Select::make('supervisor_id')->label('Aanspreekpunt / Verantwoordelijke')->relationship('supervisor', 'name')->columnSpan(3),
                         Forms\Components\ToggleButtons::make('status')
                             ->inline()
+                            ->visible(fn (string $operation): bool => $operation === 'create')
                             ->options(LeaseStatus::class)
                             ->required()
-                            ->columnSpan(7),
+                            ->columnSpan(12),
                     ])->columns(12),
             ]);
     }

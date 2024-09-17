@@ -30,6 +30,11 @@ final readonly class LeasePolicy
             && in_array($user->user_group, [UserGroup::Webmaster, UserGroup::Rvb], true);
     }
 
+    public function update(User $user, Lease $lease): bool
+    {
+        return $user->user_group->isRvb() || $user->user_group->isWebmaster();
+    }
+
     public function unlockMetrics(User $user, Lease $lease): bool
     {
         return $this->featureIsEnabled()
