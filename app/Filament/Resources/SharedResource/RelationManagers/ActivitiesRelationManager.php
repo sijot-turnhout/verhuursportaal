@@ -80,7 +80,7 @@ final class ActivitiesRelationManager extends RelationManager
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return config('activitylog.enabled')
-            && (auth()->user()->user_group === UserGroup::Webmaster || auth()->user()->user_group === UserGroup::Rvb)
+            && (UserGroup::Webmaster === auth()->user()->user_group || UserGroup::Rvb === auth()->user()->user_group)
             && $ownerRecord->activities->count() > 0;
     }
 

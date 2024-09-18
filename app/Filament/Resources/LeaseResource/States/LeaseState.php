@@ -23,8 +23,8 @@ use LogicException;
  */
 class LeaseState implements LeaseStateContract, StateTransitionGuardContract
 {
-    use StateTransitionGuard;
     use Auditable;
+    use StateTransitionGuard;
 
     /**
      * LeaseState constructor.

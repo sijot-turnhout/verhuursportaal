@@ -163,6 +163,21 @@ final class Lease extends Model
     }
 
     /**
+     * Returns the activity log options for the current model.
+     *
+     * This method configures the default options for activity logging. It allows specifying
+     * the log name that will be used when recording activity entries. The log name is localized
+     * using the `trans()` helper function to retrieve the appropriate translation for 'verhuringen' (rentals).
+     *
+     * @return LogOptions   The configured log options for activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName(trans('verhuringen'));
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -184,20 +199,5 @@ final class Lease extends Model
     protected function period(): Attribute
     {
         return Attribute::get(fn(): string => "{$this->arrival_date->format('d/m/Y H:i')} - {$this->departure_date->format('d/m/Y H:i')}");
-    }
-
-    /**
-     * Returns the activity log options for the current model.
-     *
-     * This method configures the default options for activity logging. It allows specifying
-     * the log name that will be used when recording activity entries. The log name is localized
-     * using the `trans()` helper function to retrieve the appropriate translation for 'verhuringen' (rentals).
-     *
-     * @return LogOptions   The configured log options for activity logging.
-     */
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->useLogName(trans('verhuringen'));
     }
 }
