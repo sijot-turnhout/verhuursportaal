@@ -23,19 +23,17 @@ final class LeaseOptionState extends LeaseState
     /**
      * {@inheritDoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(): void
     {
-        return $this->lease->markAs(LeaseStatus::Cancelled);
+        $this->lease->markAs(LeaseStatus::Cancelled);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function transitionToConfirmed(): bool
+    public function transitionToConfirmed(): void
     {
         $this->lease->markAs(LeaseStatus::Confirmed);
         $this->registerAuditEntry(event: 'statuswijziging', performedOn: $this->lease, auditEntry: trans("Heeft de status van de verhuring gewijzigd naar Bevestigd"));
-
-        return true;
     }
 }

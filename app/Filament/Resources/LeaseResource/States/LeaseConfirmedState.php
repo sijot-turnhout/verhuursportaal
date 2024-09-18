@@ -23,19 +23,17 @@ final class LeaseConfirmedState extends LeaseState
     /**
      * {@inheritDoc}
      */
-    public function transitionToCompleted(): bool
+    public function transitionToCompleted(): void
     {
         $this->lease->markAs(LeaseStatus::Finalized);
         $this->lease->sendFeedbackNotification(now()->addMonths(2));
-
-        return true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(): void
     {
-        return $this->lease->markAs(LeaseStatus::Cancelled);
+        $this->lease->markAs(LeaseStatus::Cancelled);
     }
 }

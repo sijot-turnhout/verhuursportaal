@@ -52,23 +52,23 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
         return ActionGroup::make([
             $this->changeStateTransitionAction(state: LeaseStatus::Option)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToOption()),
+                ->action(fn(Lease $lease) => $lease->state()->transitionToOption()),
 
             $this->changeStateTransitionAction(state: LeaseStatus::Quotation)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToQuotationRequest()),
+                ->action(fn(Lease $lease) => $lease->state()->transitionToQuotationRequest()),
 
             $this->changeStateTransitionAction(state: LeaseStatus::Confirmed)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Option, LeaseStatus::Quotation]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToConfirmed()),
+                ->action(fn(Lease $lease) => $lease->state()->transitionToConfirmed()),
 
             $this->changeStateTransitionAction(state: LeaseStatus::Finalized)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Confirmed]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToCompleted()),
+                ->action(fn(Lease $lease) => $lease->state()->transitionToCompleted()),
 
             $this->changeStateTransitionAction(state: LeaseStatus::Cancelled)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation, LeaseStatus::Option, LeaseStatus::Confirmed]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToCancelled()),
+                ->action(fn(Lease $lease) => $lease->state()->transitionToCancelled()),
         ])
             ->button()
             ->label(trans('markeren als'))
