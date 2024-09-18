@@ -8,6 +8,7 @@ use App\Enums\LeaseStatus;
 use App\Filament\Resources\InvoiceResource\LeaseInfolist;
 use App\Filament\Resources\LeaseResource\Pages;
 use App\Filament\Resources\LeaseResource\RelationManagers;
+use App\Filament\Resources\SharedResource\RelationManagers\ActivitiesRelationManager;
 use App\Models\Lease;
 use App\Models\Local;
 use Exception;
@@ -270,6 +271,7 @@ final class LeaseResource extends Resource
         return [
             RelationManagers\UtilitiesRelationManager::class,
             RelationManagers\NotesRelationManager::class,
+            ActivitiesRelationManager::class,
         ];
     }
 

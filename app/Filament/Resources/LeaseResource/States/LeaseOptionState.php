@@ -34,5 +34,6 @@ final class LeaseOptionState extends LeaseState
     public function transitionToConfirmed(): void
     {
         $this->lease->markAs(LeaseStatus::Confirmed);
+        $this->registerAuditEntry(event: 'statuswijziging', performedOn: $this->lease, auditEntry: trans("Heeft de status van de verhuring gewijzigd naar Bevestigd"));
     }
 }
