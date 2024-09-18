@@ -37,7 +37,7 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
     /**
      * {@inheritDoc}
      */
-    public function transitionToQuotationRequest(): bool
+    public function transitionToQuotationRequest(): void
     {
         throw new LogicException('The transition to quotation request is not valid on the current state.');
     }
@@ -45,7 +45,7 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
     /**
      * {@inheritDoc}
      */
-    public function transitionToOption(): bool
+    public function transitionToOption(): void
     {
         throw new LogicException('The transition to optional reservation is not valid on the current state');
     }
@@ -53,7 +53,7 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
     /**
      * {@inheritDoc}
      */
-    public function transitionToConfirmed(): bool
+    public function transitionToConfirmed(): void
     {
         throw new LogicException('The transition to finalized state is not valid on the current state.');
     }
@@ -61,7 +61,7 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
     /**
      * {@inheritDoc}
      */
-    public function transitionToCompleted(): bool
+    public function transitionToCompleted(): void
     {
         throw new LogicException('The transition to confirmed is not valid on the current state.');
     }
@@ -69,7 +69,7 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
     /**
      * {@inheritDoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(): void
     {
         throw new LogicException('The transition to the cancelled state is not valid on the current state');
     }

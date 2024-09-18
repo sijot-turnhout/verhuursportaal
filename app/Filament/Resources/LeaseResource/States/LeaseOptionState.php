@@ -23,16 +23,16 @@ final class LeaseOptionState extends LeaseState
     /**
      * {@inheritDoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(): void
     {
-        return $this->lease->markAs(LeaseStatus::Cancelled);
+        $this->lease->markAs(LeaseStatus::Cancelled);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function transitionToConfirmed(): bool
+    public function transitionToConfirmed(): void
     {
-        return $this->lease->markAs(LeaseStatus::Confirmed);
+        $this->lease->markAs(LeaseStatus::Confirmed);
     }
 }

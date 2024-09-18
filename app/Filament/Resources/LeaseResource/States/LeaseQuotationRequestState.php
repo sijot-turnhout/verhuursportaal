@@ -22,24 +22,24 @@ final class LeaseQuotationRequestState extends LeaseState
     /**
      * {@inheritdoc}
      */
-    public function transitionToConfirmed(): bool
+    public function transitionToConfirmed(): void
     {
-        return $this->lease->markAs(LeaseStatus::Confirmed);
+        $this->lease->markAs(LeaseStatus::Confirmed);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function transitionToOption(): bool
+    public function transitionToOption(): void
     {
-        return $this->lease->markAs(LeaseStatus::Option);
+        $this->lease->markAs(LeaseStatus::Option);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(): void
     {
-        return $this->lease->markAs(LeaseStatus::Cancelled);
+        $this->lease->markAs(LeaseStatus::Cancelled);
     }
 }
