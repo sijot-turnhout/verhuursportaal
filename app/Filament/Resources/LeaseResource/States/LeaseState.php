@@ -89,8 +89,13 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
      */
     protected function registerStatusChangeInAuditLog(LeaseStatus $status): void
     {
-        $this->registerAuditEntry(event: 'statuswijziging', performedOn: $this->lease, auditEntry: trans("Heeft de status van de verhuring gewijzigd van :old naar :new", [
-            'old' => $this->lease->status->getLabel(), 'new' => $status->getLabel(),
-        ]));
+        $this->registerAuditEntry(
+            logName: 'verhuring',
+            event: 'statuswijziging',
+            performedOn: $this->lease,
+            auditEntry: trans("Heeft de status van de verhuring gewijzigd van :old naar :new", [
+                'old' => $this->lease->status->getLabel(), 'new' => $status->getLabel(),
+            ])
+        );
     }
 }

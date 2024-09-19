@@ -30,9 +30,9 @@ trait Auditable
      * @param  string      $auditEntry   A description of the audit entry or the action that took place.
      * @return void
      */
-    public function registerAuditEntry(?string $event = null, Model $performedOn, string $auditEntry): void
+    public function registerAuditEntry(?string $logName = null, ?string $event = null, Model $performedOn, string $auditEntry): void
     {
-        activity()
+        activity($logName)
             ->causedBy(auth()->user())
             ->event($event)
             ->performedOn($performedOn)
