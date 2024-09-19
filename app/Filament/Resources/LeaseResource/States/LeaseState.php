@@ -95,7 +95,7 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
             performedOn: $this->lease,
             auditEntry: trans("Heeft de status van de verhuring gewijzigd van :old naar :new", [
                 'old' => $this->lease->status->getLabel(), 'new' => $status->getLabel(),
-            ])
+            ]),
         );
     }
 }

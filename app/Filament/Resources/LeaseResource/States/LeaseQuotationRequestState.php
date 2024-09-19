@@ -36,7 +36,7 @@ final class LeaseQuotationRequestState extends LeaseState
      */
     public function transitionToOption(): void
     {
-        DB::transaction(function () {
+        DB::transaction(function (): void {
             $this->registerStatusChangeInAuditLog(status: LeaseStatus::Option);
             $this->lease->markAs(LeaseStatus::Option);
         });
