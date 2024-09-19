@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\States;
 
 use App\Enums\LeaseStatus;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class LeaseRequestState
@@ -24,7 +25,10 @@ final class LeaseRequestState extends LeaseState
      */
     public function transitionToQuotationRequest(): void
     {
-        $this->lease->markAs(LeaseStatus::Quotation);
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Quotation);
+            $this->lease->markAs(LeaseStatus::Quotation);
+        });
     }
 
     /**
@@ -32,7 +36,10 @@ final class LeaseRequestState extends LeaseState
      */
     public function transitionToOption(): void
     {
-        $this->lease->markAs(LeaseStatus::Option);
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Option);
+            $this->lease->markAs(LeaseStatus::Option);
+        });
     }
 
     /**
@@ -40,7 +47,10 @@ final class LeaseRequestState extends LeaseState
      */
     public function transitionToConfirmed(): void
     {
-        $this->lease->markAs(LeaseStatus::Confirmed);
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Confirmed);
+            $this->lease->markAs(LeaseStatus::Confirmed);
+        });
     }
 
     /**
@@ -48,6 +58,9 @@ final class LeaseRequestState extends LeaseState
      */
     public function transitionToCancelled(): void
     {
-        $this->lease->markAs(LeaseStatus::Cancelled);
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Cancelled);
+            $this->lease->markAs(LeaseStatus::Cancelled);
+        });
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\States;
 
 use App\Enums\LeaseStatus;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class LeaseOptionState
@@ -25,7 +26,10 @@ final class LeaseOptionState extends LeaseState
      */
     public function transitionToCancelled(): void
     {
-        $this->lease->markAs(LeaseStatus::Cancelled);
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Cancelled);
+            $this->lease->markAs(LeaseStatus::Cancelled);
+        });
     }
 
     /**
@@ -33,7 +37,9 @@ final class LeaseOptionState extends LeaseState
      */
     public function transitionToConfirmed(): void
     {
-        $this->lease->markAs(LeaseStatus::Confirmed);
-        $this->registerAuditEntry(event: 'statuswijziging', performedOn: $this->lease, auditEntry: trans("Heeft de status van de verhuring gewijzigd naar Bevestigd"));
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Confirmed);
+            $this->lease->markAs(LeaseStatus::Confirmed);
+        });
     }
 }

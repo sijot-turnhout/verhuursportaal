@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\States;
 
+use App\Enums\LeaseStatus;
 use App\Filament\Support\StateMachines\StateTransitionGuard;
 use App\Filament\Support\StateMachines\StateTransitionGuardContract;
 use App\Models\Lease;
@@ -74,5 +75,22 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
     public function transitionToCancelled(): void
     {
         throw new LogicException('The transition to the cancelled state is not valid on the current state');
+    }
+
+    /**
+     * Registers an audit log entry for a lease status change.
+     *
+     * This method records a status change in the activity log for the lease. It logs an event
+     * labeled 'statuswijziging' (status change) and provides a detailed description indicating
+     * the old and new statuses. The description is localized using the `trans()` function.
+     *
+     * @param  LeaseStatus $status  The new lease status that the lease has been changed to.
+     * @return void
+     */
+    protected function registerStatusChangeInAuditLog(LeaseStatus $status): void
+    {
+        $this->registerAuditEntry(event: 'statuswijziging', performedOn: $this->lease, auditEntry: trans("Heeft de status van de verhuring gewijzigd van :old naar :new", [
+            'old' => $this->lease->status->getLabel(), 'new' => $status->getLabel(),
+        ]));
     }
 }
