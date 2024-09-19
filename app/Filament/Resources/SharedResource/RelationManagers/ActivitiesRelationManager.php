@@ -49,7 +49,7 @@ final class ActivitiesRelationManager extends RelationManager
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
-        return $ownerRecord->activities()->count();
+        return (string) $ownerRecord->activities()->count();
     }
 
     /**
@@ -63,7 +63,7 @@ final class ActivitiesRelationManager extends RelationManager
      */
     public static function getBadgeColor(Model $ownerRecord, string $pageClass): ?string
     {
-        return 'info';
+        return 'primary';
     }
 
     /**
