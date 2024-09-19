@@ -184,7 +184,7 @@ final class LeaseResource extends Resource
                     Action::make('factuur')
                         ->icon('heroicon-o-document-text')
                         ->visible(fn(Lease $record): bool => $record->invoice()->exists())
-                        ->url(fn(Lease $record) => route('filament.admin.resources.invoices.view', $record->invoice)),
+                        ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
 
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
