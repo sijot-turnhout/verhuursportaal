@@ -22,9 +22,9 @@ interface LeaseStateContract
      * This method initiates the transition to the quotation request state, which represents
      * the initial phase where the rental request is submitted and a quote is being prepared.
      *
-     * @return bool
+     * @return void
      */
-    public function transitionToQuotationRequest(): bool;
+    public function transitionToQuotationRequest(): void;
 
     /**
      * Transitions the lease to the "Option" (Optie) state.
@@ -32,9 +32,9 @@ interface LeaseStateContract
      * This method handles the transition to the optional state, where the lease is provisionally
      * reserved or held as an option pending further confirmation.
      *
-     * @return bool
+     * @return void
      */
-    public function transitionToOption(): bool;
+    public function transitionToOption(): void;
 
     /**
      * Transitions the lease to the "Confirmed" (Bevestigd) state.
@@ -42,9 +42,9 @@ interface LeaseStateContract
      * This method moves the lease to the confirmed state, indicating that the rental agreement
      * has been officially approved and confirmed.
      *
-     * @return bool
+     * @return void
      */
-    public function transitionToConfirmed(): bool;
+    public function transitionToConfirmed(): void;
 
     /**
      * Transitions the lease to the "Completed" (Afgesloten) state.
@@ -52,9 +52,9 @@ interface LeaseStateContract
      * This method transitions the lease to the completed state, marking the rental process as
      * finalized with no further actions required.
      *
-     * @return bool
+     * @return void
      */
-    public function transitionToCompleted(): bool;
+    public function transitionToCompleted(): void;
 
     /**
      * Transitions the lease to the "Cancelled" (Geannuleerd) state.
@@ -62,7 +62,7 @@ interface LeaseStateContract
      * This method cancels the lease and moves it to the cancelled state, ending the process
      * without completing the rental agreement.
      *
-     * @return bool
+     * @return void
      */
-    public function transitionToCancelled(): bool;
+    public function transitionToCancelled(): void;
 }

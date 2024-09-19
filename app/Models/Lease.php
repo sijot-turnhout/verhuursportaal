@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * Class Lease
@@ -48,6 +50,7 @@ final class Lease extends Model
     use HasFactory;
     use HasFeedbackSupport;
     use HasUtilityMetrics;
+    use LogsActivity;
 
     /**
      * The database columns that are protected from the mass-assignment system provided by Laravel.
@@ -60,6 +63,17 @@ final class Lease extends Model
      * @var array<string, object|int|string>
      */
     protected $attributes = ['status' => LeaseStatus::Request];
+
+    /**
+     * List of events that should be recorded in the activity log.
+     *
+     * This static property defines which model events will trigger activity logging. By default, it is an empty array,
+     * meaning no events are recorded unless explicitly specified. You can customize this array to include specific
+     * events such as 'created', 'updated', or 'deleted' based on your logging requirements.
+     *
+     * @var array<string> $recordevents  List of event names that should be logged. For example, ['created', 'updated'].
+     */
+    protected static $recordEvents = [];
 
     /**
      * Returns the appropriate LeaseState instance based on the current lease status.
@@ -146,6 +160,21 @@ final class Lease extends Model
     public function newEloquentBuilder($query): LeaseBuilder
     {
         return new LeaseBuilder($query);
+    }
+
+    /**
+     * Returns the activity log options for the current model.
+     *
+     * This method configures the default options for activity logging. It allows specifying
+     * the log name that will be used when recording activity entries. The log name is localized
+     * using the `trans()` helper function to retrieve the appropriate translation for 'verhuringen' (rentals).
+     *
+     * @return LogOptions   The configured log options for activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName(trans('verhuringen'));
     }
 
     /**

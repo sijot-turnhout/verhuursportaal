@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\States;
 
 use App\Enums\LeaseStatus;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class LeaseConfirmedState
@@ -23,19 +24,24 @@ final class LeaseConfirmedState extends LeaseState
     /**
      * {@inheritDoc}
      */
-    public function transitionToCompleted(): bool
+    public function transitionToCompleted(): void
     {
-        $this->lease->markAs(LeaseStatus::Finalized);
-        $this->lease->sendFeedbackNotification(now()->addMonths(2));
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Finalized);
+            $this->lease->markAs(LeaseStatus::Finalized);
 
-        return true;
+            DB::afterCommit(fn() => $this->lease->sendFeedbackNotification(now()->addMonths(2)));
+        });
     }
 
     /**
      * {@inheritDoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(): void
     {
-        return $this->lease->markAs(LeaseStatus::Cancelled);
+        DB::transaction(function (): void {
+            $this->registerStatusChangeInAuditLog(status: LeaseStatus::Cancelled);
+            $this->lease->markAs(LeaseStatus::Cancelled);
+        });
     }
 }
