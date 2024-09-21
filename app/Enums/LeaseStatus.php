@@ -16,6 +16,8 @@ use Filament\Support\Contracts\HasLabel;
  * Each status is associated with a specific label, color, and icon to ensure
  * consistent and intuitive representation throughout the user interface.
  *
+ * @todo sijot-turnhout/verhuur-portaal-documentatie#9 - Write documentation for the lease management permissions.
+ *
  * @package App\Enums
  */
 enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
