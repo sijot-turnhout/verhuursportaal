@@ -82,6 +82,7 @@ final readonly class LeasePolicy
     public function update(User $user, Lease $lease): bool
     {
         return $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster])
+            && $lease->status->notIn(enums: [LeaseStatus::Cancelled, LeaseStatus::Finalized]);
     }
 
     /**
