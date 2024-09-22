@@ -6,7 +6,7 @@ namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Pages;
-use App\Models\Inventory;
+use App\Models\Articles;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
@@ -16,7 +16,7 @@ use Filament\Tables\Table;
 
 final class InventoryResource extends Resource
 {
-    protected static ?string $model = Inventory::class;
+    protected static ?string $model = Articles::class;
 
     protected static ?string $modelLabel = 'Inventaris';
 
