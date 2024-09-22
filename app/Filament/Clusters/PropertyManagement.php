@@ -26,7 +26,7 @@ final class PropertyManagement extends Cluster
      *
      * @var string|null
      */
-    protected static ?string $navigationIcon = "heroicon-o-home-modern";
+    protected static ?string $navigationIcon = "heroicon-o-wrench-screwdriver";
 
     /**
      * The label for this cluster in the application navigation.
@@ -34,7 +34,7 @@ final class PropertyManagement extends Cluster
      *
      * @var string|null
      */
-    protected static ?string $navigationLabel = "Lokalenbeheer";
+    protected static ?string $navigationLabel = "Beheer";
 
     /**
      * The breadcrumb label for this cluster.
@@ -44,5 +44,5 @@ final class PropertyManagement extends Cluster
      *
      * @var string|null
      */
-    protected static ?string $clusterBreadcrumb = "Lokalenbeheer";
+    protected static ?string $clusterBreadcrumb = "Beheer";
 }

@@ -77,6 +77,11 @@ final class LocalResource extends Resource
      */
     protected static ?string $cluster = PropertyManagement::class;
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
     /**
      * Configure the form used to create or edit a `Local` record.
      *
