@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Inventory;
 use App\Models\InventoryCategory;
 use App\Models\Local;
@@ -8,11 +10,10 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up(): void
     {
-        Schema::create('inventory_categories', function (Blueprint $table) {
+        Schema::create('inventory_categories', function (Blueprint $table): void {
             $table->id()->comment('Uniek identificatienummer voor elke categorie');
             $table->string('name')->comment('Naam van de categorie. (Bijv. Tenten, Keuken, Kampvuur)');
             $table->string('description')->nullable()->comment('Eventuele beschrijving van de categorie.');

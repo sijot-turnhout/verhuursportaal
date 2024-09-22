@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Pages;
-use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\RelationManagers;
 use App\Models\Inventory;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 final class InventoryResource extends Resource
 {
@@ -45,7 +43,7 @@ final class InventoryResource extends Resource
                         Textarea::make('description')
                             ->label(trans('Beschrijving / Extra informatie'))
                             ->rows(4)
-                            ->columnSpan(12)
+                            ->columnSpan(12),
                     ]),
             ]);
     }
@@ -62,7 +60,7 @@ final class InventoryResource extends Resource
             ->emptyStateIcon('heroicon-o-circle-stack')
             ->emptyStateDescription(trans('Momenteel zijn er geen artikelen opgenomen in de inventaris. Gebruik de knop rechtboven om een artikel te registreren.'))
             ->columns([
-                //
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -77,7 +75,7 @@ final class InventoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 
