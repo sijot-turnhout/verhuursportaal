@@ -24,28 +24,37 @@ final class TenantResource extends Resource
 {
     /**
      * The database model entity for the resource that is related to the tenants.
+     *
+     * @return string|null
      */
     protected static ?string $model = Tenant::class;
 
     /**
-     * The label name that willbe displayed from the database model
+     * The label name that willbe displayed from the database model.
+     *
+     * @return string|null
      */
     protected static ?string $modelLabel = 'Huurder';
 
     /**
      * The plural representation of the label that will be displayed.
+     *
+     * @return string|null
      */
     protected static ?string $pluralModelLabel = 'Huurders';
 
     /**
      * The name of the navigation icon that will be used in the navigation
+     *
+     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     /**
      * Method for displaying the edit/create view for the tenant resource.
      *
-     * @param  Form  $form  The form builder class that we use to build up the create/edit form.
+     * @param  Form  $form  The form builder class that we use to build up the create/edit form.$
+     * @return Form         THe confiured form instance for the Filament resource
      */
     public static function form(Form $form): Form
     {
@@ -84,6 +93,7 @@ final class TenantResource extends Resource
      * Method for displaying the tenant overview table.
      *
      * @param  Table  $table  The table builder instance for the overview page in the tenant resource.
+     * @return Table          The configured table display for the filament resource
      */
     public static function table(Table $table): Table
     {
