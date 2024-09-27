@@ -25,7 +25,6 @@ return new class () extends Migration {
             $table->boolean('is_loanable')->default(true)->comment('Indicator dat het inventaris artikel uitleenbaar is');
             $table->string('name')->comment('Naam van het materieel (bijv. Tent, kampvuurrooster, zeil)');
             $table->foreignIdFor(Local::class, 'storage_location_id')->comment('Verwijziging naar de opslagplaatsen tabel voor de artikelen')->references('id')->on('locals')->cascadeOnDelete();
-            $table->foreignIdFor(ArticleCategory::class)->nullable()->comment('Verwijzig naar de categorieen tabel voor de categoirie')->references('id')->on('article_categories')->nullOnDelete();
             $table->text('description')->comment('Beschrijving van het materieel. (bijv. afmetingen, capaciteit)')->nullable();
             $table->integer('total_amount')->comment('Totaal aantal van dit type materieel in de inventaris.')->default('1');
             $table->integer('in_stock')->comment('Aantal beschikbaar voor uitleen/gebruik op dit moment.')->nullable();
@@ -41,6 +40,8 @@ return new class () extends Migration {
             $table->text('comments')->comment('Eventuele opmerkingen of aanbevelingen van de controle.')->nullable();
             $table->timestamps();
         });
+
+        //  $table->foreignIdFor(ArticleCategory::class)->nullable()->comment('Verwijzig naar de categorieen tabel voor de categoirie')->references('id')->on('article_categories')->nullOnDelete();
     }
 
     public function down(): void
