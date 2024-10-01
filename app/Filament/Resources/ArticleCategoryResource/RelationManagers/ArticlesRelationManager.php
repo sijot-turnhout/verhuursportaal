@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\ArticleCategoryResource\RelationManagers;
 
 use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Schemas\InventoryArticleForm;

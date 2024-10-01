@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Pages;
 
 use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource;
-use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
 
 /**
  * Class ViewInventory

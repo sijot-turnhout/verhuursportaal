@@ -6,10 +6,8 @@ namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\ArticleCategoryResource\Pages;
-use App\Filament\Clusters\PropertyManagement\Resources\ArticleCategoryResource\RelationManagers;
 use App\Filament\Resources\ArticleCategoryResource\RelationManagers\ArticlesRelationManager;
 use App\Models\ArticleCategory;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -23,7 +21,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
  * Resource class for managing Article Categories in the Property Management cluster.
@@ -99,7 +96,7 @@ final class ArticleCategoryResource extends Resource
                     ->schema([
                         TextEntry::make('name')->translateLabel()->label('Naam')->columnSpan(9),
                         TextEntry::make('created_at')->label('Aangemaakt op')->translateLabel()->columnSpan(3),
-                        TextEntry::make('description')->label('Beschrijving')->translateLabel()->columnSpan(12)->placeholder(trans ('- geen beschrijving of extra informatie opgegeven')),
+                        TextEntry::make('description')->label('Beschrijving')->translateLabel()->columnSpan(12)->placeholder(trans('- geen beschrijving of extra informatie opgegeven')),
                     ]),
             ]);
     }
@@ -138,7 +135,7 @@ final class ArticleCategoryResource extends Resource
                             ->columnSpan(12)
                             ->rows(4)
                             ->placeholder(trans('Extra informatie omtrent de artikel categorie in de inventaris')),
-                    ])
+                    ]),
             ]);
     }
 

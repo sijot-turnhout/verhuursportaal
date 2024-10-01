@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\PropertyManagement\Resources\ArticleCategoryResource\Pages;
 
 use App\Filament\Clusters\PropertyManagement\Resources\ArticleCategoryResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateArticleCategory extends CreateRecord

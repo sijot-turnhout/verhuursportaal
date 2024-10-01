@@ -34,11 +34,11 @@ final class ArticleCategory extends Model
 
     /**
      * Defines a many-to-many relationship between the current model and the `Articles` model.
-    *
-    * This method assumes that there is a pivot table (usually named `article_category_article`
-    * or something similar) that stores the relationship between the `ArticleCategory` model
-    * and the `Articles` model. The relationship allows an article category to be associated
-    * with multiple articles, and vice versa.
+     *
+     * This method assumes that there is a pivot table (usually named `article_category_article`
+     * or something similar) that stores the relationship between the `ArticleCategory` model
+     * and the `Articles` model. The relationship allows an article category to be associated
+     * with multiple articles, and vice versa.
      *
      * @return BelongsToMany
      */

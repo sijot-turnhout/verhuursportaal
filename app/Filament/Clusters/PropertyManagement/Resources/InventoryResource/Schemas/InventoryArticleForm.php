@@ -6,8 +6,8 @@ namespace App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\S
 
 use App\Models\ArticleCategory;
 use App\Models\Local;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Grid;
 
 /**
@@ -47,11 +47,9 @@ final readonly class InventoryArticleForm
                 ->required()
                 ->relationship(name: 'storageLocation', titleAttribute: 'name')
                 ->options(fn() => Local::query()->where('storage_location', true)->pluck('name', 'id'))
-                ->createOptionAction(fn (Action $action) => self::configureStorageLocationFormModal($action))
+                ->createOptionAction(fn(Action $action) => self::configureStorageLocationFormModal($action))
                 ->createOptionForm(self::storageLocationCreateForm())
-                ->createOptionUsing(function (array $data, Local $local): int {
-                    return $local->query()->create(array_merge($data, ['storage_location' => true]))->getKey();
-                }),
+                ->createOptionUsing(fn(array $data, Local $local): int => $local->query()->create(array_merge($data, ['storage_location' => true]))->getKey()),
 
             Forms\Components\TextInput::make('amount')
                 ->label('Aantal')
@@ -102,7 +100,7 @@ final readonly class InventoryArticleForm
      * @see \App\Filament\Resources\LocalResource\Forms\LocalResourceForm::render()
      *
      * @return array  The schema for the storage location creation form.
- */
+     */
     private static function storageLocationCreateForm(): array
     {
         return [
@@ -119,7 +117,7 @@ final readonly class InventoryArticleForm
                         ->label('Beschrijving en of extra informatie')
                         ->rows(6)
                         ->columnSpan(12),
-                ])
+                ]),
         ];
     }
 }

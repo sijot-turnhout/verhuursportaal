@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources\ArticleCategoryResource\Pages;
 
 use App\Filament\Clusters\PropertyManagement\Resources\ArticleCategoryResource;
-use App\Filament\Resources\ArticleCategoryResource\RelationManagers\ArticlesRelationManager;
-use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
 
 final class ViewArticleCategory extends ViewRecord
 {

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Models\Articles;
 use App\Models\ArticleCategory;
+use App\Models\Articles;
 use App\Models\Local;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -41,7 +41,7 @@ return new class () extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('inventory_articles_categories', static function(Blueprint $table): void {
+        Schema::create('inventory_articles_categories', static function (Blueprint $table): void {
             $table->foreignIdFor(ArticleCategory::class)->constrained(table: 'article_categories')->cascadeOnDelete()->comment('Verwijzig naar de categorieen tabel voor de koppeling');
             $table->foreignIdFor(Articles::class)->constrained(table: 'articles')->cascadeOnDelete()->comment('Verwijzing naar de artikelen table voor koppeling.');
         });
