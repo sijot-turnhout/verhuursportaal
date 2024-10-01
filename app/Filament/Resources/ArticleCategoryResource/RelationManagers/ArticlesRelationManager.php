@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\ArticleCategoryResource\RelationManagers;
 
-use Filament\Forms;
+use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Schemas\InventoryArticleForm;
+use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Schemas\InventoryArticlesTable;
+use App\Models\Articles;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -19,6 +21,7 @@ use Filament\Tables\Table;
  * within the context of a category.
  *
  * @todo Refactor this relation manager to be part of the property management cluster.
+ * @todo Implementatie idee: Het is misschioen handig om een soort id encoding systeem te hebben op de inventaris (articles).
  *
  * @package App\Filament\Resources\ArticleCategoryResource\RelationManagers
  */
@@ -35,6 +38,17 @@ final class ArticlesRelationManager extends RelationManager
     protected static string $relationship = 'articles';
 
     /**
+     * The title displayed for the related articles section in the UI.
+     *
+     * This static property sets a custom title for the articles that are related
+     * to the current resource. It can be used to display a more user-friendly label
+     * when managing related records, such as in a relation manager or other components.
+     *
+     * @var string|null
+     */
+    protected static ?string $title = 'Gekoppelde artikelen';
+
+    /**
      * Defines the form schema for creating or editing articles associated with the category.
      *
      * The form layout is split into 12 columns, with a required 'name' input field
@@ -45,14 +59,9 @@ final class ArticlesRelationManager extends RelationManager
      */
     public function form(Form $form): Form
     {
-        return $form
+        return  $form
             ->columns(12)
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpan(9),
-            ]);
+            ->schema(InventoryArticleForm::make());
     }
 
     /**
@@ -80,11 +89,13 @@ final class ArticlesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('name')
-            ->columns([
-            ])
+            ->emptyStateIcon('heroicon-o-circle-stack')
+            ->emptyStateHeading('Geen artikelen gevonden')
+            ->emptyStateDescription('Het lijkt erop dat er momenteel geen inventaris artikelen gekoppeld zijn aan het inventaris label.')
+            ->columns(InventoryArticlesTable::make())
             ->headerActions([
                 Tables\Actions\AttachAction::make()
+                    ->visible(Articles::query()->doesntHave('labels')->count() > 0)
                     ->icon('heroicon-o-link')
                     ->label(trans('Artikel koppelen'))
                     ->modalHeading(trans('Artikel koppelen'))
@@ -101,8 +112,12 @@ final class ArticlesRelationManager extends RelationManager
                     ->slideOver(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
+
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()->slideOver(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

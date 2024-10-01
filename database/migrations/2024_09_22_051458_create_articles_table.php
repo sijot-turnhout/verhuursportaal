@@ -41,7 +41,10 @@ return new class () extends Migration {
             $table->timestamps();
         });
 
-        //  $table->foreignIdFor(ArticleCategory::class)->nullable()->comment('Verwijzig naar de categorieen tabel voor de categoirie')->references('id')->on('article_categories')->nullOnDelete();
+        Schema::create('inventory_articles_categories', static function(Blueprint $table): void {
+            $table->foreignIdFor(ArticleCategory::class)->constrained(table: 'article_categories')->cascadeOnDelete()->comment('Verwijzig naar de categorieen tabel voor de koppeling');
+            $table->foreignIdFor(Articles::class)->constrained(table: 'articles')->cascadeOnDelete()->comment('Verwijzing naar de artikelen table voor koppeling.');
+        });
     }
 
     public function down(): void
@@ -49,5 +52,6 @@ return new class () extends Migration {
         Schema::dropIfExists('inventory_categories');
         Schema::dropIfExists('inventory_inspections');
         Schema::dropIfExists('inventories');
+        Schema::dropIfExists('inventory_articles_categories');
     }
 };

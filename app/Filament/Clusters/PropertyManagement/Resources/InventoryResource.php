@@ -6,10 +6,13 @@ namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Pages;
+use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Schemas\InventoryArticleForm;
+use App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Schemas\InventoryArticlesTable;
 use App\Models\Articles;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -61,7 +64,7 @@ final class InventoryResource extends Resource
      *
      * @var string|null
      */
-    protected static ?string $pluralModelLabl = 'Artikelen';
+    protected static ?string $pluralModelLabel = 'Artikelen';
 
     /**
      * The icon used in the navigation panel.
@@ -113,12 +116,7 @@ final class InventoryResource extends Resource
                     ->collapsible()
                     ->compact()
                     ->columns(12)
-                    ->schema([
-                        Textarea::make('description')
-                            ->label(trans('Beschrijving / Extra informatie'))
-                            ->rows(4)
-                            ->columnSpan(12),
-                    ]),
+                    ->schema(InventoryArticleForm::make()),
             ]);
     }
 
@@ -150,17 +148,33 @@ final class InventoryResource extends Resource
             ->emptyStateHeading(trans('Geen artikelen gevonden'))
             ->emptyStateIcon('heroicon-o-circle-stack')
             ->emptyStateDescription(trans('Momenteel zijn er geen artikelen opgenomen in de inventaris. Gebruik de knop rechtboven om een artikel te registreren.'))
-            ->columns([
-
-            ])
+            ->columns(InventoryArticlesTable::make())
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            Infolists\Components\Section::make(trans('Artikel informatie'))
+                ->icon('heroicon-o-information-circle')
+                ->iconColor('primary')
+                ->description('Alle informatie omtrent het artikel in de inventaris.')
+                ->compact()
+                ->columns(12)
+                ->schema([
+                ]),
+        ]);
     }
 
     /**
@@ -176,7 +190,7 @@ final class InventoryResource extends Resource
         return [
             'index' => Pages\ListInventories::route('/'),
             'create' => Pages\CreateInventory::route('/create'),
-            'View' => Pages\ViewInventory::route('/{record}'),
+            'view' => Pages\ViewInventory::route('/{record}'),
             'edit' => Pages\EditInventory::route('/{record}/edit'),
         ];
     }

@@ -99,7 +99,7 @@ final class ArticleCategoryResource extends Resource
                     ->schema([
                         TextEntry::make('name')->translateLabel()->label('Naam')->columnSpan(9),
                         TextEntry::make('created_at')->label('Aangemaakt op')->translateLabel()->columnSpan(3),
-                        TextEntry::make('description')->label('Beschrijving')->translateLabel()->columnSpan(12),
+                        TextEntry::make('description')->label('Beschrijving')->translateLabel()->columnSpan(12)->placeholder(trans ('- geen beschrijving of extra informatie opgegeven')),
                     ]),
             ]);
     }

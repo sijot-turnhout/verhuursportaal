@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * The ArticleCategory model represents a category for inventory articles in the system.
@@ -33,17 +33,17 @@ final class ArticleCategory extends Model
     protected $fillable = ['name', 'description'];
 
     /**
-     * Define a one-to-many relationship between ArticleCategory and Articles.
+     * Defines a many-to-many relationship between the current model and the `Articles` model.
+    *
+    * This method assumes that there is a pivot table (usually named `article_category_article`
+    * or something similar) that stores the relationship between the `ArticleCategory` model
+    * and the `Articles` model. The relationship allows an article category to be associated
+    * with multiple articles, and vice versa.
      *
-     * This method establishes that one category can have multiple articles associated with it.
-     * It uses Laravel's `hasMany` relationship to link the `ArticleCategory` model to
-     * the `Articles` model. The relationship allows you to access all articles belonging
-     * to a specific category.
-     *
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function articles(): HasMany
+    public function articles(): BelongsToMany
     {
-        return $this->hasMany(Articles::class);
+        return $this->belongsToMany(Articles::class, table: 'inventory_articles_categories');
     }
 }

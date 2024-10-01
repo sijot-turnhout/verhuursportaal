@@ -37,6 +37,10 @@ final readonly class LocalResourceForm
      *
      * The section is collapsible and in 'edit' mode, the form loads in a collapsed state by default.
      *
+     * @todo Refactor the Section setup out of this function so that we only register the form inputs here.
+     *       That we can use them in multiple forms like the create option in select input on the inventory article managers.
+     *       See: \App\Filament\Clusters\PropertyManagement\Resources\InventoryResource\Schemas\InventoryArticleForm::class
+     *
      * @param  Form $form   The instance of the Filament `Form` component being configured.
      * @return Form         The fully configured form schema.
      */

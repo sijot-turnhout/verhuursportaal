@@ -34,7 +34,7 @@ final class PropertyManagement extends Cluster
      *
      * @var string|null
      */
-    protected static ?string $navigationLabel = "Beheer";
+    protected static ?string $navigationLabel = "infrastructuur";
 
     /**
      * The breadcrumb label for this cluster.
@@ -44,5 +44,5 @@ final class PropertyManagement extends Cluster
      *
      * @var string|null
      */
-    protected static ?string $clusterBreadcrumb = "Beheer";
+    protected static ?string $clusterBreadcrumb = "Infrastructuur";
 }
