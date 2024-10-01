@@ -69,6 +69,11 @@ final class ChangelogResource extends Resource
      */
     protected static ?string $cluster = PropertyManagement::class;
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
     /**
      * Configure the infolist schema for displaying changelog details.
      *

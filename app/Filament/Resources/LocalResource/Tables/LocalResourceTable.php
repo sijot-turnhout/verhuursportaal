@@ -62,6 +62,8 @@ final readonly class LocalResourceTable
                     ->date(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
+
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
