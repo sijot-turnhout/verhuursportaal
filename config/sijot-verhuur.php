@@ -38,7 +38,6 @@ return [
      * you can delete or comment the feature declaration.
      */
     'features' => [
-        Features::utilityMetrics(),
         Features::automaticBillingLinesImport(),
         Features::feedback(),
     ],

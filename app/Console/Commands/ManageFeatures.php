@@ -12,10 +12,9 @@ use Illuminate\Support\Str;
  *
  * Usage: `php artisan feature:manage {action} {feature}`
  *
- * @todo Write documentation for this artisan command.
  * @todo Implement and phase out the old feature configuration from the project config file.
- * @todo Document this command class.
- * @todo Document the feature classes (Laravel Pennant) in the project documentation.
+ *
+ * @see https://github.com/sijot-turnhout/developer-documentation/blob/main/console-commands/feature-commando.md
  *
  * @package App\Console\Commands
  */
@@ -29,7 +28,7 @@ final class ManageFeatures extends Command
      *
      * @var string
      */
-    protected $signature = 'feature:manage {action} {feature}';
+    protected $signature = 'feature:manager {action} {feature}';
 
     /**
      * The console command description.

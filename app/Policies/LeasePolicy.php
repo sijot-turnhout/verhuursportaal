@@ -6,9 +6,10 @@ namespace App\Policies;
 
 use App\Enums\LeaseStatus;
 use App\Enums\UserGroup;
+use App\Features\UtilityMetrics;
 use App\Models\Lease;
 use App\Models\User;
-use App\Support\Features;
+use Laravel\Pennant\Feature;
 
 /**
  * Class LeasePolicy
@@ -32,8 +33,7 @@ final readonly class LeasePolicy
      */
     public function finalizeMetrics(User $user, Lease $lease): bool
     {
-        return Features::enabled(Features::utilityMetrics())
-            && $lease->status->in(enums: [LeaseStatus::Confirmed, LeaseStatus::Finalized]);
+        return $lease->status->in(enums: [LeaseStatus::Confirmed, LeaseStatus::Finalized]);
     }
 
     /**
@@ -97,7 +97,7 @@ final readonly class LeasePolicy
      */
     public function unlockMetrics(User $user, Lease $lease): bool
     {
-        return Features::enabled(Features::utilityMetrics())
+        return Feature::active(UtilityMetrics::class)
             && $lease->hasRegisteredMetrics()
             && $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster]);
     }

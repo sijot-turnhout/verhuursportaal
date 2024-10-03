@@ -6,15 +6,16 @@ namespace App\Filament\Widgets;
 
 use App\Enums\UserGroup;
 use App\Enums\UtilityMetricTypes;
+use App\Features\UtilityMetrics;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
 use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\BillingItem;
 use App\Models\Utility;
-use App\Support\Features;
 use Filament\Support\Enums\IconPosition;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Pennant\Feature;
 use NumberFormatter;
 
 /**
@@ -51,7 +52,7 @@ final class IncomeStatisticsWidget extends BaseWidget
     public static function canView(): bool
     {
         return (UserGroup::Rvb === auth()->user()->user_group || UserGroup::Webmaster === auth()->user()->user_group)
-            && Features::enabled(Features::utilityMetrics());
+            && Feature::activate(UtilityMetrics::class);
     }
 
     /**

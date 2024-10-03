@@ -17,14 +17,6 @@ final readonly class Features
     }
 
     /**
-     * Enable the registration feature for the utility usage metrics feature.
-     */
-    public static function utilityMetrics(): string
-    {
-        return 'energy-metrics';
-    }
-
-    /**
      * Enable the registration feature of the feedback from the tenants.
      */
     public static function feedback(): string
