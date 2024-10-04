@@ -16,14 +16,6 @@ final readonly class Features
         return in_array($feature, config('sijot-verhuur.features', []), true);
     }
 
-    /**
-     * Enable the registration feature of the feedback from the tenants.
-     */
-    public static function feedback(): string
-    {
-        return 'feedback';
-    }
-
     public static function automaticBillingLinesImport(): string
     {
         return 'automatic-billing-lines-import';

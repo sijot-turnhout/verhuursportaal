@@ -39,6 +39,5 @@ return [
      */
     'features' => [
         Features::automaticBillingLinesImport(),
-        Features::feedback(),
     ],
 ];
