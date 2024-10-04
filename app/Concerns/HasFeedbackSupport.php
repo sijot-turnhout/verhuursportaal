@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Concerns;
 
-use App\Models\Feedback;
 use App\Features\Feedback as FeedbackFeatureFlag;
+use App\Models\Feedback;
 use App\Notifications\FeedbackNotification;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;

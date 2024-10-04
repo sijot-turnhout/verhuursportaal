@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laravel\Pennant\Feature;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Feature;
 
 /**
  * This command is used to manage feature flags in the application.
@@ -58,7 +60,7 @@ final class ManageFeatures extends Command
         $fullyQualifiedFeatureClass = $this->resolveFeatureClass($feature);
 
         // If the feature class doesn't exist, show an error and exit
-        if (!class_exists($fullyQualifiedFeatureClass)) {
+        if ( ! class_exists($fullyQualifiedFeatureClass)) {
             $this->error("The feature class '{$fullyQualifiedFeatureClass}' does not exist.");
             return;
         }
@@ -75,7 +77,7 @@ final class ManageFeatures extends Command
         Feature::flushCache();
     }
 
-    protected function enableFeature(string $feature, string $scope = null): void
+    protected function enableFeature(string $feature, ?string $scope = null): void
     {
         Feature::activateForEveryone($feature);
         $this->info("Feature '{$feature}' enabled globally.");

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Features;
+declare(strict_types=1);
 
-use Illuminate\Support\Lottery;
+namespace App\Features;
 
 /**
  * The Feedback feature class is responsible for managing whether the feedback functionality is enabled.

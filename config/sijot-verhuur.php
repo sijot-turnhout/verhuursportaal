@@ -9,7 +9,6 @@ declare(strict_types=1);
  * For now the basic configuration is applied. But feel free to mpodify the configuration values to your own needs.
  */
 
-use App\Support\Features;
 
 return [
     'billing' => [
