@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\FinancialDocumentCreatorContract;
+use App\Features\AutomaticBillingLinesImport;
 use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\BillingItem;
 use App\Models\Invoice;
 use App\Models\Lease;
-use App\Support\Features;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Carbon;
+use Laravel\Pennant\Feature;
 
+/**
+ * @todo Document this class
+ */
 class FinancialDocumentCreator implements FinancialDocumentCreatorContract
 {
     use Dispatchable;
@@ -25,7 +29,7 @@ class FinancialDocumentCreator implements FinancialDocumentCreatorContract
 
     public function automaticInvoiceLineImportEnabled(): bool
     {
-        return Features::enabled(Features::automaticBillingLinesImport());
+        return Feature::active(AutomaticBillingLinesImport::class);
     }
 
     public function calculateTotalAmountOfNights(): int

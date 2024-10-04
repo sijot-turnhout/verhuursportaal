@@ -9,7 +9,6 @@ declare(strict_types=1);
  * For now the basic configuration is applied. But feel free to mpodify the configuration values to your own needs.
  */
 
-use App\Support\Features;
 
 return [
     'billing' => [
@@ -25,21 +24,5 @@ return [
 
     'server' => [
         'shared' => true,
-    ],
-
-    /**
-     * -------------------------------------------------------------------------------------------------
-     * Feature configuration
-     * -------------------------------------------------------------------------------------------------
-     *
-     * In the array below u can enable of disable built-in features of the application.
-     * So you can easily customize it to your own needs as organization.
-     * For Simplicity, we've registered all the features. If you decide to not use some specific feature
-     * you can delete or comment the feature declaration.
-     */
-    'features' => [
-        Features::utilityMetrics(),
-        Features::automaticBillingLinesImport(),
-        Features::feedback(),
     ],
 ];
