@@ -14,7 +14,7 @@
         "blade-ui-kit/blade-heroicons": "^2.3",
         "cybercog/laravel-ban": "^4.9",
         "dutchcodingcompany/filament-developer-logins": "^1.2",
-        "filament/filament": "3.2.64",
+        "filament/filament": "^3.2.64",
         "flowframe/laravel-trend": "^0.2.0",
         "guava/filament-knowledge-base": "^1.4",
         "laravel/framework": "^11.0",
