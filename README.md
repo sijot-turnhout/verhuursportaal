@@ -21,7 +21,7 @@ Het is bedoeld als een belangrijk hulpmiddel voor beheerder, leiders en andere b
 
 ## Synchronisatie
 
-Dit project is opgebouwd vanuit de Laravel starter template. Die we ook regelmatig snchroniseren in het project. De laatste synchronisatie die we uitvoerde was naar vxx.X.X op DD-MM-YYYY.
+Dit project is opgebouwd vanuit de Laravel starter template. Die we ook regelmatig snchroniseren in het project. De laatste synchronisatie die we uitvoerde was naar v11.2.0 06-10-2024.
 
 ## Contributing 
 
