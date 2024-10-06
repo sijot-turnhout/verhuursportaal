@@ -18,9 +18,9 @@ return new class () extends Migration {
             $table->foreignIdFor(Invoice::class)->nullable()->references('id')->on('invoices');
             $table->boolean('type')->nullable();
             $table->string('name');
-            $table->decimal('quantity');
+            $table->decimal('quantity', total: 16);
             $table->decimal('unit_price');
-            $table->decimal('total_price')->storedAs('unit_price * quantity')->index();
+            $table->decimal('total_price', total: 16)->storedAs('unit_price * quantity')->index();
             $table->timestamps();
         });
     }
