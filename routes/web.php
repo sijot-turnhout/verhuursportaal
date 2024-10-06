@@ -25,7 +25,6 @@ Route::get('/offerte', [QuotaController::class, 'index'])->name('offerte.informa
 
 Route::get('status', function (): Illuminate\Http\RedirectResponse {
     abort_if( ! auth()->check(), 404);
-
     return redirect('pulse');
 });
 
@@ -38,6 +37,5 @@ Route::group(['middleware' => [WelcomseNewFeedback::class]], function (): void {
 
 if (config('app.debug')) {
     Route::get('debug/invoice', fn() => view('pdfs.invoice', ['record' => App\Models\Invoice::first()]));
-
     Route::get('debug/feedback', fn() => view('feedback.submit-form', ['lease' => App\Models\Lease::first()]));
 }
