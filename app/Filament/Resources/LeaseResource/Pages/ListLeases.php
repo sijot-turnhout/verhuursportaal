@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\Pages;
 
+use App\Enums\LeaseStatus;
 use App\Filament\Resources\LeaseResource;
+use App\Models\Lease;
 use Filament\Actions;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ListLeases
@@ -42,5 +46,43 @@ final class ListLeases extends ListRecords
         return [
             Actions\CreateAction::make()->icon('heroicon-o-plus'),
         ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            LeaseStatus::Request->value => $this->resourceOverviewTab('Nieuwe aanvragen', LeaseStatus::Request),
+            LeaseStatus::Option->value => $this->optionResourceOverviewTab('Opties', LeaseStatus::Option, LeaseStatus::Quotation),
+            LeaseStatus::Confirmed->value => $this->resourceOverviewTab('Bevestigde verhuringen', LeaseStatus::Confirmed),
+            LeaseStatus::Finalized->value => $this->resourceOverviewTab('Afgesloten verhuringen', LeaseStatus::Finalized),
+            LeaseStatus::Cancelled->value => $this->resourceOverviewTab('Geannuleerde aanvragen', LeaseStatus::Finalized),
+            LeaseStatus::Archived->value => $this->resourceOverviewTab('Gearchiveerde verhuringen', LeaseStatus::Archived),
+        ];
+    }
+
+    private function resourceOverviewTab(string $tabLabel, LeaseStatus $leaseStatus): Tab
+    {
+        return Tab::make(trans($tabLabel))
+            ->icon($leaseStatus->getIcon())
+            ->badge(Lease::query()->where('status', $leaseStatus)->count())
+            ->modifyQueryUsing(function (Builder $query) use ($leaseStatus): Builder {
+                return $query->where('status', $leaseStatus);
+            });
+    }
+
+    private function optionResourceOverviewTab(string $tabLabel, LeaseStatus $optionStatus, LeaseStatus $quotationStatus): Tab
+    {
+        return Tab::make(trans('Opties'))
+            ->icon($optionStatus->getIcon())
+            ->badge(
+                badge: Lease::query()
+                    ->where('status', $optionStatus)
+                    ->orWhere('status', $quotationStatus)
+                    ->count()
+            )
+            ->modifyQueryUsing(function (Builder $query) use ($optionStatus, $quotationStatus): Builder {
+                return $query->where('status', $optionStatus)
+                    ->orWhere('status', $quotationStatus);
+            });
     }
 }

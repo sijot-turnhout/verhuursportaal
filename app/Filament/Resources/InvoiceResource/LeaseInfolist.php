@@ -17,6 +17,7 @@ use Filament\Support\Enums\IconSize;
  * This class defines the structure of the Lease Information List (Infolist) for displaying
  * tenant, lease, and feedback information in the InvoiceResource.
  *
+ * @todo Extends Infolist sche;q docblocks.
  * @todo This infolist class is possibly placed in the wrong resource. We need to investigate this and fix if it is indeed wrongly placed.
  *
  * @package App\Filament\Resources\InvoiceResource

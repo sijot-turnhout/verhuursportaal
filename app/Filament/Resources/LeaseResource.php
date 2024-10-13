@@ -8,10 +8,12 @@ use App\Enums\LeaseStatus;
 use App\Filament\Resources\InvoiceResource\LeaseInfolist;
 use App\Filament\Resources\LeaseResource\Pages;
 use App\Filament\Resources\LeaseResource\RelationManagers;
+use App\Filament\Resources\LeaseResource\Traits\UsesArchivingSystemActions;
 use App\Models\Lease;
 use App\Models\Local;
 use Exception;
 use Filament\Forms;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -22,6 +24,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 /**
@@ -34,10 +37,13 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
  * @todo sijot-turnhout/verhuur-portaal-documentatie#7 - Write documentation for creating a tenant through the creation view of the lease.
  * @todo verhuursportaal/issues#21                     - Implement cron job command that registers automatically all open leases to closed when the departure date is due
  *
+ *
  * @package App\Filament\Resources
  */
 final class LeaseResource extends Resource
 {
+    use UsesArchivingSystemActions;
+
     /**
      * The Eloquent model associated with this resource.
      *
@@ -47,6 +53,18 @@ final class LeaseResource extends Resource
      */
     protected static ?string $model = Lease::class;
 
+    /**
+     * Defines the attribute that will be used as the display title for records in the resource.
+     *
+     * Filament uses this property to determine which model attribute should be used to represent
+     * the record in various contexts, such as in table headers, resource titles, or breadcrumbs.
+     *
+     * In this case, the `periode` attribute of the model is set as the record title.
+     * This means that whenever Filament needs to display the title of a record, it will
+     * use the value of the `periode` column from the database.
+     *
+     * @var ?string The name of the attribute to be used as the record title.
+     */
     protected static ?string $recordTitleAttribute = 'periode';
 
     /**
@@ -176,7 +194,7 @@ final class LeaseResource extends Resource
                     ->tooltip(static fn(Lease $lease) => $lease->tenant->isBanned() ? trans('Deze huurder staat op de zwarte lijst') : null)
                     ->iconPosition(IconPosition::Before),
                 Tables\Columns\TextColumn::make('group')->label('Organisatie')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Aanvragingsdatum')->date()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Aangevraagd op')->date()->sortable(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -187,17 +205,23 @@ final class LeaseResource extends Resource
                         ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
 
                     Tables\Actions\EditAction::make(),
+
+                    // TODO: Export this action method to a separate action class.
                     Tables\Actions\DeleteAction::make(),
                 ]),
-            ])
-            ->filters([
-                SelectFilter::make('status')->options(LeaseStatus::class),
             ])
             ->filtersTriggerAction(fn(Action $action) => $action->button()->label('Filter'))
             ->defaultSort('arrival_date')
             ->bulkActions([
                 ExportBulkAction::make(),
-                Tables\Actions\DeleteBulkAction::make(),
+
+                self::archiveBulkAction(),
+
+                Tables\Actions\BulkActionGroup::make([
+                    self::forceDeleteBulkAction(),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->visible(fn (Pages\ListLeases $livewire): bool => $livewire->activeTab === LeaseStatus::Archived->value),
+                ]),
             ]);
     }
 
@@ -289,5 +313,26 @@ final class LeaseResource extends Resource
             'view' => Pages\ViewLease::route('/{record}'),
             'edit' => Pages\EditLease::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * Customize the Eloquent query used by the resource.
+     *
+     * This method overrides the default query that is used when fetching records for this resource.
+     * In this case, it modifies the query to exclude the global `SoftDeletingScope`, which would
+     * normally filter out soft-deleted records. This allows the resource to display all records,
+     * including those that have been soft-deleted.
+     *
+     * By calling `parent::getEloquentQuery()`, the base query is inherited, and additional query
+     * modifications can be applied without completely replacing the original logic.
+     *
+     * @return Builder  The modified Eloquent query builder instance.
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
