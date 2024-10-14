@@ -84,8 +84,6 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      */
     case Cancelled = 'geannuleerd';
 
-    case Archived = 'Gearchiveerd';
-
     /**
      * Get the associated color for the current lease status.
      *
@@ -97,7 +95,7 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
     public function getColor(): string|array|null
     {
         return match ($this) {
-            self::Request, self::Archived => 'info',
+            self::Request => 'info',
             self::Option, self::Quotation => 'warning',
             self::Confirmed => 'success',
             self::Finalized, self::Cancelled => 'danger',
@@ -122,7 +120,6 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
             self::Confirmed => 'heroicon-m-check-badge',
             self::Finalized => 'heroicon-m-document-check',
             self::Cancelled => 'heroicon-m-archive-box-x-mark',
-            self::Archived => 'heroicon-m-archive-box',
         };
     }
 

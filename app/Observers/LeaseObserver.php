@@ -28,4 +28,9 @@ final readonly class LeaseObserver
     {
         RegisterInitialUtilityMetrics::dispatch($lease);
     }
+
+    public function forceDeleted(Lease $lease): void
+    {
+        dd($lease);
+    }
 }

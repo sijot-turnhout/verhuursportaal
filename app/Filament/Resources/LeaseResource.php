@@ -13,18 +13,15 @@ use App\Models\Lease;
 use App\Models\Local;
 use Exception;
 use Filament\Forms;
-use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 /**
@@ -37,11 +34,11 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
  * @todo sijot-turnhout/verhuur-portaal-documentatie#7 - Write documentation for creating a tenant through the creation view of the lease.
  * @todo verhuursportaal/issues#21                     - Implement cron job command that registers automatically all open leases to closed when the departure date is due
  *
- *
  * @package App\Filament\Resources
  */
 final class LeaseResource extends Resource
 {
+    // TODO: Implement interface for the archive system actions.
     use UsesArchivingSystemActions;
 
     /**
@@ -206,22 +203,18 @@ final class LeaseResource extends Resource
 
                     Tables\Actions\EditAction::make(),
 
-                    // TODO: Export this action method to a separate action class.
-                    Tables\Actions\DeleteAction::make(),
+                    // Archiving system actons
+                    self::archiveEntityAction(),
+                    self::forceDeleteEntityAction(),
                 ]),
             ])
-            ->filtersTriggerAction(fn(Action $action) => $action->button()->label('Filter'))
             ->defaultSort('arrival_date')
             ->bulkActions([
                 ExportBulkAction::make(),
 
+                // Methods that manages the actions that are related to the archiving system of the leases
                 self::archiveBulkAction(),
-
-                Tables\Actions\BulkActionGroup::make([
-                    self::forceDeleteBulkAction(),
-                    Tables\Actions\RestoreBulkAction::make()
-                        ->visible(fn (Pages\ListLeases $livewire): bool => $livewire->activeTab === LeaseStatus::Archived->value),
-                ]),
+                self::bulkArchivingActionGroup(),
             ]);
     }
 
@@ -313,26 +306,5 @@ final class LeaseResource extends Resource
             'view' => Pages\ViewLease::route('/{record}'),
             'edit' => Pages\EditLease::route('/{record}/edit'),
         ];
-    }
-
-    /**
-     * Customize the Eloquent query used by the resource.
-     *
-     * This method overrides the default query that is used when fetching records for this resource.
-     * In this case, it modifies the query to exclude the global `SoftDeletingScope`, which would
-     * normally filter out soft-deleted records. This allows the resource to display all records,
-     * including those that have been soft-deleted.
-     *
-     * By calling `parent::getEloquentQuery()`, the base query is inherited, and additional query
-     * modifications can be applied without completely replacing the original logic.
-     *
-     * @return Builder  The modified Eloquent query builder instance.
-     */
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 }

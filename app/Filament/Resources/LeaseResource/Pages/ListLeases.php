@@ -43,11 +43,18 @@ final class ListLeases extends ListRecords
      */
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make()->icon('heroicon-o-plus'),
-        ];
+        return [Actions\CreateAction::make()->icon('heroicon-o-plus')];
     }
 
+    /**
+     * Generates an array of tabs for the resource view, each representing a different lease status.
+     *
+     * The tabs represent various stages in the leasing process, and each tab displays a filtered view
+     * of the records based on their lease status. Additionally, there is an 'archive' tab that shows
+     * the soft-deleted (archived) leases.
+     *
+     * @return array<string, mixed>  An array of tab configurations, where each tab is mapped to a specific lease status or archive view.
+     */
     public function getTabs(): array
     {
         return [
@@ -56,10 +63,28 @@ final class ListLeases extends ListRecords
             LeaseStatus::Confirmed->value => $this->resourceOverviewTab('Bevestigde verhuringen', LeaseStatus::Confirmed),
             LeaseStatus::Finalized->value => $this->resourceOverviewTab('Afgesloten verhuringen', LeaseStatus::Finalized),
             LeaseStatus::Cancelled->value => $this->resourceOverviewTab('Geannuleerde aanvragen', LeaseStatus::Finalized),
-            LeaseStatus::Archived->value => $this->resourceOverviewTab('Gearchiveerde verhuringen', LeaseStatus::Archived),
+
+            // Archive tab for soft-deleted leases
+            // Note that the soft deletes system from laravel is used to mark leases/requests as archieved.
+            'archive' => Tab::make(trans('Archief'))
+                ->icon('heroicon-o-archive-box')
+                ->badge(Lease::query()->onlyTrashed()->count())
+                ->modifyQueryUsing(function (Builder $query): Builder {
+                    return $query->onlyTrashed();
+                }),
         ];
     }
 
+    /**
+     * Creates a resource overview tab for a specific lease status.
+     *
+     * This method generates a tab that filters lease records based on the provided `LeaseStatus`.
+     * It also adds an icon and a badge displaying the count of records that match the lease status.
+     *
+     * @param  string       $tabLabel     The label displayed on the tab (translatable).
+     * @param  LeaseStatus  $leaseStatus  The lease status used to filter records for this tab.
+     * @return Tab                        A tab configuration object with filters applied to the corresponding lease status.
+     */
     private function resourceOverviewTab(string $tabLabel, LeaseStatus $leaseStatus): Tab
     {
         return Tab::make(trans($tabLabel))
@@ -70,9 +95,20 @@ final class ListLeases extends ListRecords
             });
     }
 
+    /**
+     * Creates a resource overview tab for the 'Option' and 'Quotation' statuses.
+     *
+     * This method generates a tab that filters lease records based on both the 'Option' and 'Quotation' statuses.
+     * It applies the necessary filters, adds an icon, and shows a badge displaying the count of matching records.
+     *
+     * @param  string       $tabLabel            The label displayed on the tab (translatable).
+     * @param  LeaseStatus  $optionStatus        The primary lease status ('Option') used for filtering.
+     * @param  LeaseStatus  $quotationStatus     The secondary lease status ('Quotation') used for filtering.
+     * @return Tab                               A tab configuration object with filters applied to the 'Option' and 'Quotation' statuses.
+     */
     private function optionResourceOverviewTab(string $tabLabel, LeaseStatus $optionStatus, LeaseStatus $quotationStatus): Tab
     {
-        return Tab::make(trans('Opties'))
+        return Tab::make(trans($tabLabel))
             ->icon($optionStatus->getIcon())
             ->badge(
                 badge: Lease::query()
