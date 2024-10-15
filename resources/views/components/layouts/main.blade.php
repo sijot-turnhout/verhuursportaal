@@ -66,7 +66,7 @@
                                     <x-heroicon-o-user-circle class="icon icon-page-title me-1"/> {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="">
                                         <x-heroicon-o-adjustments-vertical class="icon me-1"/> Accountbeheer
                                     </a>
