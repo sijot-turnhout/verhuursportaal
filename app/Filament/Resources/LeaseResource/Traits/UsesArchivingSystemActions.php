@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\Traits;
 
 use App\Filament\Resources\LeaseResource\Pages\ListLeases;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\ForceDeleteAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 
 trait UsesArchivingSystemActions
@@ -45,6 +46,13 @@ trait UsesArchivingSystemActions
         ])
         ->label(trans('Archief acties'))
         ->icon('heroicon-o-cog-8-tooth');
+    }
+
+    protected static function restoreArchiveEntityAction(): RestoreAction
+    {
+        return RestoreAction::make()
+            ->label('Herstellen')
+            ->translateLabel();
     }
 
     protected static function archiveEntityAction(): DeleteAction
