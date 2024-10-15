@@ -43,7 +43,11 @@ final class ListLeases extends ListRecords
      */
     protected function getHeaderActions(): array
     {
-        return [Actions\CreateAction::make()->icon('heroicon-o-plus')];
+        return [
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus')
+                ->visible(Lease::query()->count() > 0),
+        ];
     }
 
     /**
