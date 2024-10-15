@@ -199,12 +199,12 @@ final class LeaseResource extends Resource
                         Tables\Actions\DeleteAction::make(),
                     ])->dropdown(false),
                 ])
-                ->label('acties')
-                ->translateLabel()
-                ->button()
-                ->size('sm')
-                ->link()
-                ->icon('heroicon-o-cog-8-tooth')
+                    ->label('acties')
+                    ->translateLabel()
+                    ->button()
+                    ->size('sm')
+                    ->link()
+                    ->icon('heroicon-o-cog-8-tooth'),
             ])
             ->filters([
                 SelectFilter::make('status')->options(LeaseStatus::class),
