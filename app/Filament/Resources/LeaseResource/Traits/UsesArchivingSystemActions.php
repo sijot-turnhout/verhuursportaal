@@ -13,6 +13,17 @@ use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 
+/**
+ * Trait UsesArchivingSystemActions
+ *
+ * This trait provides reusable methods for handling archiving-related actions in Filament tables.
+ * It includes actions for soft-deleting (archiving), restoring, and force-deleting leases
+ * in both individual and bulk formats. Additionally, the visibility of these actions is
+ * controlled based on the active tab, ensuring that certain actions appear only in the
+ * appropriate context (e.g., archive-related actions only appear in the archive tab).
+ *
+ * @package App\Filament\Resources\LeaseResource\Traits
+ */
 trait UsesArchivingSystemActions
 {
     protected static function forceDeleteBulkAction(): ForceDeleteBulkAction
