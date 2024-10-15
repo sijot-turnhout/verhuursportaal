@@ -12,6 +12,7 @@
         "awcodes/filament-quick-create": "^3.3",
         "barryvdh/laravel-dompdf": "^2.2",
         "blade-ui-kit/blade-heroicons": "^2.3",
+        "codewithdennis/filament-factory-action": "^3.0",
         "cybercog/laravel-ban": "^4.9",
         "dutchcodingcompany/filament-developer-logins": "^1.2",
         "filament/filament": "^3.2.64",
