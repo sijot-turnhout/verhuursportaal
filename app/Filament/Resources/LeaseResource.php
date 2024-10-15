@@ -11,6 +11,7 @@ use App\Filament\Resources\LeaseResource\RelationManagers;
 use App\Models\Lease;
 use App\Models\Local;
 use Exception;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -163,6 +164,10 @@ final class LeaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon(self::$navigationIcon)
+            ->emptyStateHeading('Geen verhuringen gevonden')
+            ->emptyStateDescription('Momenteel zijn er geen verhuringen gevonden onder de matchende criteria. U kunt er makkelijk een registreren met de knop hieronder')
+            ->emptyStateActions([CreateAction::make()->icon('heroicon-o-plus')])
             ->defaultSort('arrival_date', 'ASC')
             ->columns([
                 Tables\Columns\TextColumn::make('period')->label('Periode'),
