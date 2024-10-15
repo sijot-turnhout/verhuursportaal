@@ -86,6 +86,37 @@ final readonly class LeasePolicy
     }
 
     /**
+     * Determine whether the user can delete a specific lease.
+     *
+     * This method checks if the user has permission to delete a lease based on their user group and the lease's status.
+     *
+     * - Webmasters are always allowed to delete leases.
+     * - Users in the 'Vzw' or 'Rvb' groups can delete leases only if the lease status is either 'Cancelled' or 'Finalized'.
+     *
+     * @param  User   $user  The authenticated user attempting to delete the lease.
+     * @param  Lease  $lease The lease instance the user is attempting to delete.
+     * @return bool          Returns true if the user has permission to delete the lease, false otherwise.
+     */
+    public function delete(User $user, Lease $lease): bool
+    {
+        // Webmasters have unconditional permission to delete leases
+        if ($user->user_group->is(UserGroup::Webmaster)) {
+            return true;
+        }
+
+        // Users in 'Vzw' or 'Rvb' groups can delete leases with 'Cancelled' or 'Finalized' status
+        return (bool) (
+            $lease->status->in([LeaseStatus::Cancelled, LeaseStatus::Finalized]) &&
+            $user->user_group->in([UserGroup::Vzw, UserGroup::Rvb])
+        )
+
+
+
+        // For all other cases, deletion is not allowed
+        ;
+    }
+
+    /**
      * Determine if the user can unlock the metrics for the given lease.
      *
      * The metrics can be unlocked if the feature is enabled, the lease has registered metrics

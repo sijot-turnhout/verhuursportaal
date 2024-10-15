@@ -32,8 +32,9 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
  * It provides configurations for forms, tables, global search, and related pages, as well as integrating
  * functionalities like creating, viewing, editing, and deleting lease records.
  *
- * @todo sijot-turnhout/verhuur-portaal-documentatie#7 - Write documentation for creating a tenant through the creation view of the lease.
- * @todo verhuursportaal/issues#21                     - Implement cron job command that registers automatically all open leases to closed when the departure date is due
+ * @todo sijot-turnhout/verhuur-portaal-documentatie#7  - Write documentation for creating a tenant through the creation view of the lease.
+ * @todo sijot-turnhout/verhuur-portaal-documentatie#12 - Documenteren van de authorisatie checks met betrekking op de verhuringen
+ * @todo verhuursportaal/issues#21                      - Implement cron job command that registers automatically all open leases to closed when the departure date is due
  *
  * @package App\Filament\Resources
  */
@@ -184,16 +185,26 @@ final class LeaseResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->label('Aanvragingsdatum')->date()->sortable(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+
                     Action::make('factuur')
                         ->icon('heroicon-o-document-text')
                         ->visible(fn(Lease $record): bool => $record->invoice()->exists())
                         ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
 
                     Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ]),
+
+                    Tables\Actions\ActionGroup::make([
+                        Tables\Actions\DeleteAction::make(),
+                    ])->dropdown(false),
+                ])
+                    ->label('acties')
+                    ->translateLabel()
+                    ->button()
+                    ->size('sm')
+                    ->link()
+                    ->icon('heroicon-o-cog-8-tooth'),
             ])
             ->filters([
                 SelectFilter::make('status')->options(LeaseStatus::class),
