@@ -58,6 +58,25 @@ final class ListLeases extends ListRecords
     }
 
     /**
+     * Handle the event when the active tab is updated.
+     *
+     * This method is triggered whenever the active tab changes in the interface. It performs two actions:
+     *
+     * 1. Resets the pagination to the first page, ensuring that users see a fresh set of records that correspond to the newly selected tab.
+     * 2. Deselects all previously selected table records to avoid any accidental actions that might be carried over from the previous tab.
+     *
+     * This method helps maintain consistency in the UI and ensures that no records from
+     * the previous tab remain selected when switching to a new one.
+     *
+     * @return void
+     */
+    public function updatedActiveTab(): void
+    {
+        $this->resetPage();
+        $this->deselectAllTableRecords();
+    }
+
+    /**
      * Generates an array of tabs for the resource view, each representing a different lease status.
      *
      * The tabs represent various stages in the leasing process, and each tab displays a filtered view

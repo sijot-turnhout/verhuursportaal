@@ -216,8 +216,8 @@ final class LeaseResource extends Resource
 
                     // Archiving system actions
                     Tables\Actions\ActionGroup::make([
-                        self::archiveEntityAction(),
-                        self::forceDeleteEntityAction(),
+                        self::archiveEntityAction('verhuring'),
+                        self::forceDeleteEntityAction('verhuring'),
                     ])->dropdown(false),
                 ])
                 ->label('acties')
@@ -232,8 +232,8 @@ final class LeaseResource extends Resource
                 ExportBulkAction::make(),
 
                 // Methods that manages the actions that are related to the archiving system of the leases
-                self::archiveBulkAction(),
-                self::bulkArchivingActionGroup(),
+                self::archiveBulkAction('verhuringen'),
+                self::bulkArchivingActionGroup('verhuringen'),
             ]);
     }
 
