@@ -22,6 +22,9 @@ use Filament\Tables\Actions\RestoreBulkAction;
  * controlled based on the active tab, ensuring that certain actions appear only in the
  * appropriate context (e.g., archive-related actions only appear in the archive tab).
  *
+ * @todo The flash messages on the action functions are still incorrect. Can be fixed with the ->successNotificationTitle() function call
+ * @todo The items out of the archive should also have a delete method.
+ *
  * @package App\Filament\Resources\LeaseResource\Traits
  */
 trait UsesArchivingSystemActions

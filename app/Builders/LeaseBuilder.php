@@ -34,6 +34,11 @@ final class LeaseBuilder extends Builder
         return $this->model->update(['status' => $leaseStatus]);
     }
 
+    public function purgeRelatedLeaseInformation(): void
+    {
+        dd($this);
+    }
+
     /**
      * Unlocks the lease metrics by setting the `metrics_registered_at` column to `null`.
      *

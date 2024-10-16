@@ -31,6 +31,6 @@ final readonly class LeaseObserver
 
     public function forceDeleted(Lease $lease): void
     {
-        dd($lease);
+        $lease->purgeRelatedLeaseInformation();
     }
 }
