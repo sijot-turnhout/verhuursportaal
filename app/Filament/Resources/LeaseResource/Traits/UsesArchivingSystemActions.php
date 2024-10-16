@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\Traits;
 
 use App\Filament\Resources\LeaseResource\Pages\ListLeases;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
@@ -51,7 +51,7 @@ trait UsesArchivingSystemActions
             ->modalHeading(trans(':resource permanent verwijderen', ['resource' => $resourceName]))
             ->modalDescription(trans('Indien u deze :resource verwijderd zal ook tevens alle gekoppelde data automatisch verwijderd worden. Deze actie kan niet meer ongedaan gemaakt worden', ['resource' => $resourceName]))
             ->translateLabel()
-            ->visible(fn (ListLeases $livewire): bool => $livewire->activeTab === 'archive');
+            ->visible(fn(ListLeases $livewire): bool => 'archive' === $livewire->activeTab);
     }
 
     /**
@@ -64,7 +64,7 @@ trait UsesArchivingSystemActions
     protected static function archiveBulkAction(string $resourceName = 'item'): DeleteBulkAction
     {
         return DeleteBulkAction::make()
-            ->visible(fn (ListLeases $livewire): bool => $livewire->activeTab !== 'archive')
+            ->visible(fn(ListLeases $livewire): bool => 'archive' !== $livewire->activeTab)
             ->label('Archiveren')
             ->color('gray')
             ->icon(self::$archivingIcon)
@@ -88,7 +88,7 @@ trait UsesArchivingSystemActions
             ->modalIconColor('primary')
             ->modalHeading()
             ->modalDescription()
-            ->visible(fn (ListLeases $livewire): bool => $livewire->activeTab === 'archive');
+            ->visible(fn(ListLeases $livewire): bool => 'archive' === $livewire->activeTab);
     }
 
     /**
@@ -104,8 +104,8 @@ trait UsesArchivingSystemActions
             self::forceDeleteBulkAction($resourceName),
             self::archiveRestoreBulkAction($resourceName),
         ])
-        ->label(trans('Archief acties'))
-        ->icon('heroicon-o-cog-8-tooth');
+            ->label(trans('Archief acties'))
+            ->icon('heroicon-o-cog-8-tooth');
     }
 
     /**

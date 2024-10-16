@@ -201,7 +201,7 @@ final class LeaseResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->hidden(fn (Lease $lease): bool => $lease->trashed()),
+                        ->hidden(fn(Lease $lease): bool => $lease->trashed()),
 
                     Action::make('factuur')
                         ->icon('heroicon-o-document-text')
@@ -209,7 +209,7 @@ final class LeaseResource extends Resource
                         ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
 
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn (Lease $lease): bool => $lease->trashed()),
+                        ->hidden(fn(Lease $lease): bool => $lease->trashed()),
 
                     self::restoreArchiveEntityAction(),
 
@@ -219,12 +219,12 @@ final class LeaseResource extends Resource
                         self::forceDeleteEntityAction('verhuring'),
                     ])->dropdown(false),
                 ])
-                ->label('acties')
-                ->translateLabel()
-                ->button()
-                ->size('sm')
-                ->link()
-                ->icon('heroicon-o-cog-8-tooth'),
+                    ->label('acties')
+                    ->translateLabel()
+                    ->button()
+                    ->size('sm')
+                    ->link()
+                    ->icon('heroicon-o-cog-8-tooth'),
             ])
             ->defaultSort('arrival_date')
             ->bulkActions([

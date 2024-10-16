@@ -35,29 +35,6 @@ final class ListLeases extends ListRecords
     protected static string $resource = LeaseResource::class;
 
     /**
-     * Get the header actions available on the list page.
-     *
-     * This method returns an array of actions that are displayed in the header of the list
-     * page. It currently includes a create action that allows users to add new lease records.
-     *
-     * @return array An array of actions for the list page header.
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            FactoryAction::make()
-                ->color('gray')
-                ->slideOver()
-                ->label('Genereer test verhuringen')
-                ->icon('heroicon-o-wrench'),
-
-            Actions\CreateAction::make()
-                ->icon('heroicon-o-plus')
-                ->visible(Lease::query()->count() > 0),
-        ];
-    }
-
-    /**
      * Handle the event when the active tab is updated.
      *
      * This method is triggered whenever the active tab changes in the interface. It performs two actions:
@@ -99,9 +76,30 @@ final class ListLeases extends ListRecords
             'archive' => Tab::make(trans('Archief'))
                 ->icon('heroicon-o-archive-box')
                 ->badge(Lease::query()->onlyTrashed()->count())
-                ->modifyQueryUsing(function (Builder $query): Builder {
-                    return $query->onlyTrashed();
-                }),
+                ->modifyQueryUsing(fn(Builder $query): Builder => $query->onlyTrashed()),
+        ];
+    }
+
+    /**
+     * Get the header actions available on the list page.
+     *
+     * This method returns an array of actions that are displayed in the header of the list
+     * page. It currently includes a create action that allows users to add new lease records.
+     *
+     * @return array An array of actions for the list page header.
+     */
+    protected function getHeaderActions(): array
+    {
+        return [
+            FactoryAction::make()
+                ->color('gray')
+                ->slideOver()
+                ->label('Genereer test verhuringen')
+                ->icon('heroicon-o-wrench'),
+
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus')
+                ->visible(Lease::query()->count() > 0),
         ];
     }
 
@@ -120,9 +118,7 @@ final class ListLeases extends ListRecords
         return Tab::make(trans($tabLabel))
             ->icon($leaseStatus->getIcon())
             ->badge(Lease::query()->where('status', $leaseStatus)->count())
-            ->modifyQueryUsing(function (Builder $query) use ($leaseStatus): Builder {
-                return $query->where('status', $leaseStatus);
-            });
+            ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('status', $leaseStatus));
     }
 
     /**
@@ -144,7 +140,7 @@ final class ListLeases extends ListRecords
                 badge: Lease::query()
                     ->where('status', $optionStatus)
                     ->orWhere('status', $quotationStatus)
-                    ->count()
+                    ->count(),
             )
             ->modifyQueryUsing(function (Builder $query) use ($optionStatus, $quotationStatus): Builder {
                 return $query->where('status', $optionStatus)
