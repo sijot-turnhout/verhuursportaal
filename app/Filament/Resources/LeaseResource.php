@@ -40,7 +40,6 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
  */
 final class LeaseResource extends Resource
 {
-    // TODO: Implement interface for the archive system actions.
     use UsesArchivingSystemActions;
 
     /**
