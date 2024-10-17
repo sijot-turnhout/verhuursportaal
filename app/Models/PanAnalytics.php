@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -24,43 +26,6 @@ final class PanAnalytics extends Model
     protected $table = 'pan_analytics';
 
     /**
-     * Accessor for the 'name' attribute.
-     *
-     * This accessor transforms the name by replacing any hyphens ('-') with spaces (' ').
-     *
-     * @return Attribute<string, never>
-     *
-     */
-    protected function name(): Attribute
-    {
-        return Attribute::make(get: fn (string $value): string => Str::replace('-', ' ', $value));
-    }
-
-    /**
-     * Accessor for the 'impressions' attribute.
-     *
-     * This accessor formats the number of impressions (views) into a human-readable format using commas to separate thousands.
-     *
-     * @return Attribute<string, never>
-     */
-    protected function impressions(): Attribute
-    {
-        return Attribute::make(get: fn (int $value): string => toHumanReadableNumber($value));
-    }
-
-    /**
-     * Accessor for the 'hovers' attribute.
-     *
-     * This accessor formats the number of hovers (mouse-overs) into a human-readable format using commas to separate thousands.
-     *
-     * @return Attribute<string, never>
-     */
-    protected function hovers(): Attribute
-    {
-        return Attribute::make(get: fn (int $value): string => toHumanReadableNumber($value));
-    }
-
-    /**
      * Accessor for calculating and returning the hover percentage.
      *
      * This method calculates the percentage of hovers over total impressions and formats the result as a human-readable percentage.
@@ -70,7 +35,7 @@ final class PanAnalytics extends Model
      */
     public function hoversPercentage(): Attribute
     {
-        return Attribute::make(fn (): string => toHumanReadablePercentage($this->impressions, $this->hovers));
+        return Attribute::make(fn(): string => toHumanReadablePercentage($this->impressions, $this->hovers));
     }
 
     /**
@@ -82,9 +47,9 @@ final class PanAnalytics extends Model
      */
     public function clicks(): Attribute
     {
-        return Attribute::make(get: fn (int $value): string => toHumanReadableNumber($value));
+        return Attribute::make(get: fn(int $value): string => toHumanReadableNumber($value));
     }
-/**
+    /**
      * Accessor for calculating and returning the clicks percentage.
      *
      * This method calculates the percentage of clicks over total impressions and formats the result as a human-readable percentage.
@@ -94,6 +59,43 @@ final class PanAnalytics extends Model
      */
     public function clicksPercentage(): Attribute
     {
-        return Attribute::make(fn (): string => toHumanReadablePercentage($this->impressions, $this->clicks));
+        return Attribute::make(fn(): string => toHumanReadablePercentage($this->impressions, $this->clicks));
+    }
+
+    /**
+     * Accessor for the 'name' attribute.
+     *
+     * This accessor transforms the name by replacing any hyphens ('-') with spaces (' ').
+     *
+     * @return Attribute<string, never>
+     *
+     */
+    protected function name(): Attribute
+    {
+        return Attribute::make(get: fn(string $value): string => Str::replace('-', ' ', $value));
+    }
+
+    /**
+     * Accessor for the 'impressions' attribute.
+     *
+     * This accessor formats the number of impressions (views) into a human-readable format using commas to separate thousands.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function impressions(): Attribute
+    {
+        return Attribute::make(get: fn(int $value): string => toHumanReadableNumber($value));
+    }
+
+    /**
+     * Accessor for the 'hovers' attribute.
+     *
+     * This accessor formats the number of hovers (mouse-overs) into a human-readable format using commas to separate thousands.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function hovers(): Attribute
+    {
+        return Attribute::make(get: fn(int $value): string => toHumanReadableNumber($value));
     }
 }

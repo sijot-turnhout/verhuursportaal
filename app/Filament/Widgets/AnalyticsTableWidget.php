@@ -58,7 +58,7 @@ final class AnalyticsTableWidget extends TableWidget
     {
         return auth()->user()->user_group->is(UserGroup::Webmaster);
     }
-/**
+    /**
      * Defines the table's structure, columns, and data source.
      * This method configures the table to pull data from the `PanAnalytics` model and display it.
      *
@@ -91,7 +91,7 @@ final class AnalyticsTableWidget extends TableWidget
                     ->label('hovers')
                     ->sortable()
                     ->translateLabel()
-                    ,
+                ,
                 TextColumn::make('hoversPercentage')
                     ->label('hover ratio')
                     ->sortable()
@@ -116,7 +116,7 @@ final class AnalyticsTableWidget extends TableWidget
                     ->color('gray')
                     ->icon('heroicon-o-book-open')
                     ->url('https://www.google.com')
-                    ->openUrlInNewTab()
+                    ->openUrlInNewTab(),
             ]);
     }
 }
