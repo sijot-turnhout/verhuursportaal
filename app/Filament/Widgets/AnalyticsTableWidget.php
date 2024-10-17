@@ -90,8 +90,8 @@ final class AnalyticsTableWidget extends TableWidget
                 TextColumn::make('hovers')
                     ->label('hovers')
                     ->sortable()
-                    ->translateLabel()
-                ,
+                    ->translateLabel(),
+
                 TextColumn::make('hoversPercentage')
                     ->label('hover ratio')
                     ->sortable()
