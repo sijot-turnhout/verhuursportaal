@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Filament\Widgets;
 
 use App\Enums\UserGroup;
+use App\Features\PlatformAnalyticsWidget;
 use App\Models\PanAnalytics;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
+use Laravel\Pennant\Feature;
+use Maatwebsite\Excel\Excel;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 /**
  * AnalyticsTableWidget
@@ -56,7 +61,8 @@ final class AnalyticsTableWidget extends TableWidget
      */
     public static function canView(): bool
     {
-        return auth()->user()->user_group->is(UserGroup::Webmaster);
+        return auth()->user()->user_group->is(UserGroup::Webmaster)
+            && Feature::active(PlatformAnalyticsWidget::class);
     }
     /**
      * Defines the table's structure, columns, and data source.
@@ -112,10 +118,18 @@ final class AnalyticsTableWidget extends TableWidget
                     ->placeholder('0%'),
             ])
             ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->askForFilename(label: 'Bestandsnaam')
+                        ->askForWriterType(label: 'Bestandstype'),
+                ])
+                    ->modalSubmitActionLabel("Exporteren")
+                    ->modalHeading('Exporteren van analytische gegevens'),
+
                 Tables\Actions\Action::make('documentatie')
                     ->color('gray')
                     ->icon('heroicon-o-book-open')
-                    ->url('https://www.google.com')
+                    ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/integrations/pan-analytics.html')
                     ->openUrlInNewTab(),
             ]);
     }
