@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Lease
@@ -48,6 +49,7 @@ final class Lease extends Model
     use HasFactory;
     use HasFeedbackSupport;
     use HasUtilityMetrics;
+    use SoftDeletes;
 
     /**
      * The database columns that are protected from the mass-assignment system provided by Laravel.

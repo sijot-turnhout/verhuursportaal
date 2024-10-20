@@ -43,7 +43,9 @@ final class EditLease extends EditRecord
         return [
             InvoiceResource\Actions\GenerateInvoice::make(),
             InvoiceResource\Actions\ViewInvoice::make(),
-            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
+            Actions\DeleteAction::make(),
+            Actions\ForceDeleteAction::make(),
+            Actions\RestoreAction::make(),
         ];
     }
 }

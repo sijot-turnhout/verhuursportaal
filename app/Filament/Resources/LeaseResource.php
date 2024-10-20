@@ -8,6 +8,7 @@ use App\Enums\LeaseStatus;
 use App\Filament\Resources\InvoiceResource\LeaseInfolist;
 use App\Filament\Resources\LeaseResource\Pages;
 use App\Filament\Resources\LeaseResource\RelationManagers;
+use App\Filament\Resources\LeaseResource\Traits\UsesArchivingSystemActions;
 use App\Models\Lease;
 use App\Models\Local;
 use Exception;
@@ -19,7 +20,6 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -40,6 +40,8 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
  */
 final class LeaseResource extends Resource
 {
+    use UsesArchivingSystemActions;
+
     /**
      * The Eloquent model associated with this resource.
      *
@@ -49,6 +51,18 @@ final class LeaseResource extends Resource
      */
     protected static ?string $model = Lease::class;
 
+    /**
+     * Defines the attribute that will be used as the display title for records in the resource.
+     *
+     * Filament uses this property to determine which model attribute should be used to represent
+     * the record in various contexts, such as in table headers, resource titles, or breadcrumbs.
+     *
+     * In this case, the `periode` attribute of the model is set as the record title.
+     * This means that whenever Filament needs to display the title of a record, it will
+     * use the value of the `periode` column from the database.
+     *
+     * @var ?string The name of the attribute to be used as the record title.
+     */
     protected static ?string $recordTitleAttribute = 'periode';
 
     /**
@@ -182,21 +196,27 @@ final class LeaseResource extends Resource
                     ->tooltip(static fn(Lease $lease) => $lease->tenant->isBanned() ? trans('Deze huurder staat op de zwarte lijst') : null)
                     ->iconPosition(IconPosition::Before),
                 Tables\Columns\TextColumn::make('group')->label('Organisatie')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Aanvragingsdatum')->date()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Aangevraagd op')->date()->sortable(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\ViewAction::make()
+                        ->hidden(fn(Lease $lease): bool => $lease->trashed()),
 
                     Action::make('factuur')
                         ->icon('heroicon-o-document-text')
                         ->visible(fn(Lease $record): bool => $record->invoice()->exists())
                         ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
 
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\EditAction::make()
+                        ->hidden(fn(Lease $lease): bool => $lease->trashed()),
 
+                    self::restoreArchiveEntityAction(),
+
+                    // Archiving system actions
                     Tables\Actions\ActionGroup::make([
-                        Tables\Actions\DeleteAction::make(),
+                        self::archiveEntityAction('verhuring'),
+                        self::forceDeleteEntityAction('verhuring'),
                     ])->dropdown(false),
                 ])
                     ->label('acties')
@@ -206,14 +226,13 @@ final class LeaseResource extends Resource
                     ->link()
                     ->icon('heroicon-o-cog-8-tooth'),
             ])
-            ->filters([
-                SelectFilter::make('status')->options(LeaseStatus::class),
-            ])
-            ->filtersTriggerAction(fn(Action $action) => $action->button()->label('Filter'))
             ->defaultSort('arrival_date')
             ->bulkActions([
                 ExportBulkAction::make(),
-                Tables\Actions\DeleteBulkAction::make(),
+
+                // Methods that manages the actions that are related to the archiving system of the leases
+                self::archiveBulkAction('verhuringen'),
+                self::bulkArchivingActionGroup('verhuringen'),
             ]);
     }
 
