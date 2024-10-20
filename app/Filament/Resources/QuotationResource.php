@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\Billing;
-use App\Filament\Resources\InvoiceResource\RelationManagers\InvoiceLinesRelationManager;
+use App\Filament\Clusters\Billing\Resources\QuotationResource\RelationManagers\QuotationLinesRelationManager;
 use App\Filament\Resources\QuotationResource\Pages;
 use App\Models\Invoice;
 use App\Models\Quotation;
@@ -117,7 +117,7 @@ final class QuotationResource extends Resource
 
     public static function getRelations(): array
     {
-        return [InvoiceLinesRelationManager::class];
+        return [QuotationLinesRelationManager::class];
     }
 
     public static function getPages(): array

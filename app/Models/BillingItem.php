@@ -8,6 +8,7 @@ use App\Filament\Resources\InvoiceResource\Enums\BillingType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Class BillingItem
@@ -44,6 +45,11 @@ final class BillingItem extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function billingdocumentable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     public function invoice(): BelongsTo

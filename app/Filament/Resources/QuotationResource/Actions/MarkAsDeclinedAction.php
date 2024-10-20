@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\QuotationResource\Actions;
 
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
-use App\Models\Invoice;
+use App\Models\Quotation;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Gate;
@@ -28,10 +27,9 @@ final class MarkAsDeclinedAction extends Action
     {
         return parent::make($name ?? trans('Offerte afwijzen'))
             ->color('danger')
-            ->visible(fn(Invoice $invoice): bool => Gate::allows('decline-quotation', $invoice))
+            ->visible(fn(Quotation $quotation): bool => Gate::allows('decline', $quotation))
             ->icon('heroicon-o-x-circle')
-            ->action(function (Invoice $invoice): void {
-                $invoice->markQuotationAs(InvoiceStatus::Quotation);
+            ->action(function (Quotation $quotation): void {
                 Notification::make()->title('Offerte status gewijzigd')->body('De offerte is met success afgerond. Vergeet zeker niet om deze te downloaden en door te sturen naar de huurder')->success()->send();
             });
     }

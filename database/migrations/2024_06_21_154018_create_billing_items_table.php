@@ -15,7 +15,7 @@ return new class () extends Migration {
     {
         Schema::create('billing_items', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(Invoice::class)->nullable()->references('id')->on('invoices');
+            $table->morphs('billingdocumentable', 'billing_document_index');
             $table->boolean('type')->nullable();
             $table->string('name');
             $table->decimal('quantity', total: 16);

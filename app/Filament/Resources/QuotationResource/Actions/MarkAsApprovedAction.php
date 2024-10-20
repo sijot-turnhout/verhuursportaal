@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\QuotationResource\Actions;
 
-use App\Models\Invoice;
+use App\Models\Quotation;
 use Filament\Actions\Action;
 use Illuminate\Support\Facades\Gate;
 
@@ -29,7 +29,7 @@ final class MarkAsApprovedAction extends Action
     {
         return parent::make($name ?? trans('offerte goedkeuren'))
             ->icon('heroicon-o-check')
-            ->visible(fn(Invoice $invoice): bool => Gate::allows('approve-quotation', $invoice))
+            ->visible(fn(Quotation $quotation): bool => Gate::allows('approve', $quotation))
             ->color('gray');
     }
 }

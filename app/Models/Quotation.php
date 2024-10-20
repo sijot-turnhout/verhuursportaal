@@ -6,6 +6,7 @@ use App\Enums\QuotationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 final class Quotation extends Model
 {
@@ -21,6 +22,11 @@ final class Quotation extends Model
     protected $attributes = [
         'status' => QuotationStatus::Draft,
     ];
+
+    public function quotationLines(): MorphMany
+    {
+        return $this->morphMany(BillingItem::class, 'billingdocumentable');
+    }
 
     public function lease(): BelongsTo
     {
