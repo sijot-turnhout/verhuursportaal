@@ -8,6 +8,7 @@ use App\Filament\Clusters\Billing;
 use App\Filament\Resources\InvoiceResource\RelationManagers\InvoiceLinesRelationManager;
 use App\Filament\Resources\QuotationResource\Pages;
 use App\Models\Invoice;
+use App\Models\Quotation;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
@@ -27,7 +28,7 @@ final class QuotationResource extends Resource
 {
     protected static ?string $cluster = Billing::class;
 
-    protected static ?string $model = Invoice::class;
+    protected static ?string $model = Quotation::class;
 
     protected static ?string $modelLabel = 'Offerte';
 
@@ -91,12 +92,11 @@ final class QuotationResource extends Resource
         return $table
             ->emptyStateHeading(trans('Geen offertes gevonden'))
             ->emptyStateDescription(trans('Momenteel zijn er nog geen offertes gevonden in het systeem aangemaakt of gevonden die voldoen aan de opgegeven criteria.'))
-            ->modifyQueryUsing(fn(Invoice $builder) => $builder->onlyQuotations())
             ->columns([
                 Tables\Columns\TextColumn::make('payment_reference')->label(trans('Referentie nr.'))->weight(FontWeight::Bold)->color('primary')->searchable(),
                 Tables\Columns\TextColumn::make('creator.name')->label(trans('Opgesteld door'))->placeholder('-')->searchable(),
                 Tables\Columns\TextColumn::make('status')->badge()->sortable(),
-                Tables\Columns\TextColumn::make('lease.tenant.name')->label(trans('Begunstigde'))->searchable(),
+                Tables\Columns\TextColumn::make('reciever.name')->label(trans('Begunstigde'))->searchable(),
                 Tables\Columns\TextColumn::make('lease.period')->label(trans('Verhuringsperiode'))->color('primary')->weight(FontWeight::Bold),
                 Tables\Columns\TextColumn::make('quotation_due_at')->label(trans('vervaldatum'))->date()->sortable()->placeholder('-'),
                 Tables\Columns\TextColumn::make('created_at')->label(trans('Aangevraagd op'))->date(),

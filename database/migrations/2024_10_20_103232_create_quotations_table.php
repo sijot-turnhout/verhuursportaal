@@ -2,6 +2,7 @@
 
 use App\Models\Lease;
 use App\Models\Quotation;
+use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->string('status');
             $table->foreignIdFor(User::class, 'user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Lease::class, 'lease_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Tenant::class, 'reciever_id')->nullable()->references('id')->on('tenants')->nullOnDelete();
             $table->text('description')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamp('approved_at')->nullable();

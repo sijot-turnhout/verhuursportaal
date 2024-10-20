@@ -12,7 +12,7 @@ final readonly class StoreQuotationTemplate
 {
     public static function process(Lease $lease, Tenant $tenant): void
     {
-        $quotation = Quotation::create(['lease_id' => $lease->getKey(), 'description' => self::getFinancialDocumentDescription($lease)]);
+        $quotation = Quotation::create(['lease_id' => $lease->getKey(), 'reciever_id' => $tenant->getKey(), 'description' => self::getFinancialDocumentDescription($lease)]);
         $lease->quotation()->associate($quotation)->save();
     }
 

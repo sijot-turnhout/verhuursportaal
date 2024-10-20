@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\QuotationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Quotation extends Model
 {
@@ -20,6 +21,16 @@ final class Quotation extends Model
     protected $attributes = [
         'status' => QuotationStatus::Draft,
     ];
+
+    public function lease(): BelongsTo
+    {
+        return $this->belongsTo(Lease::class);
+    }
+
+    public function reciever(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class, 'reciever_id');
+    }
 
     /**
      * @todo check if we can register this to an job action class

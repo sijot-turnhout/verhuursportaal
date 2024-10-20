@@ -48,22 +48,6 @@ final class InvoiceBuilder extends Builder
     /**
      * @return Builder<Invoice>
      */
-    public function excludeQuotations(): Builder
-    {
-        return $this->whereNotIn('status', [InvoiceStatus::Quotation_Request, InvoiceStatus::Quotation, InvoiceStatus::Quotation_Declined]);
-    }
-
-    /**
-     * @return Builder<Invoice>
-     */
-    public function onlyQuotations(): Builder
-    {
-        return $this->whereIn('status', [InvoiceStatus::Quotation_Request, InvoiceStatus::Quotation, InvoiceStatus::Quotation_Declined]);
-    }
-
-    /**
-     * @return Builder<Invoice>
-     */
     public function invoiceProposals(): Builder
     {
         return $this->where('status', InvoiceStatus::Draft);
