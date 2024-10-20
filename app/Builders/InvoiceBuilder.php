@@ -35,17 +35,6 @@ final class InvoiceBuilder extends Builder
     }
 
     /**
-     * Update the quotation status to the specified InvoiceStatus.
-     *
-     * @param  InvoiceStatus  $invoiceStatus  The status to set for the invoice.
-     * @return bool                           Returns true if the update operation was successful, otherwise false.
-     */
-    public function markQuotationAs(InvoiceStatus $invoiceStatus, ?Carbon $dueAt = null): bool
-    {
-        return $this->model->update(['status' => $invoiceStatus, 'quotation_due_at' => $dueAt]);
-    }
-
-    /**
      * @return Builder<Invoice>
      */
     public function invoiceProposals(): Builder

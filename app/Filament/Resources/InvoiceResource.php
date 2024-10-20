@@ -182,7 +182,7 @@ final class InvoiceResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        if ($count = Invoice::query()->excludeQuotations()->count()) {
+        if ($count = Invoice::query()->count()) {
             return (string) $count;
         }
 
