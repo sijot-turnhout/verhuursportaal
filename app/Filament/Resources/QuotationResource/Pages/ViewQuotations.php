@@ -42,6 +42,7 @@ final class ViewQuotations extends ViewRecord
             QuotationResource\Actions\MarkAsFinalizedAction::make(),
             QuotationResource\Actions\MarkAsApprovedAction::make(),
             QuotationResource\Actions\MarkAsDeclinedAction::make(),
+            Actions\EditAction::make(),
             Actions\DeleteAction::make(),
         ];
     }

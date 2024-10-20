@@ -61,7 +61,7 @@ final class QuotationResource extends Resource
                     Fieldset::make(trans('Algemene informatie'))
                         ->columns(12)
                         ->schema([
-                            TextEntry::make('payment_reference')->label('Referentie')->weight(FontWeight::Bold)->color('primary')->columnSpan(2),
+                            TextEntry::make('reference')->label('Referentie')->weight(FontWeight::Bold)->color('primary')->columnSpan(2),
                             TextEntry::make('creator.name')->label('Opgesteld door')->columnSpan(3)->placeholder('-'),
                             TextEntry::make('lease.period')->label('Verhuringsperiode')->columnSpan(2),
                             TextEntry::make('status')->label('Offerte status')->badge()->columnSpan(2),
@@ -71,10 +71,10 @@ final class QuotationResource extends Resource
                     Fieldset::make(trans('Begunstigde'))
                         ->columns(12)
                         ->schema([
-                            TextEntry::make('customer.name')->label('Naam')->columnSpan(2)->icon('heroicon-o-user-circle')->iconColor('primary'),
-                            TextEntry::make('customer.address')->label('Adres')->columnSpan(4)->icon('heroicon-o-map-pin')->iconColor('primary')->placeholder('Onbekend of niet opgegeven'),
-                            TextEntry::make('customer.email')->label('Email adres')->columnSpan(3)->icon('heroicon-o-envelope')->iconColor('primary'),
-                            TextEntry::make('customer.phone_number')->label('Telefoon nummer')->columnSpan(3)->icon('heroicon-o-phone')->iconColor('primary')->placeholder('Onbekend on niet opgegeven'),
+                            TextEntry::make('reciever.name')->label('Naam')->columnSpan(2)->icon('heroicon-o-user-circle')->iconColor('primary'),
+                            TextEntry::make('reciever.address')->label('Adres')->columnSpan(4)->icon('heroicon-o-map-pin')->iconColor('primary')->placeholder('Onbekend of niet opgegeven'),
+                            TextEntry::make('reciever.email')->label('Email adres')->columnSpan(3)->icon('heroicon-o-envelope')->iconColor('primary'),
+                            TextEntry::make('reciever.phone_number')->label('Telefoon nummer')->columnSpan(3)->icon('heroicon-o-phone')->iconColor('primary')->placeholder('Onbekend on niet opgegeven'),
 
                         ]),
 
@@ -93,7 +93,7 @@ final class QuotationResource extends Resource
             ->emptyStateHeading(trans('Geen offertes gevonden'))
             ->emptyStateDescription(trans('Momenteel zijn er nog geen offertes gevonden in het systeem aangemaakt of gevonden die voldoen aan de opgegeven criteria.'))
             ->columns([
-                Tables\Columns\TextColumn::make('payment_reference')->label(trans('Referentie nr.'))->weight(FontWeight::Bold)->color('primary')->searchable(),
+                Tables\Columns\TextColumn::make('reference')->label(trans('Referentie nr.'))->weight(FontWeight::Bold)->color('primary')->searchable(),
                 Tables\Columns\TextColumn::make('creator.name')->label(trans('Opgesteld door'))->placeholder('-')->searchable(),
                 Tables\Columns\TextColumn::make('status')->badge()->sortable(),
                 Tables\Columns\TextColumn::make('reciever.name')->label(trans('Begunstigde'))->searchable(),
