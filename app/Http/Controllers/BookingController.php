@@ -23,10 +23,7 @@ final readonly class BookingController
     /**
      * Handle the incoming booking request.
      *
-     * This method is called when a booking request is received. It determines if the request
-     * is for a quotation or a reservation based on the presence of a 'quotation' attribute in
-     * the request data. Depending on the type, it processes the request using either the
-     * StoreQuotation or StoreReservation contract.
+     * This method is called when a booking request is received.
      *
      * @param  StoreReservationRequest  $storeReservationRequest  The incoming request containing booking data.
      * @return RedirectResponse                                   A redirect response to the front page after processing the booking.
@@ -40,9 +37,7 @@ final readonly class BookingController
      */
     public function __invoke(StoreReservationRequest $storeReservationRequest): RedirectResponse
     {
-        ($storeReservationRequest->getData()->quotation)
-            ? app(StoreQuotation::class)->process($storeReservationRequest->getData())
-            : app(StoreReservation::class)->process($storeReservationRequest->getData());
+        app(StoreReservation::class)->process($storeReservationRequest->getData());
 
         return redirect()->action(FrontPageController::class);
     }

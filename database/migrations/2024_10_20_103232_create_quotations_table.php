@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Lease;
+use App\Models\Quotation;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,6 +22,10 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('rejected_at')->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('leases', function (Blueprint $table): void {
+            $table->foreignIdFor(Quotation::class)->nullable()->references('id')->on('quotations')->cascadeOnDelete();
         });
     }
 

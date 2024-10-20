@@ -55,4 +55,9 @@ final class ReservationDataObject extends Data
     {
         return $this->email;
     }
+
+    public function wantsQuotation(): bool
+    {
+        return $this->quotation;
+    }
 }
