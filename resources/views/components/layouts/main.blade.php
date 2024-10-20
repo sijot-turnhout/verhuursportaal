@@ -123,7 +123,7 @@
                                 <p class="text-copyright small">
                                     Copyright {{ date('Y') }} &copy; {{ config('app.name', 'Laravel') }}
 
-                                    <a href="{{ route('legal.privacy') }}" class="float-end text-decoration-none">
+                                    <a href="{{ route('legal.privacy') }}" data-pan="privacy-verklaring" class="float-end text-decoration-none">
                                         <x-heroicon-o-eye-slash class="icon me-1"/> Privacyverklaring
                                     </a>
                                     <a href="" class="float-end text-decoration-none me-3">
