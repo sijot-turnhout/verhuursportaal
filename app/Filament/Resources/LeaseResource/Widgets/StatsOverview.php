@@ -8,6 +8,7 @@ use App\Filament\Support\LineChartBase;
 use App\Models\ContactSubmission;
 use App\Models\Feedback;
 use App\Models\Lease;
+use App\Models\Quotation;
 use App\Models\Tenant;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
@@ -71,15 +72,23 @@ final class StatsOverview extends LineChartBase
         $tenantChartData = $this->getChartData(Tenant::class);
         $contactChartData = $this->getChartData(ContactSubmission::class);
         $feedbackChartData = $this->getChartData(Feedback::class);
+        $quotationChartData = $this->getChartData(Quotation::class);
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Aanvragen',
+                    'label' => 'Aanvragen (verhuringen)',
                     'data' => $leaseChartData->map(fn(TrendValue $value) => $value->aggregate),
                     'backgroundColor' => '#84cc16',
                     'borderColor' => '#84cc16',
                     'pointBackgroundColor' => '#84cc16',
+                ],
+                [
+                    'label' => 'Aanvragen (offertes)',
+                    'data' => $quotationChartData->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => '#000',
+                    'borderColor' => '#000',
+                    'pointBackgroundColor' => '#000',
                 ],
                 [
                     'label' => 'Huurders',
