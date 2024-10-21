@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use ArchTech\Enums\Comparable;
+
 /**
  * Enum QuotationStatus
  *
@@ -16,6 +18,8 @@ namespace App\Enums;
  */
 enum QuotationStatus: string
 {
+    use Comparable;
+
     /**
      * Indicates that the quotation is currently in the draft phase.
      * It is being prepared but has not yet been finalized or sent to the client.

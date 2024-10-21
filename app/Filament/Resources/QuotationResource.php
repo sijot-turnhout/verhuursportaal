@@ -78,8 +78,8 @@ final class QuotationResource extends Resource
                         ->columns(12)
                         ->schema([
                             TextEntry::make('reference')->label('Referentie')->weight(FontWeight::Bold)->color('primary')->columnSpan(2),
-                            TextEntry::make('creator.name')->label('Opgesteld door')->columnSpan(3)->placeholder('-'),
-                            TextEntry::make('lease.period')->label('Verhuringsperiode')->columnSpan(2),
+                            TextEntry::make('creator.name')->label('Opgesteld door')->columnSpan(2)->placeholder('-'),
+                            TextEntry::make('lease.period')->label('Verhuringsperiode')->columnSpan(3),
                             TextEntry::make('status')->label('Offerte status')->badge()->columnSpan(2),
                             TextEntry::make('quotation_due_at')->label('Verval datum')->columnSpan(3)->date('d/m/Y')->placeholder('-'),
                         ]),
