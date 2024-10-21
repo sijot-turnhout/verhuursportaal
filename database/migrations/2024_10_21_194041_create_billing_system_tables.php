@@ -44,6 +44,17 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('billing_items', function (Blueprint $table): void {
+            $table->id();
+            $table->morphs('billingdocumentable', 'billing_document_index');
+            $table->boolean('type')->nullable();
+            $table->string('name');
+            $table->decimal('quantity', total: 16);
+            $table->decimal('unit_price');
+            $table->decimal('total_price', total: 16)->storedAs('unit_price * quantity')->index();
+            $table->timestamps();
+        });
+
         Schema::table('leases', function (Blueprint $table): void {
             $table->foreignIdFor(Quotation::class)->nullable()->references('id')->on('quotations')->cascadeOnDelete();
             $table->foreignIdFor(Invoice::class)->nullable()->references('id')->on('invoices')->cascadeOnDelete();

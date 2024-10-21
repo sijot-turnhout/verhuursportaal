@@ -29,7 +29,7 @@ final readonly class InvoicePolicy
     public function update(User $user, Invoice $invoice): bool
     {
         return ($user->user_group->isRvb() || $user->user_group->isWebmaster())
-            && in_array($invoice->status, [InvoiceStatus::Draft, InvoiceStatus::Quotation_Request], true);
+            && in_array($invoice->status, [InvoiceStatus::Draft], true);
     }
 
     /**
