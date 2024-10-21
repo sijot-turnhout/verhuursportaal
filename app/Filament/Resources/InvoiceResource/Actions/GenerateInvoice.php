@@ -36,7 +36,7 @@ final class GenerateInvoice extends Action
             ->icon('heroicon-o-plus')
             ->visible(fn(Lease $record): bool => Gate::allows('generate-invoice', $record))
             ->action(function (Lease $record): void {
-                InvoiceGenerator::dispatch($record, trans('Facturatie voor de verhuringsperiode (:start tot en met :end)', [
+                InvoiceGenerator::process($record, trans('Facturatie voor de verhuringsperiode (:start tot en met :end)', [
                     'start' => $record->arrival_date->format('d/m/Y'),
                     'end' => $record->departure_date->format('d/m/Y'),
                 ]));

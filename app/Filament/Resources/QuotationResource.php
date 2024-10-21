@@ -118,8 +118,11 @@ final class QuotationResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->label(trans('Aangevraagd op'))->date(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\Action::make('Exporteer offerte')
+                        ->icon('heroicon-o-document-text'),
+
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
                 ]),
