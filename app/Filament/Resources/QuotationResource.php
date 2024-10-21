@@ -10,6 +10,7 @@ use App\Filament\Resources\QuotationResource\Pages;
 use App\Models\Invoice;
 use App\Models\Quotation;
 use Filament\Forms\Form;
+use Filament\Forms;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -42,14 +43,29 @@ final class QuotationResource extends Resource
     {
         return $form
             ->schema([
-
+                Forms\Components\Section::make('Offerte informatie')
+                    ->icon('heroicon-o-document-text')
+                    ->iconColor('primary')
+                    ->collapsible()
+                    ->description('De algemene infromatie van de offerte. let wel op alleen de notulen kunnen voor nu gewijzigd worden. Omdat de begunstigde en verhuring dieper gekoppeld zijn in het systeem.')
+                    ->compact()
+                    ->columns(12)
+                    ->schema([
+                        Forms\Components\Textarea::make('description')
+                            ->label('Notitie')
+                            ->readOnlyOn('view')
+                            ->hint('Let op! Deze notulen worden meegedeeld op de factuur')
+                            ->hintColor('danger')
+                            ->rows(4)
+                            ->columnSpan(12),
+                    ]),
             ]);
     }
 
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
-            Section::make(trans('Informatie informatie'))
+            Section::make(trans('Offerte informatie'))
                 ->icon('heroicon-o-document-text')
                 ->iconColor('primary')
                 ->iconSize(IconSize::Medium)
