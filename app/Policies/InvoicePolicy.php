@@ -78,42 +78,4 @@ final readonly class InvoicePolicy
     {
         return $user->user_group->isRvb() || $user->user_group->isWebmaster();
     }
-
-    /**
-     * Finalizes a quotation if the user belongs to the RVB or Webmaster user group and the invoice status is 'Quotation Request'.
-     *
-     * This method checks if the user is either in the RVB or Webmaster group and ensures that the invoice status is 'Quotation Request'.
-     * If both conditions are met, it allows the quotation to be finalized.
-     *
-     * @param  User     $user     The user attempting to finalize the quotation. The user must be a member of the RVB or Webmaster user group.
-     * @param  Invoice  $invoice  The invoice to be finalized. The invoice status must be 'Quotation Request'.
-     * @return bool               Returns true if the quotation can be finalized, otherwise false.
-     */
-    public function finalizeQuotation(User $user, Invoice $invoice): bool
-    {
-        return ($user->user_group->isRvb() || $user->user_group->isWebmaster())
-            && InvoiceStatus::Quotation_Request === $invoice->status;
-    }
-
-    /**
-     * Declines a quotation if the user belongs to the RVB or Webmaster user group and the invoice status is 'Quotation'.
-     *
-     * This method checks is the user is either in the RVB or Webmaster group and ensures that the invoice status is 'Quotation'.
-     * If both conditions are met, it allows the quotation to be declined.
-     *
-     * @param  User     $user     The user attempting to decline the quotation. The user must be a member of the RVB or Webmaster user group.
-     * @param  Invoice  $invoice. The invoice to be declined. The invoice status must be 'Quotation'.
-     * @return bool               Returns true if the quotation can be finalized, otherwise false.
-     */
-    public function declineQuotation(User $user, Invoice $invoice): bool
-    {
-        return ($user->user_group->isRvb() || $user->user_group->isWebmaster())
-            && InvoiceStatus::Quotation === $invoice->status;
-    }
-
-    public function approveQuotation(User $user, Invoice $invoice): bool
-    {
-        return ($user->user_group->isRvb() || $user->user_group->isWebmaster())
-            && in_array($invoice->status, [InvoiceStatus::Quotation], true);
-    }
 }

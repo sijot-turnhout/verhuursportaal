@@ -32,7 +32,7 @@ final class MarkAsFinalizedAction extends Action
         return parent::make($name ?? trans('offerte afronden'))
             ->color('gray')
             ->icon('heroicon-o-clipboard-document-check')
-            ->visible(fn(Quotation $quotation): bool => Gate::allows('finalize-quotation', $quotation))
+            ->visible(fn(Quotation $quotation): bool => Gate::allows('finalize', $quotation))
             ->requiresConfirmation()
             ->modalDescription(trans('Indien u de offerte afrond eal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.'))
             ->successRedirectUrl(fn(Quotation $quotation): string => QuotationResource::getUrl('view', ['record' => $quotation]))
