@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\QuotationResource\Actions;
 
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Filament\Resources\QuotationResource;
-use App\Models\Invoice;
 use App\Models\Quotation;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -37,6 +35,7 @@ final class MarkAsFinalizedAction extends Action
             ->modalDescription(trans('Indien u de offerte afrond eal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.'))
             ->successRedirectUrl(fn(Quotation $quotation): string => QuotationResource::getUrl('view', ['record' => $quotation]))
             ->action(function (Quotation $quotation): void {
+                $quotation->state()->transitionToOpen();
                 Notification::make()->title('Offerte status gewijzigd')->body(trans('De offerte staat u geregistreerd als een openstaande offerte'))->success()->send();
             });
     }

@@ -30,6 +30,7 @@ final class MarkAsDeclinedAction extends Action
             ->visible(fn(Quotation $quotation): bool => Gate::allows('decline', $quotation))
             ->icon('heroicon-o-x-circle')
             ->action(function (Quotation $quotation): void {
+                $quotation->state()->transitionToDeclined();
                 Notification::make()->title('Offerte status gewijzigd')->body('De offerte is met success afgerond. Vergeet zeker niet om deze te downloaden en door te sturen naar de huurder')->success()->send();
             });
     }

@@ -33,7 +33,7 @@
         "watson/active": "^7.1"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.13",
+        "barryvdh/laravel-debugbar": "^3.14",
         "driftingly/rector-laravel": "^1.2",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^2.9",
