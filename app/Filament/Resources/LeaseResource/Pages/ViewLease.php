@@ -47,6 +47,9 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
         ];
     }
 
+    /**
+     * @todo There are bigs fopund in the zuthorization checks for the state transition we need to investigate this.
+     */
     protected function registerStatusManipulationActions(): ActionGroup
     {
         return ActionGroup::make([

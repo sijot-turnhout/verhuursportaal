@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\DownloadInvoiceController;
+use App\Http\Controllers\DownloadDocumentController;
 use App\Http\Controllers\Feedback\DisplayFormController;
 use App\Http\Controllers\Feedback\StoreFeedbackController;
 use App\Http\Controllers\FrontPageController;
@@ -28,7 +28,7 @@ Route::get('status', function (): Illuminate\Http\RedirectResponse {
     return redirect('pulse');
 });
 
-Route::get('/invoices/{record}/download', DownloadInvoiceController::class)->name('invoices.download')->middleware('auth');
+Route::get('/invoices/{record}/download', [DownloadDocumentController::class, 'invoice'])->name('invoices.download')->middleware('auth');
 
 Route::group(['middleware' => [WelcomseNewFeedback::class]], function (): void {
     Route::get('/feedback/{lease}', DisplayFormController::class)->name('feedback.form');
