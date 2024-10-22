@@ -37,8 +37,6 @@ final class QuotationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Facturatie';
-
     public static function form(Form $form): Form
     {
         return $form

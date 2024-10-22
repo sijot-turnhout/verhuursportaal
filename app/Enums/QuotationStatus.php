@@ -32,7 +32,7 @@ enum QuotationStatus: string
      * The recipient can evaluate the details of the quotation, including pricing and terms.
      * This status is crucial for tracking which quotations are currently pending a response.
      */
-    case Open = 'Opensta ande offerte';
+    case Open = 'Openstaande offerte';
 
     /**
      * Indicates that the quotation has been officially accepted by the recipient.

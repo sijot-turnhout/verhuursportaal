@@ -71,13 +71,6 @@ final class InvoiceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
 
     /**
-     * The navigation group under which this resource is listed.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationGroup = 'Facturatie';
-
-    /**
      * Defines the form schema for creating or editing invoices.
      * In this case, the form only allows for editing the `description` (notes) of the invoice.
      *
