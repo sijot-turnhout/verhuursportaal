@@ -155,9 +155,11 @@ final class InvoiceResource extends Resource
                     ->description('De factuur informatie weergave toont een overzicht van factuurnummer, datum, status en totaalbedrag, inclusief factuurregels en betalingsdetails')
                     ->schema([
                         TextEntry::make('payment_reference')->label('Volgnummer')->weight(FontWeight::Bold)->color('primary')->columnSpan(2),
+                        TextEntry::make('creator.name')->label('Opgesteld door')->icon('heroicon-o-user-circle')->iconColor('primary')->columnSpan(2),
                         TextEntry::make('status')->badge()->columnSpan(2),
                         TextEntry::make('lease.period')
-                            ->columnSpan(5)
+                            ->label('Verhuur periode')
+                            ->columnSpan(3)
                             ->url(fn (Invoice $invoice): string => LeaseResource::getUrl('view', ['record' => $invoice->lease]))
                             ->openUrlInNewTab(),
 
