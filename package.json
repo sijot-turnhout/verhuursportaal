@@ -20,6 +20,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "@erbelion/vite-plugin-laravel-purgecss": "^0.2.5"
+        "@erbelion/vite-plugin-laravel-purgecss": "^0.2.5",
+        "puppeteer": "^23.6.0"
     }
 }
