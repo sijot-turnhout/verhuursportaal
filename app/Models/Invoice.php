@@ -8,10 +8,8 @@ use App\Builders\InvoiceBuilder;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
 use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -34,8 +32,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 final class Invoice extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are protected from the mass assignment system.
      *
@@ -66,7 +62,7 @@ final class Invoice extends Model
     /**
      * Data relation for all the invoice lines that are registered to an invoice.
      *
-     * @return HasMany<BillingItem>
+     * @return MorphMany
      */
     public function invoiceLines(): MorphMany
     {

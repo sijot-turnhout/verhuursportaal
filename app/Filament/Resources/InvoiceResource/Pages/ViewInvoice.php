@@ -9,10 +9,13 @@ use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsPaidAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsUncollectedAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsVoidedAction;
+use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
+use App\Models\Invoice;
 use Filament\Actions;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ViewInvoice
@@ -44,8 +47,9 @@ final class ViewInvoice extends ViewRecord
     public function getHeaderActions(): array
     {
         return [
+            InvoiceResource\Actions\CompleteInvoiceProposalAction::make(),
             Actions\ActionGroup::make([MarkAsPaidAction::make(), MarkAsUncollectedAction::make(), MarkAsVoidedAction::make()])
-                ->label('Factuur status')
+                ->label('Betalingsstatus')
                 ->color('gray')
                 ->button(),
 

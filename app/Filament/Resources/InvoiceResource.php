@@ -32,6 +32,8 @@ use Illuminate\Support\HtmlString;
  * The class also integrates widgets and relation managers to offer a comprehensive interface for working with invoices.
  * Invoices can be filtered, displayed with specific data, and various actions can be performed on them, such as viewing, editing, and deleting.
  *
+ * @todo Implement documentation for the invoice statusses on the documentation portal.
+ *
  * @package App\Filament\Resources
  */
 final class InvoiceResource extends Resource

@@ -36,7 +36,7 @@ final class CompleteInvoiceProposalAction extends Action
             ->modalHeading(trans('Facturatie voorstel afsluiten'))
             ->modalDescription(trans('Bent u zeker dat u het voorstel wilt afsluiten? Indien het voorstel is afgesloten bent u niet meer in staat om de factuur te wijzigen.'))
             ->modalSubmitActionLabel(trans('Ja, ik ben zeker'))
-            ->visible(fn(Invoice $record) => Gate::allows('update', $record))
+            ->visible(fn(Invoice $record) => Gate::allows('finalize-invoice-draft', $record))
             ->action(fn(Invoice $invoice): bool => $invoice->completeProposal());
     }
 }
