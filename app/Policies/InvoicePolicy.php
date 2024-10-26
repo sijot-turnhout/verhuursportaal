@@ -116,7 +116,7 @@ final readonly class InvoicePolicy
     public function markAsUncollected(User $user, Invoice $invoice): bool
     {
         return $invoice->status->isNot(InvoiceStatus::Uncollected)
-            && $invoice->due_at->isPast()
+            && optional($invoice->due_at)->isPast()
             && $invoice->status->is(InvoiceStatus::Open);
     }
 

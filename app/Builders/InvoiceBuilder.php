@@ -21,20 +21,6 @@ use Illuminate\Support\Carbon;
 final class InvoiceBuilder extends Builder
 {
     /**
-     * Complete the proposal by setting the invoice status to 'Open' and
-     * updating the 'due_at' date to one month from now, at the end of the day.
-     *
-     * @return bool true if the update was successful, false otherwise.
-     */
-    public function completeProposal(): bool
-    {
-        return $this->model->update([
-            'status' => InvoiceStatus::Open,
-            'due_at' => now()->addMonth()->endOfDay(),
-        ]);
-    }
-
-    /**
      * @return Builder<Invoice>
      */
     public function invoiceProposals(): Builder

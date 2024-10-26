@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 
 /**
  * Class Invoice
@@ -115,6 +117,29 @@ final class Invoice extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    /**
+     * Returns an appropriate state object based on the current invoice status.
+     *
+     * This method leverages a `match` expression to determine the correct state class
+     * for the invoice. Each state class corresponds to a particular invoice status,
+     * such as Draft, Open, Paid, Void, or Uncollected. The returned state object
+     * implements the `InvoiceStateContract` interface, allowing for state-specific
+     * behavior and transitions.
+     *
+     * @return InvoiceStateContract      The state object corresponding to the current invoice status.
+     * @throws InvalidArgumentException  If the status does not match any known state.
+     */
+    public function state(): InvoiceStateContract
+    {
+        return match($this->status) {
+            InvoiceStatus::Draft => new States\DraftInvoiceState($this),
+            InvoiceStatus::Open => new States\OpenInvoiceState($this),
+            InvoiceStatus::Paid => new States\PaidInvoiceState($this),
+            InvoiceStatus::Void => new States\VoidInvoiceState($this),
+            InvoiceStatus::Uncollected => new States\UncollectedInvoiceState($this),
+        };
     }
 
     /**

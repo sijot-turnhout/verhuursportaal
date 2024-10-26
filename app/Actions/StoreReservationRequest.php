@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Actions\Financial\StoreQuotationTemplate;
+use App\Jobs\QuotationGenerator;
 use App\Contracts\StoreReservation;
 use App\DataObjects\ReservationDataObject;
+use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
 use App\Models\Lease;
-use App\Models\Quotation;
 use App\Models\Tenant;
 use App\Models\User;
 use Filament\Notifications\Notification;
@@ -34,7 +34,7 @@ final readonly class StoreReservationRequest implements StoreReservation
             $tenant->leases()->save($lease);
 
             if ($reservationDataObject->wantsQuotation()) {
-                StoreQuotationTemplate::process($lease, $tenant);
+                QuotationGenerator::process($lease, $tenant);
             }
 
             // Notification sending

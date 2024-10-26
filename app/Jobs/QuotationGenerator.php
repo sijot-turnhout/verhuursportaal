@@ -2,18 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Financial;
+namespace App\Jobs;
 
 use App\Models\Lease;
 use App\Models\Quotation;
 use App\Models\Tenant;
 
-final readonly class StoreQuotationTemplate
+final readonly class QuotationGenerator
 {
-    public static function process(Lease $lease, Tenant $tenant): void
+    public static function process(Lease $lease, Tenant $tenant): Quotation
     {
         $quotation = Quotation::create(['lease_id' => $lease->getKey(), 'reciever_id' => $tenant->getKey(), 'description' => self::getFinancialDocumentDescription($lease)]);
+        $quotation->creator()->associate(auth()->user())->save();
+
         $lease->quotation()->associate($quotation)->save();
+
+        return $quotation;
     }
 
     private static function getFinancialDocumentDescription(Lease $lease): string

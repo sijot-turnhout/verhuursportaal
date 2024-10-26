@@ -132,4 +132,11 @@ final readonly class LeasePolicy
             && $lease->hasRegisteredMetrics()
             && $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster]);
     }
+
+    public function generateQuotation(User $user, Lease $lease): bool
+    {
+        return $lease->status->in(enums: [LeaseStatus::Option, LeaseStatus::Request, LeaseStatus::Quotation])
+            && $lease->quotation()->doesntExist()
+            && $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster]);
+    }
 }

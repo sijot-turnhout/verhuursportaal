@@ -7,6 +7,7 @@ namespace App\Filament\Resources\LeaseResource\Pages;
 use App\Enums\LeaseStatus;
 use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
+use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
 use App\Filament\Resources\LeaseResource;
 use App\Filament\Support\StateMachines\StateTransitionGuard;
@@ -84,6 +85,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
         return ActionGroup::make([
             EditAction::make()->color('gray'),
             GenerateInvoice::make(),
+            GenerateQuotation::make(),
             ViewInvoice::make(),
             DownloadInvoiceAction::make(),
 
