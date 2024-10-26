@@ -15,7 +15,6 @@ use App\Models\Invoice;
 use App\Models\Lease;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -162,7 +161,7 @@ final class InvoiceResource extends Resource
                         TextEntry::make('lease.period')
                             ->label('Verhuur periode')
                             ->columnSpan(3)
-                            ->url(fn (Invoice $invoice): string => LeaseResource::getUrl('view', ['record' => $invoice->lease]))
+                            ->url(fn(Invoice $invoice): string => LeaseResource::getUrl('view', ['record' => $invoice->lease]))
                             ->openUrlInNewTab(),
 
                         TextEntry::make('due_at')
@@ -171,7 +170,7 @@ final class InvoiceResource extends Resource
                             ->icon('heroicon-o-calendar')
                             ->iconColor('primary')
                             ->placeholder('-')
-                            ->visible(fn (Invoice $invoice): bool => $invoice->status === InvoiceStatus::Open)->date('d-m-Y'),
+                            ->visible(fn(Invoice $invoice): bool => InvoiceStatus::Open === $invoice->status)->date('d-m-Y'),
 
                         TextEntry::make('cancelled_at')
                             ->label('Annuleringsdatum')
@@ -179,15 +178,15 @@ final class InvoiceResource extends Resource
                             ->icon('heroicon-o-calendar')
                             ->iconColor('primary')
                             ->placeholder('-')
-                            ->visible(fn (Invoice $invoice): bool => $invoice->status === InvoiceStatus::Void || $invoice->status === InvoiceStatus::Uncollected),
+                            ->visible(fn(Invoice $invoice): bool => InvoiceStatus::Void === $invoice->status || InvoiceStatus::Uncollected === $invoice->status),
 
-                            TextEntry::make('paid_at')
-                                ->label('Betaald op')
-                                ->columnSpan(3)
-                                ->icon('heroicon-o-calendar')
-                                ->iconColor('primary')
-                                ->placeholder('-')
-                                ->visible(fn (Invoice $invoice): bool => $invoice->status === InvoiceStatus::Paid),
+                        TextEntry::make('paid_at')
+                            ->label('Betaald op')
+                            ->columnSpan(3)
+                            ->icon('heroicon-o-calendar')
+                            ->iconColor('primary')
+                            ->placeholder('-')
+                            ->visible(fn(Invoice $invoice): bool => InvoiceStatus::Paid === $invoice->status),
 
                         TextEntry::make('description')->label('Extra informatie')->columnSpan(12),
                     ]),

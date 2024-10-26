@@ -33,7 +33,7 @@ final class DraftQuotationState extends BaseQuotationState
     {
         $this->quotation->update([
             'status' => QuotationStatus::Open,
-            'expires_at' => now()->addWeeks(2)
+            'expires_at' => now()->addWeeks(2),
         ]);
     }
 }

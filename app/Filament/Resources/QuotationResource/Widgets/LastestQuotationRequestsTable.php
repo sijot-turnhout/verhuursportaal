@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\QuotationResource\Widgets;
 
 use App\Enums\QuotationStatus;
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Filament\Resources\QuotationResource;
-use App\Models\Invoice;
 use App\Models\Quotation;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;

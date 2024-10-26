@@ -72,7 +72,7 @@ final class ListQuotations extends ListRecords
     private function buildStatusTab(QuotationStatus $status, string $icon): Tab
     {
         return Tab::make()
-            ->query(fn (Quotation $builder): Builder => $builder->where('status', $status))
+            ->query(fn(Quotation $builder): Builder => $builder->where('status', $status))
             ->icon($icon);
     }
 }

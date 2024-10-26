@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\QuotationStatus;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\States;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\States\QuotationStateContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -43,6 +45,28 @@ final class Quotation extends Model
     protected $attributes = [
         'status' => QuotationStatus::Draft,
     ];
+
+    /**
+     * Boot the model and set up event listeners for its lifecycle.
+     *
+     * This method overrides the default boot method of the Model class to establish custom behavior during the creation of a quotation.
+     * Specifically, it generates a unique reference number for each new quotation based on the last existing quotation's reference.
+     * The reference format is `YYYY-XXXXXX`, where `XXXXXX` is a zero-padded sequential number.
+     *
+     * @todo Consider if we can register this functionality with a job action class
+     *
+     * @return void
+     */
+    public static function boot(): void
+    {
+        parent::boot();
+
+        self::creating(function ($quotation): void {
+            $lastQuotation = self::orderBy('id', 'desc')->first();
+            $lastNumber = $lastQuotation ? (int) mb_substr($lastQuotation->reference, -6) : 0;
+            $quotation->reference = date('Y') . '-' . mb_str_pad((string) ($lastNumber + 1), 6, '0', STR_PAD_LEFT);
+        });
+    }
 
     /**
      * Retrieve the quotation lines associated with the quotation.
@@ -99,35 +123,13 @@ final class Quotation extends Model
      */
     public function state(): QuotationStateContract
     {
-        return match($this->status) {
+        return match ($this->status) {
             QuotationStatus::Draft => new States\DraftQuotationState($this),
             QuotationStatus::Open => new States\OpenQuotationState($this),
             QuotationStatus::Accepted => new States\AcceptedQuotationState($this),
             QuotationStatus::Declined => new States\DeclinedQuotationState($this),
             QuotationStatus::Expired => new States\ExpiredQuotationState($this),
         };
-    }
-
-    /**
-     * Boot the model and set up event listeners for its lifecycle.
-     *
-     * This method overrides the default boot method of the Model class to establish custom behavior during the creation of a quotation.
-     * Specifically, it generates a unique reference number for each new quotation based on the last existing quotation's reference.
-     * The reference format is `YYYY-XXXXXX`, where `XXXXXX` is a zero-padded sequential number.
-     *
-     * @todo Consider if we can register this functionality with a job action class
-     *
-     * @return void
-     */
-    public static function boot(): void
-    {
-        parent::boot();
-
-        self::creating(function ($quotation): void {
-            $lastQuotation = self::orderBy('id', 'desc')->first();
-            $lastNumber = $lastQuotation ? (int) mb_substr($lastQuotation->reference, -6) : 0;
-            $quotation->reference = date('Y') . '-' . mb_str_pad((string) ($lastNumber + 1), 6, '0', STR_PAD_LEFT);
-        });
     }
 
     /**

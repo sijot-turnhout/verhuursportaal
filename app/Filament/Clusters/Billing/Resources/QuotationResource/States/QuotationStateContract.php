@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Billing\Resources\QuotationResource\States;
 
+use LogicException;
+
 /**
  * Interface QuotationStateContract
  *
@@ -28,7 +30,7 @@ interface QuotationStateContract
      * This method is expected to handle all the necessary changes
      * to move the quotation into the "Open" state.
      *
-     * @throws \LogicException If the transition is not allowed from the current state.
+     * @throws LogicException If the transition is not allowed from the current state.
      */
     public function transitionToOpen(): void;
 
@@ -38,7 +40,7 @@ interface QuotationStateContract
      * This method is expected to handle all the necessary changes
      * to move the quotation into the "Declined" state.
      *
-     * @throws \LogicException If the transition is not allowed from the current state.
+     * @throws LogicException If the transition is not allowed from the current state.
      */
     public function transitionToDeclined(): void;
 
@@ -48,7 +50,7 @@ interface QuotationStateContract
      * This method is expected to handle all the necessary changes
      * to move the quotation into the "Accepted" state.
      *
-     * @throws \LogicException If the transition is not allowed from the current state.
+     * @throws LogicException If the transition is not allowed from the current state.
      */
     public function transitionToAccepted(): void;
 
@@ -58,7 +60,7 @@ interface QuotationStateContract
      * This method is expected to handle all the necessary changes
      * to move the quotation into the "Expired" state.
      *
-     * @throws \LogicException If the transition is not allowed from the current state.
+     * @throws LogicException If the transition is not allowed from the current state.
      */
     public function transitionToExpired(): void;
 }

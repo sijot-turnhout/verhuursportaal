@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Clusters;
 
 use Filament\Clusters\Cluster;
-use Filament\Pages\SubNavigationPosition;
 
 /**
  * Class Billing

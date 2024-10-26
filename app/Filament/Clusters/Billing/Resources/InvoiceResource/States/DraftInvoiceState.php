@@ -32,7 +32,8 @@ final class DraftInvoiceState extends InvoiceState
     public function transitionToOpen(): bool
     {
         return $this->invoice->update(
-            attributes: ['status' => InvoiceStatus::Open, 'due_at' => now()->addMonth()->endOfDay()
-        ]);
+            attributes: ['status' => InvoiceStatus::Open, 'due_at' => now()->addMonth()->endOfDay(),
+            ],
+        );
     }
 }

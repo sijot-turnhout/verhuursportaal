@@ -214,7 +214,7 @@ final class LeaseResource extends Resource
 
                         Action::make('Bekijk offerte')
                             ->icon('heroicon-o-document-text')
-                            ->visible(fn (Lease $record): bool => $record->quotation()->exists())
+                            ->visible(fn(Lease $record): bool => $record->quotation()->exists()),
                     ])->dropdown(false),
 
                     self::restoreArchiveEntityAction(),

@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Invoice;
-use App\Models\Quotation;
-use App\Models\User;
-use App\Models\Tenant;
 use App\Models\Lease;
+use App\Models\Quotation;
+use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('quotations', static function (Blueprint $table) {
+        Schema::create('quotations', static function (Blueprint $table): void {
             $table->id();
             $table->string('reference');
             $table->string('status');

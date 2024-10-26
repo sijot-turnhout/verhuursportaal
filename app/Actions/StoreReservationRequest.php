@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Jobs\QuotationGenerator;
 use App\Contracts\StoreReservation;
 use App\DataObjects\ReservationDataObject;
-use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
+use App\Jobs\QuotationGenerator;
 use App\Models\Lease;
 use App\Models\Tenant;
 use App\Models\User;

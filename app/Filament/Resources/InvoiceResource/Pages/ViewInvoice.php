@@ -9,13 +9,11 @@ use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsPaidAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsUncollectedAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsVoidedAction;
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use Filament\Actions;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
-use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ViewInvoice

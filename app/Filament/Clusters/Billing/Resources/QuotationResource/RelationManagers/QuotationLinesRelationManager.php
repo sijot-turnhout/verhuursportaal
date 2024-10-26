@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\Billing\Resources\QuotationResource\RelationManagers;
 
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;

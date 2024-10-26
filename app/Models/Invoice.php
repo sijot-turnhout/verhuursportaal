@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\InvoiceBuilder;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
 use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
-use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 
 /**
  * Class Invoice
@@ -133,7 +133,7 @@ final class Invoice extends Model
      */
     public function state(): InvoiceStateContract
     {
-        return match($this->status) {
+        return match ($this->status) {
             InvoiceStatus::Draft => new States\DraftInvoiceState($this),
             InvoiceStatus::Open => new States\OpenInvoiceState($this),
             InvoiceStatus::Paid => new States\PaidInvoiceState($this),

@@ -27,7 +27,7 @@ final class OpenInvoiceState extends InvoiceState
     public function transitionToUnCollected(): bool
     {
         return $this->invoice->update(
-            attributes: ['status' => InvoiceStatus::Uncollected]
+            attributes: ['status' => InvoiceStatus::Uncollected],
         );
     }
 

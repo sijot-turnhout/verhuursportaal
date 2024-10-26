@@ -7,7 +7,6 @@ namespace App\Builders;
 use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 
 /**
  * Class InvoiceBuilder

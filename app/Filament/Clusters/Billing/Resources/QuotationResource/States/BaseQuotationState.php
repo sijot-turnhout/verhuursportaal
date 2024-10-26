@@ -26,7 +26,7 @@ class BaseQuotationState implements QuotationStateContract
      * @return void
      */
     public function __construct(
-        public readonly Quotation $quotation
+        public readonly Quotation $quotation,
     ) {}
 
     /**

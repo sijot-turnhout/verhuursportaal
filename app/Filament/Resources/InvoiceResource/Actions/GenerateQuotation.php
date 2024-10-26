@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\InvoiceResource\Actions;
 
-use App\Models\Lease;
-use App\Models\Quotation;
 use App\Jobs\QuotationGenerator;
+use App\Models\Lease;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Gate;
