@@ -39,10 +39,13 @@ final class ViewQuotations extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            QuotationResource\Actions\MarkAsFinalizedAction::make(),
-            QuotationResource\Actions\MarkAsApprovedAction::make(),
-            QuotationResource\Actions\MarkAsDeclinedAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make()->color('gray')->icon('heroicon-o-pencil-square'),
+            Actions\ActionGroup::make([
+                QuotationResource\Actions\MarkAsFinalizedAction::make(),
+                QuotationResource\Actions\MarkAsApprovedAction::make(),
+                QuotationResource\Actions\MarkAsDeclinedAction::make(),
+            ])->label('Offerte status')->icon('heroicon-o-tag')->color('gray')->button(),
+            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 }

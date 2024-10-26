@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Jobs\QuotationGenerator;
 use App\Contracts\StoreReservation;
 use App\DataObjects\ReservationDataObject;
+use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
+use App\Models\Lease;
 use App\Models\Tenant;
 use App\Models\User;
 use Filament\Notifications\Notification;
@@ -24,10 +27,18 @@ final readonly class StoreReservationRequest implements StoreReservation
     public function process(ReservationDataObject $reservationDataObject): void
     {
         DB::transaction(function () use ($reservationDataObject): void {
-            $tenant = $this->findTenantByEmailOrRegister($reservationDataObject);
-            $tenant->leases()->create($reservationDataObject->getLeaseInformation()->toArray());
-            $tenant->sendOutReservationConfirmation();
+            // Entity creation
+            $lease = Lease::create($reservationDataObject->getLeaseInformation()->toArray());
 
+            $tenant = $this->findTenantByEmailOrRegister($reservationDataObject);
+            $tenant->leases()->save($lease);
+
+            if ($reservationDataObject->wantsQuotation()) {
+                QuotationGenerator::process($lease, $tenant);
+            }
+
+            // Notification sending
+            $tenant->sendOutReservationConfirmation();
             $this->sendOutNotificationToTheBackend();
         });
 

@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->timestamp('departure_date');
             $table->integer('persons');
             $table->foreignIdFor(User::class, 'supervisor_id')->nullable()->references('id')->on('users')->nullOnDelete();
-            $table->foreignIdFor(Tenant::class)->references('id')->on('tenants');
+            $table->foreignIdFor(Tenant::class)->nullable()->references('id')->on('tenants');
             $table->string('status');
             $table->timestamp('metrics_registered_at')->nullable();
             $table->softDeletes();

@@ -31,7 +31,7 @@ final class ViewInvoice extends Action
         return parent::make($name ?? trans('Bekijk factuur'))
             ->icon('heroicon-o-eye')
             ->visible(fn(Lease $record): bool => Gate::allows('view-invoice', $record))
-            ->url(fn(Lease $record): string => route('filament.admin.billing.resources.invoices.edit', $record->invoice))
+            ->url(fn(Lease $record): string => route('filament.admin.billing.resources.invoices.view', $record->invoice))
             ->color('gray');
     }
 }

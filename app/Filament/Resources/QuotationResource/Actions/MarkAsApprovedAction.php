@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\QuotationResource\Actions;
 
-use App\Models\Invoice;
+use App\Models\Quotation;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Gate;
 
 /**
@@ -29,7 +30,11 @@ final class MarkAsApprovedAction extends Action
     {
         return parent::make($name ?? trans('offerte goedkeuren'))
             ->icon('heroicon-o-check')
-            ->visible(fn(Invoice $invoice): bool => Gate::allows('approve-quotation', $invoice))
-            ->color('gray');
+            ->visible(fn(Quotation $quotation): bool => Gate::allows('approve', $quotation))
+            ->color('gray')
+            ->action(function (Quotation $quotation): void {
+                $quotation->state()->transitionToAccepted();
+                Notification::make()->title('Offerte status gewijzigd')->body(trans('De offerte staat geregistreerd als goedgekeurd'))->success()->send();
+            });
     }
 }

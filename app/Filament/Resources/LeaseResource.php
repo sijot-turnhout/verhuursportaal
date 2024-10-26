@@ -203,13 +203,19 @@ final class LeaseResource extends Resource
                     Tables\Actions\ViewAction::make()
                         ->hidden(fn(Lease $lease): bool => $lease->trashed()),
 
-                    Action::make('factuur')
-                        ->icon('heroicon-o-document-text')
-                        ->visible(fn(Lease $record): bool => $record->invoice()->exists())
-                        ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
-
                     Tables\Actions\EditAction::make()
                         ->hidden(fn(Lease $lease): bool => $lease->trashed()),
+
+                    Tables\Actions\ActionGroup::make([
+                        Action::make('Bekijk factuur')
+                            ->icon('heroicon-o-document-text')
+                            ->visible(fn(Lease $record): bool => $record->invoice()->exists())
+                            ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
+
+                        Action::make('Bekijk offerte')
+                            ->icon('heroicon-o-document-text')
+                            ->visible(fn (Lease $record): bool => $record->quotation()->exists())
+                    ])->dropdown(false),
 
                     self::restoreArchiveEntityAction(),
 

@@ -75,10 +75,9 @@ final class ListInvoices extends ListRecords
     private function getAllInvoicesTab(): Tab
     {
         $tab = Tab::make(trans('Alle'))
-            ->query(fn(Invoice $builder) => $builder->excludeQuotations())
             ->icon('heroicon-o-list-bullet');
 
-        if (Invoice::query()->excludeQuotations()->count() > 0) {
+        if (Invoice::query()->count() > 0) {
             $tab->badge(Invoice::query()->count());
         }
 

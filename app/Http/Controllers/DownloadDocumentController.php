@@ -10,14 +10,14 @@ use Spatie\LaravelPdf\PdfBuilder;
 
 use function Spatie\LaravelPdf\Support\pdf;
 
-final readonly class DownloadInvoiceController
+final readonly class DownloadDocumentController
 {
-    public function __invoke(Invoice $record): PdfBuilder
+    public function invoice(Invoice $record): PdfBuilder
     {
         abort_if(auth()->user()->cannot('download-invoice', $record), 404);
 
         return pdf()
-            ->view($this->getDocumentView($record), compact('record'))
+            ->view('pdfs.invoice', compact('record'))
             ->name($record->payment_reference . '.pdf');
     }
 

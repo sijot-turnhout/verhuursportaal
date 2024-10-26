@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\Billing;
+use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Filament\Resources\InvoiceResource\Infolists\InvoiceInfolist;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Filament\Resources\InvoiceResource\Pages\ListInvoices;
 use App\Filament\Resources\InvoiceResource\RelationManagers\InvoiceLinesRelationManager;
 use App\Filament\Resources\InvoiceResource\Widgets\InvoiceStats;
 use App\Models\Invoice;
+use App\Models\Lease;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Fieldset;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -26,6 +31,8 @@ use Illuminate\Support\HtmlString;
  * This resource handles the management of the `Invoice` model, providing forms, tables, and views for creating, editing, and listing invoices.
  * The class also integrates widgets and relation managers to offer a comprehensive interface for working with invoices.
  * Invoices can be filtered, displayed with specific data, and various actions can be performed on them, such as viewing, editing, and deleting.
+ *
+ * @todo Implement documentation for the invoice statusses on the documentation portal.
  *
  * @package App\Filament\Resources
  */
@@ -69,13 +76,6 @@ final class InvoiceResource extends Resource
      * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
-
-    /**
-     * The navigation group under which this resource is listed.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationGroup = 'Facturatie';
 
     /**
      * Defines the form schema for creating or editing invoices.
@@ -124,9 +124,74 @@ final class InvoiceResource extends Resource
      */
     public static function infolist(Infolist $infolist): Infolist
     {
-        return $infolist->schema([
+        return $infolist
+            ->schema([
+                Section::make('Informatie omtrent de begunstigde')
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary')
+                    ->collapsible()
+                    ->collapsed()
+                    ->compact()
+                    ->columns(12)
+                    ->description('De algemene informatie omtrent de begunstigde van de factuur.')
+                    ->schema([
+                        TextEntry::make('customer.name')->label('Naam')->icon('heroicon-o-user')->columnSpan(3)->iconColor('primary'),
+                        TextEntry::make('customer.email')->label('Email')->columnSpan(3)->icon('heroicon-o-envelope')->iconColor('primary'),
+                        TextEntry::make('customer.phone_number')->label('Telefoon nummer')->icon('heroicon-o-device-phone-mobile')->iconColor('primary')->iconColor('primary')->columnSpan(3)->placeholder('- niet opgegegeven'),
+                        TextEntry::make('customer.address')->label('Adres')->icon('heroicon-o-home-modern')->iconColor('primary')->placeholder('(niet opgegeven)')->columnSpan(3),
+                    ]),
 
-        ]);
+                // Creates a collapsible section for displaying general invoice information.
+                //
+                // The section includes details such as the invoice number, status, due date, and other relevant details.
+                // Each field is displayed as a text entry with additional formatting like icons, badges, and color schemes.
+                // Some fields have dynamic visibility based on the invoice status. The section also provides a link to view the related lease information.
+
+                Section::make('Algemene informatie')
+                    ->icon('heroicon-o-document-text')
+                    ->iconColor('primary')
+                    ->collapsible()
+                    ->collapsed()
+                    ->compact()
+                    ->columns(12)
+                    ->description('De factuur informatie weergave toont een overzicht van factuurnummer, datum, status en totaalbedrag, inclusief factuurregels en betalingsdetails')
+                    ->schema([
+                        TextEntry::make('payment_reference')->label('Volgnummer')->weight(FontWeight::Bold)->color('primary')->columnSpan(2),
+                        TextEntry::make('creator.name')->label('Opgesteld door')->icon('heroicon-o-user-circle')->iconColor('primary')->columnSpan(2),
+                        TextEntry::make('status')->badge()->columnSpan(2),
+                        TextEntry::make('lease.period')
+                            ->label('Verhuur periode')
+                            ->columnSpan(3)
+                            ->url(fn (Invoice $invoice): string => LeaseResource::getUrl('view', ['record' => $invoice->lease]))
+                            ->openUrlInNewTab(),
+
+                        TextEntry::make('due_at')
+                            ->label('Uiterste betalingsdatum')
+                            ->columnSpan(3)
+                            ->icon('heroicon-o-calendar')
+                            ->iconColor('primary')
+                            ->placeholder('-')
+                            ->visible(fn (Invoice $invoice): bool => $invoice->status === InvoiceStatus::Open)->date('d-m-Y'),
+
+                        TextEntry::make('cancelled_at')
+                            ->label('Annuleringsdatum')
+                            ->columnSpan(3)
+                            ->icon('heroicon-o-calendar')
+                            ->iconColor('primary')
+                            ->placeholder('-')
+                            ->visible(fn (Invoice $invoice): bool => $invoice->status === InvoiceStatus::Void || $invoice->status === InvoiceStatus::Uncollected),
+
+                            TextEntry::make('paid_at')
+                                ->label('Betaald op')
+                                ->columnSpan(3)
+                                ->icon('heroicon-o-calendar')
+                                ->iconColor('primary')
+                                ->placeholder('-')
+                                ->visible(fn (Invoice $invoice): bool => $invoice->status === InvoiceStatus::Paid),
+
+                        TextEntry::make('description')->label('Extra informatie')->columnSpan(12),
+                    ]),
+            ]);
     }
 
     /**
@@ -182,7 +247,7 @@ final class InvoiceResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        if ($count = Invoice::query()->excludeQuotations()->count()) {
+        if ($count = Invoice::query()->count()) {
             return (string) $count;
         }
 

@@ -135,6 +135,11 @@ final class Lease extends Model
         return $this->belongsTo(Invoice::class);
     }
 
+    public function quotation(): BelongsTo
+    {
+        return $this->belongsTo(Quotation::class);
+    }
+
     /**
      * Creates and returns a new instance of LeaseBuilder.
      *

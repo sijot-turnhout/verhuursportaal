@@ -18,7 +18,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerLaravelTelescope();
-        $this->app->bind(StoreQuotation::class, StoreQuotationRequest::class);
         $this->app->bind(StoreReservation::class, StoreReservationRequest::class);
 
         KnowledgeBasePanel::configureUsing(fn(KnowledgeBasePanel $panel) => $panel->viteTheme('resources/css/filament/knowledge-base/theme.css'));

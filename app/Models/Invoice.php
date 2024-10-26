@@ -8,10 +8,11 @@ use App\Builders\InvoiceBuilder;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
 use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 
 /**
  * Class Invoice
@@ -33,8 +34,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 final class Invoice extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are protected from the mass assignment system.
      *
@@ -65,11 +64,11 @@ final class Invoice extends Model
     /**
      * Data relation for all the invoice lines that are registered to an invoice.
      *
-     * @return HasMany<BillingItem>
+     * @return MorphMany
      */
-    public function invoiceLines(): HasMany
+    public function invoiceLines(): MorphMany
     {
-        return $this->hasMany(BillingItem::class);
+        return $this->morphMany(BillingItem::class, 'billingdocumentable');
     }
 
     /**
@@ -118,6 +117,29 @@ final class Invoice extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    /**
+     * Returns an appropriate state object based on the current invoice status.
+     *
+     * This method leverages a `match` expression to determine the correct state class
+     * for the invoice. Each state class corresponds to a particular invoice status,
+     * such as Draft, Open, Paid, Void, or Uncollected. The returned state object
+     * implements the `InvoiceStateContract` interface, allowing for state-specific
+     * behavior and transitions.
+     *
+     * @return InvoiceStateContract      The state object corresponding to the current invoice status.
+     * @throws InvalidArgumentException  If the status does not match any known state.
+     */
+    public function state(): InvoiceStateContract
+    {
+        return match($this->status) {
+            InvoiceStatus::Draft => new States\DraftInvoiceState($this),
+            InvoiceStatus::Open => new States\OpenInvoiceState($this),
+            InvoiceStatus::Paid => new States\PaidInvoiceState($this),
+            InvoiceStatus::Void => new States\VoidInvoiceState($this),
+            InvoiceStatus::Uncollected => new States\UncollectedInvoiceState($this),
+        };
     }
 
     /**

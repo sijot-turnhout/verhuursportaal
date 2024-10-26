@@ -42,6 +42,7 @@ final class EditLease extends EditRecord
     {
         return [
             InvoiceResource\Actions\GenerateInvoice::make(),
+            InvoiceResource\Actions\GenerateQuotation::make(),
             InvoiceResource\Actions\ViewInvoice::make(),
             Actions\DeleteAction::make(),
             Actions\ForceDeleteAction::make(),
