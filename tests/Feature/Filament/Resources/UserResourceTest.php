@@ -26,7 +26,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can render the index page', function (): void {
+    it('can render the index page', function (): void {
         livewire(ListUsers::class)->assertSuccessful();
     });
 
@@ -42,7 +42,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can render the create page', function (): void {
+    it('can render the create page', function (): void {
         livewire(CreateUser::class)->assertSuccessful();
     });
 
@@ -59,7 +59,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can render the edit page', function (): void {
+    it('can render the edit page', function (): void {
         $user = User::factory()->create();
         livewire(EditUser::class, ['record' => $user->getRouteKey()])->assertSuccessful();
     });
@@ -77,7 +77,7 @@ describe('UserResource tests', function (): void {
      * @param  string $column The column name to be checked for rendering.
      * @return void
      */
-    it ('can render columns', function (string $column): void {
+    it('can render columns', function (string $column): void {
         livewire(ListUsers::class)->assertCanRenderTableColumn($column);
     })->with(['name', 'email', 'user_group', 'phone_number', 'last_seen_at', 'created_at']);
 
@@ -95,7 +95,7 @@ describe('UserResource tests', function (): void {
      * @param  string $column The column name to be sorted.
      * @return void
      */
-    it ('can sort columns', function (string $column): void {
+    it('can sort columns', function (string $column): void {
         $records = User::factory(5)->create();
 
         livewire(ListUsers::class)
@@ -120,7 +120,7 @@ describe('UserResource tests', function (): void {
      * @param  string $column The name of the column to be tested for search functionality.
      * @return void
      */
-    it ('can search columns', function (string $column): void {
+    it('can search columns', function (string $column): void {
         $records = User::factory(5)->create();
         $value = $records->first()->{$column};
 
@@ -145,7 +145,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can create a record', function (): void {
+    it('can create a record', function (): void {
         $record = User::factory()->make();
 
         $formData = [
@@ -153,7 +153,7 @@ describe('UserResource tests', function (): void {
             'email' => $record->email,
             'user_group' => $record->user_group,
             'password' => $record->password,
-            'password_confirmation' => $record->password
+            'password_confirmation' => $record->password,
         ];
 
         livewire(CreateUser::class)
@@ -178,7 +178,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can delete a record', function (): void {
+    it('can delete a record', function (): void {
         $william = User::factory()->create();
 
         livewire(EditUser::class, ['record' => $william->getRouteKey()])
@@ -201,7 +201,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can bulk delete records', function (): void {
+    it('can bulk delete records', function (): void {
         $records = User::factory(5)->create();
 
         livewire(ListUsers::class)
@@ -227,7 +227,7 @@ describe('UserResource tests', function (): void {
      * @param  string $column The name of the field to be tested for required validation.
      * @return void
      */
-    it ('can validate required', function (string $column): void {
+    it('can validate required', function (string $column): void {
         livewire(CreateUser::class)
             ->fillForm([$column => null])
             ->assertActionExists('create')
@@ -248,7 +248,7 @@ describe('UserResource tests', function (): void {
      * @param  string $column The name of the field to be tested for email format validation.
      * @return void
      */
-    it ('can validate email', function (string $column): void {
+    it('can validate email', function (string $column): void {
         livewire(CreateUser::class)
             ->fillForm(['email' => Str::random()])
             ->assertActionExists('create')
@@ -269,7 +269,7 @@ describe('UserResource tests', function (): void {
      * @param  string $column The name of the field to be tested for maximum length validation.
      * @return void
      */
-    it ('can validate max length', function (string $column): void {
+    it('can validate max length', function (string $column): void {
         livewire(CreateUser::class)
             ->fillForm([$column => Str::random(256)])
             ->assertActionExists('create')
@@ -289,7 +289,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can validate password confirmation', function (): void {
+    it('can validate password confirmation', function (): void {
         $record = User::factory()->make();
 
         livewire(CreateUser::class)
