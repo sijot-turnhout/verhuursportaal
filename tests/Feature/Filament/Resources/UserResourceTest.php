@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Tests\Feature\Filament\Resources;
+
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
@@ -166,6 +168,35 @@ describe('UserResource tests', function (): void {
     });
 
     /**
+     * Test that an existing user record can be updated successfully.
+     *
+     * This test verifies that a user record can be modified through the EditUser page.
+     * It creates a user record, loads it in the EditUser page, updates key fields
+     * such as 'name', 'user_group', and 'email', and then saves the changes.
+     * The test checks for any form validation errors, and confirms that the updated
+     * data is present in the database.
+     *
+     * Expected outcome:
+     * - The 'save' action completes without validation errors.
+     * - The database reflects the updated user data as per the modified form fields.
+     *
+     * @return void
+     */
+    it ('can update a record', function (): void {
+        $record = User::factory()->create();
+        $newRecord = User::factory()->make();
+        $requestData = ['name' => $newRecord->name, 'user_group' => $newRecord->user_group, 'email' => $newRecord->email];
+
+        livewire(EditUser::class, ['record' => $record->getRouteKey()])
+            ->fillForm($requestData)
+            ->assertActionExists('save')
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas(User::class, $requestData);
+    });
+
+    /**
      * Test that an existing user record can be deleted.
      *
      * This test verifies that a user record can be deleted through the EditUser page.
@@ -233,7 +264,7 @@ describe('UserResource tests', function (): void {
             ->assertActionExists('create')
             ->call('create')
             ->assertHasFormErrors([$column => ['required']]);
-    })->with(['name', 'name', 'email']);
+    })->with(['name', 'user_group', 'email']);
 
     /**
      * Test that the 'email' field is validated correctly for email format.
@@ -254,7 +285,7 @@ describe('UserResource tests', function (): void {
             ->assertActionExists('create')
             ->call('create')
             ->assertHasFormErrors([$column => ['email']]);
-    })->with('email');
+    })->with(['email']);
 
     /**
      * Test that maximum length constraints are validated correctly on specific fields.
