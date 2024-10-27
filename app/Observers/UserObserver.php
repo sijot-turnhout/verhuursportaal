@@ -8,8 +8,5 @@ use App\Models\User;
 
 final class UserObserver
 {
-    public function created(User $user): void
-    {
-        dd('Needs to implement the method for sending the welcome mail');
-    }
+    //
 }

@@ -62,8 +62,8 @@ final class UserResource extends Resource
                     ->icon('heroicon-m-user')
                     ->schema([
                         Forms\Components\Select::make('user_group')->label('Functie')->required()->options(UserGroup::class)->columnSpan(3),
-                        Forms\Components\TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required(),
-                        Forms\Components\TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->email(),
+                        Forms\Components\TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
+                        Forms\Components\TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
                         Forms\Components\TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
                     ])->columns(['sm' => 12, 'md' => 12, 'lg' => 12, 'xl' => 12, '2xl' => 12]),
 
@@ -73,7 +73,7 @@ final class UserResource extends Resource
                     ->icon('heroicon-m-shield-check')
                     ->description('Zorg ervoor dat het account een lang willekeurig wachtwoord gebruikt om veilig te blijven')
                     ->schema([
-                        Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->password()->revealable(),
+                        Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->same('password_confirmation')->password()->revealable(),
                         Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
                     ])
                     ->hidden(fn(string $operation): bool => 'edit' === $operation)

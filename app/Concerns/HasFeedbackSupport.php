@@ -21,7 +21,7 @@ trait HasFeedbackSupport
     /**
      * Define a relationship to the Feedback model.
      *
-     * @return BelongsTo<Feedback, self> The relationship to the Feedback model.
+     * @return BelongsTo<Feedback, \App\Models\Lease> The relationship to the Feedback model.
      */
     public function feedback(): BelongsTo
     {
@@ -35,6 +35,7 @@ trait HasFeedbackSupport
      * with a validity period specified by $validUntil.
      *
      * @param  Carbon  $validUntil  The timestamp until the feedback request is valid.
+     * @return void
      */
     public function sendFeedbackNotification(Carbon $validUntil): void
     {
