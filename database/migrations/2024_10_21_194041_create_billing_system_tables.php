@@ -50,6 +50,7 @@ return new class () extends Migration {
             $table->morphs('billingdocumentable', 'billing_document_index');
             $table->boolean('type')->nullable();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->decimal('quantity', total: 16);
             $table->decimal('unit_price');
             $table->decimal('total_price', total: 16)->storedAs('unit_price * quantity')->index();

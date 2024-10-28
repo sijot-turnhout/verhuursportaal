@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\Billing\Resources\QuotationResource\RelationManagers;
 
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
+use App\Models\BillingItem;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -37,6 +38,12 @@ final class QuotationLinesRelationManager extends RelationManager
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->required()
                     ->columnSpan(2),
+                Forms\Components\TextArea::make('description')
+                    ->label('Beschrijving')
+                    ->translateLabel()
+                    ->columns(12)
+                    ->cols(2)
+                    ->columnSpan(12),
                 Forms\Components\Toggle::make('type')
                     ->label('Dit item is een vermindering op de factuur')
                     ->onColor('success')
@@ -52,7 +59,7 @@ final class QuotationLinesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('id')->placeholder('-')->label('#'),
                 Tables\Columns\TextColumn::make('type')->label('Regel type')->badge()->sortable(),
-                Tables\Columns\TextColumn::make('name')->label('facturatie item')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('name')->label('facturatie item')->searchable()->sortable()->description(fn (BillingItem $billingItem): ?string => $billingItem->description),
                 Tables\Columns\TextColumn::make('quantity')->label('aantal')->numeric()->sortable(),
                 Tables\Columns\TextColumn::make('unit_price')->label('eenheidsprijs')->sortable()->money('EUR'),
                 Tables\Columns\TextColumn::make('total_price')
