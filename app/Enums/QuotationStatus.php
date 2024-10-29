@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use ArchTech\Enums\Comparable;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum QuotationStatus
@@ -16,7 +19,7 @@ use ArchTech\Enums\Comparable;
  *
  * @package App\Enums
  */
-enum QuotationStatus: string
+enum QuotationStatus: string implements HasLabel, HasIcon, HasColor
 {
     use Comparable;
 
@@ -55,4 +58,48 @@ enum QuotationStatus: string
      * this status. This helps in managing and cleaning up quotations that are no longer active.
      */
     case Expired = 'Verlopen offerte';
+
+    public function getIcon(): ?string
+    {
+        return match($this) {
+            self::Draft => 'heroicon-o-pencil-square',
+            self::Declined => 'heroicon-o-x-circle',
+            self::Accepted => 'heroicon-o-check-circle',
+            self::Open => 'heroicon-o-document',
+            self::Expired => 'heroicon-o-clock',
+        };
+    }
+
+    /**
+     * Returns a color string or array associated with each quotation status.
+     *
+     * This method uses a `match` expression to return a specific color for each
+     * quotation status. The colors are intended for use in UI elements, such as
+     * badges or indicators, to visually represent the current status of a quotation.
+     *
+     * @return string|array|null The color value as a string (e.g., 'danger', 'success'), an array for complex color schemes, or null if not applicable.
+     */
+    public function getColor(): string|array|null
+    {
+        return match($this) {
+            self::Declined => 'danger',
+            self::Accepted => 'success',
+            self::Draft => 'primary',
+            self::Expired => 'warning',
+            self::Open => 'info',
+        };
+    }
+
+    /**
+     * Retrieves the label associated with the current status.
+     *
+     * This method returns the string value of the status, which can be used as a
+     * label in the user interface to display the name of the status in a readable format.
+     *
+     * @return string|null The label for the current status, or null if not defined.
+     */
+    public function getLabel(): ?string
+    {
+        return $this->value;
+    }
 }
