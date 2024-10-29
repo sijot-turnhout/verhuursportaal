@@ -26,7 +26,6 @@ final readonly class StoreReservationRequest implements StoreReservation
     public function process(ReservationDataObject $reservationDataObject): void
     {
         DB::transaction(function () use ($reservationDataObject): void {
-            // Entity creation
             $lease = Lease::create($reservationDataObject->getLeaseInformation()->toArray());
 
             $tenant = $this->findTenantByEmailOrRegister($reservationDataObject);

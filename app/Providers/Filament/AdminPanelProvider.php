@@ -8,7 +8,6 @@ use App\Filament\Resources\LeaseResource\Widgets\LatestReservationRequests;
 use App\Filament\Resources\LeaseResource\Widgets\StatsOverview;
 use App\Filament\Resources\QuotationResource\Widgets\LastestQuotationRequestsTable;
 use App\Filament\Resources\UtilityResource\Widgets\UtilityUsageWidget;
-use App\Filament\Widgets\IncomeStatisticsWidget;
 use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
 use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
@@ -81,7 +80,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->widgets([
-                IncomeStatisticsWidget::class,
                 StatsOverview::class,
                 UtilityUsageWidget::class,
                 LatestReservationRequests::class,
