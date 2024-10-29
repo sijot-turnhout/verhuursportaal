@@ -30,13 +30,12 @@ final class ListQuotations extends ListRecords
 {
     use ExposesTableToWidgets;
 
-
     /**
      * Specifies the Filament resource that this page belongs to.
      * This property is essential for Filament to associate this page with the
      * appropriate resource class and its configuration.
      *
-     * @var string The fully qualified class name of the resource.
+     * @var string $resource The fully qualified class name of the resource.
      */
     protected static string $resource = QuotationResource::class;
 

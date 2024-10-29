@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Builders\InvoiceBuilder;
 use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
 use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
@@ -140,21 +139,6 @@ final class Invoice extends Model
             InvoiceStatus::Void => new States\VoidInvoiceState($this),
             InvoiceStatus::Uncollected => new States\UncollectedInvoiceState($this),
         };
-    }
-
-    /**
-     * Create a new Eloquent query builder for the model.
-     *
-     * This method overrides the default Eloquent builder with a custom
-     * InvoiceBuilder, providing additional methods and functionality
-     * specific to invoices.
-     *
-     * @param  \Illuminate\Database\Query\Builder  $query  The base query builder instance.
-     * @return InvoiceBuilder<self>                        The custom query builder instance for invoices.
-     */
-    public function newEloquentBuilder($query): InvoiceBuilder
-    {
-        return new InvoiceBuilder($query);
     }
 
     /**
