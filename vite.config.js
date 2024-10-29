@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/sass/invoice.scss',
                 'resources/js/app.js',
+                'resources/css/filament/admin/theme.css',
             ],
             refresh: true,
         })

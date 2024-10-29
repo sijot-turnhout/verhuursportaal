@@ -10,6 +10,7 @@ use App\Filament\Resources\QuotationResource\Widgets\LastestQuotationRequestsTab
 use App\Filament\Resources\UtilityResource\Widgets\UtilityUsageWidget;
 use App\Filament\Widgets\IncomeStatisticsWidget;
 use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -17,6 +18,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
 use Filament\View\PanelsRenderHook;
 use Guava\FilamentKnowledgeBase\KnowledgeBasePlugin;
@@ -74,6 +76,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->brandLogo(asset('img/sijot.png'))
+            ->brandLogoHeight('2rem')
             ->favicon(asset('img/favicon/favicon.ico'))
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
@@ -98,7 +101,9 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins([
+                AuthUIEnhancerPlugin::make()->emptyPanelBackgroundImageUrl(asset('img/sgv-wit.png'))->emptyPanelBackgroundColor(Color::hex('#709553')),
                 KnowledgeBasePlugin::make()->modalPreviews()->slideOverPreviews()->disableKnowledgeBasePanelButton(),
                 EnvironmentIndicatorPlugin::make(),
                 QuickCreatePlugin::make()->excludes([
