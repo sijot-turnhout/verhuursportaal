@@ -56,6 +56,8 @@ final class QuotationLinesRelationManager extends RelationManager
     {
         return $table
             ->heading('Offerte regels')
+            ->emptyStateHeading('Geen offerteregels gevonden')
+            ->emptyStateDescription('Momenteel zijn er nog geen tegels toegevoegd aan de offerte')
             ->columns([
                 Tables\Columns\TextColumn::make('id')->placeholder('-')->label('#'),
                 Tables\Columns\TextColumn::make('type')->label('Regel type')->badge()->sortable(),
