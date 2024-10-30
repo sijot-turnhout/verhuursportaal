@@ -40,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->topNavigation()
             ->login()
+            ->passwordReset()
             ->profile()
             ->font('Open sans')
             ->databaseNotifications()
