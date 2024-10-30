@@ -40,7 +40,7 @@ final readonly class QuotationGenerator
         return $quotation;
     }
 
-     /**
+    /**
      * Generate a description for the quotation document based on the lease dates.
      *
      * This helper method returns a description that includes the rental period, formatted for display

@@ -7,7 +7,6 @@ namespace Tests\Feature\Filament\Resources;
 use App\Filament\Resources\LocalResource\Pages\CreateLocal;
 use App\Filament\Resources\LocalResource\Pages\EditLocal;
 use App\Filament\Resources\LocalResource\Pages\ListLocals;
-use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Models\Local;
 use Filament\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -151,7 +150,7 @@ describe('LocalResource tests', function (): void {
         $requestData = [
             'name' => $record->name,
             'description' => $record->description,
-            'storage_location' => $record->storage_location
+            'storage_location' => $record->storage_location,
         ];
 
         livewire(CreateLocal::class)
@@ -160,7 +159,7 @@ describe('LocalResource tests', function (): void {
             ->call('create')
             ->assertHasNoFormErrors();
 
-            $this->assertDatabaseHas(Local::class, $requestData);
+        $this->assertDatabaseHas(Local::class, $requestData);
     });
 
     /**
@@ -176,7 +175,7 @@ describe('LocalResource tests', function (): void {
      * - The 'save' action completes without validation errors.
      * - The database reflects the updated local data as per the modified form fields.
      */
-    it ('can update a record', function (): void {
+    it('can update a record', function (): void {
         $record = Local::factory()->create();
         $newRecord = Local::factory()->make();
         $requestData = ['name' => $newRecord->name, 'description' => $newRecord->description, 'storage_location' => $newRecord->storage_location];
@@ -187,7 +186,7 @@ describe('LocalResource tests', function (): void {
             ->call('save')
             ->assertHasNoFormErrors();
 
-            $this->assertDatabaseHas(Local::class, $requestData);
+        $this->assertDatabaseHas(Local::class, $requestData);
     });
 
     /**

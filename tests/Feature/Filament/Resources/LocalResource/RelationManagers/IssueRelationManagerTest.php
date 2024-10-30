@@ -99,7 +99,7 @@ describe('Issue relation manager tests', function (): void {
          * @return void
          */
         it('can search columns', function (string $column): void {
-            if ($column === 'status') {
+            if ('status' === $column) {
                 $value = $this->local->issues->first()->{$column}->value;
             } else {
                 $value = $this->local->issues->first()->{$column};
@@ -189,7 +189,7 @@ describe('Issue relation manager tests', function (): void {
          *
          * @return void
          */
-        it ('Assures that the correct header actions exists in order', function (): void {
+        it('Assures that the correct header actions exists in order', function (): void {
             livewire(IssuesRelationManager::class, ['ownerRecord' => $this->local, 'pageClass' => EditIssue::class])
                 ->assertTableHeaderActionsExistInOrder(['create']);
         });
@@ -204,7 +204,7 @@ describe('Issue relation manager tests', function (): void {
          *
          * @return void
          */
-        it ('The connect to user action is present on the relation manager table', function (): void {
+        it('The connect to user action is present on the relation manager table', function (): void {
             livewire(IssuesRelationManager::class, ['ownerRecord' => $this->local, 'pageClass' => EditIssue::class])
                 ->assertTableActionExists('Koppelen');
         });

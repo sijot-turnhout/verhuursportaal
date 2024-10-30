@@ -182,7 +182,7 @@ describe('UserResource tests', function (): void {
      *
      * @return void
      */
-    it ('can update a record', function (): void {
+    it('can update a record', function (): void {
         $record = User::factory()->create();
         $newRecord = User::factory()->make();
         $requestData = ['name' => $newRecord->name, 'user_group' => $newRecord->user_group, 'email' => $newRecord->email];
