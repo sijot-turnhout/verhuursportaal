@@ -61,7 +61,7 @@ enum QuotationStatus: string implements HasLabel, HasIcon, HasColor
 
     public function getIcon(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Draft => 'heroicon-o-pencil-square',
             self::Declined => 'heroicon-o-x-circle',
             self::Accepted => 'heroicon-o-check-circle',
@@ -81,7 +81,7 @@ enum QuotationStatus: string implements HasLabel, HasIcon, HasColor
      */
     public function getColor(): string|array|null
     {
-        return match($this) {
+        return match ($this) {
             self::Declined => 'danger',
             self::Accepted => 'success',
             self::Draft => 'primary',

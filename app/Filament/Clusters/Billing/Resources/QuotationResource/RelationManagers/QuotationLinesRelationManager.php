@@ -61,7 +61,7 @@ final class QuotationLinesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('id')->placeholder('-')->label('#'),
                 Tables\Columns\TextColumn::make('type')->label('Regel type')->badge()->sortable(),
-                Tables\Columns\TextColumn::make('name')->label('facturatie item')->searchable()->sortable()->description(fn (BillingItem $billingItem): ?string => $billingItem->description),
+                Tables\Columns\TextColumn::make('name')->label('facturatie item')->searchable()->sortable()->description(fn(BillingItem $billingItem): ?string => $billingItem->description),
                 Tables\Columns\TextColumn::make('quantity')->label('aantal')->numeric()->sortable(),
                 Tables\Columns\TextColumn::make('unit_price')->label('eenheidsprijs')->sortable()->money('EUR'),
                 Tables\Columns\TextColumn::make('total_price')
