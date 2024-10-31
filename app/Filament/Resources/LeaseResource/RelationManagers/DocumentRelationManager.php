@@ -1,0 +1,189 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\LeaseResource\RelationManagers;
+
+use App\Models\Document;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Actions\StaticAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
+/**
+ * Manages the 'documents' relationship within a lease.
+ *
+ * This Relation Manager provides the interface and logic for managing documents
+ * attached to a lease, such as uploading, downloading, and deleting documents.
+ * Documents are stored as PDF files and can be managed through a dedicated
+ * table interface with actions for viewing and modifying them.
+ *
+ * @todo Implement a method that deletes attached files when a lease is deleted to ensure file system cleanup.
+ *
+ * @package App\Filament\Resources\LeaseResource\RelationManagers
+ */
+final class DocumentRelationManager extends RelationManager
+{
+    /**
+     * Defines the relationship name used in the lease model.
+     *
+     * @var string
+     */
+    protected static string $relationship = 'documents';
+
+    /**
+     * Specifies a singular label for a document item.
+     *
+     * @var string|null
+     */
+    protected static ?string $modelLabel = "Document";
+
+    /**
+     * Specifies a plural label for document items.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralModelLabel = 'Documenten';
+
+    /**
+     * Specifies the title displayed in the interface for this relation.
+     *
+     * @var string|null
+     */
+    protected static ?string $title = 'Documenten';
+
+    /**
+     * Creates and returns the form schema for managing document uploads.
+     *
+     * This form allows users to upload new documents to a lease, specifying
+     * both the document name and file attachment. It includes custom validation,
+     * file uniqueness, and user-assigned defaults.
+     *
+     * @param  Form $form The Filament form instance used for building the schema.
+     * @return Form
+     */
+    public function form(Form $form): Form
+    {
+        return $form
+            ->columns(12)
+            ->schema([
+                Forms\Components\Select::make('user_id')
+                    ->label('Opgesteld door')
+                    ->translateLabel()
+                    ->relationship(name: 'creator', titleAttribute: 'name')
+                    ->default(auth()->user()->id)
+                    ->columnSpan(5),
+                Forms\Components\TextInput::make('name')
+                    ->label('Bestandsnaam')
+                    ->translateLabel()
+                    ->columnSpan(7)
+                    ->required()
+                    ->unique(ignoreRecord: true),
+
+                Forms\Components\FileUpload::make('attachment')
+                    ->disk('local')
+                    ->label('Bijlage')
+                    ->translateLabel()
+                    ->preserveFilenames()
+                    ->unique(ignoreRecord: true)
+                    ->previewable(false)
+                    ->uploadingMessage('uploaden document...')
+                    ->columnSpan(12)
+                    ->required()
+                    ->helperText('Momenteel ondersteunen we enkel pdf bestanden')
+                    ->downloadable(),
+            ]);
+    }
+
+    /**
+     * Builds and returns the table schema for displaying a list of documents.
+     *
+     * The table provides a list of documents associated with a lease, including
+     * columns for file name, uploader, and upload date. Table actions for editing,
+     * downloading, and deleting are also included.
+     *
+     * @param  Table $table The Filament table instance used for building the schema.
+     * @return Table
+     */
+    public function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('#')
+                    ->translateLabel()
+                    ->weight(FontWeight::Bold)
+                    ->color('primary'),
+
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label('Geupload door'),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->icon('heroicon-o-document-text')
+                    ->iconColor('primary')
+                    ->label('Bestandsnaam'),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->translateLabel()
+                    ->label('Geupload op'),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                self::downloadDocumentAction(),
+                Tables\Actions\DeleteAction::make()
+            ])
+            ->bulkActions([DeleteBulkAction::make()])
+            ->headerActions([self::CreateDocumentAction()]);
+    }
+
+    /**
+     * Customizes and returns the Create Action for uploading documents.
+     *
+     * This action allows users to upload a new document via a modal with
+     * custom labels, icons, and descriptions. The modal is specifically configured
+     * to accept only PDF files, ensuring proper document formatting for leases.
+     *
+     * @return CreateAction The customized action for document uploads.
+     */
+    private static function createDocumentAction(): CreateAction
+    {
+        return CreateAction::make()
+            ->modalHeading('Document uploaden')
+            ->modalIcon('heroicon-o-document-plus')
+            ->modalIconColor('primary')
+            ->modalAutofocus()
+            ->modalSubmitActionLabel('Uploaden')
+            ->createAnother(false)
+            ->modalSubmitAction(fn (StaticAction $action) => $action->icon('heroicon-o-paper-airplane'))
+            ->modalDescription('Upload hier de benodigde documenten in PDF-formaat voor administratie van de verhuring. Zorg ervoor dat alle bestanden duidelijk leesbaar zijn en voldoen aan de interne eisen voor documentatiebeheer.')
+            ->label('Document uploaden')
+            ->icon('heroicon-o-plus');
+    }
+
+    /**
+     * Defines and returns a custom action for downloading documents.
+     *
+     * This action enables users to download a selected document from
+     * storage, providing a streamlined way to retrieve attachments directly.
+     *
+     * @return Action  The configured download action for table rows.
+     */
+    private static function downloadDocumentAction(): Action
+    {
+        return Action::make('download-file')
+            ->label('download')
+            ->icon('heroicon-o-cloud-arrow-down')
+            ->action(function (Document $document): StreamedResponse {
+                return Storage::disk('local')->download($document->attachment);
+            });
+    }
+}

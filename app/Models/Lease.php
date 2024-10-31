@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -133,6 +134,24 @@ final class Lease extends Model
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    /**
+     * Retrieve all documents associated with this entity.
+     *
+     * This method defines a one-to-many relationship, linking each instance of this model
+     * (e.g., a Lease or User) to multiple Document records. It allows retrieval and management
+     * of all related documents, typically for models that can "own" documents for record-keeping,
+     * compliance, or supporting information.
+     *
+     * Example use cases include fetching all documents tied to a particular lease
+     * or user in order to manage attachments, verify compliance, or audit changes.
+     *
+     * @return HasMany The related Document instances associated with this entity.
+     */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class);
     }
 
     public function quotation(): BelongsTo
