@@ -212,6 +212,10 @@ final class LeaseResource extends Resource
                             ->icon('heroicon-o-document-text')
                             ->visible(fn(Lease $record): bool => $record->quotation()->exists()),
                     ])->dropdown(false),
+
+                    Tables\Actions\ActionGroup::make([
+                        Tables\Actions\DeleteAction::make()
+                    ])->dropdown(false),
                 ])
                     ->label('acties')
                     ->translateLabel()
@@ -222,6 +226,7 @@ final class LeaseResource extends Resource
             ])
             ->defaultSort('arrival_date')
             ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make()->label('verwijderen'),
                 ExportBulkAction::make(),
             ]);
     }
