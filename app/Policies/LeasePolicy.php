@@ -108,12 +108,7 @@ final readonly class LeasePolicy
         return (bool) (
             $lease->status->in([LeaseStatus::Cancelled, LeaseStatus::Finalized]) &&
             $user->user_group->in([UserGroup::Vzw, UserGroup::Rvb])
-        )
-
-
-
-        // For all other cases, deletion is not allowed
-        ;
+        );
     }
 
     /**
