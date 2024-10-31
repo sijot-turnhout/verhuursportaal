@@ -30,7 +30,7 @@ final readonly class DocumentObserver
      */
     public function deleted(Document $document): void
     {
-        if (! is_null($document->attachment)) {
+        if (null !== $document->attachment) {
             Storage::disk('local')->delete($document->attachment);
         }
     }
@@ -52,7 +52,7 @@ final readonly class DocumentObserver
      */
     public function updated(Document $document): void
     {
-        if ($document->isDirty('attachment') && ! is_null($document->getOriginal('attachment'))) {
+        if ($document->isDirty('attachment') && null !== $document->getOriginal('attachment')) {
             Storage::disk('local')->delete($document->getOriginal('attachment'));
         }
     }

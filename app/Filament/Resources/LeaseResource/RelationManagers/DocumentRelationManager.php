@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\RelationManagers;
 
 use App\Models\Document;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Actions\StaticAction;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
-use Filament\Actions\StaticAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -181,7 +180,7 @@ final class DocumentRelationManager extends RelationManager
             ])
             ->bulkActions([DeleteBulkAction::make()])
             ->headerActions([
-                $this->createDocumentAction()
+                $this->createDocumentAction(),
             ]);
     }
 
@@ -204,7 +203,7 @@ final class DocumentRelationManager extends RelationManager
             ->modalSubmitActionLabel('Uploaden')
             ->createAnother(false)
             ->successNotificationTitle('Het bestand is successvol toegevoegd aan de verhuring')
-            ->modalSubmitAction(fn (StaticAction $action) => $action->icon('heroicon-o-paper-airplane'))
+            ->modalSubmitAction(fn(StaticAction $action) => $action->icon('heroicon-o-paper-airplane'))
             ->modalDescription('Upload hier de benodigde documenten in PDF-formaat voor administratie van de verhuring. Zorg ervoor dat alle bestanden duidelijk leesbaar zijn en voldoen aan de interne eisen voor documentatiebeheer.')
             ->label('Document uploaden')
             ->icon('heroicon-o-plus');
@@ -240,8 +239,6 @@ final class DocumentRelationManager extends RelationManager
         return Action::make('download-file')
             ->label('download')
             ->icon('heroicon-o-cloud-arrow-down')
-            ->action(function (Document $document): StreamedResponse {
-                return Storage::disk('local')->download($document->attachment);
-            });
+            ->action(fn(Document $document): StreamedResponse => Storage::disk('local')->download($document->attachment));
     }
 }
