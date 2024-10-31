@@ -15,6 +15,8 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Actions\StaticAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -59,6 +61,25 @@ final class DocumentRelationManager extends RelationManager
      * @var string|null
      */
     protected static ?string $title = 'Documenten';
+
+    /**
+     * Retrieve a badge indicating the number of documents associated with the owner record.
+     *
+     * This method checks the number of documents linked to the specified owner record (e.g., a Lease or User).
+     * If there are any associated documents, it returns the count as a string to be displayed as a badge.
+     * If no documents are found, it returns null, indicating the absence of a badge.
+     *
+     * @param  Model $ownerRecord  The model instance (e.g., Lease or User) for which to retrieve the document count.
+     * @param  string $pageClass   The page class where the badge might be displayed. This can help differentiate logic based on the page context (currently unused).
+     * @return string|null         The count of associated documents as a string, or null if there are no documents.
+     */
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        $documentCount = $ownerRecord->documents()->count();
+
+        // Return the document count as a string if greater than zero; otherwise, return null.
+        return $documentCount > 0 ? (string) $documentCount : null;
+    }
 
     /**
      * Creates and returns the form schema for managing document uploads.
