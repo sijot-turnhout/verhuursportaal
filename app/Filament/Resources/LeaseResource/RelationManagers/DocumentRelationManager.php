@@ -14,6 +14,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Actions\StaticAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -159,11 +160,14 @@ final class DocumentRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                self::downloadDocumentAction(),
-                Tables\Actions\DeleteAction::make()
+
+                $this->downloadDocumentAction(),
+                $this->deleteDocumentAction(),
             ])
             ->bulkActions([DeleteBulkAction::make()])
-            ->headerActions([self::CreateDocumentAction()]);
+            ->headerActions([
+                $this->createDocumentAction()
+            ]);
     }
 
     /**
@@ -175,7 +179,7 @@ final class DocumentRelationManager extends RelationManager
      *
      * @return CreateAction The customized action for document uploads.
      */
-    private static function createDocumentAction(): CreateAction
+    private function createDocumentAction(): CreateAction
     {
         return CreateAction::make()
             ->modalHeading('Document uploaden')
@@ -192,6 +196,24 @@ final class DocumentRelationManager extends RelationManager
     }
 
     /**
+     * Creates a custom action for deleting documents.
+     *
+     * This action prompts the user for confirmation before deleting a selected document.
+     * It displays a modal with a heading and a description, informing the user that
+     * the action cannot be undone. The action enhances user experience by ensuring
+     * that document deletions are intentional and not accidental.
+     *
+     * @return DeleteAction The configured delete action for table rows.
+     */
+    private function deleteDocumentAction(): DeleteAction
+    {
+        return DeleteAction::make()
+            ->modalHeading('Document verwijderen')
+            ->modalDescription('Weet je zeker dat je dit geupload document wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt');
+    }
+
+
+    /**
      * Defines and returns a custom action for downloading documents.
      *
      * This action enables users to download a selected document from
@@ -199,7 +221,7 @@ final class DocumentRelationManager extends RelationManager
      *
      * @return Action  The configured download action for table rows.
      */
-    private static function downloadDocumentAction(): Action
+    private function downloadDocumentAction(): Action
     {
         return Action::make('download-file')
             ->label('download')
