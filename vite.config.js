@@ -1,10 +1,9 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import purge from "@erbelion/vite-plugin-laravel-purgecss";
 
 export default defineConfig({
     /**
-     * Suppressing Dprecations errors in the vite build because of the follwoing bootstrap tickets
+     * Suppressing Deprecations errors in the vite build because of the follwoing bootstrap tickets
      * Where we need to keep an eye on.
      *
      *! Temporary workaround
