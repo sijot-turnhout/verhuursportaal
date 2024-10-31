@@ -70,13 +70,6 @@ final class ListLeases extends ListRecords
             LeaseStatus::Confirmed->value => $this->resourceOverviewTab('Bevestigde verhuringen', LeaseStatus::Confirmed),
             LeaseStatus::Finalized->value => $this->resourceOverviewTab('Afgesloten verhuringen', LeaseStatus::Finalized),
             LeaseStatus::Cancelled->value => $this->resourceOverviewTab('Geannuleerde aanvragen', LeaseStatus::Finalized),
-
-            // Archive tab for soft-deleted leases
-            // Note that the soft deletes system from laravel is used to mark leases/requests as archieved.
-            'archive' => Tab::make(trans('Archief'))
-                ->icon('heroicon-o-archive-box')
-                ->badge(Lease::query()->onlyTrashed()->count())
-                ->modifyQueryUsing(fn(Builder $query): Builder => $query->onlyTrashed()),
         ];
     }
 
