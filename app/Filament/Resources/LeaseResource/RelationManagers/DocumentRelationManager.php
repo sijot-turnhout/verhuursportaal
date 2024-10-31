@@ -126,6 +126,21 @@ final class DocumentRelationManager extends RelationManager
     }
 
     /**
+     * Determines whether the relation manager is in read-only mode.
+     *
+     * This method indicates whether users can modify the data managed by this
+     * relation. Returning false means that modifications (such as adding, editing,
+     * or deleting documents) are permitted. This method can be overridden in
+     * subclasses to enforce read-only behavior based on specific conditions.
+     *
+     * @return bool Returns false, allowing modifications to the related data.
+     */
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
+    /**
      * Builds and returns the table schema for displaying a list of documents.
      *
      * The table provides a list of documents associated with a lease, including
@@ -211,7 +226,6 @@ final class DocumentRelationManager extends RelationManager
             ->modalHeading('Document verwijderen')
             ->modalDescription('Weet je zeker dat je dit geupload document wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt');
     }
-
 
     /**
      * Defines and returns a custom action for downloading documents.
