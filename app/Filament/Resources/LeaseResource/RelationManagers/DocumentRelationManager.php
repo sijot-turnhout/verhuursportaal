@@ -184,6 +184,7 @@ final class DocumentRelationManager extends RelationManager
             ->modalAutofocus()
             ->modalSubmitActionLabel('Uploaden')
             ->createAnother(false)
+            ->successNotificationTitle('Het bestand is successvol toegevoegd aan de verhuring')
             ->modalSubmitAction(fn (StaticAction $action) => $action->icon('heroicon-o-paper-airplane'))
             ->modalDescription('Upload hier de benodigde documenten in PDF-formaat voor administratie van de verhuring. Zorg ervoor dat alle bestanden duidelijk leesbaar zijn en voldoen aan de interne eisen voor documentatiebeheer.')
             ->label('Document uploaden')
