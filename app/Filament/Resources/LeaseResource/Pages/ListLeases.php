@@ -12,6 +12,7 @@ use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class ListLeases
@@ -54,90 +55,44 @@ final class ListLeases extends ListRecords
     }
 
     /**
-     * Generates an array of tabs for the resource view, each representing a different lease status.
+     * Generates an array of tabs for displaying leases grouped by status.
      *
-     * The tabs represent various stages in the leasing process, and each tab displays a filtered view
-     * of the records based on their lease status. Additionally, there is an 'archive' tab that shows
-     * the soft-deleted (archived) leases.
+     * This method creates a default "all" tab, then dynamically generates a tab
+     * for each defined lease status. Each status-specific tab is labeled,
+     * colored, and includes a badge count indicating the number of leases with
+     * that status. The badge count is cached for efficient performance.
      *
-     * @return array<string, mixed>  An array of tab configurations, where each tab is mapped to a specific lease status or archive view.
+     * @return array An array of configured Tab objects, representing each lease status.
      */
     public function getTabs(): array
     {
-        return [
-            LeaseStatus::Request->value => $this->resourceOverviewTab('Nieuwe aanvragen', LeaseStatus::Request),
-            LeaseStatus::Option->value => $this->optionResourceOverviewTab('Opties', LeaseStatus::Option, LeaseStatus::Quotation),
-            LeaseStatus::Confirmed->value => $this->resourceOverviewTab('Bevestigde verhuringen', LeaseStatus::Confirmed),
-            LeaseStatus::Finalized->value => $this->resourceOverviewTab('Afgesloten verhuringen', LeaseStatus::Finalized),
-            LeaseStatus::Cancelled->value => $this->resourceOverviewTab('Geannuleerde aanvragen', LeaseStatus::Finalized),
-        ];
+        $statuses = collect(LeaseStatus::cases())
+            ->map(fn(LeaseStatus $status) => Tab::make()
+                ->label($status->getLabel())
+                ->icon($status->getIcon())
+                ->badgeColor($status->getColor())
+                ->query(fn (Builder $query): Builder => $query->where('status', $status))
+                ->badge(Lease::query()->where('status', $status)->count())
+            )->toArray();
+
+        return array_merge($this->configureDefaulttab(), $statuses);
     }
 
     /**
-     * Get the header actions available on the list page.
+     * Configures the default tab for displaying all leases.
      *
-     * This method returns an array of actions that are displayed in the header of the list
-     * page. It currently includes a create action that allows users to add new lease records.
+     * This tab is labeled "alle" and displays the total count of leases,
+     * regardless of status. The count is cached to optimize performance.
      *
-     * @return array An array of actions for the list page header.
+     * @return array An array containing the default Tab object.
      */
-    protected function getHeaderActions(): array
+    public function configureDefaultTab(): array
     {
         return [
-            FactoryAction::make()
-                ->color('gray')
-                ->slideOver()
-                ->label('Genereer test verhuringen')
-                ->icon('heroicon-o-wrench'),
-
-            Actions\CreateAction::make()
-                ->icon('heroicon-o-plus')
-                ->visible(Lease::query()->count() > 0),
+            Tab::make()
+                ->label(__('alle'))
+                ->icon('heroicon-o-queue-list')
+                ->badge(Cache::flexible('all_leases_count', [30, 60], fn() => Lease::query()->count())),
         ];
-    }
-
-    /**
-     * Creates a resource overview tab for a specific lease status.
-     *
-     * This method generates a tab that filters lease records based on the provided `LeaseStatus`.
-     * It also adds an icon and a badge displaying the count of records that match the lease status.
-     *
-     * @param  string       $tabLabel     The label displayed on the tab (translatable).
-     * @param  LeaseStatus  $leaseStatus  The lease status used to filter records for this tab.
-     * @return Tab                        A tab configuration object with filters applied to the corresponding lease status.
-     */
-    private function resourceOverviewTab(string $tabLabel, LeaseStatus $leaseStatus): Tab
-    {
-        return Tab::make(trans($tabLabel))
-            ->icon($leaseStatus->getIcon())
-            ->badge(Lease::query()->where('status', $leaseStatus)->count())
-            ->modifyQueryUsing(fn(Builder $query): Builder => $query->where('status', $leaseStatus));
-    }
-
-    /**
-     * Creates a resource overview tab for the 'Option' and 'Quotation' statuses.
-     *
-     * This method generates a tab that filters lease records based on both the 'Option' and 'Quotation' statuses.
-     * It applies the necessary filters, adds an icon, and shows a badge displaying the count of matching records.
-     *
-     * @param  string       $tabLabel            The label displayed on the tab (translatable).
-     * @param  LeaseStatus  $optionStatus        The primary lease status ('Option') used for filtering.
-     * @param  LeaseStatus  $quotationStatus     The secondary lease status ('Quotation') used for filtering.
-     * @return Tab                               A tab configuration object with filters applied to the 'Option' and 'Quotation' statuses.
-     */
-    private function optionResourceOverviewTab(string $tabLabel, LeaseStatus $optionStatus, LeaseStatus $quotationStatus): Tab
-    {
-        return Tab::make(trans($tabLabel))
-            ->icon($optionStatus->getIcon())
-            ->badge(
-                badge: Lease::query()
-                    ->where('status', $optionStatus)
-                    ->orWhere('status', $quotationStatus)
-                    ->count(),
-            )
-            ->modifyQueryUsing(function (Builder $query) use ($optionStatus, $quotationStatus): Builder {
-                return $query->where('status', $optionStatus)
-                    ->orWhere('status', $quotationStatus);
-            });
     }
 }

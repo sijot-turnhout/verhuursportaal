@@ -214,6 +214,7 @@ final class LeaseResource extends Resource
                     ])->dropdown(false),
 
                     Tables\Actions\ActionGroup::make([
+                        self::archiveAction(),
                         Tables\Actions\DeleteAction::make()
                     ])->dropdown(false),
                 ])
@@ -226,8 +227,9 @@ final class LeaseResource extends Resource
             ])
             ->defaultSort('arrival_date')
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make()->label('verwijderen'),
                 ExportBulkAction::make(),
+                self::archiveBulkAction(),
+                Tables\Actions\DeleteBulkAction::make()->label('verwijderen'),
             ]);
     }
 

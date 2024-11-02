@@ -74,6 +74,7 @@ final readonly class LeasePolicy
      * Determine if the user can update the lease.
      *
      * This method allows updates only for users in the Rvb or Webmaster user groups.
+     * And when the lease is not Cancelled, Finalized or archived.
      *
      * @param  User  $user   The user attempting to update the lease.
      * @param  Lease $lease  The lease instance being updated.
@@ -82,7 +83,7 @@ final readonly class LeasePolicy
     public function update(User $user, Lease $lease): bool
     {
         return $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster])
-            && $lease->status->notIn(enums: [LeaseStatus::Cancelled, LeaseStatus::Finalized]);
+            && $lease->status->notIn(enums: [LeaseStatus::Cancelled, LeaseStatus::Finalized, LeaseStatus::Archived]);
     }
 
     /**
@@ -128,10 +129,40 @@ final readonly class LeasePolicy
             && $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster]);
     }
 
+    /**
+     * Determines if a quotation can be generated for a lease by a specific user.
+     *
+     * This method checks if the lease meets the conditions for generating a quotation.
+     * It verifies that the lease is in a specific status, that no quotation exists
+     * already, and that the user belongs to an authorized user group.
+     *
+     * @param  User  $user   The user requesting the quotation.
+     * @param  Lease $lease  The lease for which a quotation may be generated.
+     * @return bool          True if the user can generate a quotation, otherwise false.
+     */
     public function generateQuotation(User $user, Lease $lease): bool
     {
         return $lease->status->in(enums: [LeaseStatus::Option, LeaseStatus::Request, LeaseStatus::Quotation])
             && $lease->quotation()->doesntExist()
             && $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster]);
+    }
+
+    /**
+     * Determines if a lease can be archived by a specific user.
+     *
+     * This method checks if a lease is eligible for archiving, ensuring the lease
+     * is in a cancellable or finalized status and has not been archived already.
+     * It also verifies that the user belongs to an authorized user group to perform
+     * the archive action.
+     *
+     * @param  User $user    The user requesting the archive action.
+     * @param  Lease $lease  The lease that may be archived.
+     * @return bool          True if the user can archive the lease, otherwise false.
+     */
+    public function archive(User $user, Lease $lease): bool
+    {
+        return $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Vzw, UserGroup::Webmaster])
+            && $lease->status->in([LeaseStatus::Cancelled, LeaseStatus::Finalized])
+            && $lease->status->isNot(LeaseStatus::Archived);
     }
 }

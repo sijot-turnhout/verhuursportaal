@@ -85,6 +85,16 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
     case Cancelled = 'geannuleerd';
 
     /**
+     * Archived Status
+     *
+     * Indicates that the lease has been archived.
+     * This can occur when the lease is cancelled or finalized.
+     *
+     * @var string
+     */
+    case Archived = 'geachiveerd';
+
+    /**
      * Get the associated color for the current lease status.
      *
      * The returned color is used to visually represent the status in the application's UI,
@@ -99,6 +109,7 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
             self::Option, self::Quotation => 'warning',
             self::Confirmed => 'success',
             self::Finalized, self::Cancelled => 'danger',
+            self::Archived => 'primary',
         };
     }
 
@@ -116,10 +127,12 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::Request => 'heroicon-m-plus-circle',
-            self::Option, self::Quotation => 'heroicon-m-document-text',
+            self::Option => 'heroicon-m-document-text',
+            self::Quotation => 'heroicon-m-document-currency-euro',
             self::Confirmed => 'heroicon-m-check-badge',
             self::Finalized => 'heroicon-m-document-check',
-            self::Cancelled => 'heroicon-m-archive-box-x-mark',
+            self::Cancelled => 'heroicon-m-x-circle',
+            self::Archived => 'heroicon-m-archive-box',
         };
     }
 
@@ -133,6 +146,9 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      */
     public function getLabel(): string
     {
-        return trans($this->value);
+        return match($this) {
+            LeaseStatus::Quotation => 'in offerte',
+            default => $this->value,
+        };
     }
 }
