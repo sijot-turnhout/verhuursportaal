@@ -6,6 +6,7 @@ namespace App\Observers;
 
 use App\Jobs\RegisterInitialUtilityMetrics;
 use App\Models\Lease;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * LeaseObserver class.
@@ -29,8 +30,23 @@ final readonly class LeaseObserver
         RegisterInitialUtilityMetrics::dispatch($lease);
     }
 
-    public function forceDeleted(Lease $lease): void
+    /**
+     * Observer method to delete documents when a lease is removed.
+     *
+     * This method runs automatically when a `Lease` model instance is deleted,
+     * checking for any associated documents and removing their files from storage.
+     * This cleanup operation ensures that no orphaned files remain after a lease is
+     * removed, helping to manage storage resources efficiently.
+     *
+     * @param Lease $lease The lease instance that has been deleted.
+     * @return void
+     */
+    public function deleted(Lease $lease): void
     {
-        $lease->purgeRelatedLeaseInformation();
+        if ($lease->documents()->exists()) {
+            collect($lease->documents)->each(function ($document): void {
+                Storage::disk('local')->delete($document->attachment);
+            });
+        }
     }
 }
