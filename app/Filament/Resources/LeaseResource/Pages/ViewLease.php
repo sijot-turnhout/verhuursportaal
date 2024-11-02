@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\Pages;
 
 use App\Enums\LeaseStatus;
-use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\ConfigureDepositAction;
-use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\RegisterDepositAction;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
@@ -86,7 +85,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     protected function registerDepositActions(): ActionGroup
     {
         return ActionGroup::make([
-            ConfigureDepositAction::make(),
+            RegisterDepositAction::make(),
         ])
             ->color('gray')
             ->icon('heroicon-o-banknotes')

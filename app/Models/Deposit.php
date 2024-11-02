@@ -10,7 +10,7 @@ final class Deposit extends Model
 {
     protected $guarded = ['id'];
 
-    protected $attributes = ['status' => DepositStatus::Unpaid];
+    protected $attributes = ['status' => DepositStatus::Paid];
 
     public function lease(): BelongsTo
     {
@@ -20,6 +20,7 @@ final class Deposit extends Model
     protected function casts(): array
     {
         return [
+            'status' => DepositStatus::class,
             'due_at' => 'datetime',
             'refund_at' => 'datetime',
         ];

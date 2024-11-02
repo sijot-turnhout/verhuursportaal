@@ -13,23 +13,21 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Facades\Gate;
 
-final class ConfigureDepositAction extends Action
+final class RegisterDepositAction extends Action
 {
     public static function make(?string $name = null): static
     {
-        return parent::make($name ?? trans('configureren'))
+        return parent::make($name ?? trans('Betaling registreren'))
             ->visible(fn (Lease $lease) => Gate::allows('configure-deposit', $lease))
-            ->modalHeading('Huurwaarborg configureren')
+            ->modalHeading('Huurwaarborg registreren')
             ->modalIcon('heroicon-o-cog-8-tooth')
             ->modalIconColor('primary')
-            ->modalDescription('Elke verhuring is onderworpen aan een betaling van een waarborg. Hier kunt het de benodigde gegevens omtrent een waarborg instellen. Tenzij deze is vrijgesteld door bv een verhuring aan eigen groep.')
+            ->modalDescription('Elke verhuring is onderworpen aan een betaling van een waarborg. Hier kunt u de gegevens van de betaling door de groep registreren.')
             ->modalSubmitActionLabel(trans('Opslaan'))
             ->icon('heroicon-o-cog-8-tooth')
             ->form(fn(Lease $record): array => self::getConfigurationForm($record))
             ->action(function (array $data,  Lease $record): void {
-                $record->deposit()->save(
-                    new Deposit($data)
-                );
+                $record->deposit()->save(new Deposit($data));
             });
     }
 
@@ -48,17 +46,17 @@ final class ConfigureDepositAction extends Action
                         ->prefixIcon('heroicon-o-currency-euro')
                         ->prefixIconColor('primary'),
 
-                    DatePicker::make('due_at')
-                        ->label('Uiterste betalingsdatum')
+                    DatePicker::make('paid_at')
+                        ->label('Betalingsdatum')
                         ->columnSpan(4)
                         ->required()
-                        ->default($lease->arrival_date->subDays(3))
+                        ->default(now())
                         ->prefixIcon('heroicon-o-calendar')
                         ->prefixIconColor('primary')
                         ->native(false),
 
                     DatePicker::make('refund_at')
-                        ->label('Terugbetalingsdatum')
+                        ->label('uiterste terugbetalingsdatum')
                         ->columnSpan(4)
                         ->required()
                         ->default($lease->departure_date->addWeeks(2))
