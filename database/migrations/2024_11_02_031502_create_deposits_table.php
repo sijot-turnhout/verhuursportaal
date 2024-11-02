@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Lease::class)->constrained()->cascadeOnDelete();
             $table->string('status');
             $table->decimal('amount', 10, 2);
-            $table->timestamp('due_at');
+            $table->timestamp('paid_at');
             $table->timestamp('refund_at');
             $table->timestamps();
         });
