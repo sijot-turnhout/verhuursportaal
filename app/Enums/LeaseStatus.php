@@ -146,7 +146,7 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      */
     public function getLabel(): string
     {
-        return match($this) {
+        return match ($this) {
             LeaseStatus::Quotation => 'in offerte',
             default => $this->value,
         };

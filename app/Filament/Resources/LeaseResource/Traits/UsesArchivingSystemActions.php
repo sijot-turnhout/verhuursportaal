@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\Traits;
 
-use App\Enums\LeaseStatus;
 use App\Filament\Resources\LeaseResource\Pages\ListLeases;
 use App\Models\Lease;
 use Filament\Tables\Actions\Action;
@@ -68,29 +67,29 @@ trait UsesArchivingSystemActions
             ->modalIcon('heroicon-o-archive-box')
             ->color('danger')
             ->modalDescription(trans('De archivering van een verhuring kan niet ongedaan worden gemaakt. Dus wees zeker of je deze handeling wilt uitvoeren.'))
-            ->visible(fn (Lease $lease): bool => Gate::allows('archive', $lease))
+            ->visible(fn(Lease $lease): bool => Gate::allows('archive', $lease))
             ->action(fn(Lease $lease) => $lease->state()->transitionToArchived())
             ->successNotificationTitle(trans('De verhuring is geachiveerd.'));
     }
 
     /**
-    * Creates a bulk action for archiving multiple leases.
-    *
-    * This bulk action allows authorized users to archive selected leases in bulk.
-    * It ensures that the action is only visible on specific tabs (typically where leases
-    * are in cancellable or finalized status), confirms the action with the user, and
-    * provides feedback upon success or failure. Once confirmed, each selected lease's
-    * state transitions to "Archived."
-    *
-    * @param  string|null $label  Optional label for the bulk action button. Defaults to "Archiveren."
-    * @param  string|null $icon   Optional icon for the bulk action button. Defaults to archive icon.
-    * @return BulkAction          Configured bulk action for archiving leases.
-    */
+     * Creates a bulk action for archiving multiple leases.
+     *
+     * This bulk action allows authorized users to archive selected leases in bulk.
+     * It ensures that the action is only visible on specific tabs (typically where leases
+     * are in cancellable or finalized status), confirms the action with the user, and
+     * provides feedback upon success or failure. Once confirmed, each selected lease's
+     * state transitions to "Archived."
+     *
+     * @param  string|null $label  Optional label for the bulk action button. Defaults to "Archiveren."
+     * @param  string|null $icon   Optional icon for the bulk action button. Defaults to archive icon.
+     * @return BulkAction          Configured bulk action for archiving leases.
+     */
     protected static function archiveBulkAction(?string $label = null, ?string $icon = null): BulkAction
     {
         return BulkAction::make($label ?? trans('Archiveren'))
             ->icon($icon ?? self::$archiveIcon)
-            ->visible(fn(ListLeases $livewire): bool => $livewire->activeTab === '6' || $livewire->activeTab === '5')
+            ->visible(fn(ListLeases $livewire): bool => '6' === $livewire->activeTab || '5' === $livewire->activeTab)
             ->deselectRecordsAfterCompletion()
             ->requiresConfirmation()
             ->color('danger')
@@ -99,7 +98,7 @@ trait UsesArchivingSystemActions
             ->successNotificationTitle(trans('De items zijn toegevoegd aan het archief.'))
             ->failureNotificationTitle(trans('Kon de items niet toevoegen aan het archief.'))
             ->action(function (Lease $model, Collection $selectedRecords): void {
-                $selectedRecords->each(function (Lease $selectedRecord) {
+                $selectedRecords->each(function (Lease $selectedRecord): void {
                     $selectedRecord->state()->transitionToArchived();
                 });
             });

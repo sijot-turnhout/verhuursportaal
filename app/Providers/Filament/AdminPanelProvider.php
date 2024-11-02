@@ -49,7 +49,7 @@ class AdminPanelProvider extends PanelProvider
                 'gray' => Color::Zinc,
                 'primary' => '#826644',
 
-                ])
+            ])
             ->renderHook(
                 // PanelsRenderHook::BODY_END,
                 PanelsRenderHook::FOOTER,

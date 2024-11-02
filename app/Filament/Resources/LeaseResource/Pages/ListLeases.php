@@ -7,7 +7,6 @@ namespace App\Filament\Resources\LeaseResource\Pages;
 use App\Enums\LeaseStatus;
 use App\Filament\Resources\LeaseResource;
 use App\Models\Lease;
-use CodeWithDennis\FactoryAction\FactoryAction;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
@@ -67,12 +66,13 @@ final class ListLeases extends ListRecords
     public function getTabs(): array
     {
         $statuses = collect(LeaseStatus::cases())
-            ->map(fn(LeaseStatus $status) => Tab::make()
-                ->label($status->getLabel())
-                ->icon($status->getIcon())
-                ->badgeColor($status->getColor())
-                ->query(fn (Builder $query): Builder => $query->where('status', $status))
-                ->badge(Lease::query()->where('status', $status)->count())
+            ->map(
+                fn(LeaseStatus $status) => Tab::make()
+                    ->label($status->getLabel())
+                    ->icon($status->getIcon())
+                    ->badgeColor($status->getColor())
+                    ->query(fn(Builder $query): Builder => $query->where('status', $status))
+                    ->badge(Lease::query()->where('status', $status)->count()),
             )->toArray();
 
         return array_merge($this->configureDefaulttab(), $statuses);

@@ -215,7 +215,7 @@ final class LeaseResource extends Resource
 
                     Tables\Actions\ActionGroup::make([
                         self::archiveAction(),
-                        Tables\Actions\DeleteAction::make()
+                        Tables\Actions\DeleteAction::make(),
                     ])->dropdown(false),
                 ])
                     ->label('acties')
