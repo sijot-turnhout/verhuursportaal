@@ -165,4 +165,10 @@ final readonly class LeasePolicy
             && $lease->status->in([LeaseStatus::Cancelled, LeaseStatus::Finalized])
             && $lease->status->isNot(LeaseStatus::Archived);
     }
+
+    public function configureDeposit(User $user, Lease $lease): bool
+    {
+        return $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster])
+            && $lease->deposit()->doesntExist();
+    }
 }

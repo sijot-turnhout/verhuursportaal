@@ -8,6 +8,7 @@ use App\Enums\LeaseStatus;
 use App\Filament\Resources\LeaseResource;
 use App\Models\Lease;
 use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,6 +34,15 @@ final class ListLeases extends ListRecords
      * @var string
      */
     protected static string $resource = LeaseResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->label('Verhuring toevoegen')
+                ->icon('heroicon-o-plus')
+        ];
+    }
 
     /**
      * Handle the event when the active tab is updated.
