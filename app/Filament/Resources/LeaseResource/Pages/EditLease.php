@@ -33,20 +33,14 @@ final class EditLease extends EditRecord
      * Get the header actions available on the edit page.
      *
      * This method returns an array of actions that are displayed in the header of the edit
-     * page. It includes actions for generating and viewing invoices, as well as a delete action
-     * for removing the lease record.
+     * page. It includes actions removing the lease record.
      *
      * @return array An array of actions for the edit page header.
      */
     protected function getHeaderActions(): array
     {
         return [
-            InvoiceResource\Actions\GenerateInvoice::make(),
-            InvoiceResource\Actions\GenerateQuotation::make(),
-            InvoiceResource\Actions\ViewInvoice::make(),
             Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
         ];
     }
 }

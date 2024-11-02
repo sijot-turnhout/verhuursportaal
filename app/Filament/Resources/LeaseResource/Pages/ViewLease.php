@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\Pages;
 
 use App\Enums\LeaseStatus;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\ConfigureDepositAction;
 use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
@@ -44,6 +45,8 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     {
         return [
             $this->registerStatusManipulationActions(),
+            $this->registerDepositActions(),
+            $this->registerBillingActions(),
             $this->registerManipulationActions(),
         ];
     }
@@ -80,18 +83,34 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
             ->color('gray');
     }
 
+    protected function registerDepositActions(): ActionGroup
+    {
+        return ActionGroup::make([
+            ConfigureDepositAction::make(),
+        ])
+            ->color('gray')
+            ->icon('heroicon-o-banknotes')
+            ->label(trans('Waarborg'))
+            ->button();
+    }
+
+    protected function registerBillingActions(): ActionGroup
+    {
+        return ActionGroup::make([
+            GenerateInvoice::make(),
+            GenerateQuotation::make(),
+            ViewInvoice::make(),
+        ])
+            ->label(trans('Facturatie'))
+            ->color('gray')
+            ->button();
+    }
+
     protected function registerManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
             EditAction::make()->color('gray'),
-            GenerateInvoice::make(),
-            GenerateQuotation::make(),
-            ViewInvoice::make(),
-            DownloadInvoiceAction::make(),
-
-            ActionGroup::make([
-                DeleteAction::make(),
-            ])->dropdown(false),
+            DeleteAction::make(),
         ])
             ->button()
             ->label('opties')

@@ -50,7 +50,6 @@ final class Lease extends Model
     use HasFactory;
     use HasFeedbackSupport;
     use HasUtilityMetrics;
-    use SoftDeletes;
 
     /**
      * The database columns that are protected from the mass-assignment system provided by Laravel.

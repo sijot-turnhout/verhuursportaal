@@ -21,7 +21,6 @@ return new class () extends Migration {
             $table->foreignIdFor(Tenant::class)->nullable()->references('id')->on('tenants');
             $table->string('status');
             $table->timestamp('metrics_registered_at')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
