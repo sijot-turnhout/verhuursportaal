@@ -200,12 +200,8 @@ final class LeaseResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make()
-                        ->hidden(fn(Lease $lease): bool => $lease->trashed()),
-
-                    Tables\Actions\EditAction::make()
-                        ->hidden(fn(Lease $lease): bool => $lease->trashed()),
-
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
                     Tables\Actions\ActionGroup::make([
                         Action::make('Bekijk factuur')
                             ->icon('heroicon-o-document-text')
@@ -217,12 +213,9 @@ final class LeaseResource extends Resource
                             ->visible(fn(Lease $record): bool => $record->quotation()->exists()),
                     ])->dropdown(false),
 
-                    self::restoreArchiveEntityAction(),
-
-                    // Archiving system actions
                     Tables\Actions\ActionGroup::make([
-                        self::archiveEntityAction('verhuring'),
-                        self::forceDeleteEntityAction('verhuring'),
+                        self::archiveAction(),
+                        Tables\Actions\DeleteAction::make(),
                     ])->dropdown(false),
                 ])
                     ->label('acties')
@@ -235,10 +228,8 @@ final class LeaseResource extends Resource
             ->defaultSort('arrival_date')
             ->bulkActions([
                 ExportBulkAction::make(),
-
-                // Methods that manages the actions that are related to the archiving system of the leases
-                self::archiveBulkAction('verhuringen'),
-                self::bulkArchivingActionGroup('verhuringen'),
+                self::archiveBulkAction(),
+                Tables\Actions\DeleteBulkAction::make()->label('verwijderen'),
             ]);
     }
 

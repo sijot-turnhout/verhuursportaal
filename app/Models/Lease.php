@@ -83,6 +83,7 @@ final class Lease extends Model
             LeaseStatus::Confirmed => new States\LeaseConfirmedState($this),
             LeaseStatus::Finalized => new States\LeaseFinalizedState($this),
             LeaseStatus::Cancelled => new States\LeaseCancelledState($this),
+            LeaseStatus::Archived => new States\LeaseArchivedState($this),
         };
     }
 
