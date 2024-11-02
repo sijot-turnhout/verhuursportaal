@@ -73,4 +73,13 @@ class LeaseState implements LeaseStateContract, StateTransitionGuardContract
     {
         throw new LogicException('The transition to the cancelled state is not valid on the current state');
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function transitionToArchived(): void
+    {
+        throw new LogicException('The transition to the archived state is not allowed on the current state');
+    }
+
 }

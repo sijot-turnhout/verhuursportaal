@@ -46,24 +46,9 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->maxContentWidth(MaxWidth::Full)
             ->colors([
-                'danger' => '#d9534f',
-                'gray' => [
-                    50 => '#f6f6f6',
-                    100 => '#e7e7e7',
-                    200 => '#d1d1d1',
-                    300 => '#b0b0b0',
-                    400 => '#888888',
-                    500 => '#666666',
-                    600 => '#5d5d5d',
-                    700 => '#4f4f4f',
-                    800 => '#454545',
-                    900 => '#3d3d3d',
-                    950 => '#262626',
-                ],
-                'info' => '#5bc0de',
-                'primary' => '#709553',
-                'success' => '#5cb85c',
-                'warning' => '#f0ad4e',
+                'gray' => Color::Zinc,
+                'primary' => '#826644',
+
             ])
             ->renderHook(
                 // PanelsRenderHook::BODY_END,
