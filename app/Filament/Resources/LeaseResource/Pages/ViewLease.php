@@ -6,6 +6,7 @@ namespace App\Filament\Resources\LeaseResource\Pages;
 
 use App\Enums\LeaseStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\RegisterDepositAction;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
@@ -17,6 +18,7 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\ViewRecord;
 
 /**
@@ -86,6 +88,12 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     {
         return ActionGroup::make([
             RegisterDepositAction::make(),
+
+            Action::make('Bekijk weerborg')
+                ->icon('heroicon-o-eye')
+                ->visible(fn (Lease $lease): bool => $lease->deposit()->exists())
+                ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
+                ->openUrlInNewTab(),
         ])
             ->color('gray')
             ->icon('heroicon-o-banknotes')

@@ -40,7 +40,7 @@ final class RegisterDepositAction extends Action
                         ->label('Borgsom')
                         ->numeric()
                         ->required()
-                        ->default(350)
+                        ->default(config()->integer('sijot-verhuur.deposit.default_amount'))
                         ->columnSpan(4)
                         ->autofocus(false)
                         ->prefixIcon('heroicon-o-currency-euro')

@@ -107,7 +107,7 @@ final readonly class LeaseInfolist
                     ->columnSpan(3),
                 TextEntry::make('persons')->label('Aantal personen')->icon('heroicon-o-users')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('status')->label('Verhurings status')->badge()->columnSpan(3),
-                TextEntry::make('deposit.status')->label('Waarborg')->badge()->columnSpan(3)->default('niet ingesteld'),
+                TextEntry::make('deposit.status')->label('Waarborg')->badge()->columnSpan(3)->placeholder('niet geregistreerd'),
                 TextEntry::make('locals.name')->badge()->columnSpan(6)->label('Inbegrepen lokalen')->icon('heroicon-o-home')->default('geen lokalen gekoppeld')->iconColor('primary'),
                 TextEntry::make('arrival_date')->label(trans('aankomst datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('departure_date')->label(trans('vertrek datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),

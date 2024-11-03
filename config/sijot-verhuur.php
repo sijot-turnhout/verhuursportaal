@@ -25,4 +25,8 @@ return [
     'server' => [
         'shared' => true,
     ],
+
+    'deposit' => [
+        'default_amount' => 350, // Default price for the security deposit in a lease.
+    ],
 ];
