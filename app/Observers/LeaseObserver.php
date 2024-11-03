@@ -16,6 +16,18 @@ use Illuminate\Support\Facades\Storage;
  */
 final readonly class LeaseObserver
 {
+    public function creating(Lease $lease): void
+    {
+        $prefix = 'VH';
+            $year = date('Y');
+            $month = date('m');
+            $count = Lease::whereYear('created_at', $year)
+                ->whereMonth('created_at', $month)
+                ->count() + 1;
+
+            $lease->reference_number = sprintf("%s-%s-%s-%02d", $prefix, $year, $month, $count);
+    }
+
     /**
      * Handle the Lease "created" event.
      *

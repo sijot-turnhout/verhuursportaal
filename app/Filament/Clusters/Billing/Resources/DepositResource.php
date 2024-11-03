@@ -82,12 +82,17 @@ final class DepositResource extends Resource
             ->emptyStateIcon(self::$navigationIcon)
             ->emptyStateDescription('Het lijkt erop dat er voor de moment geen geregistreerde waarborgen zijn die voldoen aan de opgegeven criteria')
             ->columns([
+                TextColumn::make('lease.reference_number')
+                    ->label('Verhurings referentie')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-o-home-modern')
+                    ->color('primary')
+                    ->weight(FontWeight::SemiBold),
+
                 TextColumn::make('lease.tenant.name')
                     ->label('Betaald door')
                     ->sortable()
-                    ->icon('heroicon-o-user-circle')
-                    ->iconColor('primary')
-                    ->weight(FontWeight::SemiBold)
                     ->translateLabel()
                     ->searchable(),
 

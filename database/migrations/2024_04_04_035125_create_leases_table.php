@@ -13,6 +13,7 @@ return new class () extends Migration {
     {
         Schema::create('leases', static function (Blueprint $table): void {
             $table->id();
+            $table->string('reference_number')->nullable();
             $table->string('group');
             $table->timestamp('arrival_date');
             $table->timestamp('departure_date');
