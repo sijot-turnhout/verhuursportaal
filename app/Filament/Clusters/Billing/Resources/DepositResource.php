@@ -11,12 +11,15 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class DepositResource extends Resource
 {
     protected static ?string $model = Deposit::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $modelLabel = 'waarborg';
+    protected static ?string $pluralModelLabel = 'Waarborgen';
     protected static ?string $cluster = Billing::class;
 
     public static function infolist(Infolist $infolist): Infolist
@@ -26,7 +29,6 @@ final class DepositResource extends Resource
                 ->description('De informatie omtrent de verhuring die gekoppeld is aan de waarborg')
                 ->icon('heroicon-o-home-modern')
                 ->collapsible()
-                ->collapsed()
                 ->compact()
                 ->columns(12)
                 ->iconColor('primary')
@@ -76,22 +78,43 @@ final class DepositResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Geen geregistreerde waarborgen')
+            ->emptyStateIcon(self::$navigationIcon)
+            ->emptyStateDescription('Het lijkt erop dat er voor de moment geen geregistreerde waarborgen zijn die voldoen aan de opgegeven criteria')
             ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-            ]);
-    }
+                TextColumn::make('lease.tenant.name')
+                    ->label('Betaald door')
+                    ->sortable()
+                    ->icon('heroicon-o-user-circle')
+                    ->iconColor('primary')
+                    ->weight(FontWeight::SemiBold)
+                    ->translateLabel()
+                    ->searchable(),
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+                TextColumn::make('status')
+                    ->label('Waarborg')
+                    ->badge()
+                    ->translateLabel()
+                    ->sortable(),
+
+                TextColumn::make('amount')
+                    ->label('Borgsom')
+                    ->translateLabel()
+                    ->money('EUR'),
+
+                TextColumn::make('paid_at')
+                    ->label('Betaald op')
+                    ->sortable()
+                    ->translateLabel()
+                    ->date(),
+
+                TextColumn::make('refund_at')
+                    ->label('Terugbetalingsdatum')
+                    ->sortable()
+                    ->searchable()
+                    ->date(),
+            ])
+            ->actions([Tables\Actions\ViewAction::make()]);
     }
 
     public static function getPages(): array
