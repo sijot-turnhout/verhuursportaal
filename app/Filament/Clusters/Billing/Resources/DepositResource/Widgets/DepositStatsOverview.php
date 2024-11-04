@@ -15,13 +15,13 @@ final class DepositStatsOverview extends BaseWidget
     {
         return [
             Stat::make(trans('Waarborgen in bewaring'), $this->getDepositsInCustody()),
-            Stat::make(trans('Tegoeden in bewaring'), $this->getTotalDepositsInCustody()),
+            Stat::make(trans('Tegoeden in bewaring'), $this->getTotalAssetsInCustody()),
             Stat::make(trans('Gedeeltelijk of volledig ingetrokken'), $this->getDepositsRevokedOrPartiallyRevoked()),
-            Stat::make(trans('Ingetrokken tegoeden'), '192.1k'),
+            Stat::make(trans('Ingetrokken tegoeden'), $this->getTotalRevokedOrWithdrawnAssetsAmount()),
         ];
     }
 
-    private function getTotalDepositsInCustody(): string
+    private function getTotalAssetsInCustody(): string
     {
         return '€ ' . Deposit::query()->where('status', DepositStatus::Paid)->sum('paid_amount');
     }
@@ -31,6 +31,25 @@ final class DepositStatsOverview extends BaseWidget
         return Deposit::query()->where('status', DepositStatus::Paid)->count();
     }
 
+    private function getTotalRevokedOrWithdrawnAssetsAmount(): int|string
+    {
+        $revokedAssets = Deposit::query()
+            ->where('status', DepositStatus::PartiallyRefunded)
+            ->orWhere('status', DepositStatus::WithDrawn)
+            ->sum('revoked_amount');
+
+        return '€ ' . $revokedAssets;
+    }
+
+    /**
+     * Computes the total monetary value of assets that have been revoked or withdrawn.
+     *
+     * This method calculates the total amount from deposits with statuses of `PartiallyRefunded`
+     * or `WithDrawn`. These statuses indicate that either part or all of the deposit has been
+     * withheld rather than refunded, resulting in revoked assets.
+     *
+     * @return string The formatted Euro currency string representing the total amount of revoked assets.
+     */
     private function getDepositsRevokedOrPartiallyRevoked(): int|string
     {
         return Deposit::query()

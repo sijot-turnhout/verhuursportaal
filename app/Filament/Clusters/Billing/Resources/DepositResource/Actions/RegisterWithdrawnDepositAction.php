@@ -101,8 +101,12 @@ final class RegisterWithdrawnDepositAction extends Action
      */
     private static function processWithdrawnDepositRegistration(array $data, Deposit $deposit): void
     {
-        $deposit->update(
-            attributes: ['status' => DepositStatus::WithDrawn, 'note' => $data['note'], 'refunded_amount' => '0.00', 'refunded_at' => now()]
-        );
+        $deposit->update(attributes: [
+            'status' => DepositStatus::WithDrawn,
+            'note' => $data['note'],
+            'refunded_amount' => '0.00',
+            'revoked_amount' => $deposit->paid_amount,
+            'refunded_at' => now()
+        ]);
     }
 }
