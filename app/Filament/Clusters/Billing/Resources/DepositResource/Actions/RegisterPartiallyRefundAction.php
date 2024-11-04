@@ -94,8 +94,8 @@ final class RegisterPartiallyRefundAction extends Action
                     ->helperText(trans('Dit is louter voor administratieve doeleinden en word niet gecommuniceerd naar de huurder.'))
                     ->required()
                     ->rows(4)
-                    ->columnSpan(12)
-            ])
+                    ->columnSpan(12),
+            ]),
         ];
     }
 }

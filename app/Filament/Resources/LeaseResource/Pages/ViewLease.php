@@ -18,7 +18,6 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\ViewRecord;
 
 /**
@@ -91,7 +90,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
 
             Action::make('Bekijk waarborg')
                 ->icon('heroicon-o-eye')
-                ->visible(fn (Lease $lease): bool => $lease->deposit()->exists())
+                ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
                 ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
                 ->openUrlInNewTab(),
         ])

@@ -43,7 +43,7 @@ final class ViewDeposit extends ViewRecord
             ])
                 ->button()
                 ->icon('heroicon-o-credit-card')
-                ->label('Terugbetaling registreren')
+                ->label('Terugbetaling registreren'),
         ];
     }
 }

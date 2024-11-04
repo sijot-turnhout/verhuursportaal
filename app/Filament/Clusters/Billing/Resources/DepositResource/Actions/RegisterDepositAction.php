@@ -33,7 +33,7 @@ final class RegisterDepositAction extends Action
     public static function make(?string $name = null): static
     {
         return parent::make($name ?? trans('Betaling registreren'))
-            ->visible(fn (Lease $lease) => Gate::allows('configure-deposit', $lease))
+            ->visible(fn(Lease $lease) => Gate::allows('configure-deposit', $lease))
             ->modalHeading('Huurwaarborg registreren')
             ->modalIcon('heroicon-o-cog-8-tooth')
             ->modalIconColor('primary')
@@ -41,7 +41,7 @@ final class RegisterDepositAction extends Action
             ->modalSubmitActionLabel(trans('Opslaan'))
             ->icon('heroicon-o-cog-8-tooth')
             ->form(fn(Lease $record): array => self::getConfigurationForm($record))
-            ->action(function (array $data,  Lease $record): void {
+            ->action(function (array $data, Lease $record): void {
                 $record->deposit()->save(new Deposit(array_merge($data, ['paid_at' => now()])));
             });
     }
@@ -85,7 +85,7 @@ final class RegisterDepositAction extends Action
                         ->prefixIcon('heroicon-o-calendar')
                         ->prefixIconColor('primary')
                         ->native(false),
-                ])
-            ];
+                ]),
+        ];
     }
 }

@@ -24,7 +24,7 @@ final class ProcessDepositRefunding
     {
         $this->deposit->update(attributes: array_merge(
             $this->formData,
-            ['status' => DepositStatus::PartiallyRefunded, 'refunded_at' => now(), 'refunded_amount' => $this->calculateRefund()]
+            ['status' => DepositStatus::PartiallyRefunded, 'refunded_at' => now(), 'refunded_amount' => $this->calculateRefund()],
         ));
     }
 

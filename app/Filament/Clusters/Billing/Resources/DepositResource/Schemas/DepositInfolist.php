@@ -18,7 +18,7 @@ final readonly class DepositInfolist
         return self::createSection(
             title: 'Koppelde verhuring',
             description: 'De informatie omtrent de verhuring die gekoppeld is aan de waarborg',
-            icon: 'heroicon-o-home-modern'
+            icon: 'heroicon-o-home-modern',
         )->schema([
             TextEntry::make('lease.reference_number')
                 ->label('Verhurings referentie')
@@ -65,7 +65,7 @@ final readonly class DepositInfolist
 
             TextEntry::make('paid_amount')
                 ->label('Gestorte waarborg')
-                ->visible(fn (Deposit $deposit): bool => $deposit->status->is(DepositStatus::Paid))
+                ->visible(fn(Deposit $deposit): bool => $deposit->status->is(DepositStatus::Paid))
                 ->money('EUR')
                 ->columnSpan(3)
                 ->weight(FontWeight::ExtraBold)
@@ -73,7 +73,7 @@ final readonly class DepositInfolist
 
             TextEntry::make('refunded_amount')
                 ->label('Teruggestorte borg')
-                ->visible(fn (Deposit $deposit): bool => $deposit->status->isNot(DepositStatus::Paid))
+                ->visible(fn(Deposit $deposit): bool => $deposit->status->isNot(DepositStatus::Paid))
                 ->money('EUR')
                 ->columnSpan(3)
                 ->weight(FontWeight::ExtraBold)
@@ -81,13 +81,13 @@ final readonly class DepositInfolist
 
             TextEntry::make('paid_at')
                 ->label('Betaald op')
-                ->visible(fn (Deposit $deposit): bool => $deposit->status->is(DepositStatus::Paid))
+                ->visible(fn(Deposit $deposit): bool => $deposit->status->is(DepositStatus::Paid))
                 ->date()
                 ->columnSpan(3),
 
             TextEntry::make('revoked_amount')
                 ->label('Ingehouden borg')
-                ->visible(fn (Deposit $deposit): bool => $deposit->status->isNot(DepositStatus::Paid))
+                ->visible(fn(Deposit $deposit): bool => $deposit->status->isNot(DepositStatus::Paid))
                 ->money('EUR')
                 ->columnSpan(3)
                 ->weight(FontWeight::ExtraBold)
@@ -95,21 +95,21 @@ final readonly class DepositInfolist
 
             TextEntry::make('refunded_at')
                 ->label('Teruggestort op')
-                ->visible(fn (Deposit $deposit): bool => $deposit->status->isNot(DepositStatus::Paid))
+                ->visible(fn(Deposit $deposit): bool => $deposit->status->isNot(DepositStatus::Paid))
                 ->columnSpan(3)
                 ->date(),
 
             TextEntry::make('refund_at')
                 ->label('Uiterste terugbetalingsdatum')
-                ->visible(fn (Deposit $deposit): bool => $deposit->status->is(DepositStatus::Paid))
+                ->visible(fn(Deposit $deposit): bool => $deposit->status->is(DepositStatus::Paid))
                 ->date()
                 ->columnSpan(3),
 
             TextEntry::make('note')
                 ->columnSpan(12)
-                ->visible(fn (Deposit $deposit): bool => $deposit->status->notIn([DepositStatus::Paid, DepositStatus::FullyRefunded]))
+                ->visible(fn(Deposit $deposit): bool => $deposit->status->notIn([DepositStatus::Paid, DepositStatus::FullyRefunded]))
                 ->label('Reden tot gedeeltelijke terugbetaling of intrekking van de waarborg')
-                ->color('gray')
+                ->color('gray'),
         ]);
     }
 

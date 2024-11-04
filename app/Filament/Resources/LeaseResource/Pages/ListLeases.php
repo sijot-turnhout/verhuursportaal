@@ -35,15 +35,6 @@ final class ListLeases extends ListRecords
      */
     protected static string $resource = LeaseResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make()
-                ->label('Verhuring toevoegen')
-                ->icon('heroicon-o-plus')
-        ];
-    }
-
     /**
      * Handle the event when the active tab is updated.
      *
@@ -103,6 +94,15 @@ final class ListLeases extends ListRecords
                 ->label(__('alle'))
                 ->icon('heroicon-o-queue-list')
                 ->badge(Cache::flexible('all_leases_count', [30, 60], fn() => Lease::query()->count())),
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->label('Verhuring toevoegen')
+                ->icon('heroicon-o-plus'),
         ];
     }
 }

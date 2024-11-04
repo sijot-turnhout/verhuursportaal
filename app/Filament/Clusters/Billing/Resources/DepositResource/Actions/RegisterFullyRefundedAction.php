@@ -31,8 +31,8 @@ final class RegisterFullyRefundedAction extends Action
     {
         return parent::make($name = trans('Volledig terugbetaald'))
             ->icon('heroicon-o-credit-card')
-            ->visible(fn (Deposit $deposit): bool => Gate::allows('mark-as-fully-refunded', $deposit))
-            ->action(fn (Deposit $deposit) => self::processRefundRegistration($deposit))
+            ->visible(fn(Deposit $deposit): bool => Gate::allows('mark-as-fully-refunded', $deposit))
+            ->action(fn(Deposit $deposit) => self::processRefundRegistration($deposit))
             ->color('success')
             ->requiresConfirmation()
             ->modalHeading(trans('Volledige terugbetaling registreren'))
@@ -50,8 +50,8 @@ final class RegisterFullyRefundedAction extends Action
      */
     private static function processRefundRegistration(Deposit $deposit): void
     {
-        $deposit->update(attributes:
-            ['status' => DepositStatus::FullyRefunded, 'refunded_at' => now(), 'refunded_amount' => $deposit->paid_amount]
+        $deposit->update(
+            attributes: ['status' => DepositStatus::FullyRefunded, 'refunded_at' => now(), 'refunded_amount' => $deposit->paid_amount],
         );
     }
 }

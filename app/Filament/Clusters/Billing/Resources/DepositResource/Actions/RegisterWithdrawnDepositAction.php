@@ -42,7 +42,7 @@ final class RegisterWithdrawnDepositAction extends Action
             ->visible(fn(Deposit $deposit): bool => Gate::allows('mark-as-fully-withdrawn', $deposit))
             ->modalSubmitActionLabel('Registreren')
             ->form(self::configureModalForm())
-            ->action(fn (array $data, Deposit $record) => self::processWithdrawnDepositRegistration($data, $record));
+            ->action(fn(array $data, Deposit $record) => self::processWithdrawnDepositRegistration($data, $record));
     }
 
     /**
@@ -83,8 +83,8 @@ final class RegisterWithdrawnDepositAction extends Action
                         ->helperText(trans('Dit is louter voor administratieve doeleinden en word niet gecommuniceerd naar de huurder.'))
                         ->required()
                         ->rows(4)
-                        ->columnSpan(12)
-                ])
+                        ->columnSpan(12),
+                ]),
         ];
     }
 
@@ -106,7 +106,7 @@ final class RegisterWithdrawnDepositAction extends Action
             'note' => $data['note'],
             'refunded_amount' => '0.00',
             'revoked_amount' => $deposit->paid_amount,
-            'refunded_at' => now()
+            'refunded_at' => now(),
         ]);
     }
 }

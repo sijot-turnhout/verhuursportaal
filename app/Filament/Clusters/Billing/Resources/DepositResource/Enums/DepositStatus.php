@@ -69,7 +69,7 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
      */
     public function getColor(): string|array|null
     {
-        return match($this) {
+        return match ($this) {
             self::Paid, self::FullyRefunded => 'success',
             self::WithDrawn => 'danger',
             self::PartiallyRefunded => 'warning',
@@ -87,7 +87,7 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
      */
     public function getIcon(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Paid, self::PartiallyRefunded, self::FullyRefunded => 'heroicon-o-credit-card',
             self::WithDrawn => 'heroicon-o-exclamation-triangle',
         };

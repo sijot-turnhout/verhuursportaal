@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\Billing\Resources;
 
 use App\Filament\Clusters\Billing;
@@ -26,7 +28,7 @@ final class DepositResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema(
-            components: [DepositInfolist::getLeaseInfoSection(), DepositInfolist::getDepositInfoSection()]
+            components: [DepositInfolist::getLeaseInfoSection(), DepositInfolist::getDepositInfoSection()],
         );
     }
 
