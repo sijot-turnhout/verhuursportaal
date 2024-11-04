@@ -7,6 +7,7 @@ namespace App\Filament\Clusters\Billing\Resources\DepositResource\Actions;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use App\Models\Deposit;
 use Filament\Actions\Action;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class RegisterFullyRefundedAction
@@ -30,7 +31,7 @@ final class RegisterFullyRefundedAction extends Action
     {
         return parent::make($name = trans('Volledig terugbetaald'))
             ->icon('heroicon-o-credit-card')
-            ->visible(fn (Deposit $deposit): bool => $deposit->status->is(DepositStatus::Paid))
+            ->visible(fn (Deposit $deposit): bool => Gate::allows('mark-as-fully-refunded', $deposit))
             ->action(fn (Deposit $deposit) => self::processRefundRegistration($deposit))
             ->color('success')
             ->requiresConfirmation()

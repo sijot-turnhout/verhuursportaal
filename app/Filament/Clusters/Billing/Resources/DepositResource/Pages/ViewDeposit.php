@@ -39,6 +39,7 @@ final class ViewDeposit extends ViewRecord
             ActionGroup::make([
                 Actions\RegisterFullyRefundedAction::make(),
                 Actions\RegisterPartiallyRefundAction::make(),
+                Actions\RegisterWithdrawnDepositAction::make(),
             ])
                 ->button()
                 ->icon('heroicon-o-credit-card')
