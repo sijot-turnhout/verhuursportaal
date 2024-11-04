@@ -10,10 +10,6 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Columns\TextColumn;
-
-;
 use Illuminate\Support\Facades\Gate;
 
 final class RegisterPartiallyRefundAction extends Action
@@ -30,6 +26,7 @@ final class RegisterPartiallyRefundAction extends Action
                 registratie is het niet meer mogelijk om de terugbetaling te wijzigen.')
             ->modalIconColor('warning')
             ->icon('heroicon-o-credit-card')
+            ->color('warning')
             ->modalSubmitActionLabel('Registreren')
             ->form(self::configureModalForm())
             ->action(function (array $data, Deposit $record): void {

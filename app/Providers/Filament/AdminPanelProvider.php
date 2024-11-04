@@ -94,6 +94,7 @@ class AdminPanelProvider extends PanelProvider
                     \App\Filament\Resources\ContactSubmissionResource::class,
                     \App\Filament\Resources\InvoiceResource::class,
                     \App\Filament\Resources\QuotationResource::class,
+                    \App\Filament\Clusters\Billing\Resources\DepositResource::class,
                 ]),
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(config('app.debug'))
