@@ -6,7 +6,6 @@ namespace App\Jobs\Financial;
 
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use App\Models\Deposit;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
 final class ProcessDepositRefunding

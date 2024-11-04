@@ -10,11 +10,26 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * Class RegisterDepositAction
+ *
+ * This action allows administrators to register a deposit payment associated with a lease.
+ * It displays a form where users can input deposit details, including the amount, payment date,
+ * and the deadline for refunding the deposit. Access to this action is restricted by permissions.
+ *
+ * @package App\Filament\Clusters\Billing\Resources\DepositResource\Actions
+ */
 final class RegisterDepositAction extends Action
 {
+    /**
+     * Creates and configures the deposit registration action.
+     * It sets up a form modal that prompts users to enter deposit payment information.
+     *
+     * @param  string|null $name  Optional name for the action, with a default label for deposit registration.
+     * @return static             Configured instance of the RegisterDepositAction.
+     */
     public static function make(?string $name = null): static
     {
         return parent::make($name ?? trans('Betaling registreren'))
@@ -31,6 +46,13 @@ final class RegisterDepositAction extends Action
             });
     }
 
+    /**
+     * Configures the deposit registration form, providing inputs for deposit amount,
+     * payment date, and refund deadline.
+     *
+     * @param  Lease $lease  The lease for which the deposit is being registered, used to set default values.
+     * @return array         The form configuration array, containing the form fields and their settings.
+     */
     private static function getConfigurationForm(Lease $lease): array
     {
         return [

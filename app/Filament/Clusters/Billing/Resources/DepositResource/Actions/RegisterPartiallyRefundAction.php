@@ -12,8 +12,24 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * Class RegisterPartiallyRefundAction
+ *
+ * This action class allows the partial refund of a deposit to be registered within the application.
+ * It includes a form modal that prompts the user to input the refunded amount and provides an
+ * explanation for administrative purposes. This action is restricted to users with specific permissions.
+ *
+ * @package App\Filament\Clusters\Billing\Resources\DepositResource\Actions
+ */
 final class RegisterPartiallyRefundAction extends Action
 {
+    /**
+     * Creates a new instance of the partial refund registration action.
+     * Displays a modal form for users with permission to mark a deposit as partially refunded.
+     *
+     * @param  string|null $name  Optional name for the action.
+     * @return static             Configured instance of the RegisterPartiallyRefundAction.
+     */
     public static function make(?string $name = null): static
     {
         return parent::make($name ?? trans('Gedeeltelijk terugbetaald'))
@@ -34,6 +50,12 @@ final class RegisterPartiallyRefundAction extends Action
             });
     }
 
+    /**
+     * Configures the modal form used to input details for the partial refund registration.
+     *
+     * @return array  An array defining the structure and components of the form, including inputs
+     *                for the lease reference, paid amount, refunded amount, and administrative notes.
+     */
     private static function configureModalForm(): array
     {
         return [
@@ -45,6 +67,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->default(fn(Deposit $deposit): string => $deposit->lease->reference_number ?? '-')
                     ->prefixIconColor('primary')
                     ->disabled(),
+
                 TextInput::make('paid_amount')
                     ->label('Betaalde waarborg')
                     ->columnSpan(4)
@@ -53,6 +76,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->prefixIconColor('primary')
                     ->default(fn(Deposit $deposit): string => $deposit->paid_amount)
                     ->disabled(),
+
                 TextInput::make('revoked_amount')
                     ->label('Ingetrokken bedrag v/d waarborg')
                     ->columnSpan(4)
@@ -63,6 +87,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->prefixIcon('heroicon-o-currency-euro')
                     ->prefixIconColor('primary'),
+
                 Textarea::make('note')
                     ->label(trans('Reden van de gedeeltelijke terugbetaling'))
                     ->placeholder(trans('Probeer zo duidelijk mogelijk de beslissing te motiveren'))
