@@ -89,7 +89,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
         return ActionGroup::make([
             RegisterDepositAction::make(),
 
-            Action::make('Bekijk weerborg')
+            Action::make('Bekijk waarborg')
                 ->icon('heroicon-o-eye')
                 ->visible(fn (Lease $lease): bool => $lease->deposit()->exists())
                 ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))

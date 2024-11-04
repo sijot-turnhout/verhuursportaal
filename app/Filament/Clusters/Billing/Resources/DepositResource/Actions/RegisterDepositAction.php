@@ -27,7 +27,7 @@ final class RegisterDepositAction extends Action
             ->icon('heroicon-o-cog-8-tooth')
             ->form(fn(Lease $record): array => self::getConfigurationForm($record))
             ->action(function (array $data,  Lease $record): void {
-                $record->deposit()->save(new Deposit($data));
+                $record->deposit()->save(new Deposit(array_merge($data, ['paid_at' => now()])));
             });
     }
 
@@ -36,7 +36,7 @@ final class RegisterDepositAction extends Action
         return [
             Grid::make(12)
                 ->schema([
-                    TextInput::make('amount')
+                    TextInput::make('paid_amount')
                         ->label('Borgsom')
                         ->numeric()
                         ->required()

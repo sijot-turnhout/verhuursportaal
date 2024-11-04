@@ -44,4 +44,9 @@ final class ListDeposits extends ListRecords
                 ->badge(Deposit::query()->count())
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return DepositResource::getWidgets();
+    }
 }

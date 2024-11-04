@@ -21,7 +21,8 @@ final class Deposit extends Model
     {
         return [
             'status' => DepositStatus::class,
-            'due_at' => 'datetime',
+            'amount' => 'float',
+            'paid_at' => 'datetime',
             'refund_at' => 'datetime',
         ];
     }

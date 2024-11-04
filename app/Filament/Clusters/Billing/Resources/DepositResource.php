@@ -3,10 +3,11 @@
 namespace App\Filament\Clusters\Billing\Resources;
 
 use App\Filament\Clusters\Billing;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Pages;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Schemas\DepositInfolist;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Widgets\DepositStatsOverview;
 use App\Models\Deposit;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -24,55 +25,9 @@ final class DepositResource extends Resource
 
     public static function infolist(Infolist $infolist): Infolist
     {
-        return $infolist->schema([
-            Section::make('Koppelde verhuring')
-                ->description('De informatie omtrent de verhuring die gekoppeld is aan de waarborg')
-                ->icon('heroicon-o-home-modern')
-                ->collapsible()
-                ->compact()
-                ->columns(12)
-                ->iconColor('primary')
-                ->schema([
-                    TextEntry::make('lease.period')
-                        ->label('Verhuringsperiode')
-                        ->weight(FontWeight::ExtraBold)
-                        ->color('primary')
-                        ->columnSpan(3)
-                        ->icon('heroicon-o-calendar-date-range')
-                        ->iconColor('primary'),
-
-                    TextEntry::make('lease.tenant.name')
-                        ->label('Huurder')
-                        ->columnSpan(3)
-                        ->icon('heroicon-o-user-circle')
-                        ->iconColor('primary'),
-
-                    TextEntry::make('lease.tenant.email')
-                        ->label('Email adres')
-                        ->columnSpan(3)
-                        ->icon('heroicon-o-envelope')
-                        ->iconColor('primary'),
-
-                    TextEntry::make('lease.tenant.phone_number')
-                        ->label('Tel. nummer')
-                        ->columnSpan(3)
-                        ->iconColor('primary')
-                        ->icon('heroicon-o-device-phone-mobile'),
-                ]),
-
-            Section::make('Waarborg informatie')
-                ->description('De gegevens omtrent de waarborg betaling die een huurder heeft uitgevoerd voor zijn hruing van onze domein zijn zijn/haar kamp en weekend.')
-                ->icon('heroicon-o-banknotes')
-                ->iconColor('primary')
-                ->compact()
-                ->columns(12)
-                ->schema([
-                    TextEntry::make('status')->label('Waarborg status')->badge()->columnSpan(3),
-                    TextEntry::make('amount')->label('Gestorte waarborg')->money('EUR')->columnSpan(3)->weight(FontWeight::ExtraBold)->color('primary'),
-                    TextEntry::make('paid_at')->label('Betaald op')->date()->columnSpan(3),
-                    TextEntry::make('refund_at')->label('Uiterste terugbetalingsdatum')->date()->columnSpan(3),
-                ]),
-        ]);
+        return $infolist->schema(
+            components: [DepositInfolist::getLeaseInfoSection(), DepositInfolist::getDepositInfoSection()]
+        );
     }
 
     public static function table(Table $table): Table
@@ -83,7 +38,8 @@ final class DepositResource extends Resource
             ->emptyStateDescription('Het lijkt erop dat er voor de moment geen geregistreerde waarborgen zijn die voldoen aan de opgegeven criteria')
             ->columns([
                 TextColumn::make('lease.reference_number')
-                    ->label('Verhurings referentie')
+                    ->label('Verhuring')
+                    ->placeholder('-')
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-o-home-modern')
@@ -97,12 +53,12 @@ final class DepositResource extends Resource
                     ->searchable(),
 
                 TextColumn::make('status')
-                    ->label('Waarborg')
+                    ->label('Status')
                     ->badge()
                     ->translateLabel()
                     ->sortable(),
 
-                TextColumn::make('amount')
+                TextColumn::make('paid_amount')
                     ->label('Borgsom')
                     ->translateLabel()
                     ->money('EUR'),
@@ -120,6 +76,20 @@ final class DepositResource extends Resource
                     ->date(),
             ])
             ->actions([Tables\Actions\ViewAction::make()]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        if ($count = Deposit::query()->where('status', DepositStatus::Paid)->count()) {
+            return (string) $count;
+        }
+
+        return null;
+    }
+
+    public static function getWidgets(): array
+    {
+        return [DepositStatsOverview::class];
     }
 
     public static function getPages(): array

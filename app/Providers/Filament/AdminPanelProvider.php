@@ -87,7 +87,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins([
-                AuthUIEnhancerPlugin::make()->emptyPanelBackgroundImageUrl(asset('img/sgv-wit.png'))->emptyPanelBackgroundColor(Color::hex('#709553')),
+                AuthUIEnhancerPlugin::make()->emptyPanelBackgroundImageUrl(asset('img/sgv-wit.png'))->emptyPanelBackgroundColor(Color::hex('#826644')),
                 KnowledgeBasePlugin::make()->modalPreviews()->slideOverPreviews()->disableKnowledgeBasePanelButton(),
                 EnvironmentIndicatorPlugin::make(),
                 QuickCreatePlugin::make()->excludes([
