@@ -19,4 +19,9 @@ final readonly class DepositPolicy
 
         return null;
     }
+
+    public function markAsPartiallyRefunded(User $user, Deposit $deposit): bool
+    {
+        return $deposit->status->is(DepositStatus::Paid);
+    }
 }
