@@ -25,7 +25,7 @@ Dit project is opgebouwd vanuit de Laravel starter template. Die we ook regelmat
 
 ## Contributing 
 
-We danken u voor de overweging om bij te dragen aan het project. Maar we vragen u om eerst de [contributie richtlijnen](/) eens te bekijken en door te nemen voor u start met een contributie.
+We danken u voor de overweging om bij te dragen aan het project. Maar we vragen u om eerst de [contributie richtlijnen](https://github.com/sijot-turnhout/.github/blob/main/CONTRIBUTING.md) eens te bekijken en door te nemen voor u start met een contributie.
 
 ## Code of conduct 
 
