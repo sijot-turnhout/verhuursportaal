@@ -29,7 +29,7 @@ We danken u voor de overweging om bij te dragen aan het project. Maar we vragen 
 
 ## Code of conduct 
 
-Lees onze [gedragscode](/) voordat u een bijdrage levert of deelneemt aan discussies binnen het project.
+Lees onze [gedragscode](https://github.com/sijot-turnhout/.github/blob/main/CODE_OF_CONDUCT.md) voordat u een bijdrage levert of deelneemt aan discussies binnen het project.
 
 ## Security Vulnerabilities 
 
@@ -38,4 +38,4 @@ Heb je een veiligheidslek en of probleem ontdekt. En wilt u dat rapporteren dan 
 
 ## License
 
-Het project is vrijgegeven onder de MIT licentie. Lees het [licentie bestaan](LICENSE) voor verdere informatie.
+Het project is vrijgegeven onder de MIT licentie. Lees het [licentie bestand](LICENSE) voor verdere informatie.
