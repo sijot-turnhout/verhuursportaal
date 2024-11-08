@@ -7,6 +7,7 @@ namespace App\Filament\Resources\LeaseResource\Pages;
 use App\Enums\LeaseStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\RegisterDepositAction;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
+use App\Filament\Clusters\Billing\Resources\QuotationResource\Actions\ViewQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
@@ -117,19 +118,19 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     {
         return ActionGroup::make([
             RegisterDepositAction::make(),
+            GenerateInvoice::make(),
+            GenerateQuotation::make(),
 
-            Action::make('Bekijk waarborg') // 'View deposit' in Dutch
-                ->icon('heroicon-o-eye')
-                ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
-                ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
-                ->openUrlInNewTab(),
+            ActionGroup::make([
+                Action::make('Bekijk waarborg') // 'View deposit' in Dutch
+                    ->icon('heroicon-o-eye')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
+                    ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
+                    ->openUrlInNewTab(),
 
-                // Financial actions related to invoices and quotations
-                ActionGroup::make([
-                    GenerateInvoice::make(),
-                    ViewInvoice::make(),
-                    GenerateQuotation::make(),
-                ])->dropdown(false)
+                ViewInvoice::make(),
+                ViewQuotation::make(),
+            ])->dropdown(false)
         ])
             ->color('gray')
             ->icon('heroicon-o-banknotes')
