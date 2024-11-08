@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Billing\Resources\QuotationResource\Actions;
 
+use App\Filament\Resources\QuotationResource\Pages\ViewQuotations;
 use App\Models\Lease;
 use Filament\Actions\Action;
-use App\Filament\Resources\QuotationResource\Pages\ViewQuotations;
 
 /**
  * Class ViewQuotation
@@ -34,9 +34,8 @@ final class ViewQuotation extends Action
     {
         return parent::make($name ?? __('Bekijk offerte'))
             ->icon('heroicon-o-eye')
-            ->visible(fn (Lease $lease): bool => $lease->quotation()->exists())
-            ->url(fn (Lease $lease): string => ViewQuotations::getUrl(parameters: ['record' => $lease->quotation]))
+            ->visible(fn(Lease $lease): bool => $lease->quotation()->exists())
+            ->url(fn(Lease $lease): string => ViewQuotations::getUrl(parameters: ['record' => $lease->quotation]))
             ->openUrlInNewTab();
     }
 }
-

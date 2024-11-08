@@ -130,7 +130,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
 
                 ViewInvoice::make(),
                 ViewQuotation::make(),
-            ])->dropdown(false)
+            ])->dropdown(false),
         ])
             ->color('gray')
             ->icon('heroicon-o-banknotes')
