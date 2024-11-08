@@ -23,95 +23,128 @@ use Filament\Resources\Pages\ViewRecord;
 /**
  * Class ViewLease
  *
- * The `ViewLease` class is responsible for displaying the details of a lease record
- * within the system. It extends the `ViewRecord` class to provide functionality for
- * viewing a specific lease and integrates additional actions related to invoices.
+ * The `ViewLease` class is designed for community use in managing lease details.
+ * It extends the `ViewRecord` class and provides a user interface to display, update, and
+ * transition the status of a specific lease. This class includes tools for navigating through
+ * different states of the lease lifecycle, registering deposits, and generating financial documents.
  *
- * @todo Document the methods in this class
+ * This documentation aims to help community members understand and use each part of this codebase,
+ * with additional resources like actions and guards that support accessibility and reliability for lease management.
+ *
+ * @todo Refine individual method documentation to make each transition and action more descriptive.
+ * @package App\Filament\Resources\LeaseResource\Pages
  */
 final class ViewLease extends ViewRecord implements StateTransitionGuardContract
 {
     use StateTransitionGuard;
 
     /**
-     * The associated resource for the view page.
+     * Links this page to the LeaseResource, which defines the core schema for leases.
      *
-     * This property links the `ViewLease` page to the `LeaseResource` class, which defines
-     * the schema and behavior for managing lease records.
+     * By associating this view with LeaseResource, the system knows that this page manages leases,
+     * ensuring that actions taken here are applied specifically to lease records.
+     *
+     * @var string
      */
     protected static string $resource = LeaseResource::class;
 
+    /**
+     * Configures the main header actions available in the lease view.
+     *
+     * @return array Contains groups of actions for managing deposits, statuses, and general options.
+     */
     protected function getHeaderActions(): array
     {
         return [
-            $this->registerStatusManipulationActions(),
             $this->registerDepositActions(),
-            $this->registerBillingActions(),
+            $this->registerStatusManipulationActions(),
             $this->registerManipulationActions(),
         ];
     }
 
     /**
-     * @todo There are bigs fopund in the zuthorization checks for the state transition we need to investigate this.
+     * Defines and configures actions for manipulating the lease's status.
+     *
+     * This method provides options for updating the status of a lease, only allowing transitions
+     * when they are permitted by the current state. These actions help users navigate the lifecycle
+     * of a lease—from request to confirmation to cancellation.
+     *
+     * @todo Resolve authorization issues encountered in state transitions.
      */
     protected function registerStatusManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
+            // Transition to "Option" status
             $this->changeStateTransitionAction(state: LeaseStatus::Option)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation]))
                 ->action(fn(Lease $lease): bool => $lease->state()->transitionToOption()),
 
+            // Transition lease to "Quotation" status
             $this->changeStateTransitionAction(state: LeaseStatus::Quotation)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request]))
                 ->action(fn(Lease $lease): bool => $lease->state()->transitionToQuotationRequest()),
 
+            // Transition lease o "Confirmed" status
             $this->changeStateTransitionAction(state: LeaseStatus::Confirmed)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Option, LeaseStatus::Quotation]))
                 ->action(fn(Lease $lease): bool => $lease->state()->transitionToConfirmed()),
 
+            // Transition lease to "Finalized" status
             $this->changeStateTransitionAction(state: LeaseStatus::Finalized)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Confirmed]))
                 ->action(fn(Lease $lease): bool => $lease->state()->transitionToCompleted()),
 
+            // Transition lease to "Cancelled" status
             $this->changeStateTransitionAction(state: LeaseStatus::Cancelled)
                 ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation, LeaseStatus::Option, LeaseStatus::Confirmed]))
                 ->action(fn(Lease $lease): bool => $lease->state()->transitionToCancelled()),
         ])
             ->button()
-            ->label(trans('markeren als'))
+            ->label(trans('markeren als')) // Label translates to 'Mark as' for accessibility.
             ->icon('heroicon-o-tag')
             ->color('gray');
     }
 
+    /**
+     * Configures deposit-related actions, such as registering or viewing deposits.
+     *
+     * Allows users to easily access deposit information, view existing deposits, and initiate
+     * financial transactions, all within the same interface.
+     *
+     * @return ActionGroup  An action group with options for registering and viewing deposits.
+     */
     protected function registerDepositActions(): ActionGroup
     {
         return ActionGroup::make([
             RegisterDepositAction::make(),
 
-            Action::make('Bekijk waarborg')
+            Action::make('Bekijk waarborg') // 'View deposit' in Dutch
                 ->icon('heroicon-o-eye')
                 ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
                 ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
                 ->openUrlInNewTab(),
+
+                // Financial actions related to invoices and quotations
+                ActionGroup::make([
+                    GenerateInvoice::make(),
+                    ViewInvoice::make(),
+                    GenerateQuotation::make(),
+                ])->dropdown(false)
         ])
             ->color('gray')
             ->icon('heroicon-o-banknotes')
-            ->label(trans('Waarborg'))
+            ->label(trans('Financiën')) // Label translates to 'Finances' for ease of understanding.
             ->button();
     }
 
-    protected function registerBillingActions(): ActionGroup
-    {
-        return ActionGroup::make([
-            GenerateInvoice::make(),
-            GenerateQuotation::make(),
-            ViewInvoice::make(),
-        ])
-            ->label(trans('Facturatie'))
-            ->color('gray')
-            ->button();
-    }
-
+    /**
+     * Registers general options for lease record manipulation, including editing and deleting leases.
+     *
+     * These options are gathered in a simple, accessible group to support common actions that users
+     * may need when working with lease data.
+     *
+     * @return ActionGroup  A group with edit and delete options.
+     */
     protected function registerManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
@@ -119,11 +152,20 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
             DeleteAction::make(),
         ])
             ->button()
-            ->label('opties')
+            ->label('opties') // 'Options' for user understanding
             ->icon('heroicon-o-cog-8-tooth')
             ->color('primary');
     }
 
+    /**
+     * Creates a state transition action for a lease, configuring the display and behavior based on the provided state.
+     *
+     * This method ensures that each action has consistent styling and labeling,
+     * making it easier for users to distinguish between different status options.
+     *
+     * @param  LeaseStatus $state  The target state for the transition action.
+     * @return Action              Configured action for the specified state.
+     */
     private function changeStateTransitionAction(LeaseStatus $state): Action
     {
         return Action::make(trans($state->getLabel()))

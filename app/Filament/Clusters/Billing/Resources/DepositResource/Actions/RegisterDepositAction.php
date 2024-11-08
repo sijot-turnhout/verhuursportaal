@@ -32,9 +32,9 @@ final class RegisterDepositAction extends Action
      */
     public static function make(?string $name = null): static
     {
-        return parent::make($name ?? trans('Betaling registreren'))
+        return parent::make($name ?? trans('Waarborg registreren'))
             ->visible(fn(Lease $lease) => Gate::allows('configure-deposit', $lease))
-            ->modalHeading('Huurwaarborg registreren')
+            ->modalHeading('Huurwaarborg betaling registreren')
             ->modalIcon('heroicon-o-cog-8-tooth')
             ->modalIconColor('primary')
             ->modalDescription('Elke verhuring is onderworpen aan een betaling van een waarborg. Hier kunt u de gegevens van de betaling door de groep registreren.')
