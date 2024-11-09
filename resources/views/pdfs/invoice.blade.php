@@ -98,9 +98,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($record->invoiceLines as $invoiceLine)
+                            @forelse ($record->invoiceLines as $invoiceLine)
                                 <tr>
-                                    <td>{{ $invoiceLine->name }}</td>
+                                    <td>
+                                        {{ $invoiceLine->name }}
+
+                                        @if ($invoiceLine->description)
+                                            <br> <small class="text-muted">{{ $invoiceLine->description }}</small>
+                                        @endif
+                                    </td>
                                     <td>{{ (int) $invoiceLine->quantity }}</td>
                                     <td>{{ $invoiceLine->unit_price }}€</td>
                                     <td>
@@ -113,7 +119,13 @@
                                         </span>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="4">
+                                        <span class="text-muted">{{ __('Er zijn geen zaken in rekening gebracht op deze factuur') }}</span>
+                                    </td>
+                                </tr>
+                            @endforelse
 
                             <tr>
                                 <td colspan="3" class="border-bottom-0">
