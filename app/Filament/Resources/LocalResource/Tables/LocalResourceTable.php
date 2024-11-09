@@ -33,6 +33,9 @@ final readonly class LocalResourceTable
     public static function make(Table $table): Table
     {
         return $table
+            ->emptyStateIcon('heroicon-o-home-modern')
+            ->emptyStateHeading('Geen lokalen gevonden')
+            ->emptyStateDescription(trans('Het lijkt erop dat er momenteel nog geen lokalen geregistreerd zijn in de applicatie.'))
             ->columns([
                 TextColumn::make('name')
                     ->label('Lokaal')
