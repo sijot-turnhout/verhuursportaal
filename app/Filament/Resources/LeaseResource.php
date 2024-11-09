@@ -303,6 +303,7 @@ final class LeaseResource extends Resource
             RelationManagers\UtilitiesRelationManager::class,
             RelationManagers\NotesRelationManager::class,
             RelationManagers\DocumentRelationManager::class,
+            RelationManagers\IncidentsRelationManager::class,
         ];
     }
 
