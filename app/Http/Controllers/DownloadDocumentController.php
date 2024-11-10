@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use Spatie\LaravelPdf\PdfBuilder;
 

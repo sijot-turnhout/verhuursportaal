@@ -27,7 +27,7 @@ enum IncidentCodes: string implements HasDescription, HasLabel, HasIcon, HasColo
 
     public function getDescription(): ?string
     {
-        $description = match($this) {
+        $description = match ($this) {
             self::LatePayment => 'Een te late betaling, wat een risico vormt voor de financiële stabiliteit.',
             self::PropertyDamage => 'Schade aan gehuurd eigendom, wat voor extra herstelkosten kan zorgen.',
             self::UnauthorizedFire => 'Ongeoorloofd gebruik van vuur, zoals kampvuren op de niet aangegeven locaties',
@@ -53,7 +53,7 @@ enum IncidentCodes: string implements HasDescription, HasLabel, HasIcon, HasColo
 
     public function getIcon(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::LatePayment => 'heroicon-o-document-currency-dollar',
             self::PropertyDamage => 'heroicon-o-wrench',
             self::UnauthorizedFire => 'heroicon-o-fire',
