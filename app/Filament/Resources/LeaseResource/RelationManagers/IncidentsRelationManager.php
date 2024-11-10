@@ -11,11 +11,11 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Table;
-Use Filament\Tables;
-use Filament\Tables\Actions;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables;
+use Filament\Tables\Actions;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -64,6 +64,21 @@ final class IncidentsRelationManager extends RelationManager
     protected static ?string $title = 'Incidenten';
 
     /**
+     * Determines when this relation manager is visible based on lease status.
+     *
+     * We’ve restricted this to leases that are Confirmed or Finalized. This can help reduce
+     * clutter and ensure incidents are only associated with active leases.
+     *
+     * @param Model $ownerRecord  The Lease model instance.
+     * @param  string $pageClass  The page class where this relation manager is used.
+     * @return bool               True if the lease is Confirmed or Finalized; otherwise, false.
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $ownerRecord->status->in(enums: [LeaseStatus::Confirmed, LeaseStatus::Finalized]);
+    }
+
+    /**
      * Sets up the form for creating or editing an incident.
      *
      * This form allows users to categorize incidents and add extra details.
@@ -103,21 +118,6 @@ final class IncidentsRelationManager extends RelationManager
     public function isReadOnly(): bool
     {
         return false;
-    }
-
-    /**
-     * Determines when this relation manager is visible based on lease status.
-     *
-     * We’ve restricted this to leases that are Confirmed or Finalized. This can help reduce
-     * clutter and ensure incidents are only associated with active leases.
-     *
-     * @param Model $ownerRecord  The Lease model instance.
-     * @param  string $pageClass  The page class where this relation manager is used.
-     * @return bool               True if the lease is Confirmed or Finalized; otherwise, false.
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $ownerRecord->status->in(enums: [LeaseStatus::Confirmed, LeaseStatus::Finalized]);
     }
 
     /**
@@ -178,7 +178,7 @@ final class IncidentsRelationManager extends RelationManager
 
                 TextEntry::make('description')
                     ->columnSpan(12)
-                    ->label(trans('Extra informatie'))
+                    ->label(trans('Extra informatie')),
             ]);
     }
 
@@ -256,20 +256,20 @@ final class IncidentsRelationManager extends RelationManager
     private function getIncidentTableActions(): array
     {
         return [
-            Tables\Actions\ActionGroup::make([
-                Tables\Actions\ViewAction::make()
+            Actions\ActionGroup::make([
+                Actions\ViewAction::make()
                     ->slideOver()
                     ->modalHeading(trans('Incident gegevens'))
                     ->modalIcon('heroicon-o-exclamation-triangle')
                     ->modalDescription(trans('Gegevens over het gerapporteerde incident tijdens de verhuring.'))
                     ->modalIconColor('danger'),
 
-                Tables\Actions\EditAction::make()
+                Actions\EditAction::make()
                     ->modalHeading(trans('Incident bewerken'))
                     ->modalIcon('heroicon-o-pencil-square')
                     ->modalDescription('Hebt u meer informatie dat je wilt toevoegen bij het incident of is er een meer passende categorie. Dan kun je hier de registratie wijzigen.'),
 
-                Tables\Actions\DeleteAction::make()
+                Actions\DeleteAction::make()
                     ->modalHeading(__('Incident registratie verwijderen'))
                     ->modalDescription('Weet je zeker dat je de incident registratie wilt verwijderen. Deze actie kan niet ongedaan worden gemaakt. Dus weet zeker dat je deze actie wilt uitvoeren.'),
             ])
@@ -280,5 +280,3 @@ final class IncidentsRelationManager extends RelationManager
         ];
     }
 }
-
-
