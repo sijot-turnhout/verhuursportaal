@@ -20,8 +20,6 @@ enum ContactMessageStatus: string
      *
      * Indicates that a contact message has been received and is new.
      * No action has been taken on this message yet.
-     *
-     * @var string
      */
     case New = 'nieuwe contactname';
 
@@ -30,8 +28,6 @@ enum ContactMessageStatus: string
      *
      * Indicates that a contact message is currently being handled.
      * The message is under review or action is being taken.
-     *
-     * @var string
      */
     case InProgress = 'in behandeling';
 
@@ -40,8 +36,6 @@ enum ContactMessageStatus: string
      *
      * Indicates that the contact message has been fully handled and resolved.
      * No further action is required for this message.
-     *
-     * @var string
      */
     case Completed = 'behandeld';
 }

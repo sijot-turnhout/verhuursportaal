@@ -31,7 +31,7 @@ final class ViewDeposit extends ViewRecord
      * Retrieves the header actions available for this view page, grouping together actions 0related to refund registration.
      * These actions include options for both full and partial refunds or withdrawn deposits.
      *
-     * @return array An array of header actions, encapsulated in an action group for the deposit refund.
+     * @return array<int, ActionGroup> An array of header actions, encapsulated in an action group for the deposit refund.
      */
     public function getHeaderActions(): array
     {

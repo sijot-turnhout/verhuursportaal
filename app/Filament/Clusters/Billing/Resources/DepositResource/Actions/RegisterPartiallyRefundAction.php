@@ -53,8 +53,7 @@ final class RegisterPartiallyRefundAction extends Action
     /**
      * Configures the modal form used to input details for the partial refund registration.
      *
-     * @return array  An array defining the structure and components of the form, including inputs
-     *                for the lease reference, paid amount, refunded amount, and administrative notes.
+     * @return array<int, Grid>  An array defining the structure and components of the form, including inputs for the lease reference, paid amount, refunded amount, and administrative notes.
      */
     private static function configureModalForm(): array
     {
@@ -74,7 +73,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->translateLabel()
                     ->prefixIcon('heroicon-o-currency-euro')
                     ->prefixIconColor('primary')
-                    ->default(fn(Deposit $deposit): string => $deposit->paid_amount)
+                    ->default(fn(Deposit $deposit): float => $deposit->paid_amount)
                     ->disabled(),
 
                 TextInput::make('revoked_amount')
@@ -83,7 +82,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->numeric()
                     ->translateLabel()
                     ->required()
-                    ->maxValue(fn(Deposit $deposit): string => $deposit->paid_amount)
+                    ->maxValue(fn(Deposit $deposit): float => $deposit->paid_amount)
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->prefixIcon('heroicon-o-currency-euro')
                     ->prefixIconColor('primary'),

@@ -28,8 +28,6 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      *
      * - Color: Info (blue)
      * - Icon: Ellipsis Horizontal Circle
-     *
-     * @var string
      */
     case Low = 1;
 
@@ -40,8 +38,6 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      *
      * - Color: Success (green)
      * - Icon: Arrow Down Circle
-     *
-     * @var string
      */
     case Medium = 0;
 
@@ -53,8 +49,6 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      *
      * - Color: Warning (yellow)
      * - Icon: Arrow Up Circle
-     *
-     * @var string
      */
     case High = 2;
 
@@ -65,8 +59,6 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      *
      * - Color: Danger (red)
      * - Icon: Exclamation Circle
-     *
-     * @var string
      */
     case Critical = 3;
 
@@ -76,7 +68,9 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      * This method returns a translated label that describes the priority level, providing a user-friendly
      * way to convey the urgency of an issue.
      *
-     * @return string|null  The label corresponding to the priority level.
+     * Returns the label corresponding to the priority level.
+     *
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

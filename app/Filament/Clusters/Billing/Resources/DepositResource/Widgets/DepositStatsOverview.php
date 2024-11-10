@@ -28,12 +28,12 @@ final class DepositStatsOverview extends BaseWidget
         return '€ ' . Deposit::query()->where('status', DepositStatus::Paid)->sum('paid_amount');
     }
 
-    private function getDepositsInCustody(): int|string
+    private function getDepositsInCustody(): int
     {
         return Deposit::query()->where('status', DepositStatus::Paid)->count();
     }
 
-    private function getTotalRevokedOrWithdrawnAssetsAmount(): int|string
+    private function getTotalRevokedOrWithdrawnAssetsAmount(): string
     {
         $revokedAssets = Deposit::query()
             ->where('status', DepositStatus::PartiallyRefunded)
@@ -50,9 +50,9 @@ final class DepositStatsOverview extends BaseWidget
      * or `WithDrawn`. These statuses indicate that either part or all of the deposit has been
      * withheld rather than refunded, resulting in revoked assets.
      *
-     * @return string The formatted Euro currency string representing the total amount of revoked assets.
+     * @return int The formatted Euro currency string representing the total amount of revoked assets.
      */
-    private function getDepositsRevokedOrPartiallyRevoked(): int|string
+    private function getDepositsRevokedOrPartiallyRevoked(): int
     {
         return Deposit::query()
             ->where('status', DepositStatus::PartiallyRefunded)

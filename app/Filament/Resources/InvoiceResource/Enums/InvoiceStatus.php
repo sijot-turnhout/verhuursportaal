@@ -82,7 +82,7 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
     /**
      * Get the color associated with each invoice status for UI purposes.
      *
-     * @return string|array|null  The color code(s) representing the status.
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

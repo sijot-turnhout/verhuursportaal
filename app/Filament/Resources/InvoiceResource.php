@@ -12,7 +12,6 @@ use App\Filament\Resources\InvoiceResource\Pages\ListInvoices;
 use App\Filament\Resources\InvoiceResource\RelationManagers\InvoiceLinesRelationManager;
 use App\Filament\Resources\InvoiceResource\Widgets\InvoiceStats;
 use App\Models\Invoice;
-use App\Models\Lease;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -43,7 +42,7 @@ final class InvoiceResource extends Resource
      * Specifies the cluster to which this resource belongs.
      * In this case, the resource is grouped under the "Billing" cluster in the application.
      *
-     * @var string|null
+     * @var class-string<\Filament\Clusters\Cluster> | null
      */
     protected static ?string $cluster = Billing::class;
 
@@ -108,7 +107,7 @@ final class InvoiceResource extends Resource
     /**
      * Defines the widgets used on the invoice overview page, such as the `InvoiceStats` widget.
      *
-     * @return array
+     * @return array<string>
      */
     public static function getWidgets(): array
     {
@@ -257,7 +256,7 @@ final class InvoiceResource extends Resource
      * Defines the relation managers for the resource.
      * In this case, it includes `InvoiceLinesRelationManager` which manages invoice lines associated with each invoice.
      *
-     * @return array
+     * @return array<class-string>
      */
     public static function getRelations(): array
     {
@@ -268,7 +267,7 @@ final class InvoiceResource extends Resource
      * Defines the resource's pages and their respective routes.
      * Includes pages for listing, creating, viewing, and editing invoices.
      *
-     * @return array
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array
     {

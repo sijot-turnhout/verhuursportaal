@@ -239,7 +239,7 @@ final class LeaseResource extends Resource
      * This method defines which attributes of the `Lease` resource can be searched using global search functionality
      * in the application, such as the tenant's name, group, and key dates like departure and arrival.
      *
-     * @return array The list of searchable attributes.
+     * @return array<string> The list of searchable attributes.
      */
     public static function getGloballySearchableAttributes(): array
     {
@@ -253,6 +253,8 @@ final class LeaseResource extends Resource
      *
      * @param  Model $record  The lease record being displayed in search results.
      * @return string|\Illuminate\Contracts\Support\Htmlable
+     *
+     * @phpstan-param Lease $record
      */
     public static function getGlobalSearchResultTitle(Model $record): string|\Illuminate\Contracts\Support\Htmlable
     {
@@ -265,7 +267,7 @@ final class LeaseResource extends Resource
      * This method customizes the query used in global search to retrieve lease records,
      * ensuring that the tenant relationship is eager loaded and the number of results is limited.
      *
-     * @return Builder The Eloquent query used for global search.
+     * @return Builder<Model> The Eloquent query used for global search.
      */
     public static function getGlobalSearchEloquentQuery(): Builder
     {
@@ -278,8 +280,10 @@ final class LeaseResource extends Resource
      * This method returns an array of attributes to be displayed when a lease record is shown in global search results,
      * including the tenant's name and the organization (group) associated with the lease.
      *
-     * @param  Model $record  The lease record being displayed.
-     * @return array          The details of the lease record for search results.
+     * @param  Model $record          The lease record being displayed.
+     * @return array<string, string>  The details of the lease record for search results.
+     *
+     * @phpstan-param Lease $record
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
