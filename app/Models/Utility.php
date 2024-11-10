@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class Utility extends Model
 {
+    /** @use HasFactory<\Database\Factories\UtilityFactory> */
     use HasFactory;
 
     protected $guarded = ['id'];
@@ -33,7 +34,7 @@ final class Utility extends Model
     /**
      * Data relation for getting the information about lease that is attached to the utility metric.
      *
-     * @return BelongsTo<Lease, self>
+     * @return BelongsTo<Lease, covariant $this>
      */
     public function lease(): BelongsTo
     {

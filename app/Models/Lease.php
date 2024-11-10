@@ -47,6 +47,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 #[ObservedBy(LeaseObserver::class)]
 final class Lease extends Model
 {
+    /** @use HasFactory<\Database\Factories\LeaseFactory> */
     use HasFactory;
     use HasFeedbackSupport;
     use HasUtilityMetrics;
@@ -89,13 +90,16 @@ final class Lease extends Model
     /**
      * The data relation for getting the user information from the user who performs the follow-up of the lease.
      *
-     * @return BelongsTo<User, self>
+     * @return BelongsTo<User, covariant $this>
      */
     public function supervisor(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return HasOne<Deposit, covariant $this>
+     */
     public function deposit(): HasOne
     {
         return $this->hasOne(Deposit::class);
@@ -104,13 +108,16 @@ final class Lease extends Model
     /**
      * The data relation for the locals (lokalen) that are attached to the given lease.
      *
-     * @return BelongsToMany<Local>
+     * @return BelongsToMany<Local, covariant $this>
      */
     public function locals(): BelongsToMany
     {
         return $this->belongsToMany(Local::class);
     }
 
+    /**
+     * @return HasMany<Incident, covariant $this>
+     */
     public function incidents(): HasMany
     {
         return $this->hasMany(Incident::class);
@@ -119,7 +126,7 @@ final class Lease extends Model
     /**
      * Data relation for getting the information about the tenant that is attached to the lease.
      *
-     * @return BelongsTo<Tenant, self>
+     * @return BelongsTo<Tenant, covariant $this>
      */
     public function tenant(): BelongsTo
     {
@@ -129,7 +136,7 @@ final class Lease extends Model
     /**
      * Data relation for getting the notes that are attached to the lease.
      *
-     * @return MorphMany<Note>
+     * @return MorphMany<Note, covariant $this>
      */
     public function notes(): MorphMany
     {
@@ -139,7 +146,7 @@ final class Lease extends Model
     /**
      * Data relation for getting the invoice that is attached to the lease.
      *
-     * @return BelongsTo<Invoice, self>
+     * @return BelongsTo<Invoice, covariant $this>
      */
     public function invoice(): BelongsTo
     {
@@ -157,13 +164,16 @@ final class Lease extends Model
      * Example use cases include fetching all documents tied to a particular lease
      * or user in order to manage attachments, verify compliance, or audit changes.
      *
-     * @return HasMany The related Document instances associated with this entity.
+     * @return HasMany<Document, covariant $this> The related Document instances associated with this entity.
      */
     public function documents(): HasMany
     {
         return $this->hasMany(Document::class);
     }
 
+    /**
+     * @return BelongsTo<Quotation, covariant $this>
+     */
     public function quotation(): BelongsTo
     {
         return $this->belongsTo(Quotation::class);

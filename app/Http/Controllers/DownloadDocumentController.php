@@ -20,13 +20,4 @@ final readonly class DownloadDocumentController
             ->view('pdfs.invoice', compact('record'))
             ->name($record->payment_reference . '.pdf');
     }
-
-    private function getDocumentView(Invoice $record): string
-    {
-        if (InvoiceStatus::Quotation_Request === $record->status) {
-            return 'pdfs.quota';
-        }
-
-        return 'pdfs.invoice';
-    }
 }

@@ -33,7 +33,7 @@ class Document extends Model
      * This defines an inverse one-to-many relationship with the User model,
      * where 'user_id' is the foreign key on the Document model.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, covariant $this>
      */
     public function creator(): BelongsTo
     {

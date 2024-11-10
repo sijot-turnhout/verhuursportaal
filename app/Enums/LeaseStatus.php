@@ -100,7 +100,9 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      * The returned color is used to visually represent the status in the application's UI,
      * allowing users to quickly identify the status through consistent color coding.
      *
-     * @return string|array|null The color corresponding to the lease status. Possible values: 'info', 'warning', 'success', 'danger', or null.
+     * Returns the color corresponding to the lease status. Possible values: 'info', 'warning', 'success', 'danger', or null.
+     *
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

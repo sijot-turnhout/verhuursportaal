@@ -17,9 +17,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * The changelog model represents a record (list) of changes or updates on the locals and inventory items in the system.
  * It includes information about follow-ups and the user responsible for those follow-ups.
+ *
+ * @property ChangelogStatus $status
+ *
+ * @package App\Models
  */
 final class Changelog extends Model
 {
+    /** @use HasFactory<\Database\Factories\ChangelogFactory> */
     use HasFactory;
 
     /**
@@ -36,7 +41,7 @@ final class Changelog extends Model
      * Specifically, it casts the `status` attribute to an instance of the `ChangelogStatus` class,
      * which likely represents an enum or value object that encapsulates the possible states of a changelog.
      *
-     * @var array<string, string>
+     * @var array<string, ChangelogStatus>
      */
     protected $attributes = [
         'status' => ChangelogStatus::Open,
@@ -46,7 +51,7 @@ final class Changelog extends Model
      * Defines the relationship bewteen the changelog and the User models.
      * This indicates that each changelog is associated with a user who is responsible for the follow-ups related to the changelog.
      *
-     * @return BelongsTo  The relationship definition.
+     * @return BelongsTo<User, covariant $this>  The relationship definition.
      */
     public function user(): BelongsTo
     {
@@ -77,7 +82,7 @@ final class Changelog extends Model
      * can be associated with multiple issues and vice versa. It returns the relationship definition
      * that can be used for querying and eager loading related issues.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Issue, covariant $this>
      */
     public function issues(): BelongsToMany
     {

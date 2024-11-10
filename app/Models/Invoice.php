@@ -63,7 +63,7 @@ final class Invoice extends Model
     /**
      * Data relation for all the invoice lines that are registered to an invoice.
      *
-     * @return MorphMany
+     * @return MorphMany<BillingItem, covariant $this>
      */
     public function invoiceLines(): MorphMany
     {
@@ -73,7 +73,7 @@ final class Invoice extends Model
     /**
      * Data relation for the lease where the invoice is attached to.
      *
-     * @return BelongsTo<Lease, self>
+     * @return BelongsTo<Lease, covariant $this>
      */
     public function lease(): BelongsTo
     {
@@ -85,6 +85,7 @@ final class Invoice extends Model
      */
     public function invoiceTotal(): Attribute
     {
+        /** @phpstan-ignore-next-line */
         return Attribute::get(fn(): int|float => $this->getSubTotal() - $this->getDiscountTotal());
     }
 
@@ -101,7 +102,7 @@ final class Invoice extends Model
     /**
      * Data relation for the tenant (customer) that will be billed for the lease;
      *
-     * @return BelongsTo<Tenant, self>
+     * @return BelongsTo<Tenant, covariant $this>
      */
     public function customer(): BelongsTo
     {
@@ -111,7 +112,7 @@ final class Invoice extends Model
     /**
      * Data relation for the user that created the invoice in the database storage.
      *
-     * @return BelongsTo<User, Invoice>
+     * @return BelongsTo<User, covariant $this>
      */
     public function creator(): BelongsTo
     {
@@ -128,7 +129,7 @@ final class Invoice extends Model
      * behavior and transitions.
      *
      * @return InvoiceStateContract      The state object corresponding to the current invoice status.
-     * @throws InvalidArgumentException  If the status does not match any known state.
+     * @throws \InvalidArgumentException  If the status does not match any known state.
      */
     public function state(): InvoiceStateContract
     {

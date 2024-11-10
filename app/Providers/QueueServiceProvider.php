@@ -19,6 +19,7 @@ final class QueueServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Queue::failing(function (JobFailed $event): void {
+            /** @phpstan-ignore-next-line */
             report($event);
         });
 

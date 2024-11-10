@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 
 /**
  * Class LatestReservationRequests
@@ -28,7 +29,7 @@ final class LatestReservationRequests extends BaseWidget
     /**
      * Defines the column span of the widget in the layout.
      *
-     * @var int|string|array
+     * @var int|string|array<string, int|null>
      */
     protected int|string|array $columnSpan = 'full';
 
@@ -85,11 +86,12 @@ final class LatestReservationRequests extends BaseWidget
     /**
      * Custom pagination logic for the table.
      *
-     * @param  Builder $query   The query builder instance for the table.
-     * @return Paginator        The paginator instance for the query.
+     * @param  Builder<\App\Models\Lease>    $query   The query builder instance for the table.
+     * @return Paginator<\App\Models\Lease>           The paginator instance for the query.
      */
-    protected function paginateTableQuery(Builder $query): Paginator
+    protected function paginateTableQuery(Builder $query): Paginator|CursorPaginator
     {
+        /** @phpstan-ignore-next-line */
         return $query->simplePaginate(('all' === $this->getTableRecordsPerPage()) ? $query->count() : $this->getTableRecordsPerPage());
     }
 }

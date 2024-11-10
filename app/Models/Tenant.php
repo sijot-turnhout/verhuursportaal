@@ -29,8 +29,9 @@ use Illuminate\Notifications\Notifiable;
  */
 final class Tenant extends Model implements BannableInterface
 {
-    use Bannable;
+    /** @use hasFactory<\Database\Factories\TenantFactory> */
     use HasFactory;
+    use Bannable;
     use Notifiable;
 
     /**
@@ -43,7 +44,7 @@ final class Tenant extends Model implements BannableInterface
     /**
      * Data relation for all the leases that are attached to the tenant.
      *
-     * @return HasMany<Lease>
+     * @return HasMany<Lease, covariant $this>
      */
     public function leases(): HasMany
     {
@@ -53,7 +54,7 @@ final class Tenant extends Model implements BannableInterface
     /**
      * Data relation for the notes that are attached to the tenant.
      *
-     * @return MorphMany<Note>
+     * @return MorphMany<Note, covariant $this>
      */
     public function notes(): MorphMany
     {

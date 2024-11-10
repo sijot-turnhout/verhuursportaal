@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Observers\NoteObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -26,12 +25,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 #[ObservedBy(NoteObserver::class)]
 final class Note extends Model
 {
-    use HasFactory;
-
+    /**
+     * @var array<int, string>
+     */
     protected $fillable = ['title'];
 
     /**
-     * @return MorphTo<\Illuminate\Database\Eloquent\Model, self>
+     * @return MorphTo<\Illuminate\Database\Eloquent\Model, covariant $this>
      */
     public function noteable(): MorphTo
     {
@@ -39,7 +39,7 @@ final class Note extends Model
     }
 
     /**
-     * @return BelongsTo<User, self>
+     * @return BelongsTo<User, covariant $this>
      */
     public function author(): BelongsTo
     {
