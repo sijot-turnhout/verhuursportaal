@@ -12,6 +12,14 @@ final class ProcessDepositRefunding
 {
     use Queueable;
 
+    /**
+     * @todo Define the array in more detail for the phpstan static analysis
+     * @see https://phpstan.org/blog/solving-phpstan-no-value-type-specified-in-iterable-type
+     *
+     * @param  array<string, string> $formData
+     * @param  Deposit $deposit
+     * @return void
+     */
     public function __construct(
         public readonly array $formData,
         public readonly Deposit $deposit,
@@ -19,6 +27,8 @@ final class ProcessDepositRefunding
 
     /**
      * Execute the job.
+     *
+     * @return void
      */
     public function handle(): void
     {
@@ -28,8 +38,11 @@ final class ProcessDepositRefunding
         ));
     }
 
+    /**
+     * @todo We need a fix up of this calculation method.
+     */
     private function calculateRefund(): float
     {
-        return $this->deposit->paid_amount - $this->formData['revoked_amount'];
+        return $this->deposit->paid_amount - (float) $this->formData['revoked_amount'];
     }
 }

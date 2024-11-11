@@ -84,7 +84,7 @@ final class IssueResource extends Resource
      * Specifies the cluster (a collection of related resources) that this resource is part of.
      * Clustering resources helps in organizing them logically within the application.
      *
-     * @var string|null
+     * @var class-string<\Filament\Clusters\Cluster>|null
      */
     protected static ?string $cluster = PropertyManagement::class;
 
@@ -192,7 +192,7 @@ final class IssueResource extends Resource
      * the respective route. This is used to generate the necessary routes for resource
      * actions like listing, creating, editing, and viewing records.
      *
-     * @return array<string, \Filament\Pages\Page>
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array
     {

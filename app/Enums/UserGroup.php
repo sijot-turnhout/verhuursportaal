@@ -24,8 +24,6 @@ enum UserGroup: string implements HasColor, HasLabel
      * Leiding (Leadership)
      *
      * Represents users who are part of the leadership group.
-     *
-     * @var string
      */
     case Leiding = 'leiding';
 
@@ -33,8 +31,6 @@ enum UserGroup: string implements HasColor, HasLabel
      * Vzw (Non-profit Organization)
      *
      * Represents users who are part of the non-profit organization group.
-     *
-     * @var string
      */
     case Vzw = 'vzw';
 
@@ -43,8 +39,6 @@ enum UserGroup: string implements HasColor, HasLabel
      *
      * Represents users who are members of the board of directors.
      * 'RVB' is a Dutch abbreviation for 'raad van bestuur'.
-     *
-     * @var string
      */
     case Rvb = 'raad van bestuur';
 
@@ -52,8 +46,6 @@ enum UserGroup: string implements HasColor, HasLabel
      * Webmaster
      *
      * Represents users who have webmaster privileges.
-     *
-     * @var string
      */
     case Webmaster = 'webmaster';
 
@@ -76,7 +68,9 @@ enum UserGroup: string implements HasColor, HasLabel
      * The returned color is used to visually represent the group in the application's UI,
      * allowing users to quickly identify the group through consistent color coding.
      *
-     * @return string|array|null  The color corresponding to the user group.
+     * Returns the color corresponding to the user group.
+     *
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

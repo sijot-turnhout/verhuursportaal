@@ -62,7 +62,7 @@ final class InvoiceLinesRelationManager extends RelationManager
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->required()
                     ->columnSpan(2),
-                Forms\Components\TextArea::make('description')
+                Forms\Components\Textarea::make('description')
                     ->label(trans('Beschrijving van de facturatieregel'))
                     ->columnSpan(12)
                     ->rows(3),

@@ -34,7 +34,7 @@ final class EditIssue extends EditRecord
      * This method returns an array of actions that are available in the header of the edit page.
      * It includes the delete action, allowing users to remove the issue record.
      *
-     * @return array
+     * @return array<int, Actions\DeleteAction>
      */
     protected function getHeaderActions(): array
     {

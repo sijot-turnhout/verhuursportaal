@@ -26,7 +26,8 @@ final class EditLease extends EditRecord
      * the schema and behavior for managing lease records.
      *
      * @var string
-     */    protected static string $resource = LeaseResource::class;
+     */
+    protected static string $resource = LeaseResource::class;
 
     /**
      * Get the header actions available on the edit page.
@@ -34,7 +35,7 @@ final class EditLease extends EditRecord
      * This method returns an array of actions that are displayed in the header of the edit
      * page. It includes actions removing the lease record.
      *
-     * @return array An array of actions for the edit page header.
+     * @return array<int, Actions\DeleteAction> An array of actions for the edit page header.
      */
     protected function getHeaderActions(): array
     {

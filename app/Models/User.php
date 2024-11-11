@@ -33,6 +33,7 @@ use Illuminate\Notifications\Notifiable;
 #[ObservedBy(UserObserver::class)]
 final class User extends Authenticatable implements FilamentUser
 {
+    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use Notifiable;
     use Ownership;

@@ -73,7 +73,7 @@ final class LocalResource extends Resource
      * This specifies that the `LocalResource` belongs to the `PropertyManagement` cluster.
      * Clusters are used to group related resources in the admin panel for better organization.
      *
-     * @var string|null
+     * @var class-string<\Filament\Clusters\Cluster>|null
      */
     protected static ?string $cluster = PropertyManagement::class;
 
@@ -111,7 +111,7 @@ final class LocalResource extends Resource
      * This method defines the relationship managers available for the `Local` resource.
      * Currently, it specifies the `IssuesRelationManager`, allowing the user to manage related issues.
      *
-     * @return array  The array of relation managers used in this resource.
+     * @return array<int, class-string>  The array of relation managers used in this resource.
      */
     public static function getRelations(): array
     {

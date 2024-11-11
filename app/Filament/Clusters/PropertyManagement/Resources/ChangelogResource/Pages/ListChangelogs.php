@@ -28,7 +28,7 @@ final class ListChangelogs extends ListRecords
      * Defines the actions that will appear in the header of the list page.
      * In this case, it returns a CreateAction to add a new change log into the application.
      *
-     * @return array  THe array of header actions available on the list page.
+     * @return array<Actions\CreateAction>  THe array of header actions available on the list page.
      */
     protected function getHeaderActions(): array
     {

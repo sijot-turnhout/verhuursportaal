@@ -45,7 +45,7 @@ final class ListQuotations extends ListRecords
      * The count is cached for performance, and the cache duration is set to either
      * 30 or 60 seconds, depending on system load.
      *
-     * @return array An array of Tab components, each representing a status filter.
+     * @return array<string|int, Tab> An array of Tab components, each representing a status filter.
      */
     public function getTabs(): array
     {

@@ -21,7 +21,7 @@ trait HasFeedbackSupport
     /**
      * Define a relationship to the Feedback model.
      *
-     * @return BelongsTo<Feedback, \App\Models\Lease> The relationship to the Feedback model.
+     * @return BelongsTo<Feedback, covariant $this> The relationship to the Feedback model.
      */
     public function feedback(): BelongsTo
     {

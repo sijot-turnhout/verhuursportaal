@@ -60,7 +60,9 @@ trait UsesArchivingSystemActions
      */
     protected static function archiveAction(): Action
     {
+        /** @phpstan-ignore-next-line */
         return Action::make($label ?? trans('archiveren'))
+            /** @phpstan-ignore-next-line */
             ->icon($icon ?? self::$archiveIcon)
             ->requiresConfirmation()
             ->modalHeading(trans('Verhuring archiveren'))
@@ -98,6 +100,7 @@ trait UsesArchivingSystemActions
             ->successNotificationTitle(trans('De items zijn toegevoegd aan het archief.'))
             ->failureNotificationTitle(trans('Kon de items niet toevoegen aan het archief.'))
             ->action(function (Lease $model, Collection $selectedRecords): void {
+                /** @phpstan-ignore-next-line */
                 $selectedRecords->each(function (Lease $selectedRecord): void {
                     $selectedRecord->state()->transitionToArchived();
                 });

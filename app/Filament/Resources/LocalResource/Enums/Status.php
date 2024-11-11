@@ -41,7 +41,9 @@ enum Status: string implements HasColor, HasIcon, HasLabel
      * might be represented with a "danger" (red) color, while a closed issue might be represented
      * with a "success" (green) color.
      *
-     * @return string|array|null The color value associated with the status.
+     * Returns the color value associated with the status.
+     *
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

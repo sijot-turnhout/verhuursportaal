@@ -52,7 +52,7 @@ final class RegisterWithdrawnDepositAction extends Action
      * and the paid deposit amount. It also includes a text area for providing the reason for a partial refund.
      * These details aid administrators in completing accurate and well-documented entries.
      *
-     * @return array  The configuration schema for the form elements within the modal.
+     * @return array<int, Grid>  The configuration schema for the form elements within the modal.
      */
     private static function configureModalForm(): array
     {
@@ -71,7 +71,7 @@ final class RegisterWithdrawnDepositAction extends Action
                         ->label('Betaalde waarborg')
                         ->numeric()
                         ->required()
-                        ->default(fn(Deposit $deposit): string => $deposit->paid_amount)
+                        ->default(fn(Deposit $deposit): float => $deposit->paid_amount)
                         ->columnSpan(6)
                         ->disabled()
                         ->prefixIcon('heroicon-o-currency-euro')
@@ -95,8 +95,8 @@ final class RegisterWithdrawnDepositAction extends Action
      * and adding an administrator's note explaining the decision. This method enables accurate administrative tracking
      * of withdrawals without issuing any financial refunds.
      *
-     * @param  array    $data     The form data containing the administrator's note explaining the withdrawal.
-     * @param  Deposit  $deposit  The deposit record to update with withdrawal status.
+     * @param  array<string>    $data     The form data containing the administrator's note explaining the withdrawal.
+     * @param  Deposit          $deposit  The deposit record to update with withdrawal status.
      * @return void
      */
     private static function processWithdrawnDepositRegistration(array $data, Deposit $deposit): void

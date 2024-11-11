@@ -31,7 +31,7 @@ final class EditQuotation extends EditRecord
      * Define the header actions for the Edit Quotation page.
      * These actions allow users to finalize, approve, decline, or delete a quotation.
      *
-     * @return array The array of actions to be rendered in the header.
+     * @return array<Actions\Action|Actions\ActionGroup> The array of actions to be rendered in the header.
      */
     protected function getHeaderActions(): array
     {

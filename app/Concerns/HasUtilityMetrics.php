@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 trait HasUtilityMetrics
 {
     /**
-     * @return HasMany<Utility>
+     * @return HasMany<Utility, covariant $this>
      */
     public function utilityStatistics(): HasMany
     {

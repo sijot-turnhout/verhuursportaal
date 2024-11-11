@@ -64,9 +64,9 @@ final readonly class InvoiceGenerator
      *
      * This helper method is used to determine which user is responsible for creating the invoice.
      *
-     * @return int  The unique identifier from the authenticated user.
+     * @return int|string|null  The unique identifier from the authenticated user.
      */
-    private static function getAuthenticatedUser(): int
+    private static function getAuthenticatedUser(): int|string|null
     {
         return auth()->id();
     }

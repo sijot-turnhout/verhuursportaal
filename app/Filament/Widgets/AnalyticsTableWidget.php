@@ -33,7 +33,7 @@ final class AnalyticsTableWidget extends TableWidget
      * Determines the column span of the table widget.
      * Setting it to 'full' means the table will take up the full width.
      *
-     * @var int|string|array
+     * @var int|string|array<string, int|null>
      */
     protected int|string|array $columnSpan = 'full';
 

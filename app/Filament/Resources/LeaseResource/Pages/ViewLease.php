@@ -52,7 +52,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     /**
      * Configures the main header actions available in the lease view.
      *
-     * @return array Contains groups of actions for managing deposits, statuses, and general options.
+     * @return array<int, ActionGroup> Contains groups of actions for managing deposits, statuses, and general options.
      */
     protected function getHeaderActions(): array
     {

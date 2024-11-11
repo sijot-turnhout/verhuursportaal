@@ -62,7 +62,7 @@ final class ListLeases extends ListRecords
      * colored, and includes a badge count indicating the number of leases with
      * that status. The badge count is cached for efficient performance.
      *
-     * @return array An array of configured Tab objects, representing each lease status.
+     * @return array<int, Tab> An array of configured Tab objects, representing each lease status.
      */
     public function getTabs(): array
     {
@@ -85,7 +85,7 @@ final class ListLeases extends ListRecords
      * This tab is labeled "alle" and displays the total count of leases,
      * regardless of status. The count is cached to optimize performance.
      *
-     * @return array An array containing the default Tab object.
+     * @return array<int, Tab> An array containing the default Tab object.
      */
     public function configureDefaultTab(): array
     {
@@ -97,6 +97,9 @@ final class ListLeases extends ListRecords
         ];
     }
 
+    /**
+     * @return array<int, CreateAction>
+     */
     protected function getHeaderActions(): array
     {
         return [

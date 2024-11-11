@@ -65,7 +65,7 @@ final class ChangelogResource extends Resource
     /**
      * The cluster that this resource is part of, which organizes related resources.
      *
-     * @var string|null
+     * @var class-string<\Filament\Clusters\Cluster>|null
      */
     protected static ?string $cluster = PropertyManagement::class;
 
@@ -176,7 +176,7 @@ final class ChangelogResource extends Resource
      * of the current resource with other entities. Relation managers help in handling
      * related data such as displaying, creating, updating, or deleting associated models.
      *
-     * @return array The list of relation managers for the resource.
+     * @return array<class-string> The list of relation managers for the resource.
      */
     public static function getRelations(): array
     {

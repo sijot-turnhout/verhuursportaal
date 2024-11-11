@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\PropertyManagement\Resources\ChangelogResource\Enums;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
@@ -15,17 +16,15 @@ use Filament\Support\Contracts\HasLabel;
  */
 enum ChangelogStatus: int implements HasLabel, HasColor
 {
+    use Comparable;
+
     /**
      * The changelog is currently open and may require further action or follow-up.
-     *
-     * @var int
      */
     case Open = 1;
 
     /**
      * The changelog has been closed, indicating that the issue or task has been resolved or completed.
-     *
-     * @var int
      */
     case Closed = 2;
 
@@ -51,7 +50,9 @@ enum ChangelogStatus: int implements HasLabel, HasColor
      * This method returns a color string that is used to visually represent the status in the UI.
      * For example, "success" might correspond to green, while "danger" might correspond to red.
      *
-     * @return string|array|null  The color or array of colors representing the status.
+     * Returns the color or array of colors representing the status.
+     *
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {
