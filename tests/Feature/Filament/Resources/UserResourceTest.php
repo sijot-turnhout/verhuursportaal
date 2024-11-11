@@ -80,6 +80,7 @@ describe('UserResource tests', function (): void {
      * @return void
      */
     it('can render columns', function (string $column): void {
+        User::factory()->create();
         livewire(ListUsers::class)->assertCanRenderTableColumn($column);
     })->with(['name', 'email', 'user_group', 'phone_number', 'last_seen_at', 'created_at']);
 
