@@ -35,5 +35,6 @@ it ('It can successfully deactivate a tenant', function (): void {
         ->mountTableAction('Huur blokkeren', $this->tenant)
         ->setTableActionData(['deactivation_reason' => 'example reason'])
         ->callMountedTableAction()
-        ->assertHasNoTableActionErrors();
+        ->assertHasNoTableActionErrors()
+        ->assertNotified();
 });
