@@ -32,19 +32,17 @@ it('can deactivate tenants that are inactive in the application', function (): v
         ->assertSeeHtml((string) new HtmlString('De blokkering van een gebruiker is van kracht tot <strong>6 maanden</strong> na de invoering'));
 });
 
-it ('djdjd', function (): void {
+it ('can successfully put a tenant on the blacklist', function (): void {
     $tenant = Tenant::factory()->create();
     $deactivationReason = 'Violation of terms';
+
     livewire(ListTenants::class)
-    ->callTableAction('Huurder blokkeren', $tenant, [
-        'deactivation_reason' => $deactivationReason,
-    ]);
+        ->callTableAction('Huurder blokkeren', $tenant, ['deactivation_reason' => $deactivationReason]);
 
-// Refresh tenant and verify they are banned
-$bannedTenant = $tenant->refresh();
-expect($bannedTenant->isBanned())->toBeTrue();
-expect($bannedTenant->bans->first()->comment)->toBe($deactivationReason);
-expect($bannedTenant->bans->first()->expired_at->isSameDay(now()->addMonths(6)))->toBeTrue();
+    // Refresh tenant and verify they are banned
+    $bannedTenant = $tenant->refresh();
 
-// Assert the notification was sent with the correct message
+    expect($bannedTenant->isBanned())->toBeTrue();
+    expect($bannedTenant->bans->first()->comment)->toBe($deactivationReason);
+    expect($bannedTenant->bans->first()->expired_at->isSameDay(now()->addMonths(6)))->toBeTrue();
 });
