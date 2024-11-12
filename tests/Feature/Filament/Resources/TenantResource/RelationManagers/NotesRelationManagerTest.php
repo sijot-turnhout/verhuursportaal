@@ -17,7 +17,7 @@ describe('Notes relation manager tests', function (): void {
     });
 
     describe('table action tests', function (): void {
-        it ('implement all the needed table actions on the relation manager', function (string $action): void {
+        it('implement all the needed table actions on the relation manager', function (string $action): void {
             $tenant = Tenant::factory()->create();
 
             livewire(NotesRelationManager::class, ['ownerRecord' => $tenant, 'pageClass' => EditTenant::class])
