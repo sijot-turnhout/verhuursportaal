@@ -7,7 +7,6 @@ namespace Tests\Feature\Filament\Resources\TenantResource\Actions;
 use App\Filament\Resources\TenantResource\Pages\ListTenants;
 use App\Models\Tenant;
 use App\Models\User;
-use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
 use function Pest\Livewire\livewire;
@@ -31,7 +30,7 @@ it('can deactivate tenants that are inactive in the application', function (): v
         ->assertSeeHtml((string) new HtmlString('De blokkering van een gebruiker is van kracht tot <strong>6 maanden</strong> na de invoering'));
 });
 
-it ('can successfully put a tenant on the blacklist', function (): void {
+it('can successfully put a tenant on the blacklist', function (): void {
     $tenant = Tenant::factory()->create();
     $deactivationReason = 'Violation of terms';
 
@@ -46,7 +45,7 @@ it ('can successfully put a tenant on the blacklist', function (): void {
     expect($bannedTenant->bans->first()->expired_at->isSameDay(now()->addMonths(6)))->toBeTrue();
 });
 
-it ('has the correct layout configuration for the action', function (): void {
+it('has the correct layout configuration for the action', function (): void {
     livewire(ListTenants::class)
         ->assertTableActionHasLabel('Huurder blokkeren', 'Huurder blokkeren')
         ->assertTableActionHasIcon('Huurder blokkeren', 'heroicon-o-lock-closed')

@@ -22,20 +22,19 @@ it('cannot see the deactivation button for the tenants', function (): void {
     livewire(ListTenants::class)->assertTableActionHidden('Huurder blokkeren', $record);
 });
 
-it ('can successfully reactivate a tenant in the application', function (): void {
+it('can successfully reactivate a tenant in the application', function (): void {
     $tenant = Tenant::factory()->blacklisted()->create();
     expect($tenant->isBanned())->toBeTrue();
 
     livewire(ListTenants::class)
-        ->assertTableActionExists(name:'Huurder heractiveren', record: $tenant)
+        ->assertTableActionExists(name: 'Huurder heractiveren', record: $tenant)
         ->callTableAction(name: 'Huurder heractiveren', record: $tenant)
         ->assertHasNoTableActionErrors();
 });
 
-it ('has the correct layout configuration for the action', function (): void {
+it('has the correct layout configuration for the action', function (): void {
     livewire(ListTenants::class)
         ->assertTableActionHasLabel('Huurder heractiveren', 'Huurder heractiveren')
         ->assertTableActionHasIcon('Huurder heractiveren', 'heroicon-o-lock-open')
         ->assertTableActionHasColor('Huurder heractiveren', 'success');
 });
-
