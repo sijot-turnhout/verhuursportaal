@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 use function Pest\Livewire\livewire;
 
 describe('Notes relation manager tests', function (): void {
-    it('can render the trelation manager', function (): void {
+    it('can render the relation manager successfully', function (): void {
         $tenant = Tenant::factory()->create();
         livewire(NotesRelationManager::class, ['ownerRecord' => $tenant, 'pageClass' => EditTenant::class])->assertSuccessful();
     });

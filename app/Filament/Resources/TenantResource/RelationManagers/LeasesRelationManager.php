@@ -67,13 +67,51 @@ final class LeasesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('supervisor_id')->label('Aanspreekpunt / Verantwoordelijke')->relationship('supervisor', 'name')->columnSpan(4),
-                Forms\Components\TextInput::make('group')->label('Groep')->required()->columnSpan(4),
-                Forms\Components\TextInput::make('persons')->numeric()->label('Aantal personen')->required()->columnSpan(4),
-                Forms\Components\DatePicker::make('arrival_date')->required()->label('aankomst datum')->columnSpan(6)->format('d-m-Y')->native(false)->prefixIcon('heroicon-m-calendar-days'),
-                Forms\Components\DatePicker::make('departure_date')->label('vertrek')->required()->date()->columnSpan(6)->format('d-m-Y')->afterOrEqual('arrival_date')->native(false)->prefixIcon('heroicon-m-calendar-days'),
-                Forms\Components\Select::make('spaces')->label('Lokalen')->multiple()->options(config('sijot-verhuur.lokalen', []))->columnSpan(12),
-                Forms\Components\ToggleButtons::make('status')->inline()->options(LeaseStatus::class)->required()->columnSpan(12),
+                Forms\Components\Select::make('supervisor_id')
+                    ->label('Aanspreekpunt / Verantwoordelijke')
+                    ->relationship('supervisor', 'name')
+                    ->columnSpan(4),
+
+                Forms\Components\TextInput::make('group')
+                    ->label('Groep')
+                    ->required()
+                    ->columnSpan(4),
+
+                Forms\Components\TextInput::make('persons')
+                    ->numeric()
+                    ->label('Aantal personen')
+                    ->required()
+                    ->columnSpan(4),
+
+                Forms\Components\DatePicker::make('arrival_date')
+                    ->required()
+                    ->label('aankomst datum')
+                    ->columnSpan(6)
+                    ->format('d-m-Y')
+                    ->native(false)
+                    ->prefixIcon('heroicon-m-calendar-days'),
+
+                Forms\Components\DatePicker::make('departure_date')
+                    ->label('vertrek')
+                    ->required()
+                    ->date()
+                    ->columnSpan(6)
+                    ->format('d-m-Y')
+                    ->afterOrEqual('arrival_date')
+                    ->native(false)
+                    ->prefixIcon('heroicon-m-calendar-days'),
+
+                Forms\Components\Select::make('spaces')
+                    ->label('Lokalen')
+                    ->multiple()
+                    ->options(config('sijot-verhuur.lokalen', []))
+                    ->columnSpan(12),
+
+                Forms\Components\ToggleButtons::make('status')
+                    ->inline()
+                    ->options(LeaseStatus::class)
+                    ->required()
+                    ->columnSpan(12),
             ])->columns(12);
     }
 
