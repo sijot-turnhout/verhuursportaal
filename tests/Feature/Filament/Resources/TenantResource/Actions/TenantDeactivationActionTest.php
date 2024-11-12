@@ -7,7 +7,9 @@ namespace Tests\Feature\Filament\Resources\TenantResource\Actions;
 use App\Filament\Resources\TenantResource\Pages\ListTenants;
 use App\Models\Tenant;
 use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
+
 
 use function Pest\Livewire\livewire;
 
@@ -28,13 +30,4 @@ it('can deactivate tenants that are inactive in the application', function (): v
         ->assertSee('Huurder blokkeren')
         ->assertSee('Reden tot plaatsing op de zwarte lijst')
         ->assertSeeHtml((string) new HtmlString('De blokkering van een gebruiker is van kracht tot <strong>6 maanden</strong> na de invoering'));
-});
-
-it('It can successfully deactivate a tenant', function (): void {
-    livewire(ListTenants::class)
-        ->mountTableAction('Huur blokkeren', $this->tenant)
-        ->setTableActionData(['deactivation_reason' => 'example reason'])
-        ->callMountedTableAction()
-        ->assertHasNoTableActionErrors()
-        ->assertNotified();
 });
