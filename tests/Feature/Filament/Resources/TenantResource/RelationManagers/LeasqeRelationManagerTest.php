@@ -24,23 +24,23 @@ beforeEach(function (): void {
 });
 
 describe('Lease relation manager tests for the tenant', function (): void {
-    it ('can render the relation manager successfully', function (): void {
+    it('can render the relation manager successfully', function (): void {
         $this->leasesRelationManager->assertSuccessful();
     });
 
-    it ('implements all the needed table actions for the relation manager', function (string $action): void {
+    it('implements all the needed table actions for the relation manager', function (string $action): void {
         $this->leasesRelationManager->assertTableActionExists($action);
     })->with(['view', 'edit', 'delete']);
 
-    it ('implements the header action for creating leases correctly', function (): void {
+    it('implements the header action for creating leases correctly', function (): void {
         $this->leasesRelationManager->assertTableHeaderActionsExistInOrder([CreateAction::class]);
     });
 
-    it ('implements the bulk delete action for the leases', function (): void {
+    it('implements the bulk delete action for the leases', function (): void {
         $this->leasesRelationManager->assertTableBulkActionExists(DeleteBulkAction::class);
     });
 
-    it ('can display the creation view modal through the relation manager', function (): void {
+    it('can display the creation view modal through the relation manager', function (): void {
         $this->leasesRelationManager->callTableAction('create')
             ->assertSee('Aanspreekpunt / Verantwoordelijke')
             ->assertSee('Groep')
@@ -50,7 +50,7 @@ describe('Lease relation manager tests for the tenant', function (): void {
             ->assertSee('Lokalen');
     });
 
-    it ('can create a lease through the relation manager', function (): void {
+    it('can create a lease through the relation manager', function (): void {
         $this->leasesRelationManager->callTableAction('create', $this->tenant, Lease::factory()->make()->toArray())
             ->assertHasNoTableActionErrors();
     });
