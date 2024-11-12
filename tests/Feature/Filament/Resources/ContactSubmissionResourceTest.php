@@ -72,7 +72,7 @@ describe('ContactSumissioNRsource tests', function (): void {
             ->assertHasNoTableBulkActionErrors();
     });
 
-    it ('checks that the getNavigationBadge function works correctly', function (): void {
+    it('checks that the getNavigationBadge function works correctly', function (): void {
         ContactSubmission::factory()->create();
         expect(ContactSubmissionResource::getNavigationBadge())->toEqual(1);
 
@@ -81,7 +81,7 @@ describe('ContactSumissioNRsource tests', function (): void {
 
     });
 
-    it ('can bulk mark contact submissions in progress', function (): void {
+    it('can bulk mark contact submissions in progress', function (): void {
         $records = ContactSubmission::factory(5)->create();
 
         livewire(ListContactSubmissions::class)
