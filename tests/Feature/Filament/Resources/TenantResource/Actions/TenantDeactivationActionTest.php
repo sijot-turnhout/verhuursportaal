@@ -18,7 +18,7 @@ beforeEach(function (): void {
     $this->actingAs($this->user);
 });
 
-it ('cannot see the reactivation action for the tenant when the tenant is active', function (): void {
+it('cannot see the reactivation action for the tenant when the tenant is active', function (): void {
     livewire(ListTenants::class)->assertTableActionHidden('Huurder heractiveren', $this->tenant);
 });
 
@@ -30,9 +30,9 @@ it('can deactivate tenants that are inactive in the application', function (): v
         ->assertSeeHtml((string) new HtmlString('De blokkering van een gebruiker is van kracht tot <strong>6 maanden</strong> na de invoering'));
 });
 
-it ('requires an deactivation reason to block a tenant', function (): void {
+it('requires an deactivation reason to block a tenant', function (): void {
     livewire(ListTenants::class)
         ->callTableAction('Huurder blokkeren', $this->tenant)
-        ->fillForm( ['deactivation_reason' => null])
+        ->fillForm(['deactivation_reason' => null])
         ->assertHasFormErrors(['deactivation_reason' => 'required']);
 });
