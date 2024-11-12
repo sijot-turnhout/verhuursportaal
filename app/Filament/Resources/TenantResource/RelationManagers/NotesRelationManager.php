@@ -61,8 +61,15 @@ final class NotesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label('Titel')->required()->maxLength(255)->columnSpan(8),
-                Forms\Components\Textarea::make('body')->label('Notitie')->columnSpan(12)->rows(6),
+                Forms\Components\TextInput::make('title')->label('Titel')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(8),
+
+                Forms\Components\Textarea::make('body')
+                    ->label('Notitie')
+                    ->columnSpan(12)
+                    ->rows(6),
             ])->columns(12);
     }
 
