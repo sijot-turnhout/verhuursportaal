@@ -16,6 +16,9 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
  * This widget extends the `StatsOverviewWidget` class and provides a summary of
  * contact submissions by showing counts of submissions in different states.
  *
+ * Cannot be testing because its a stat widget. And when there are erros here we will pick it up in onther tests.
+ * @codeCoverageIgnore
+ *
  * @package App\Filament\Resources\ContactSubmissionResource\Widgets
  */
 final class ContactStats extends BaseWidget
