@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Filament\Resources;
 
-use App\Enums\ContactMessageStatus;
+use App\Filament\Resources\ContactSubmissionResource;
 use App\Filament\Resources\ContactSubmissionResource\Pages\ListContactSubmissions;
 use App\Models\ContactSubmission;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -63,7 +63,7 @@ describe('ContactSumissioNRsource tests', function (): void {
         }
     });
 
-    it ('can bulk finalize contact submissions', function(): void {
+    it('can bulk finalize contact submissions', function (): void {
         $records = ContactSubmission::factory(5)->create();
 
         livewire(ListContactSubmissions::class)
@@ -73,7 +73,12 @@ describe('ContactSumissioNRsource tests', function (): void {
     });
 
     it ('checks that the getNavigationBadge function works correctly', function (): void {
-        $records = ContactSubmission::factory()->
+        ContactSubmission::factory()->create();
+        expect(ContactSubmissionResource::getNavigationBadge())->toEqual(1);
+
+        ContactSubmission::factory(5)->create();
+        expect(ContactSubmissionResource::getNavigationBadge())->toEqual(6);
+
     });
 
     it ('can bulk mark contact submissions in progress', function (): void {

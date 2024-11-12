@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\ContactMessageStatus;
@@ -19,7 +21,6 @@ final class ContactSubmissionFactory extends Factory
     {
         return [
             'first_name' => $this->faker->firstName(),
-            'status' => ContactMessageStatus::InProgress,
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->safeEmail(),
             'phone_number' => $this->faker->phoneNumber(),
