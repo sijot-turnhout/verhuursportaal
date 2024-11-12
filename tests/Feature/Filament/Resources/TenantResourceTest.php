@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
 use function Pest\Livewire\livewire;
 
 describe('Tenantesource tests', function (): void {
-<<<<<<< HEAD
     /**
      * Test that the ListTenants page can be accessed successfully.
      *
@@ -62,22 +61,10 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can render the edit page', function (): void {
-=======
-    it('can render the index page', function (): void {
-        livewire(ListTenants::class)->assertSuccessful();
-    });
-
-    it('can render the create page', function (): void {
-        livewire(CreateTenant::class)->assertSuccessful();
-    });
-
-    it('can render the edit page', function (): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $tenant = Tenant::factory()->create();
         livewire(EditTenant::class, ['record' => $tenant->getRouteKey()])->assertSuccessful();
     });
 
-<<<<<<< HEAD
     /**
      * Test that specific columns are availablle for rendering in the ListTenants table.
      *
@@ -92,14 +79,10 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can render columns', function (string $column): void {
-=======
-    it('can render columns', function (string $column): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         Tenant::factory()->create();
         livewire(ListTenants::class)->assertCanRenderTableColumn($column);
     })->with(['name', 'isBlacklisted', 'phone_number', 'address', 'created_at']);
 
-<<<<<<< HEAD
     /**
      * Test that specified columns in the ListTenants table can be sorted.
      *
@@ -114,9 +97,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can sort columns', function (string $column): void {
-=======
-    it('can sort columns', function (string $column): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $tenants = Tenant::factory(5)->create();
 
         livewire(ListTenants::class)
@@ -126,7 +106,6 @@ describe('Tenantesource tests', function (): void {
             ->assertCanSeeTableRecords($tenants->sortByDesc($column), inOrder: true);
     })->with(['email']);
 
-<<<<<<< HEAD
     /**
      * Test that specific columns in the ListTenants tale can be searched.
      *
@@ -141,9 +120,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can search columns', function (string $column): void {
-=======
-    it('can search columns', function (string $column): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $tenants = Tenant::factory(5)->create();
         $value = $tenants->first()->{$column};
 
@@ -153,7 +129,6 @@ describe('Tenantesource tests', function (): void {
             ->assertCanNotSeeTableRecords($tenants->where($column, '!=', $value));
     })->with(['name', 'email', 'phone_number', 'address']);
 
-<<<<<<< HEAD
     /**
      * t§est that a new Tenant record can be created successfully.
      *
@@ -168,9 +143,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can create a record', function (): void {
-=======
-    it('can create a record', function (): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $record = Tenant::factory()->make();
         $requestData = ['firstName' => $record->firstName, 'lastName' => $record->lastName, 'email' => $record->email, 'phone_number' => $record->phone_number, 'address' => $record->address];
 
@@ -183,7 +155,6 @@ describe('Tenantesource tests', function (): void {
         $this->assertDatabaseHas(Tenant::class, $requestData);
     });
 
-<<<<<<< HEAD
     /**
      * Test that an existing tenant record can be updated successfully.
      *
@@ -198,9 +169,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can update a record', function (): void {
-=======
-    it('can update a record', function (): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $record = Tenant::factory()->create();
         $newRecord = Tenant::factory()->make();
         $requestData = ['firstName' => $newRecord->firstName, 'lastName' => $newRecord->lastName, 'email' => $newRecord->email, 'phone_number' => $newRecord->phone_number, 'address' => $newRecord->address];
@@ -214,7 +182,6 @@ describe('Tenantesource tests', function (): void {
         $this->assertDatabaseHas(Tenant::class, $requestData);
     });
 
-<<<<<<< HEAD
     /**
      * Test that an existing tenant record can be deleted.
      *
@@ -228,9 +195,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can delete a record', function (): void {
-=======
-    it('can delete a record', function (): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $tenant = Tenant::factory()->create();
 
         livewire(EditTenant::class, ['record' => $tenant->getRouteKey()])
@@ -240,7 +204,6 @@ describe('Tenantesource tests', function (): void {
         $this->assertModelMissing($tenant);
     });
 
-<<<<<<< HEAD
     /**
      * Test that multiple tenant records can be deleted in bulk.
      *
@@ -254,9 +217,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can bulk delete records', function (): void {
-=======
-    it('can bulk delete records', function (): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $records = Tenant::factory(5)->create();
 
         livewire(ListTenants::class)
@@ -268,7 +228,6 @@ describe('Tenantesource tests', function (): void {
         }
     });
 
-<<<<<<< HEAD
     /**
      * Test that required fields are validated correctly on the CreateTenant form.
      *
@@ -282,9 +241,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can validate required', function (string $column): void {
-=======
-    it('can validate required', function (string $column): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         livewire(CreateTenant::class)
             ->fillForm([$column => null])
             ->assertActionExists('create')
@@ -300,7 +256,6 @@ describe('Tenantesource tests', function (): void {
             ->assertHasFormErrors([$column => ['email']]);
     })->with(['email']);
 
-<<<<<<< HEAD
     /**
      * Test that the email and phone number fields are validated as unique on the CreateTenant form.
      *
@@ -315,9 +270,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can only have a unique email and telephone_number', function (string $column): void {
-=======
-    it('can only have a unique email and telephone_number', function (string $column): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         $tenant = Tenant::factory()->create();
 
         livewire(CreateTenant::class)
@@ -327,7 +279,6 @@ describe('Tenantesource tests', function (): void {
             ->assertHasFormErrors([$column => ['unique']]);
     })->with(['phone_number', 'email']);
 
-<<<<<<< HEAD
     /**
      * Test that maximum length constraints are validated correctly on specific fields.
      *
@@ -342,9 +293,6 @@ describe('Tenantesource tests', function (): void {
      * @return void
      */
     it ('can validate max length', function (string $column): void {
-=======
-    it('can validate max length', function (string $column): void {
->>>>>>> 857bf7d47cca6ed2c842d575d0b712bc6fdd31de
         livewire(CreateTenant::class)
             ->fillForm([$column => Str::random(256)])
             ->assertActionExists('create')
