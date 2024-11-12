@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Filament\Resources;
 
-use App\Enums\ContactMessageStatus;
 use App\Filament\Resources\ContactSubmissionResource\Pages\ListContactSubmissions;
 use App\Models\ContactSubmission;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -63,7 +62,7 @@ describe('ContactSumissioNRsource tests', function (): void {
         }
     });
 
-    it ('can bulk finalize contact submissions', function(): void {
+    it('can bulk finalize contact submissions', function (): void {
         $records = ContactSubmission::factory(5)->create();
 
         livewire(ListContactSubmissions::class)
@@ -72,7 +71,7 @@ describe('ContactSumissioNRsource tests', function (): void {
             ->assertHasNoTableBulkActionErrors();
     });
 
-    it ('can bulk mark contact submissions in progress', function (): void {
+    it('can bulk mark contact submissions in progress', function (): void {
         $records = ContactSubmission::factory(5)->create();
 
         livewire(ListContactSubmissions::class)
