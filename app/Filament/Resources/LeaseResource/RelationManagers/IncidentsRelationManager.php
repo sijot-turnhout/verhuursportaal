@@ -69,12 +69,13 @@ final class IncidentsRelationManager extends RelationManager
      * We’ve restricted this to leases that are Confirmed or Finalized. This can help reduce
      * clutter and ensure incidents are only associated with active leases.
      *
-     * @param Model $ownerRecord  The Lease model instance.
-     * @param  string $pageClass  The page class where this relation manager is used.
-     * @return bool               True if the lease is Confirmed or Finalized; otherwise, false.
+     * @param  Model  $ownerRecord  The Lease model instance.
+     * @param  string $pageClass   The page class where this relation manager is used.
+     * @return bool                True if the lease is Confirmed or Finalized; otherwise, false.
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
+        /** @phpstan-ignore-next-line */
         return $ownerRecord->status->in(enums: [LeaseStatus::Confirmed, LeaseStatus::Finalized]);
     }
 
@@ -99,7 +100,7 @@ final class IncidentsRelationManager extends RelationManager
                     ->required()
                     ->native(false),
 
-                Forms\Components\TextArea::make('description')
+                Forms\Components\Textarea::make('description')
                     ->label(__('Extra informatie'))
                     ->columnSpan(12)
                     ->rows(5)
@@ -188,7 +189,7 @@ final class IncidentsRelationManager extends RelationManager
      * These actions allow users to create new incident records directly.
      * This section is flexible if you’d like to add other batch actions.
      *
-     * @return array List of header actions for incidents.
+     * @return array<int, \Filament\Tables\Actions\Action> List of header actions for incidents.
      */
     private static function getHeaderActions(): array
     {
@@ -215,7 +216,7 @@ final class IncidentsRelationManager extends RelationManager
      * We’ve included fields like 'Reported By' and 'Date' to ensure key info is accessible.
      * More columns can be added here if there are additional details you’d like displayed.
      *
-     * @return array Array of table columns for incidents.
+     * @return array<int, Tables\Columns\TextColumn> Array of table columns for incidents.
      */
     private static function getTableColumnsLayout(): array
     {
@@ -251,7 +252,7 @@ final class IncidentsRelationManager extends RelationManager
      * With edit and delete actions, users can easily manage each incident entry.
      * We’re open to suggestions on additional actions that may be useful here!
      *
-     * @return array List of actions for each incident record.
+     * @return array<int, Tables\Actions\ActionGroup> List of actions for each incident record.
      */
     private function getIncidentTableActions(): array
     {

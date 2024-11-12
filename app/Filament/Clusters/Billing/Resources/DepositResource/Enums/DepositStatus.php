@@ -65,7 +65,9 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
      * This color can be used for visual representation in the UI,
      * helping users quickly identify the status at a glance.
      *
-     * @return string|array|null The color or colors associated with the status.
+     * Returns the color or colors associated with the status.
+     *
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

@@ -22,15 +22,11 @@ enum BillingType: int implements HasColor, HasLabel
 {
     /**
      * Represents a discount on the invoice.
-     *
-     * @var int
      */
     case Discount = 1;
 
     /**
      * Represents a regular billing line on the invoice.
-     *
-     * @var int
      */
     case BillingLine = 0;
 
@@ -41,8 +37,9 @@ enum BillingType: int implements HasColor, HasLabel
      * - 'Discount' is represented by the color 'danger'.
      *
      * This color can be used in UI elements like badges, tables, etc.
+     * Returns the color associated with the billing type.
      *
-     * @return string|array|null  The color associated with the billing type.
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

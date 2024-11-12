@@ -75,6 +75,7 @@ final class DocumentRelationManager extends RelationManager
      */
     public static function getBadge(Model $ownerRecord, string $pageClass): ?string
     {
+        /** @phpstan-ignore-next-line */
         $documentCount = $ownerRecord->documents()->count();
 
         // Return the document count as a string if greater than zero; otherwise, return null.

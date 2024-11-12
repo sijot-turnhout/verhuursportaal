@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Enums\QuotationStatus;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\States;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\States\QuotationStateContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -21,12 +20,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * Quotation status can transition through various states such as Draft, Open, Accepted, Declined, and Expired.
  * The state design pattern is employed to handle state-specific behaviors and transitions cleanly and effectively.
  *
+ * @property QuotationStatus $status
+ *
  * @package App\Models
  */
 final class Quotation extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are protected from the mass assignment system.
      *
@@ -40,7 +39,7 @@ final class Quotation extends Model
      * The status is set to Draft by default, indicating that the quotation is not yet finalized or sent for approval.
      * This allows for further modifications before moving to the next state.
      *
-     * @var array
+     * @var array<string, QuotationStatus>
      */
     protected $attributes = [
         'status' => QuotationStatus::Draft,
@@ -74,7 +73,7 @@ final class Quotation extends Model
      * This method establishes a one-to-many polymorphic relationship between the Quotation model and its associated BillingItem models.
      * Quotation lines detail the items or services included in the quotation.
      *
-     * @return MorphMany
+     * @return MorphMany<BillingItem, covariant $this>
      */
     public function quotationLines(): MorphMany
     {
@@ -87,13 +86,21 @@ final class Quotation extends Model
      * This method defines a many-to-one relationship, linking the quotation to a specific Lease model.
      * This allows for easy retrieval of the lease information related to this quotation.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Lease, covariant $this>
      */
     public function lease(): BelongsTo
     {
         return $this->belongsTo(Lease::class);
     }
 
+    /**
+     * Retrieve the creator associated with the quotation.
+     *
+     * This method defines a belongs-to relationsip, linking the user account that has created the quotation to the quotation.
+     * This allows for easy retrieval of the user information relation to this quotation.
+     *
+     * @return BelongsTo<User, covariant $this>
+     */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -105,7 +112,7 @@ final class Quotation extends Model
      * This method establishes a many-to-one relationship between the quotation and the Tenant model.
      * It identifies the tenant who will receive or has been quoted for the items/services in this quotation.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Tenant, covariant $this>
      */
     public function reciever(): BelongsTo
     {
@@ -138,7 +145,7 @@ final class Quotation extends Model
      * This method specifies the types for specific attributes in the model.
      * Casting attributes to their appropriate types ensures that data is correctly formatted and accessible within the application.
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function casts(): array
     {

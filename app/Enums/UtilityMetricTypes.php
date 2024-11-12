@@ -25,8 +25,6 @@ enum UtilityMetricTypes: string implements HasIcon
      * Represents the consumption of gas.
      * This metric type tracks the usage of gas within the system, typically measured
      * in cubic meters (m3). It is associated with a fire icon for easy identification in the UI.
-     *
-     * @var string
      */
     case Gas = 'Gas verbruik';
 
@@ -36,8 +34,6 @@ enum UtilityMetricTypes: string implements HasIcon
      * Represents the consumption of water.
      * This metric type tracks the usage of water, typically measured in liters (L).
      * It is associated with an upward trending arrow icon to represent flow or consumption.
-     *
-     * @var string
      */
     case Water = 'Water verbruik';
 
@@ -47,8 +43,6 @@ enum UtilityMetricTypes: string implements HasIcon
      * Represents the consumption of electricity.
      * This metric type tracks the usage of electricity, typically measured in kilowatt-hours (KWh).
      * It is associated with a bolt icon, symbolizing electrical energy.
-     *
-     * @var string
      */
     case Electricity = 'Electriciteit verbruik';
 

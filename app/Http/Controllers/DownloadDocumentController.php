@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use Spatie\LaravelPdf\PdfBuilder;
 
@@ -19,14 +18,5 @@ final readonly class DownloadDocumentController
         return pdf()
             ->view('pdfs.invoice', compact('record'))
             ->name($record->payment_reference . '.pdf');
-    }
-
-    private function getDocumentView(Invoice $record): string
-    {
-        if (InvoiceStatus::Quotation_Request === $record->status) {
-            return 'pdfs.quota';
-        }
-
-        return 'pdfs.invoice';
     }
 }

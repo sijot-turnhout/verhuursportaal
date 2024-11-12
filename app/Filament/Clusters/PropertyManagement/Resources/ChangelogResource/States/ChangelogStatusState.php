@@ -21,7 +21,8 @@ class ChangelogStatusState implements ChangelogStateContract
     /**
      * The changelog instance being managed.
      *
-     * @var Changelog   The changelog model instance that this state class is handling.
+     * @param  Changelog  $changelog  The changelog model instance that this state class is handling.
+     * @return void
      */
     public function __construct(
         public readonly Changelog $changelog,

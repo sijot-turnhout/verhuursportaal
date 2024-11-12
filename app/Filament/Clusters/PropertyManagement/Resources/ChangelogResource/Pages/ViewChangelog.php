@@ -35,7 +35,7 @@ final class ViewChangelog extends ViewRecord
      * This method returns an array of actions that will be displayed in the header
      * when viewing a specific changelog record. If no actions are needed, it returns an empty array.
      *
-     * @return array An array of header actions.
+     * @return array<int, Actions\ActionGroup> An array of header actions.
      */
     protected function getHeaderActions(): array
     {

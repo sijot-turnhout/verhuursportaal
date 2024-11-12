@@ -9,15 +9,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property IncidentCodes $status
+ */
 final class Incident extends Model
 {
     protected $guarded = ['id'];
 
+    /**
+     * @return BelongsTo<User, covariant $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return HasOne<Lease, covariant $this>
+     */
     public function lease(): HasOne
     {
         return $this->hasOne(Lease::class);

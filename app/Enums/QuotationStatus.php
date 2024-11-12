@@ -77,7 +77,9 @@ enum QuotationStatus: string implements HasLabel, HasIcon, HasColor
      * quotation status. The colors are intended for use in UI elements, such as
      * badges or indicators, to visually represent the current status of a quotation.
      *
-     * @return string|array|null The color value as a string (e.g., 'danger', 'success'), an array for complex color schemes, or null if not applicable.
+     * Returns the color value as a string (e.g., 'danger', 'success'), an array for complex color schemes, or null if not applicable.
+     *
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

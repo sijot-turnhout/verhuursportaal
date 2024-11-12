@@ -50,8 +50,8 @@ final class RegisterDepositAction extends Action
      * Configures the deposit registration form, providing inputs for deposit amount,
      * payment date, and refund deadline.
      *
-     * @param  Lease $lease  The lease for which the deposit is being registered, used to set default values.
-     * @return array         The form configuration array, containing the form fields and their settings.
+     * @param  Lease $lease         The lease for which the deposit is being registered, used to set default values.
+     * @return array<int, Grid>     The form configuration array, containing the form fields and their settings.
      */
     private static function getConfigurationForm(Lease $lease): array
     {

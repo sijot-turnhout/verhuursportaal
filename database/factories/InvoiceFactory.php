@@ -36,11 +36,21 @@ class InvoiceFactory extends Factory
         return $this->state(fn(array $attributes): array => ['status' => InvoiceStatus::Open]);
     }
 
+    /**
+     * Indicate that the payment status of the invoice should be 'due'.
+     *
+     * @return Factory<\App\Models\Invoice>
+     */
     public function dueInvoice(): Factory
     {
         return $this->state(fn(array $attributes): array => ['status' => InvoiceStatus::Uncollected, 'due_at' => now()->subDay()]);
     }
 
+    /**
+     * Indicate that the payment status of the invoice should be 'cancelled'.
+     *
+     * @return Factory<\App\Models\Invoice>
+     */
     public function cancelledInvoice(): Factory
     {
         return $this->state(fn(array $attributes): array => ['status' => InvoiceStatus::Void, 'cancelled_at' => now()->subDay()]);

@@ -10,7 +10,7 @@ final class UncollectedInvoiceState extends InvoiceState
 {
     public function transitionToPaid(): bool
     {
-        return $this->invoice->status(
+        return $this->invoice->update(
             attributes: ['status' => InvoiceStatus::Paid, 'due_at' => now()],
         );
     }

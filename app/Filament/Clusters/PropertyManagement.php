@@ -16,7 +16,7 @@ use Filament\Clusters\Cluster;
  * It helps organize these resources in the application’s navigation under a unified
  * section dedicated to property management.
  *
- * @extends App\Filament\Clusters
+ * @package App\Filament\Clusters
  */
 final class PropertyManagement extends Cluster
 {

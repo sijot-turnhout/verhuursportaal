@@ -88,8 +88,7 @@ final class ManageFeatures extends Command
      *
      * This method activates the feature for everyone.
      *
-     * @param  string      $feature  The fully qualified class name of the feature.
-     * @param  string|null $scope    The scope for which to enable the feature (optional, defaults to global).
+     * @param  string  $feature  The fully qualified class name of the feature.
      * @return void
      */
     protected function disableFeature(string $feature): void
@@ -103,11 +102,10 @@ final class ManageFeatures extends Command
      *
      * This method shows whether the feature is currently active or inactive.
      *
-     * @param  string       $feature The fully qualified class name of the feature.
-     * @param  string|null  $scope   The scope for which to check the feature status (optional, defaults to global).
+     * @param  string  $feature The fully qualified class name of the feature.
      * @return void
      */
-    protected function featureStatus(string $feature, ?string $scope = null): void
+    protected function featureStatus(string $feature): void
     {
         if (Feature::active($feature)) {
             $this->info("Feature '{$feature}' is active.");

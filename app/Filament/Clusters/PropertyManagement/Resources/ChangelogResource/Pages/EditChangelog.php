@@ -37,7 +37,7 @@ final class EditChangelog extends EditRecord
      * This method returns an array of actions to be shown in the header of the edit page.
      * In this case, it includes a delete action, allowing the user to remove the changelog directly from the edit page.
      *
-     * @return array<\Filament\Actions\Action>     An array of actions to be displayed in the header.
+     * @return array{Actions\ActionGroup}    An array of actions to be displayed in the header.
      */
     protected function getHeaderActions(): array
     {
