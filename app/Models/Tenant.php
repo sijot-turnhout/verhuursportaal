@@ -30,6 +30,7 @@ use Illuminate\Notifications\Notifiable;
 final class Tenant extends Model implements BannableInterface
 {
     use Bannable;
+
     /** @use hasFactory<\Database\Factories\TenantFactory> */
     use HasFactory;
     use Notifiable;
@@ -73,6 +74,9 @@ final class Tenant extends Model implements BannableInterface
 
     /**
      * Attribute cast to get the full name of the tenant
+     *
+     * @todo We need to investigate if we can remove this attribute
+     * @deprecated
      *
      * @return Attribute<string, never>
      */

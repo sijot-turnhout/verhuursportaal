@@ -70,20 +70,27 @@ final class TenantResource extends Resource
                         Forms\Components\TextInput::make('firstName')
                             ->label('voornaam')
                             ->required()
+                            ->maxLength(255)
                             ->columnSpan(5),
                         Forms\Components\TextInput::make('lastName')
                             ->label('achternaam')
                             ->required()
+                            ->maxLength(255)
                             ->columnSpan(7),
                         Forms\Components\TextInput::make('email')
                             ->unique(ignoreRecord: true)
+                            ->email()
+                            ->maxLength(255)
                             ->required()
                             ->columnSpan(6),
                         Forms\Components\TextInput::make('phone_number')
                             ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
                             ->columnSpan(6),
                         Forms\Components\TextInput::make('address')
                             ->label('Adres')
+                            ->maxLength(255)
                             ->columnSpan(12),
                     ])->columns(12),
             ]);
@@ -99,7 +106,7 @@ final class TenantResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('fullName')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Naam')
                     ->sortable()
                     ->searchable(),
@@ -126,6 +133,8 @@ final class TenantResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
+
+                    // TODO Place this in  a separated action class
                     Tables\Actions\Action::make('Huurder blokkeren')
                         ->authorize('deactivate')
                         ->icon('heroicon-o-lock-closed')
@@ -150,6 +159,7 @@ final class TenantResource extends Resource
                         }),
 
                     // Custom action for reactivating the tenant in the lease managament system.
+                    // TODO Place this in  a separated action class
                     Tables\Actions\Action::make('Huurder heractiveren')
                         ->color('success')
                         ->icon('heroicon-o-lock-open')

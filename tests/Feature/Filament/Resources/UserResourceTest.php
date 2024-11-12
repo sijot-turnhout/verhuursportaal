@@ -80,6 +80,7 @@ describe('UserResource tests', function (): void {
      * @return void
      */
     it('can render columns', function (string $column): void {
+        User::factory()->create();
         livewire(ListUsers::class)->assertCanRenderTableColumn($column);
     })->with(['name', 'email', 'user_group', 'phone_number', 'last_seen_at', 'created_at']);
 
@@ -222,8 +223,8 @@ describe('UserResource tests', function (): void {
     /**
      * Test that multiple user records can be deleted in bulk.
      *
-     * This test ensures that the bulk delete action in the ListUsers table functions
-     * correctly. It creates multiple user records, selects them for bulk deletion,
+     * This test ensures that the bulk delete action in the ListUsers table functions works correctly.
+     * It creates multiple user records, selects them for bulk deletion,
      * and triggers the DeleteBulkAction. Afterward, it verifies that each selected
      * record has been removed from the database.
      *
