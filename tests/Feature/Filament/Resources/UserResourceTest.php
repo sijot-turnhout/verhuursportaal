@@ -223,8 +223,8 @@ describe('UserResource tests', function (): void {
     /**
      * Test that multiple user records can be deleted in bulk.
      *
-     * This test ensures that the bulk delete action in the ListUsers table functions
-     * correctly. It creates multiple user records, selects them for bulk deletion,
+     * This test ensures that the bulk delete action in the ListUsers table functions works correctly.
+     * It creates multiple user records, selects them for bulk deletion,
      * and triggers the DeleteBulkAction. Afterward, it verifies that each selected
      * record has been removed from the database.
      *
