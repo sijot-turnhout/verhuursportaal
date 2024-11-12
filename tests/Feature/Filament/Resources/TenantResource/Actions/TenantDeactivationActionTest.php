@@ -30,7 +30,7 @@ it('can deactivate tenants that are inactive in the application', function (): v
         ->assertSeeHtml((string) new HtmlString('De blokkering van een gebruiker is van kracht tot <strong>6 maanden</strong> na de invoering'));
 });
 
-it ('It can successfully deactivate a tenant', function (): void {
+it('It can successfully deactivate a tenant', function (): void {
     livewire(ListTenants::class)
         ->mountTableAction('Huur blokkeren', $this->tenant)
         ->setTableActionData(['deactivation_reason' => 'example reason'])
