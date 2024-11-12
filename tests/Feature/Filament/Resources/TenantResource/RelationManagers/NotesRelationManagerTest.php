@@ -9,7 +9,6 @@ use App\Filament\Resources\TenantResource\RelationManagers\NotesRelationManager;
 use App\Models\Tenant;
 use Filament\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Illuminate\Support\Str;
 
 use function Pest\Livewire\livewire;
 
@@ -27,14 +26,14 @@ describe('Notes relation manager tests', function (): void {
                 ->assertTableActionExists($action);
         })->with(['delete', 'view', 'edit']);
 
-        it ('implements the create header action', function (): void {
+        it('implements the create header action', function (): void {
             $tenant = Tenant::factory()->create();
 
             livewire(NotesRelationManager::class, ['ownerRecord' => $tenant, 'pageClass' => EditTenant::class])
                 ->assertTableHeaderActionsExistInOrder([CreateAction::class]);
         });
 
-        it ('Implements the bulk delete action', function (): void {
+        it('Implements the bulk delete action', function (): void {
             $tenant = Tenant::factory()->create();
 
             livewire(NotesRelationManager::class, ['ownerRecord' => $tenant, 'pageClass' => EditTenant::class])
@@ -43,7 +42,7 @@ describe('Notes relation manager tests', function (): void {
     });
 
     describe('insert note through the relation manager tests', function (): void {
-        it ('can display the note creation modal form successfully', function (): void {
+        it('can display the note creation modal form successfully', function (): void {
             $tenant = Tenant::factory()->create();
 
             livewire(NotesRelationManager::class, ['ownerRecord' => $tenant, 'pageClass' => EditTenant::class])
@@ -52,7 +51,7 @@ describe('Notes relation manager tests', function (): void {
                 ->assertSee('Notitie');
         });
 
-        it ('can create a record', function (): void {
+        it('can create a record', function (): void {
             $tenant = Tenant::factory()->create();
 
             livewire(NotesRelationManager::class, ['ownerRecord' => $tenant, 'pageClass' => EditTenant::class])
