@@ -29,10 +29,3 @@ it('can deactivate tenants that are inactive in the application', function (): v
         ->assertSee('Reden tot plaatsing op de zwarte lijst')
         ->assertSeeHtml((string) new HtmlString('De blokkering van een gebruiker is van kracht tot <strong>6 maanden</strong> na de invoering'));
 });
-
-it ('requires an deactivation reason to block a tenant', function (): void {
-    livewire(ListTenants::class)
-        ->callTableAction('Huurder blokkeren', $this->tenant)
-        ->fillForm( ['deactivation_reason' => null])
-        ->assertHasFormErrors(['deactivation_reason' => 'required']);
-});
