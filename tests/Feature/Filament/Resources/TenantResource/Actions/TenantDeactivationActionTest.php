@@ -46,7 +46,7 @@ it ('can successfully put a tenant on the blacklist', function (): void {
     expect($bannedTenant->bans->first()->expired_at->isSameDay(now()->addMonths(6)))->toBeTrue();
 });
 
-it ('as the correct layout configuration for the action', function (): void {
+it ('has the correct layout configuration for the action', function (): void {
     livewire(ListTenants::class)
         ->assertTableActionHasLabel('Huurder blokkeren', 'Huurder blokkeren')
         ->assertTableActionHasIcon('Huurder blokkeren', 'heroicon-o-lock-closed')
