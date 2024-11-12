@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', FrontPageController::class)->name('welcome');
 Route::get('/wat-kost-dat', PriceInformationController::class)->name('price-information');
-Route::get('/beschrikbaar', AvailabilityController::class)->name('availability');
+Route::get('/beschikbaarheid', AvailabilityController::class)->name('availability');
 Route::post('/reserveren', BookingController::class)->name('booking.store');
 Route::post('/contact', ContactController::class)->name('contact.send');
 Route::get('/privacy', PrivacyController::class)->name('legal.privacy');
