@@ -72,6 +72,10 @@ describe('ContactSumissioNRsource tests', function (): void {
             ->assertHasNoTableBulkActionErrors();
     });
 
+    it ('checks that the getNavigationBadge function works correctly', function (): void {
+        $records = ContactSubmission::factory()->
+    });
+
     it ('can bulk mark contact submissions in progress', function (): void {
         $records = ContactSubmission::factory(5)->create();
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ContactMessageStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ final class ContactSubmissionFactory extends Factory
     {
         return [
             'first_name' => $this->faker->firstName(),
+            'status' => ContactMessageStatus::InProgress,
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->safeEmail(),
             'phone_number' => $this->faker->phoneNumber(),
