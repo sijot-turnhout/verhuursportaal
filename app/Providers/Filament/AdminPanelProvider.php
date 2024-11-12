@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\App\Profile;
 use App\Filament\Resources\LeaseResource\Widgets\LatestReservationRequests;
 use App\Filament\Resources\LeaseResource\Widgets\StatsOverview;
 use App\Filament\Resources\QuotationResource\Widgets\LastestQuotationRequestsTable;
@@ -41,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->topNavigation()
             ->login()
             ->passwordReset()
-            ->profile()
+            ->profile(Profile::class, false)
             ->font('Open sans')
             ->databaseNotifications()
             ->maxContentWidth(MaxWidth::Full)
