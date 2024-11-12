@@ -30,6 +30,7 @@ use Illuminate\Notifications\Notifiable;
 final class Tenant extends Model implements BannableInterface
 {
     use Bannable;
+
     /** @use hasFactory<\Database\Factories\TenantFactory> */
     use HasFactory;
     use Notifiable;

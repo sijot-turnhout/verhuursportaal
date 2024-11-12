@@ -133,6 +133,8 @@ final class TenantResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
+
+                    // TODO Place this in  a separated action class
                     Tables\Actions\Action::make('Huurder blokkeren')
                         ->authorize('deactivate')
                         ->icon('heroicon-o-lock-closed')
@@ -157,6 +159,7 @@ final class TenantResource extends Resource
                         }),
 
                     // Custom action for reactivating the tenant in the lease managament system.
+                    // TODO Place this in  a separated action class
                     Tables\Actions\Action::make('Huurder heractiveren')
                         ->color('success')
                         ->icon('heroicon-o-lock-open')
