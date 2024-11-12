@@ -10,7 +10,6 @@ use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
@@ -32,11 +31,16 @@ it('can deactivate tenants that are inactive in the application', function (): v
         ->assertSeeHtml((string) new HtmlString('De blokkering van een gebruiker is van kracht tot <strong>6 maanden</strong> na de invoering'));
 });
 
+<<<<<<< HEAD
 it ('can successfully put a tenant on the blacklist', function (): void {
+=======
+it('djdjd', function (): void {
+>>>>>>> c765d661870ae1f71512c2e8081f017de01fce26
     $tenant = Tenant::factory()->create();
     $deactivationReason = 'Violation of terms';
 
     livewire(ListTenants::class)
+<<<<<<< HEAD
         ->callTableAction('Huurder blokkeren', $tenant, ['deactivation_reason' => $deactivationReason]);
 
     // Refresh tenant and verify they are banned
@@ -45,4 +49,17 @@ it ('can successfully put a tenant on the blacklist', function (): void {
     expect($bannedTenant->isBanned())->toBeTrue();
     expect($bannedTenant->bans->first()->comment)->toBe($deactivationReason);
     expect($bannedTenant->bans->first()->expired_at->isSameDay(now()->addMonths(6)))->toBeTrue();
+=======
+        ->callTableAction('Huurder blokkeren', $tenant, [
+            'deactivation_reason' => $deactivationReason,
+        ]);
+
+    // Refresh tenant and verify they are banned
+    $bannedTenant = $tenant->refresh();
+    expect($bannedTenant->isBanned())->toBeTrue();
+    expect($bannedTenant->bans->first()->comment)->toBe($deactivationReason);
+    expect($bannedTenant->bans->first()->expired_at->isSameDay(now()->addMonths(6)))->toBeTrue();
+
+    // Assert the notification was sent with the correct message
+>>>>>>> c765d661870ae1f71512c2e8081f017de01fce26
 });
