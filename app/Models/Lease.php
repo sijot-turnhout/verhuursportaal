@@ -116,14 +116,6 @@ final class Lease extends Model
     }
 
     /**
-     * @return HasMany<Incident, covariant $this>
-     */
-    public function incidents(): HasMany
-    {
-        return $this->hasMany(Incident::class);
-    }
-
-    /**
      * Data relation for getting the information about the tenant that is attached to the lease.
      *
      * @return BelongsTo<Tenant, covariant $this>
