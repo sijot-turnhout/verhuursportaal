@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Contracts\ShouldPerformAccessment;
@@ -71,7 +73,7 @@ final class PerformRiskAssesment implements ShouldQueue, ShouldPerformAccessment
     public function registerAccessmentResult(int $impactScore, RiskLevel $finalAssesmentLabel): void
     {
         $this->lease->update(attributes: [
-            'risk_accessment_score' => $impactScore, 'risk_accessment_label' => $finalAssesmentLabel
+            'risk_accessment_score' => $impactScore, 'risk_accessment_label' => $finalAssesmentLabel,
         ]);
     }
 

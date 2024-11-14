@@ -82,11 +82,15 @@ enum RiskLevel: string implements HasColor, HasLabel
      */
     public function getColor(): string|array|null
     {
+<<<<<<< HEAD
         return match($this) {
             self::Unknown => Color::Slate,
+=======
+        return match ($this) {
+>>>>>>> 93a45db1641bf811ff8c32bc0c2fe25f62ebcca6
             self::VeryLow, self::Low => Color::Green,
             self::Medium => Color::Yellow,
-            self::High, self::VeryHigh => Color::Red
+            self::High, self::VeryHigh => Color::Red,
         };
     }
 }

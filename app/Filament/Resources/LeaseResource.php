@@ -197,6 +197,7 @@ final class LeaseResource extends Resource
                     ->icon(static fn(Lease $lease) => $lease->tenant->isBanned() ? 'heroicon-o-exclamation-triangle' : null)
                     ->tooltip(static fn(Lease $lease) => $lease->tenant->isBanned() ? trans('Deze huurder staat op de zwarte lijst') : null)
                     ->iconPosition(IconPosition::Before),
+
                 Tables\Columns\TextColumn::make('group')->label('Organisatie')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('status')->badge()->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('persons')->label('Aantal personen')->sortable()->badge()->icon('heroicon-o-user'),
