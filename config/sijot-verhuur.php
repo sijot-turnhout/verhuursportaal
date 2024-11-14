@@ -31,6 +31,8 @@ return [
      *
      * Each risk level represents a threshold score indicating the severity or likelihood of risk,
      * useful for assessing and categorizing risks in the application.
+     *
+     * @see https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#configuratie-van-de-tresholds-voor-de-risico-profielen
      */
     'risk_accessment' => [
         'very_low' => 10,   // Threshold for a 'Very low' risk level, representing minimal concern.
