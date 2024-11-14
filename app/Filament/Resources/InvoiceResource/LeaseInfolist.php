@@ -63,14 +63,14 @@ final readonly class LeaseInfolist
                     ->label('Risico profiel')
                     ->translateLabel()->columnSpan(3)
                     ->badge()
-                    ->hintAction(function(Action $action) {
+                    ->hintAction(function (Action $action) {
                         return $action->make('check-documentation')
                             ->label('uitleg')
                             ->url('https://www.google.com')
                             ->openUrlInNewTab()
                             ->color('primary')
                             ->icon('heroicon-m-question-mark-circle');
-                }),
+                    }),
 
                 TextEntry::make('tenant.banned_at')->label(trans('Op de zwarte lijst sinds'))->default('-')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3),
             ]);
@@ -106,7 +106,7 @@ final readonly class LeaseInfolist
             ->icon('heroicon-o-home-modern')
             ->headerActions([
                 /** @todo Complete this function */
-                \Filament\Infolists\Components\Actions\Action::make('deze verhuring opvolgen')
+                Action::make('deze verhuring opvolgen')
                     ->size(ActionSize::ExtraSmall)
                     ->visible(false)
                     ->color('gray')

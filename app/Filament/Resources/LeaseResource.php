@@ -191,7 +191,7 @@ final class LeaseResource extends Resource
                     ->icon('heroicon-o-exclamation-triangle')
                     // TODO: Need to check further into this phpstan line
                     // @phpstan-ignore-next-line
-                    ->iconColor(fn (Lease $lease) => $lease->risk_accessment_label?->getColor() ?? 'gray'),
+                    ->iconColor(fn(Lease $lease) => $lease->risk_accessment_label?->getColor() ?? 'gray'),
 
                 Tables\Columns\TextColumn::make('tenant.fullName')->label('Huurder')
                     ->sortable()

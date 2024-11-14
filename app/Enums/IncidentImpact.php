@@ -20,18 +20,18 @@ enum IncidentImpact: int implements HasColor, HasLabel, HasIcon
 
     public function getColor(): string|array|null
     {
-        return match($this) {
+        return match ($this) {
             self::Unknown, self::VeryLow => 'gray',
             self::Low => 'success',
             self::Normal => Color::Yellow,
             self::High => 'warning',
-            self::VeryHigh => 'danger'
+            self::VeryHigh => 'danger',
         };
     }
 
     public function getLabel(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Unknown => trans('Onbekend'),
             self::VeryLow => trans('Zeer laag'),
             self::Low => trans('Laag'),
@@ -43,7 +43,7 @@ enum IncidentImpact: int implements HasColor, HasLabel, HasIcon
 
     public function getIcon(): ?string
     {
-        return match($this) {
+        return match ($this) {
             self::Unknown => 'heroicon-o-question-mark-circle',
             self::VeryLow, self::Low => 'heroicon-o-exclamation-circle',
             self::Normal => 'heroicon-o-ellipsis-horizontal-circle',
