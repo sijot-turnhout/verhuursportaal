@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\InvoiceResource;
 
 use App\Models\Lease;
+use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -56,7 +57,21 @@ final readonly class LeaseInfolist
                 TextEntry::make('tenant.email')->label(trans('Email'))->icon('heroicon-o-envelope')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('tenant.phone_number')->label(trans('Telefoon nummer'))->icon('heroicon-o-phone')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('tenant.created_at')->label(trans('Geregistreerd op'))->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
-                TextEntry::make('tenant.address')->label(trans('Adres'))->columnSpan(9)->icon('heroicon-o-home')->iconColor('primary'),
+                TextEntry::make('tenant.address')->label(trans('Adres'))->columnSpan(6)->icon('heroicon-o-home')->iconColor('primary'),
+
+                TextEntry::make('risk_accessment_label')
+                    ->label('Risico profiel')
+                    ->translateLabel()->columnSpan(3)
+                    ->badge()
+                    ->hintAction(function(Action $action) {
+                        return $action->make('check-documentation')
+                            ->label('uitleg')
+                            ->url('https://www.google.com')
+                            ->openUrlInNewTab()
+                            ->color('primary')
+                            ->icon('heroicon-m-question-mark-circle');
+                }),
+
                 TextEntry::make('tenant.banned_at')->label(trans('Op de zwarte lijst sinds'))->default('-')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3),
             ]);
     }

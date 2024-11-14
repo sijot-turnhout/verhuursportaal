@@ -6,6 +6,7 @@ namespace App\Actions;
 
 use App\Contracts\StoreReservation;
 use App\DataObjects\ReservationDataObject;
+use App\Jobs\PerformRiskAssesment;
 use App\Jobs\QuotationGenerator;
 use App\Models\Lease;
 use App\Models\Tenant;
@@ -26,10 +27,8 @@ final readonly class StoreReservationRequest implements StoreReservation
     public function process(ReservationDataObject $reservationDataObject): void
     {
         DB::transaction(function () use ($reservationDataObject): void {
-            $lease = Lease::create($reservationDataObject->getLeaseInformation()->toArray());
-
-            $tenant = $this->findTenantByEmailOrRegister($reservationDataObject);
-            $tenant->leases()->save($lease);
+            $lease = $this->registerLeaseReservartion($reservationDataObject);
+            $tenant = $this->registerOrFindTenant($reservationDataObject, $lease);
 
             if ($reservationDataObject->wantsQuotation()) {
                 QuotationGenerator::process($lease, $tenant);
@@ -54,9 +53,28 @@ final readonly class StoreReservationRequest implements StoreReservation
             ->firstOr(fn(): Tenant|Model => Tenant::query()->create($reservationDataObject->getTenantInformation()->toArray()));
     }
 
+    private function registerLeaseReservartion(ReservationDataObject $reservationDataObject): Lease
+    {
+        return Lease::create($reservationDataObject->getLeaseInformation()->toArray());
+    }
+
+    private function registerOrFindTenant(ReservationDataObject $reservationDataObject, Lease $lease): Tenant
+    {
+        $tenant = $this->findTenantByEmailOrRegister($reservationDataObject);
+        $tenant->leases()->save($lease);
+
+        dispatch(new PerformRiskAssesment($lease, $tenant));
+
+        return $tenant;
+    }
+
     /**
      * This method will allow us to send out notifications to the users of the platform.
      * In the backend. So We can keep them informed there about the newly created request.
+     *
+     * @todo Register actions in the notifications where the backend administrator simply can click to get on the requsted lease information page.
+     *
+     * @return void
      */
     private function sendOutNotificationToTheBackend(): void
     {

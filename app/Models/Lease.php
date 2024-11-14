@@ -8,6 +8,7 @@ use App\Builders\LeaseBuilder;
 use App\Concerns\HasFeedbackSupport;
 use App\Concerns\HasUtilityMetrics;
 use App\Enums\LeaseStatus;
+use App\Enums\RiskLevel;
 use App\Filament\Resources\LeaseResource\States;
 use App\Filament\Resources\LeaseResource\States\LeaseStateContract;
 use App\Observers\LeaseObserver;
@@ -24,20 +25,23 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 /**
  * Class Lease
  *
- * @property int                             $id                     The unique identifier from the record in the database.
- * @property string                          $group                  The name of the group/organisation that requested the lease in the application.
- * @property \Illuminate\Support\Carbon      $arrival_date           The timestamp that represent the arrival date of the group at our domain.
- * @property \Illuminate\Support\Carbon      $departure_date         THe timestamp that represent the departure date of the group from our domain.
- * @property int                             $persons                The amount of persons in the group/organisation of the tenant.
- * @property int|null                        $supervisor_id          The unique identifier from the user who follows up on the lease.
- * @property int                             $tenant_id              The unique identifier from the customer. (tenant).
- * @property int|null                        $feedback_id            The unique identifier from the feedback when there is any feedback provided on the lease.
- * @property int|null                        $invoice_id             The unique identifier from the invoice when there is an invoice attached to the lease.
- * @property LeaseStatus                     $status                 The current registered status of the lease in the application.
- * @property \Illuminate\Support\Carbon|null $metrics_registered_at  The timestamp that indicates when the energy utility metrics are registered (finalized)
- * @property \Illuminate\Support\Carbon|null $feedback_valid_until   The timestamp that indicates when the feedback form for the lease will expire
- * @property \Illuminate\Support\Carbon|null $created_at             The timestamp from when the record has been created in the database storage.
- * @property \Illuminate\Support\Carbon|null $updated_at             The timestamp from when the record has been updated last time in the database.
+ * @property int                             $id                      The unique identifier from the record in the database.
+ * @property string                          $reference_number
+ * @property int                             $risk_accessment_score
+ * @property RiskLevel                       $risk_accessment_label
+ * @property string                          $group                   The name of the group/organisation that requested the lease in the application.
+ * @property \Illuminate\Support\Carbon      $arrival_date            The timestamp that represent the arrival date of the group at our domain.
+ * @property \Illuminate\Support\Carbon      $departure_date          THe timestamp that represent the departure date of the group from our domain.
+ * @property int                             $persons                 The amount of persons in the group/organisation of the tenant.
+ * @property int|null                        $supervisor_id           The unique identifier from the user who follows up on the lease.
+ * @property int                             $tenant_id               The unique identifier from the customer. (tenant).
+ * @property int|null                        $feedback_id             The unique identifier from the feedback when there is any feedback provided on the lease.
+ * @property int|null                        $invoice_id              The unique identifier from the invoice when there is an invoice attached to the lease.
+ * @property LeaseStatus                     $status                  The current registered status of the lease in the application.
+ * @property \Illuminate\Support\Carbon|null $metrics_registered_at   The timestamp that indicates when the energy utility metrics are registered (finalized)
+ * @property \Illuminate\Support\Carbon|null $feedback_valid_until    The timestamp that indicates when the feedback form for the lease will expire
+ * @property \Illuminate\Support\Carbon|null $created_at              The timestamp from when the record has been created in the database storage.
+ * @property \Illuminate\Support\Carbon|null $updated_at              The timestamp from when the record has been updated last time in the database.
  *
  * @property mixed $tenant
  * @property Invoice $invoice
@@ -194,6 +198,7 @@ final class Lease extends Model
     protected function casts(): array
     {
         return [
+            'risk_accessment_label' => RiskLevel::class,
             'status' => LeaseStatus::class,
             'arrival_date' => 'datetime',
             'departure_date' => 'datetime',

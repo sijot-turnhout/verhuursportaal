@@ -14,6 +14,8 @@ return new class () extends Migration {
         Schema::create('leases', static function (Blueprint $table): void {
             $table->id();
             $table->string('reference_number')->nullable();
+            $table->integer('risk_accessment_score')->nullable();
+            $table->string('risk_accessment_label')->nullable();
             $table->string('group');
             $table->timestamp('arrival_date');
             $table->timestamp('departure_date');
