@@ -19,6 +19,12 @@ use Filament\Support\Contracts\HasLabel;
 enum RiskLevel: string implements HasColor, HasLabel
 {
     /**
+     * Represents a 'unknown' risk level, denoting that the risk level is unknown.
+     * This can occur when the risk level zccessment is not performed. Becasue of the queue or database seeding.
+     */
+    case Unknown = 'onbekend';
+
+    /**
      * Represents a 'Very Low' risk level, denoting minimal risk.
      * Commonly used to signal safe or minimal concerns.
      */
@@ -77,6 +83,7 @@ enum RiskLevel: string implements HasColor, HasLabel
     public function getColor(): string|array|null
     {
         return match($this) {
+            self::Unknown => Color::Slate,
             self::VeryLow, self::Low => Color::Green,
             self::Medium => Color::Yellow,
             self::High, self::VeryHigh => Color::Red

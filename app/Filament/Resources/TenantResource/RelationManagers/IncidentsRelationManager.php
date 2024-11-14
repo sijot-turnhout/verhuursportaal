@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\TeantResource\RelationManagers;
+namespace App\Filament\Resources\TenantResource\RelationManagers;
 
 use App\Enums\IncidentCodes;
 use App\Enums\IncidentImpact;
 use App\Models\Incident;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -88,7 +89,15 @@ final class IncidentsRelationManager extends RelationManager
                     ->options(IncidentImpact::class)
                     ->columnSpan(6)
                     ->required()
-                    ->native(false),
+                    ->native(false)
+                    ->hintAction(function (Action $action): Action {
+                        return $action->make('check-documentation')
+                            ->label('help')
+                            ->url('https://www.google.com')
+                            ->openUrlInNewTab()
+                            ->color('primary')
+                            ->icon('heroicon-m-question-mark-circle');
+                    }),
 
                 Forms\Components\Textarea::make('description')
                     ->label(__('Extra informatie'))
