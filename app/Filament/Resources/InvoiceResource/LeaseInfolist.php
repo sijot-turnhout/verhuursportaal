@@ -66,7 +66,7 @@ final readonly class LeaseInfolist
                     ->hintAction(function (Action $action) {
                         return $action->make('check-documentation')
                             ->label('uitleg')
-                            ->url('https://www.google.com')
+                            ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#risico-analyse')
                             ->openUrlInNewTab()
                             ->color('primary')
                             ->icon('heroicon-m-question-mark-circle');

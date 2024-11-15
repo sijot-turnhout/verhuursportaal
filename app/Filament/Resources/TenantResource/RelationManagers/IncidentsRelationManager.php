@@ -29,6 +29,7 @@ use Filament\Tables\Table;
  * Contributions are always welcome! If you see ways to enhance this functionality,
  * feel free to contribute and help us improve!
  *
+ * @see     https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html
  * @package App\Filament\Resources\LeaseResource\RelationManagers
  */
 final class IncidentsRelationManager extends RelationManager
@@ -93,7 +94,7 @@ final class IncidentsRelationManager extends RelationManager
                     ->hintAction(function (Action $action): Action {
                         return $action->make('check-documentation')
                             ->label('help')
-                            ->url('https://www.google.com')
+                            ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#impact-score-van-incidenten')
                             ->openUrlInNewTab()
                             ->color('primary')
                             ->icon('heroicon-m-question-mark-circle');
