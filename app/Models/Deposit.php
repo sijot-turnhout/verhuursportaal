@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * Class Deposit
@@ -36,6 +38,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class Deposit extends Model
 {
+    use LogsActivity;
+
     /**
      * The attributes that are mass assignable.
      * Protects 'id' from being mass-assigned.
@@ -51,6 +55,17 @@ final class Deposit extends Model
      * @var array<string, DepositStatus>
      */
     protected $attributes = ['status' => DepositStatus::Paid];
+
+    /**
+     * List of events that should be recorded in the activity log.
+     *
+     * This static property defines which model events will trigger activity logging. By default, it is an empty array,
+     * meaning no events are recorded unless explicitly specified. You can customize this array to include specific
+     * events such as 'created', 'updated', or 'deleted' based on your logging requirements.
+     *
+     * @var array<string> $recordevents  List of event names that should be logged. For example, ['created', 'updated'].
+     */
+    protected static $recordEvents = [];
 
     /**
      * Defines the relationship between the Deposit and Lease models.
@@ -77,5 +92,20 @@ final class Deposit extends Model
             'paid_at' => 'datetime',
             'refund_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Returns the activity log options for the current model.
+     *
+     * This method configures the default options for activity logging. It allows specifying
+     * the log name that will be used when recording activity entries. The log name is localized
+     * using the `trans()` helper function to retrieve the appropriate translation for 'verhuringen' (rentals).
+     *
+     * @return LogOptions   The configured log options for activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('security-desposit');
     }
 }

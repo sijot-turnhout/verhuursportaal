@@ -28,6 +28,7 @@
         "pxlrbt/filament-environment-indicator": "^2.0",
         "pxlrbt/filament-excel": "^2.3.3",
         "sentry/sentry-laravel": "^4.7",
+        "spatie/laravel-activitylog": "^4.9",
         "spatie/laravel-data": "^4.4",
         "spatie/laravel-flash": "^1.10",
         "spatie/laravel-pdf": "^1.5",
