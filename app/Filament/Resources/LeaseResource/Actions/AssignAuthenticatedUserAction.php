@@ -35,8 +35,8 @@ final class AssignAuthenticatedUserAction extends Action
             ->label('Deze verhuring opvolgen')
             ->translateLabel()
             ->icon('heroicon-o-user-plus')
-            ->visible(fn (Lease $lease): bool => self::checkIfAssignmentIsPossible($lease))
-            ->action(fn (Lease $lease) => self::performSupervisorAssignment($lease));
+            ->visible(fn(Lease $lease): bool => self::checkIfAssignmentIsPossible($lease))
+            ->action(fn(Lease $lease) => self::performSupervisorAssignment($lease));
     }
 
     /**
