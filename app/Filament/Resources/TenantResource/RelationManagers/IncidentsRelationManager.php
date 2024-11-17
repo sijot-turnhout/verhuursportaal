@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\LeaseResource\RelationManagers;
+namespace App\Filament\Resources\TenantResource\RelationManagers;
 
 use App\Enums\IncidentCodes;
-use App\Enums\LeaseStatus;
+use App\Enums\IncidentImpact;
 use App\Models\Incident;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -16,7 +17,6 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Actions;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class IncidentsRelationManager
@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * Contributions are always welcome! If you see ways to enhance this functionality,
  * feel free to contribute and help us improve!
  *
+ * @see     https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html
  * @package App\Filament\Resources\LeaseResource\RelationManagers
  */
 final class IncidentsRelationManager extends RelationManager
@@ -64,22 +65,6 @@ final class IncidentsRelationManager extends RelationManager
     protected static ?string $title = 'Incidenten';
 
     /**
-     * Determines when this relation manager is visible based on lease status.
-     *
-     * We’ve restricted this to leases that are Confirmed or Finalized. This can help reduce
-     * clutter and ensure incidents are only associated with active leases.
-     *
-     * @param  Model  $ownerRecord  The Lease model instance.
-     * @param  string $pageClass   The page class where this relation manager is used.
-     * @return bool                True if the lease is Confirmed or Finalized; otherwise, false.
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        /** @phpstan-ignore-next-line */
-        return $ownerRecord->status->in(enums: [LeaseStatus::Confirmed, LeaseStatus::Finalized]);
-    }
-
-    /**
      * Sets up the form for creating or editing an incident.
      *
      * This form allows users to categorize incidents and add extra details.
@@ -94,11 +79,26 @@ final class IncidentsRelationManager extends RelationManager
             ->columns(12)
             ->schema([
                 Forms\Components\Select::make('incident_code')
-                    ->label(__('Incident categorie'))
+                    ->label('Categorie')
                     ->options(IncidentCodes::class)
-                    ->columnSpan(8)
+                    ->columnSpan(6)
                     ->required()
                     ->native(false),
+
+                Forms\Components\Select::make('impact_score')
+                    ->label('Impact')
+                    ->options(IncidentImpact::class)
+                    ->columnSpan(6)
+                    ->required()
+                    ->native(false)
+                    ->hintAction(function (Action $action): Action {
+                        return $action->make('check-documentation')
+                            ->label('help')
+                            ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#impact-score-van-incidenten')
+                            ->openUrlInNewTab()
+                            ->color('primary')
+                            ->icon('heroicon-m-question-mark-circle');
+                    }),
 
                 Forms\Components\Textarea::make('description')
                     ->label(__('Extra informatie'))
@@ -159,27 +159,32 @@ final class IncidentsRelationManager extends RelationManager
             ->schema([
                 TextEntry::make('user.name')
                     ->label(trans('Gerapporteerd door'))
-                    ->columnSpan(4)
+                    ->columnSpan(6)
                     ->weight(FontWeight::Bold)
                     ->color('primary')
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary'),
 
-                TextEntry::make('incident_code')
-                    ->label(trans('Incident categorie'))
-                    ->columnSpan(4)
-                    ->badge(),
-
                 TextEntry::make('created_at')
                     ->label(trans('Gerapporteerd op'))
                     ->icon('heroicon-o-clock')
                     ->iconColor('primary')
-                    ->columnSpan(4)
+                    ->columnSpan(6)
                     ->date(),
+
+                TextEntry::make('incident_code')
+                    ->label(trans('Categorie'))
+                    ->columnSpan(6)
+                    ->badge(),
+
+                TextEntry::make('impact_score')
+                    ->label(trans('Impact'))
+                    ->columnSpan(6)
+                    ->badge(),
 
                 TextEntry::make('description')
                     ->columnSpan(12)
-                    ->label(trans('Extra informatie')),
+                    ->label(trans('Incident beschrijving')),
             ]);
     }
 
@@ -198,7 +203,7 @@ final class IncidentsRelationManager extends RelationManager
                 ->modalIcon('heroicon-o-shield-exclamation')
                 ->modalHeading(trans('Incident registreren'))
                 ->modalSubmitActionLabel(trans('registreren'))
-                ->modalDescription(trans('De huurder heeft een incident voorval gehad tijdens de verhuring. Indien nodig kan je deze hier registreren.'))
+                ->modalDescription(trans('De huurder heeft een incident voorval gehad tijdens de verhuring. Indien nodig kan je deze hier registreren. De registratie van de impact score zal worden gebruikt om risico analyses te vormen bij de aanvraag van nieuwe verhuringen'))
                 ->icon('heroicon-o-plus')
                 ->label('Incident registreren')
                 ->translateLabel()
@@ -229,10 +234,14 @@ final class IncidentsRelationManager extends RelationManager
                 ->placeholder('Onbekende gebruiker')
                 ->color('primary'),
 
-            Tables\Columns\TextColumn::make('incident_code')
-                ->label(__('Incident categorie'))
+            Tables\Columns\TextColumn::make('impact_score')
+                ->label('Impact')
                 ->sortable()
                 ->badge(),
+
+            Tables\Columns\TextColumn::make('incident_code')
+                ->label(__('Incident categorie'))
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('description')
                 ->label(__('Extra informatie'))

@@ -61,6 +61,13 @@ final class Tenant extends Model implements BannableInterface
     {
         return $this->morphMany(Note::class, 'noteable');
     }
+    /**
+     * @return HasMany<Incident, covariant $this>
+     */
+    public function incidents(): HasMany
+    {
+        return $this->hasMany(Incident::class);
+    }
 
     /**
      * Method for sending out the reservation request confirmation to the tenant.

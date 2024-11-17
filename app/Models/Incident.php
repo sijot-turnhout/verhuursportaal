@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\IncidentCodes;
+use App\Enums\IncidentImpact;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -34,6 +35,9 @@ final class Incident extends Model
 
     protected function casts(): array
     {
-        return ['incident_code' => IncidentCodes::class];
+        return [
+            'incident_code' => IncidentCodes::class,
+            'impact_score' => IncidentImpact::class,
+        ];
     }
 }

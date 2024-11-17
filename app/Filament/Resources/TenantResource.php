@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TenantResource\Pages;
+use App\Filament\Resources\TenantResource\RelationManagers\IncidentsRelationManager;
 use App\Filament\Resources\TenantResource\RelationManagers\LeasesRelationManager;
 use App\Filament\Resources\TenantResource\RelationManagers\NotesRelationManager;
 use App\Models\Tenant;
@@ -194,6 +195,7 @@ final class TenantResource extends Resource
         return [
             LeasesRelationManager::class,
             NotesRelationManager::class,
+            IncidentsRelationManager::class,
         ];
     }
 

@@ -16,6 +16,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
@@ -185,17 +186,21 @@ final class LeaseResource extends Resource
             ->emptyStateActions([CreateAction::make()->icon('heroicon-o-plus')])
             ->defaultSort('arrival_date', 'ASC')
             ->columns([
-                Tables\Columns\TextColumn::make('period')->label('Periode'),
-                Tables\Columns\TextColumn::make('status')->badge()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('supervisor.name')->label('Verantwoordelijke')->placeholder('- geen toewijzing')->sortable(),
-                Tables\Columns\TextColumn::make('persons')->label('Aantal personen')->sortable()->badge()->icon('heroicon-o-user'),
+                Tables\Columns\TextColumn::make('period')->label('Periode')
+                    ->weight(FontWeight::SemiBold)
+                    ->icon('heroicon-o-exclamation-triangle')
+                    ->iconColor(fn(Lease $lease) => $lease->risk_accessment_label->getColor() ?? 'gray'),
+
                 Tables\Columns\TextColumn::make('tenant.fullName')->label('Huurder')
                     ->sortable()
                     ->iconColor('warning')
                     ->icon(static fn(Lease $lease) => $lease->tenant->isBanned() ? 'heroicon-o-exclamation-triangle' : null)
                     ->tooltip(static fn(Lease $lease) => $lease->tenant->isBanned() ? trans('Deze huurder staat op de zwarte lijst') : null)
                     ->iconPosition(IconPosition::Before),
+
                 Tables\Columns\TextColumn::make('group')->label('Organisatie')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('status')->badge()->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('persons')->label('Aantal personen')->sortable()->badge()->icon('heroicon-o-user'),
                 Tables\Columns\TextColumn::make('created_at')->label('Aangevraagd op')->date()->sortable(),
             ])
             ->actions([
@@ -307,7 +312,6 @@ final class LeaseResource extends Resource
             RelationManagers\UtilitiesRelationManager::class,
             RelationManagers\NotesRelationManager::class,
             RelationManagers\DocumentRelationManager::class,
-            RelationManagers\IncidentsRelationManager::class,
         ];
     }
 

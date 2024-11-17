@@ -26,6 +26,21 @@ return [
         'shared' => true,
     ],
 
+    /**
+     * Configuration for risk assessment thresholds, mapping risk levels to numeric values.
+     *
+     * Each risk level represents a threshold score indicating the severity or likelihood of risk,
+     * useful for assessing and categorizing risks in the application.
+     *
+     * @see https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#configuratie-van-de-tresholds-voor-de-risico-profielen
+     */
+    'risk_accessment' => [
+        'very_low' => 10,   // Threshold for a 'Very low' risk level, representing minimal concern.
+        'low' => 20,        // Threshold for a "Low" risk level, indicating below-averages risk.
+        'medium' => 35,     // Threshold for a 'medium' risk level, signifying moderate risk.
+        'high' => 50,       // Threshold for a "high risk level, associated with above average risk."
+    ],
+
     'deposit' => [
         'default_amount' => 350, // Default price for the security deposit in a lease.
     ],
