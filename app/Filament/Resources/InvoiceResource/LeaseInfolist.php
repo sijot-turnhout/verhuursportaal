@@ -9,6 +9,7 @@ use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Support\Colors\Color;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\IconSize;
 
@@ -104,21 +105,12 @@ final readonly class LeaseInfolist
         return self::baseSection(name: trans('Reservatie informatie'))
             ->description(trans('Alle nodige informatie omtrent de aangevraagde verhuring'))
             ->icon('heroicon-o-home-modern')
-            ->headerActions([
-                /** @todo Complete this function */
-                Action::make('deze verhuring opvolgen')
-                    ->size(ActionSize::ExtraSmall)
-                    ->visible(false)
-                    ->color('gray')
-                    ->icon('heroicon-o-user-plus')
-                    ->iconSize(IconSize::Small),
-            ])
             ->schema([
                 TextEntry::make('supervisor.name')
                     ->label(trans('Opgevold door'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
-                    ->placeholder('- geen opvolger aangeduid')
+                    ->placeholder(trans('Geen opvolger toegewezen'))
                     ->columnSpan(3),
                 TextEntry::make('persons')->label('Aantal personen')->icon('heroicon-o-users')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('status')->label('Verhurings status')->badge()->columnSpan(3),

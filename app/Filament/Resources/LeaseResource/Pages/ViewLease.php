@@ -12,6 +12,7 @@ use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
 use App\Filament\Resources\LeaseResource;
+use App\Filament\Resources\LeaseResource\Actions\AssignAuthenticatedUserAction;
 use App\Filament\Support\StateMachines\StateTransitionGuard;
 use App\Filament\Support\StateMachines\StateTransitionGuardContract;
 use App\Models\Lease;
@@ -149,8 +150,12 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     protected function registerManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
+            AssignAuthenticatedUserAction::make(),
             EditAction::make()->color('gray'),
-            DeleteAction::make(),
+
+            ActionGroup::make([
+                DeleteAction::make(),
+            ])->dropdown(false),
         ])
             ->button()
             ->label('opties') // 'Options' for user understanding
