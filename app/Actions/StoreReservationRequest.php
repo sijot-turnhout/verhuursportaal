@@ -6,12 +6,14 @@ namespace App\Actions;
 
 use App\Contracts\StoreReservation;
 use App\DataObjects\ReservationDataObject;
+use App\Filament\Resources\LeaseResource\Pages\ViewLease;
 use App\Jobs\QuotationGenerator;
 use App\Models\Lease;
 use App\Models\Tenant;
 use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Notifications\Actions\Action;
 use Illuminate\Support\Facades\DB;
 
 final readonly class StoreReservationRequest implements StoreReservation
@@ -37,7 +39,7 @@ final readonly class StoreReservationRequest implements StoreReservation
 
             // Notification sending
             $tenant->sendOutReservationConfirmation();
-            $this->sendOutNotificationToTheBackend();
+            $this->sendOutNotificationToTheBackend($lease);
         });
 
         flash(trans('Wij hebben u reservatie aanvraag goed ontvangen. En gaan hier zo snel mogelijk mee aan de slag.'), 'alert-success');
@@ -57,15 +59,23 @@ final readonly class StoreReservationRequest implements StoreReservation
     /**
      * This method will allow us to send out notifications to the users of the platform.
      * In the backend. So We can keep them informed there about the newly created request.
+     *
+     * @param  Lease $lease The entioty of the lease reservation that has been stored.
+     * @return void
      */
-    private function sendOutNotificationToTheBackend(): void
+    private function sendOutNotificationToTheBackend(Lease $lease): void
     {
-        User::all()->each(function ($user): void {
+        User::all()->each(function ($user) use ($lease): void {
             Notification::make()
                 ->icon('heroicon-o-document-text')
                 ->iconColor('success')
                 ->title('Nieuwe aanvraag tot verhuring')
                 ->body('Er is een nieuwe aangevraagd in de applicatie.')
+                ->actions([
+                    Action::make(trans('Bekijk aanvraag'))
+                        ->markAsRead()
+                        ->url(fn () => ViewLease::getUrl(['record' => $lease]))
+                ])
                 ->sendToDatabase($user);
         });
     }
