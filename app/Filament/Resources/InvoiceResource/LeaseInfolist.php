@@ -9,8 +9,6 @@ use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Support\Colors\Color;
-use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\IconSize;
 
 /**
