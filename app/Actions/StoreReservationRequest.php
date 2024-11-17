@@ -11,9 +11,9 @@ use App\Jobs\QuotationGenerator;
 use App\Models\Lease;
 use App\Models\Tenant;
 use App\Models\User;
+use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
-use Filament\Notifications\Actions\Action;
 use Illuminate\Support\Facades\DB;
 
 final readonly class StoreReservationRequest implements StoreReservation
@@ -74,7 +74,7 @@ final readonly class StoreReservationRequest implements StoreReservation
                 ->actions([
                     Action::make(trans('Bekijk aanvraag'))
                         ->markAsRead()
-                        ->url(fn () => ViewLease::getUrl(['record' => $lease]))
+                        ->url(fn() => ViewLease::getUrl(['record' => $lease])),
                 ])
                 ->sendToDatabase($user);
         });
