@@ -17,7 +17,7 @@ use Spatie\Activitylog\Contracts\Activity;
  *
  * This class extends Laravel's `Builder` anbd provides custom query-building methods specific to the `Deposit` model.
  * It allows setting the status of a lease and unlocking easier to read methods for handling the interaction with the security deposits.
- * It alsop adds flexibility and convenience for interacting with `Deposit` records.
+ * It also adds flexibility and convenience for interacting with `Deposit` records.
  *
  * @template TModelClass of Deposit
  * @extends Builder<Deposit>
