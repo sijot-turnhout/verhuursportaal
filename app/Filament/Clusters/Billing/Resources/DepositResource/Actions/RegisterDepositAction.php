@@ -41,7 +41,7 @@ final class RegisterDepositAction extends Action
             ->modalSubmitActionLabel(trans('Opslaan'))
             ->icon('heroicon-o-cog-8-tooth')
             ->form(fn(Lease $record): array => self::getConfigurationForm($record))
-            ->action(fn (array $data, Lease $record): Deposit => Deposit::initiateDeposit($record, $data));
+            ->action(fn(array $data, Lease $record): Deposit => Deposit::initiateDeposit($record, $data));
     }
 
     /**

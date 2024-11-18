@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Clusters\Billing\Resources\DepositResource\Actions;
 
-use App\Jobs\Financial\ProcessDepositRefunding;
 use App\Models\Deposit;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
@@ -45,7 +44,7 @@ final class RegisterPartiallyRefundAction extends Action
             ->color('warning')
             ->modalSubmitActionLabel('Registreren')
             ->form(self::configureModalForm())
-            ->action(fn (array $data, Deposit $record): bool => $record->initiatePartiallyRefund($data));
+            ->action(fn(array $data, Deposit $record): bool => $record->initiatePartiallyRefund($data));
     }
 
     /**

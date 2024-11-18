@@ -35,7 +35,7 @@ final class SecurityDepositBuilder extends Builder
                 performedOn: $deposit,
                 event: trans('waarborg registratie'),
                 auditMessage: trans('Heeft de betaling van een waarborg geregistreerd'),
-                extraProperties: ['deposit_balance' => $deposit->paid_amount]
+                extraProperties: ['deposit_balance' => $deposit->paid_amount],
             );
 
             return $lease->deposit()->save($deposit);
@@ -65,7 +65,7 @@ final class SecurityDepositBuilder extends Builder
             );
 
             return $this->model->update(
-                attributes: array_merge($depositData, ['status' => DepositStatus::WithDrawn, 'revoked_amount' => $this->model->paid_amount, 'refunded_amount' => '0.00', 'refunded_at' => now()])
+                attributes: array_merge($depositData, ['status' => DepositStatus::WithDrawn, 'revoked_amount' => $this->model->paid_amount, 'refunded_amount' => '0.00', 'refunded_at' => now()]),
             );
         });
     }

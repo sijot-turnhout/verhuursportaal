@@ -80,22 +80,6 @@ final class Deposit extends Model
     }
 
     /**
-     * Casts model attributes to specific data types.
-     * Ensures correct data type handling for attributes like status, amount, and timestamps.
-     *
-     * @return array<string, string> Attribute names mapped to their respective cast types.
-     */
-    protected function casts(): array
-    {
-        return [
-            'status' => DepositStatus::class,
-            'amount' => 'float',
-            'paid_at' => 'datetime',
-            'refund_at' => 'datetime',
-        ];
-    }
-
-    /**
      * Creates and returns a new instance of SecurityDepositBuilder.
      *
      * This method accepts a query parameter and uses it to instantiate a new SecurityDepositBuilder object, which is then returned.
@@ -121,5 +105,21 @@ final class Deposit extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
+    }
+
+    /**
+     * Casts model attributes to specific data types.
+     * Ensures correct data type handling for attributes like status, amount, and timestamps.
+     *
+     * @return array<string, string> Attribute names mapped to their respective cast types.
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => DepositStatus::class,
+            'amount' => 'float',
+            'paid_at' => 'datetime',
+            'refund_at' => 'datetime',
+        ];
     }
 }
