@@ -68,6 +68,9 @@ final class ContactSubmissionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon(self::$navigationIcon)
+            ->emptyStateHeading(trans('Geen contactnames gevonden'))
+            ->emptyStateDescription(trans('Het lijkt erop dat er geen contactnames zijn gevonden onder de opgegeven citeria'))
             ->columns([
                 TextColumn::make('full_name')->label('Ingestuurd door')->sortable()->searchable(),
                 TextColumn::make('status')->label('Status')->sortable()->badge(),
