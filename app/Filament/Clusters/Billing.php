@@ -32,4 +32,14 @@ final class Billing extends Cluster
      * @var string|null
      */
     protected static ?string $navigationLabel = "Facturatie";
+
+    /**
+     * The breadcrumb label for this cluster.
+     *
+     * This label is used in breadcrumb navigation to help users understand
+     * their current location within the Property Management section.
+     *
+     * @var string|null
+     */
+    protected static ?string $clusterBreadcrumb = "Facturatie";
 }
