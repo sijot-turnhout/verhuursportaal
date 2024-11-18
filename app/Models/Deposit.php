@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Builders\SecurityDepositBuilder;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -92,6 +93,20 @@ final class Deposit extends Model
             'paid_at' => 'datetime',
             'refund_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Creates and returns a new instance of SecurityDepositBuilder.
+     *
+     * This method accepts a query parameter and uses it to instantiate a new SecurityDepositBuilder object, which is then returned.
+     * The SecurityDepositBuilder is a custom builder specifically tailored for the Deposit model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query The query builder instance.
+     * @return SecurityDepositBuilder<self> Returns an instance of SecurityDepositBuilder
+     */
+    public function newEloquentBuilder($query): SecurityDepositBuilder
+    {
+        return new SecurityDepositBuilder($query);
     }
 
     /**
