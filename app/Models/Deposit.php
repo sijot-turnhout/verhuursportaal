@@ -114,13 +114,12 @@ final class Deposit extends Model
      *
      * This method configures the default options for activity logging. It allows specifying
      * the log name that will be used when recording activity entries. The log name is localized
-     * using the `trans()` helper function to retrieve the appropriate translation for 'verhuringen' (rentals).
+     * using the `trans()` helper function to retrieve the appropriate translation for 'waarbog-betalingen' (security deposit payments).
      *
      * @return LogOptions   The configured log options for activity logging.
      */
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()
-            ->useLogName('security-desposit');
+        return LogOptions::defaults();
     }
 }

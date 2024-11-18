@@ -16,7 +16,7 @@ return new class () extends Migration {
         Schema::create('deposits', static function (Blueprint $table): void {
             $table->comment('This table contains all the information regarding the security deposits for leases.');
             $table->id()->comment('The unique identifier from the deposit record in the database system.');
-            $table->foreignIdFor(Lease::class)->comment('The unique identifier from the lease that is attached to the security deposit.')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Lease::class)->nullable()->comment('The unique identifier from the lease that is attached to the security deposit.')->constrained()->cascadeOnDelete();
             $table->string('status')->comment('The status of the allocation of the security deposit that has been paid by the tenant for his/her lease.');
             $table->decimal('paid_amount', 10, 2)->default('0.00')->comment('The amount that the tenant has paid to the organisation as security deposit for his/her lease.');
             $table->decimal('revoked_amount', 10, 2)->default('0.00')->comment('The amount that is withdrawn from the security deposit due to damages that occured on the lease.');

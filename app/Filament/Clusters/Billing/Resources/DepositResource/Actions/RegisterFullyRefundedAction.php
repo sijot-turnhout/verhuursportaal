@@ -32,7 +32,7 @@ final class RegisterFullyRefundedAction extends Action
         return parent::make($name = trans('Volledig terugbetaald'))
             ->icon('heroicon-o-credit-card')
             ->visible(fn(Deposit $deposit): bool => Gate::allows('mark-as-fully-refunded', $deposit))
-            ->action(fn(Deposit $deposit) => self::processRefundRegistration($deposit))
+            ->action(fn(Deposit $deposit) => $deposit->initiateRefund())
             ->color('success')
             ->requiresConfirmation()
             ->modalHeading(trans('Volledige terugbetaling registreren'))
@@ -40,18 +40,5 @@ final class RegisterFullyRefundedAction extends Action
                 U staat op het punt een terug betaling van een waarborg te registreren als een volledige
                 terugbetaling. Weet u zeker dat je dit wilt doen? Na de registratie is het niet meer mogelijk om de status te wijzigen.
             '));
-    }
-
-    /**
-     * Registers the deposit as fully refunded by updating its status, refund date, and refunded amount.
-     *
-     * @param  Deposit $deposit The deposit record being refunded.
-     * @return void
-     */
-    private static function processRefundRegistration(Deposit $deposit): void
-    {
-        $deposit->update(
-            attributes: ['status' => DepositStatus::FullyRefunded, 'refunded_at' => now(), 'refunded_amount' => $deposit->paid_amount],
-        );
     }
 }

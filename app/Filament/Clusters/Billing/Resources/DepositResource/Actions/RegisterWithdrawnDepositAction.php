@@ -42,7 +42,7 @@ final class RegisterWithdrawnDepositAction extends Action
             ->visible(fn(Deposit $deposit): bool => Gate::allows('mark-as-fully-withdrawn', $deposit))
             ->modalSubmitActionLabel('Registreren')
             ->form(self::configureModalForm())
-            ->action(fn(array $data, Deposit $record) => self::processWithdrawnDepositRegistration($data, $record));
+            ->action(fn(array $data, Deposit $record): bool => $record->initiateWithdrawal($data));
     }
 
     /**
@@ -71,7 +71,7 @@ final class RegisterWithdrawnDepositAction extends Action
                         ->label('Betaalde waarborg')
                         ->numeric()
                         ->required()
-                        ->default(fn(Deposit $deposit): float => $deposit->paid_amount)
+                        ->default(fn(Deposit $deposit): float|string => $deposit->paid_amount)
                         ->columnSpan(6)
                         ->disabled()
                         ->prefixIcon('heroicon-o-currency-euro')
@@ -86,27 +86,5 @@ final class RegisterWithdrawnDepositAction extends Action
                         ->columnSpan(12),
                 ]),
         ];
-    }
-
-    /**
-     * Process the registration of a withdrawn deposit.
-     *
-     * This method updates a deposit record to reflect its withdrawn status, including setting the refunded amount to zero
-     * and adding an administrator's note explaining the decision. This method enables accurate administrative tracking
-     * of withdrawals without issuing any financial refunds.
-     *
-     * @param  array<string>    $data     The form data containing the administrator's note explaining the withdrawal.
-     * @param  Deposit          $deposit  The deposit record to update with withdrawal status.
-     * @return void
-     */
-    private static function processWithdrawnDepositRegistration(array $data, Deposit $deposit): void
-    {
-        $deposit->update(attributes: [
-            'status' => DepositStatus::WithDrawn,
-            'note' => $data['note'],
-            'refunded_amount' => '0.00',
-            'revoked_amount' => $deposit->paid_amount,
-            'refunded_at' => now(),
-        ]);
     }
 }
