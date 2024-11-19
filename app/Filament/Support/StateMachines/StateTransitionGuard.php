@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Gate;
  * This trait can be used within classes that need to enforce state transition rules across different models.
  *
  * @todo Replace this to the filament support directory because we can use this on multiple state machines
+ * @todo We need also check if its possible to refactor this trait to a gate authorization check.
  *
  * @package App\Filament\Resources\LeaseResource\States
  */
@@ -29,12 +30,13 @@ trait StateTransitionGuard
      * to the specified state(s). The allowed states can be provided as either a single state
      * or an array of states.
      *
-     * @param  Model $model          The model instance on which the state transition is being attempted.
-     * @param  array $allowedStates  An array of states that the model should not be in for the transition to be allowed.
-     * @return bool                  True if the transition to the specified state(s) is allowed, false otherwise.
+     * @param  Model              $model          The model instance on which the state transition is being attempted.
+     * @param  array<int, object> $allowedStates  An array of states that the model should not be in for the transition to be allowed.
+     * @return bool                               True if the transition to the specified state(s) is allowed, false otherwise.
      */
     public function allowTransitionTo(Model $model, array $allowedStates): bool
     {
+        /** @phpstan-ignore-next-line */
         return Gate::allows('update', $model) && $model->status->in($allowedStates);
     }
 }

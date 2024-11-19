@@ -36,7 +36,7 @@ final class ListLocals extends ListRecords
      * page. Currently, it includes a create action that allows users to add new local resource
      * records.
      *
-     * @return array An array of actions for the list page header.
+     * @return array<int, Actions\CreateAction> An array of actions for the list page header.
      */
     protected function getHeaderActions(): array
     {

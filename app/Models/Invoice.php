@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Builders\InvoiceBuilder;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
+use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
 use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use InvalidArgumentException;
 
 /**
  * Class Invoice
@@ -33,8 +34,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 final class Invoice extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are protected from the mass assignment system.
      *
@@ -65,17 +64,17 @@ final class Invoice extends Model
     /**
      * Data relation for all the invoice lines that are registered to an invoice.
      *
-     * @return HasMany<BillingItem>
+     * @return MorphMany<BillingItem, covariant $this>
      */
-    public function invoiceLines(): HasMany
+    public function invoiceLines(): MorphMany
     {
-        return $this->hasMany(BillingItem::class);
+        return $this->morphMany(BillingItem::class, 'billingdocumentable');
     }
 
     /**
      * Data relation for the lease where the invoice is attached to.
      *
-     * @return BelongsTo<Lease, self>
+     * @return BelongsTo<Lease, covariant $this>
      */
     public function lease(): BelongsTo
     {
@@ -87,6 +86,7 @@ final class Invoice extends Model
      */
     public function invoiceTotal(): Attribute
     {
+        /** @phpstan-ignore-next-line */
         return Attribute::get(fn(): int|float => $this->getSubTotal() - $this->getDiscountTotal());
     }
 
@@ -103,7 +103,7 @@ final class Invoice extends Model
     /**
      * Data relation for the tenant (customer) that will be billed for the lease;
      *
-     * @return BelongsTo<Tenant, self>
+     * @return BelongsTo<Tenant, covariant $this>
      */
     public function customer(): BelongsTo
     {
@@ -113,7 +113,7 @@ final class Invoice extends Model
     /**
      * Data relation for the user that created the invoice in the database storage.
      *
-     * @return BelongsTo<User, Invoice>
+     * @return BelongsTo<User, covariant $this>
      */
     public function creator(): BelongsTo
     {
@@ -121,18 +121,26 @@ final class Invoice extends Model
     }
 
     /**
-     * Create a new Eloquent query builder for the model.
+     * Returns an appropriate state object based on the current invoice status.
      *
-     * This method overrides the default Eloquent builder with a custom
-     * InvoiceBuilder, providing additional methods and functionality
-     * specific to invoices.
+     * This method leverages a `match` expression to determine the correct state class
+     * for the invoice. Each state class corresponds to a particular invoice status,
+     * such as Draft, Open, Paid, Void, or Uncollected. The returned state object
+     * implements the `InvoiceStateContract` interface, allowing for state-specific
+     * behavior and transitions.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query  The base query builder instance.
-     * @return InvoiceBuilder<self>                        The custom query builder instance for invoices.
+     * @return InvoiceStateContract      The state object corresponding to the current invoice status.
+     * @throws InvalidArgumentException  If the status does not match any known state.
      */
-    public function newEloquentBuilder($query): InvoiceBuilder
+    public function state(): InvoiceStateContract
     {
-        return new InvoiceBuilder($query);
+        return match ($this->status) {
+            InvoiceStatus::Draft => new States\DraftInvoiceState($this),
+            InvoiceStatus::Open => new States\OpenInvoiceState($this),
+            InvoiceStatus::Paid => new States\PaidInvoiceState($this),
+            InvoiceStatus::Void => new States\VoidInvoiceState($this),
+            InvoiceStatus::Uncollected => new States\UncollectedInvoiceState($this),
+        };
     }
 
     /**

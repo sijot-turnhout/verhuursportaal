@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 trait HasUtilityMetrics
 {
     /**
-     * @return HasMany<Utility>
+     * @return HasMany<Utility, covariant $this>
      */
     public function utilityStatistics(): HasMany
     {
@@ -20,6 +20,8 @@ trait HasUtilityMetrics
 
     /**
      * Method to check if the lease is registered as finalized.
+     *
+     * @deprecated v1.0.0
      */
     public function isFinalized(): bool
     {
@@ -28,6 +30,8 @@ trait HasUtilityMetrics
 
     /**
      * Method to check if the lease is registered as confirmed.
+     *
+     * @deprecated v1.0.0
      */
     public function isConfirmed(): bool
     {

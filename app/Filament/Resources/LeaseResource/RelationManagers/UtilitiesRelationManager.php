@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\RelationManagers;
 
+use App\Features\UtilityMetrics;
 use App\Filament\Resources\UtilityResource\Actions;
 use App\Models\Utility;
 use Filament\Forms;
@@ -15,6 +16,7 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Pennant\Feature;
 
 /**
  * Class UtilitiesManager
@@ -57,7 +59,7 @@ final class UtilitiesRelationManager extends RelationManager
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return Gate::allows('finalize-metrics', $ownerRecord);
+        return Feature::active(UtilityMetrics::class) && Gate::allows('finalize-metrics', $ownerRecord);
     }
 
     /**

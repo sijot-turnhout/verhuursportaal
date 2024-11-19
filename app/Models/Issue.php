@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Issue extends Model
 {
+    /** @use HasFactory<\Database\Factories\IssueFactory> */
     use HasFactory;
 
     /**
@@ -76,7 +77,7 @@ class Issue extends Model
     /**
      * The data relation that registers the creator of the issue ticket to the record.
      *
-     * @return BelongsTo<User, self>
+     * @return BelongsTo<User, covariant $this>
      */
     public function creator(): BelongsTo
     {
@@ -89,13 +90,16 @@ class Issue extends Model
      * This method defines a polymorphic relationship, allowing the `Changelog` model to be associated with multiple other models.
      * The related model can be of any type that is designated as "issueable".
      *
-     * @return MorphTo The polymorphic relationship to the parent issueable model.
+     * @return MorphTo<\Illuminate\Database\Eloquent\Model, covariant $this> The polymorphic relationship to the parent issueable model.
      */
     public function issueable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * @return BelongsToMany<Changelog, covariant $this>
+     */
     public function changelogs(): BelongsToMany
     {
         return $this->belongsToMany(Changelog::class);
@@ -104,7 +108,7 @@ class Issue extends Model
     /**
      * The data relation for the user that is assigned to the given issue ticket.
      *
-     * @return BelongsTo<User, self>
+     * @return BelongsTo<User, covariant $this>
      */
     public function user(): BelongsTo
     {
@@ -148,7 +152,7 @@ class Issue extends Model
      *
      * Example: If the issue ID is 123, the reference number would be 'werkpunt-123'.
      *
-     * @return Attribute  The attribute that provides the formatted reference number.
+     * @return Attribute<string, never>  The attribute that provides the formatted reference number.
      */
     protected function referenceNumber(): Attribute
     {

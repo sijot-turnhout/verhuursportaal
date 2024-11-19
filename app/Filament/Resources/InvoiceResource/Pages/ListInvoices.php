@@ -5,183 +5,67 @@ declare(strict_types=1);
 namespace App\Filament\Resources\InvoiceResource\Pages;
 
 use App\Filament\Resources\InvoiceResource;
+use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\Invoice;
-use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 
-/**
- * Class ListInvoices
- *
- * This class represents the page for listing invoices within the InvoiceResource.
- * It includes methods for defining header actions, header widgets, and tabs for
- * different invoice statuses.
- *
- * @todo Refactor this class in a later phase.
- *
- * @package App\Filament\Resources\InvoiceResource\Pages
- */
 final class ListInvoices extends ListRecords
 {
     use ExposesTableToWidgets;
 
     /**
-     * The resource associated with this page.
+     * Specifies the Filament resource thatthis page belongs to.
+     * This property is essential for Filament to associate this page with the
+     * appropriate resource class and its configuration.
      *
-     * @var string
+     * @var string $resource The fully qualified class name of the resource.
      */
     protected static string $resource = InvoiceResource::class;
 
+    /**
+     * Generates an array of tabs for tiltering invoices based on their status.
+     * Each tab displays a label, an icon, and a count of invoices for that status.
+     * The count is cached for performance, and the cache duration is set to either
+     * 30 or 60 seconds, depending on system load.
+     *
+     * @return array<int, Tab> An array of Tab Components, each representing a status filter.
+     */
     public function getTabs(): array
     {
-        return [
-            null => $this->getAllInvoicesTab(),
-            'voorstellen' => $this->getInvoiceProposalsTab(),
-            'openstaand' => $this->getOpenInvoicesTab(),
-            'betaald' => $this->getPaidInvoicesTab(),
-            'geannuleerd' => $this->getVoidInvoicesTab(),
-            'onbetaald' => $this->getUncollectedInvoicesTab(),
-        ];
+        $statuses = collect(InvoiceStatus::cases())
+            ->map(fn(InvoiceStatus $status) => Tab::make()
+                ->label($status->getLabel())
+                ->icon($status->getIcon())
+                ->badgeColor($status->getColor())
+                ->query(fn(Builder $query) => $query->where('status', $status))
+                ->badge(Cache::flexible($status->value . '_invoices_count', [30, 60], function () use ($status) {
+                    return Invoice::query()
+                        ->where('status', $status)
+                        ->count();
+                })))
+            ->toArray();
+
+        // Adds an "All" tab as the default view, allowing users to see all invoices.
+        return array_merge([Tab::make()->label(__('Alle'))], $statuses);
     }
 
     /**
-     * Get the tabs available on the page.
+     * Retrieves an array of header widgets for the current page.
      *
-     * @return array<int, \Filament\Actions\CreateAction>
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()->icon('heroicon-o-document-plus'),
-        ];
-    }
-
-    /**
-     * Get the header widgets available on the page.
+     * This method calls `getWidgets` on the `InvoiceResource` class to obtain
+     * a collection of widgets, which are displayed in the header area of the page.
+     * Widgets can include varous components, such as statistics or quick action links,
+     * to provide users with useful insights of shortcuts.
      *
-     * @return array<string>
+     * @return array<string>  The array of header widget provided by the InvoiceResource.
      */
     protected function getHeaderWidgets(): array
     {
         return InvoiceResource::getWidgets();
     }
 
-    /**
-     * Get the tab for all invoices.
-     *
-     * @return Tab
-     */
-    private function getAllInvoicesTab(): Tab
-    {
-        $tab = Tab::make(trans('Alle'))
-            ->query(fn(Invoice $builder) => $builder->excludeQuotations())
-            ->icon('heroicon-o-list-bullet');
-
-        if (Invoice::query()->excludeQuotations()->count() > 0) {
-            $tab->badge(Invoice::query()->count());
-        }
-
-        return $tab;
-    }
-
-    /**
-     * Get the tab for open invoices.
-     *
-     * @return Tab
-     */
-    private function getOpenInvoicesTab(): Tab
-    {
-        $tab = Tab::make()
-            ->query(fn(Invoice $builder) => $builder->openInvoices())
-            ->icon('heroicon-o-document-text');
-
-        $query = Invoice::query()->openInvoices();
-
-        if ($query->count() > 0) {
-            $tab->badge($query->count());
-        }
-
-        return $tab;
-    }
-
-    /**
-     * Get the tab for invoice proposals.
-     *
-     * @return Tab
-     */
-    private function getInvoiceProposalsTab(): Tab
-    {
-        $tab = Tab::make()
-            ->query(fn(Invoice $builder) => $builder->invoiceProposals())
-            ->icon('heroicon-o-pencil-square');
-
-        $query = Invoice::query()->invoiceProposals();
-
-        if ($query->count() > 0) {
-            $tab->badge($query->count());
-        }
-
-        return $tab;
-    }
-
-    /**
-     * Get the tab for paid invoices.
-     *
-     * @return Tab
-     */
-    private function getPaidInvoicesTab(): Tab
-    {
-        $tab = Tab::make()
-            ->query(fn(Invoice $invoice) => $invoice->paidInvoices())
-            ->icon('heroicon-o-check-circle');
-
-        $query = Invoice::query()->paidInvoices();
-
-        if ($query->count() > 0) {
-            $tab->badge($query->count());
-        }
-
-        return $tab;
-    }
-
-    /**
-     * Get the tab for void invoices.
-     *
-     * @return Tab
-     */
-    private function getVoidInvoicesTab(): Tab
-    {
-        $tab = Tab::make()
-            ->query(fn(Invoice $invoice) => $invoice->voidedInvoices())
-            ->icon('heroicon-o-x-circle');
-
-        $query = Invoice::query()->voidedInvoices();
-
-        if ($query->count() > 0) {
-            $tab->badge($query->count());
-        }
-
-        return $tab;
-    }
-
-    /**
-     * Get the tab for uncollected invoices.
-     *
-     * @return Tab
-     */
-    private function getUncollectedInvoicesTab(): Tab
-    {
-        $tab = Tab::make()
-            ->query(fn(Invoice $invoice) => $invoice->uncollectibleInvoices())
-            ->icon('heroicon-o-exclamation-triangle');
-
-        $invoice = Invoice::uncollectibleInvoices();
-
-        if ($invoice->count() > 0) {
-            $tab->badge($invoice->uncollectibleInvoices()->count());
-        }
-
-        return $tab;
-    }
 }

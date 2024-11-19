@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\InvoiceResource\RelationManagers;
 
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
+use App\Models\BillingItem;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -61,6 +62,10 @@ final class InvoiceLinesRelationManager extends RelationManager
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->required()
                     ->columnSpan(2),
+                Forms\Components\Textarea::make('description')
+                    ->label(trans('Beschrijving van de facturatieregel'))
+                    ->columnSpan(12)
+                    ->rows(3),
                 Forms\Components\Toggle::make('type')
                     ->label('Dit item is een vermindering op de factuur')
                     ->onColor('success')
@@ -89,7 +94,11 @@ final class InvoiceLinesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('id')->placeholder('-')->label('#'),
                 Tables\Columns\TextColumn::make('type')->label('Regel type')->badge()->sortable(),
-                Tables\Columns\TextColumn::make('name')->label('facturatie item')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('facturatie item')
+                    ->searchable()
+                    ->sortable()
+                    ->description(fn(BillingItem $billingItem): ?string => $billingItem->description),
                 Tables\Columns\TextColumn::make('quantity')->label('aantal')->numeric()->sortable(),
                 Tables\Columns\TextColumn::make('unit_price')->label('eenheidsprijs')->sortable()->money('EUR'),
                 Tables\Columns\TextColumn::make('total_price')
@@ -101,8 +110,10 @@ final class InvoiceLinesRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus')
-                    ->label(trans('item toevoegen'))
-                    ->modalHeading(__('item toevoegen')),
+                    ->label(trans('Facturatieregel toevoegen'))
+                    ->modalHeading(__('Facturatieregel toevoegen'))
+                    ->modalIcon('heroicon-o-currency-euro')
+                    ->modalDescription('Hier kunt een dienstverlening of item toevoegen dat zal worden aangerekend aan de huurder tijdens zijn verhuring'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

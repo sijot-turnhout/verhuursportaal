@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class ContactSubmission extends Model
 {
+    /** @use HasFactory<\Database\Factories\ContactSubmissionFactory> */
     use HasFactory;
 
     /**

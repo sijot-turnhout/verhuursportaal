@@ -65,4 +65,19 @@ interface LeaseStateContract
      * @return bool
      */
     public function transitionToCancelled(): bool;
+
+    /**
+     * Transitions the current state to "Archived."
+     *
+     * This method is implemented by state machine classes that support transitioning
+     * an entity to an "Archived" state. It performs any necessary state validation and
+     * triggers state-related actions required to archive the entity.
+     *
+     * Implementers of this method should ensure the transition process meets any
+     * business rules associated with archiving (e.g., permission checks or status validation)
+     * and handles any cleanup or notifications relevant to the transition.
+     *
+     * @return void
+     */
+    public function transitionToArchived(): void;
 }

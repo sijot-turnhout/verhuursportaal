@@ -52,7 +52,7 @@ final readonly class LocalResourceForm
                     ->collapsed(fn(string $operation): bool => 'edit' === $operation)
                     ->columns(12)
                     ->schema([
-                        TextInput::make('name')->label('Naam')->required()->unique(ignoreRecord: true)->columnSpan(8),
+                        TextInput::make('name')->label('Naam')->required()->unique(ignoreRecord: true)->maxLength(255)->columnSpan(8),
                         Textarea::make('description')->label('Beschrijving en of extra informatie')->rows(6)->columnSpan(12),
                         Checkbox::make('storage_location')->label('Dit lokaal fungeert als een opslag locatie van materieel')->columnSpan(12),
                     ])

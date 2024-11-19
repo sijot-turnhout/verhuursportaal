@@ -28,7 +28,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2 # php matrix from the laravel boilerplate: [8.1, 8.2]
+          php-version: 8.3 # php matrix from the laravel boilerplate: [8.1, 8.2]
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, xdebug
           coverage: pcov
 

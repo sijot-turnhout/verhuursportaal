@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Resources\InvoiceResource;
 
 use App\Models\Lease;
+use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\IconSize;
 
 /**
@@ -17,6 +17,7 @@ use Filament\Support\Enums\IconSize;
  * This class defines the structure of the Lease Information List (Infolist) for displaying
  * tenant, lease, and feedback information in the InvoiceResource.
  *
+ * @todo Extends Infolist scheme docblocks.
  * @todo This infolist class is possibly placed in the wrong resource. We need to investigate this and fix if it is indeed wrongly placed.
  *
  * @package App\Filament\Resources\InvoiceResource
@@ -55,7 +56,21 @@ final readonly class LeaseInfolist
                 TextEntry::make('tenant.email')->label(trans('Email'))->icon('heroicon-o-envelope')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('tenant.phone_number')->label(trans('Telefoon nummer'))->icon('heroicon-o-phone')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('tenant.created_at')->label(trans('Geregistreerd op'))->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
-                TextEntry::make('tenant.address')->label(trans('Adres'))->columnSpan(9)->icon('heroicon-o-home')->iconColor('primary'),
+                TextEntry::make('tenant.address')->label(trans('Adres'))->columnSpan(6)->icon('heroicon-o-home')->iconColor('primary'),
+
+                TextEntry::make('risk_accessment_label')
+                    ->label('Risico profiel')
+                    ->translateLabel()->columnSpan(3)
+                    ->badge()
+                    ->hintAction(function (Action $action) {
+                        return $action->make('check-documentation')
+                            ->label('uitleg')
+                            ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#risico-analyse')
+                            ->openUrlInNewTab()
+                            ->color('primary')
+                            ->icon('heroicon-m-question-mark-circle');
+                    }),
+
                 TextEntry::make('tenant.banned_at')->label(trans('Op de zwarte lijst sinds'))->default('-')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3),
             ]);
     }
@@ -88,28 +103,19 @@ final readonly class LeaseInfolist
         return self::baseSection(name: trans('Reservatie informatie'))
             ->description(trans('Alle nodige informatie omtrent de aangevraagde verhuring'))
             ->icon('heroicon-o-home-modern')
-            ->headerActions([
-                /** @todo Complete this function */
-                \Filament\Infolists\Components\Actions\Action::make('deze verhuring opvolgen')
-                    ->size(ActionSize::ExtraSmall)
-                    ->visible(false)
-                    ->color('gray')
-                    ->icon('heroicon-o-user-plus')
-                    ->iconSize(IconSize::Small),
-            ])
             ->schema([
                 TextEntry::make('supervisor.name')
                     ->label(trans('Opgevold door'))
                     ->icon('heroicon-o-user-circle')
                     ->iconColor('primary')
-                    ->placeholder('- geen opvolger aangeduid')
-                    ->columnSpan(2),
-                TextEntry::make('status')->label('Verhurings status')->badge()->columnSpan(2),
-                TextEntry::make('arrival_date')->label(trans('aankomst datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(2),
-                TextEntry::make('departure_date')->label(trans('vertrek datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(2),
-                TextEntry::make('group')->label('Organisatie')->icon('heroicon-o-users')->iconColor('primary')->columnSpan(2),
-                TextEntry::make('persons')->label('Aantal personen')->icon('heroicon-o-users')->iconColor('primary')->columnSpan(2),
-                TextEntry::make('locals.name')->badge()->columnSpan(12)->label('Inbegrepen lokalen')->icon('heroicon-o-home')->default('geen lokalen gekoppeld')->iconColor('primary'),
+                    ->placeholder(trans('Geen opvolger toegewezen'))
+                    ->columnSpan(3),
+                TextEntry::make('persons')->label('Aantal personen')->icon('heroicon-o-users')->iconColor('primary')->columnSpan(3),
+                TextEntry::make('status')->label('Verhurings status')->badge()->columnSpan(3),
+                TextEntry::make('deposit.status')->label('Waarborg')->badge()->columnSpan(3)->placeholder('niet geregistreerd'),
+                TextEntry::make('locals.name')->badge()->columnSpan(6)->label('Inbegrepen lokalen')->icon('heroicon-o-home')->default('geen lokalen gekoppeld')->iconColor('primary'),
+                TextEntry::make('arrival_date')->label(trans('aankomst datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
+                TextEntry::make('departure_date')->label(trans('vertrek datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
             ])->columns(12);
     }
 

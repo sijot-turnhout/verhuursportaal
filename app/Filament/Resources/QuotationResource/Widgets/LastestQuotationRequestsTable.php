@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\QuotationResource\Widgets;
 
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
+use App\Enums\QuotationStatus;
 use App\Filament\Resources\QuotationResource;
-use App\Models\Invoice;
+use App\Models\Quotation;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -62,12 +62,12 @@ final class LastestQuotationRequestsTable extends BaseWidget
                 Tables\Actions\Action::make('offertes')->label('Offertes')->url(QuotationResource::getUrl())->color('gray')->icon('heroicon-o-eye'),
             ])
             ->actions([
-                Tables\Actions\Action::make('Open')->url(fn(Invoice $record): string => QuotationResource::getUrl('view', ['record' => $record])),
+                Tables\Actions\Action::make('Open')->url(fn(Quotation $record): string => QuotationResource::getUrl('view', ['record' => $record])),
             ])
             ->columns([
-                Tables\Columns\TextColumn::make('payment_reference')->label('Referentie nr.')->sortable()->weight(FontWeight::Bold)->color('primary'),
+                Tables\Columns\TextColumn::make('reference')->label('Referentie nr.')->sortable()->weight(FontWeight::Bold)->color('primary'),
                 Tables\Columns\TextColumn::make('lease.period')->label('Verhuringsperiode')->sortable(),
-                Tables\Columns\TextColumn::make('customer.name')->label('Begunstigde'),
+                Tables\Columns\TextColumn::make('reciever.name')->label('Begunstigde'),
                 Tables\Columns\TextColumn::make('lease.group')->label('Organisatie'),
                 Tables\Columns\TextColumn::make('updated_at')->label('Laast bewerkt')->date()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->date()->label('Aangevraagd op')->sortable(),
@@ -81,6 +81,6 @@ final class LastestQuotationRequestsTable extends BaseWidget
      */
     private static function baseQueryForWidget(): Builder
     {
-        return QuotationResource::getEloquentQuery()->where('status', InvoiceStatus::Quotation_Request);
+        return QuotationResource::getEloquentQuery()->where('status', QuotationStatus::Draft);
     }
 }

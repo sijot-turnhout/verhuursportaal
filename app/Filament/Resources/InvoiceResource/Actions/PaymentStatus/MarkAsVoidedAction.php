@@ -36,22 +36,10 @@ final class MarkAsVoidedAction extends Action
             ->requiresConfirmation()
             ->modalHeading(trans('Facturatie annuleren'))
             ->modalDescription(trans('Indien u een factuur annuleerd kan de huurder geen factuur meer ontvangen via de applicatie. En kan deze actie ook niet meer ongedaan gemaakt worden.'))
-            ->visible(fn(Invoice $invoice): bool => self::canMarkAsVoided($invoice))
+            ->visible(fn(Invoice $invoice): bool => Gate::allows('mark-as-void', $invoice))
             ->action(function (Invoice $invoice): void {
                 $invoice->update(['status' => InvoiceStatus::Void, 'due_at' => null]);
                 Notification::make()->title('De factuur is met success geannuleerd')->success()->send();
             });
-    }
-
-    /**
-     * Method for checking if the currently authenticated user is permitted to perform payment status update.
-     *
-     * @param  Invoice $invoice The instance of the invoice that needs the paymentStatus update
-     * @return bool             True is the user is permitted to perform the update of the payment status
-     */
-    private static function canMarkAsVoided(Invoice $invoice): bool
-    {
-        return Gate::allows('update-payment-status', $invoice)
-            && $invoice->status->isNot(InvoiceStatus::Void);
     }
 }

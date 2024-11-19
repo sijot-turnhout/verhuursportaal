@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\Pages;
 
-use App\Filament\Resources\InvoiceResource;
 use App\Filament\Resources\LeaseResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -27,23 +26,21 @@ final class EditLease extends EditRecord
      * the schema and behavior for managing lease records.
      *
      * @var string
-     */    protected static string $resource = LeaseResource::class;
+     */
+    protected static string $resource = LeaseResource::class;
 
     /**
      * Get the header actions available on the edit page.
      *
      * This method returns an array of actions that are displayed in the header of the edit
-     * page. It includes actions for generating and viewing invoices, as well as a delete action
-     * for removing the lease record.
+     * page. It includes actions removing the lease record.
      *
-     * @return array An array of actions for the edit page header.
+     * @return array<int, Actions\DeleteAction> An array of actions for the edit page header.
      */
     protected function getHeaderActions(): array
     {
         return [
-            InvoiceResource\Actions\GenerateInvoice::make(),
-            InvoiceResource\Actions\ViewInvoice::make(),
-            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
+            Actions\DeleteAction::make(),
         ];
     }
 }

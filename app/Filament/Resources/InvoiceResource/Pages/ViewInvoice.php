@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\Resources\InvoiceResource\Pages;
 
 use App\Filament\Resources\InvoiceResource;
+use App\Filament\Resources\InvoiceResource\Actions\CompleteInvoiceProposalAction;
 use App\Filament\Resources\InvoiceResource\Actions\DownloadInvoiceAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsPaidAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsUncollectedAction;
 use App\Filament\Resources\InvoiceResource\Actions\PaymentStatus\MarkAsVoidedAction;
+use App\Models\Invoice;
 use Filament\Actions;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -39,13 +42,15 @@ final class ViewInvoice extends ViewRecord
      * of the view invoice page. It includes actions for marking the invoice with different
      * payment statuses, downloading the invoice, editing the invoice, and deleting the invoice.
      *
-     * @return array  An array of header action objects.
+     * @return array{CompleteInvoiceProposalAction, ActionGroup, DownloadInvoiceAction, EditAction, DeleteAction}  An array of header action objects.
      */
     public function getHeaderActions(): array
     {
         return [
-            Actions\ActionGroup::make([MarkAsPaidAction::make(), MarkAsUncollectedAction::make(), MarkAsVoidedAction::make()])
-                ->label('Factuur status')
+            CompleteInvoiceProposalAction::make(),
+
+            ActionGroup::make([MarkAsPaidAction::make(), MarkAsUncollectedAction::make(), MarkAsVoidedAction::make()])
+                ->label('Betalingsstatus')
                 ->color('gray')
                 ->button(),
 

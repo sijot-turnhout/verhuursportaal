@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 final class Local extends Model
 {
+    /** @use HasFactory<\Database\Factories\LocalFactory> */
     use HasFactory;
 
     /**
@@ -35,7 +36,7 @@ final class Local extends Model
     /**
      * The data relation for getting all the issue tickets (werkpunten) that are associated with the local (lokaal).
      *
-     * @return MorphMany<Issue>
+     * @return MorphMany<Issue, covariant $this>
      */
     public function issues(): MorphMany
     {

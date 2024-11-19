@@ -34,6 +34,11 @@ final class FeedbackNotification extends Notification implements ShouldQueue
         public readonly Lease $lease,
     ) {}
 
+    /**
+     * Get the middleware the notification job should pass through.
+     *
+     * @return array<int, Skip>
+     */
     public function middleware(): array
     {
         return [Skip::unless($this->lease->canSendOutFeedbackNotification())];

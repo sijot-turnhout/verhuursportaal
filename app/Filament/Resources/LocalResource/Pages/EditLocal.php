@@ -35,7 +35,7 @@ final class EditLocal extends EditRecord
      * This method returns an array of actions that are displayed in the header of the edit
      * page. Currently, it adds a delete action that allows users to delete the local resource.
      *
-     * @return array  An array of actions for the edit page header.
+     * @return array<int, Actions\DeleteAction>  An array of actions for the edit page header.
      */
     protected function getHeaderActions(): array
     {

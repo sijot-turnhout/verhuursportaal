@@ -27,7 +27,7 @@ final readonly class IssueOverviewTable
      * Each column is defined with specific properties such as label, searchability, sortability,
      * and formatting. The columns provide a user-friendly interface for viewing and managing issues.
      *
-     * @return array The array of column configurations.
+     * @return array<int, Tables\Columns\TextColumn> The array of column configurations.
      */
     public static function columns(): array
     {

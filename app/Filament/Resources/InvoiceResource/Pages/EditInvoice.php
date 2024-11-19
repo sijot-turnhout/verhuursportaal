@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\InvoiceResource\Pages;
 
 use App\Filament\Resources\InvoiceResource;
+use App\Filament\Resources\InvoiceResource\Actions\CompleteInvoiceProposalAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -33,12 +34,12 @@ final class EditInvoice extends EditRecord
      * of the edit invoice page. It includes custom actions such as completing an invoice proposal
      * and deleting the invoice.
      *
-     * @return array  An array of header action objects.
+     * @return array<int, CompleteInvoiceProposalAction|Actions\DeleteAction>  An array of header action objects.
      */
     protected function getHeaderActions(): array
     {
         return [
-            InvoiceResource\Actions\CompleteInvoiceProposalAction::make(),
+            CompleteInvoiceProposalAction::make(),
             Actions\DeleteAction::make()
                 ->icon('heroicon-o-document-minus')
                 ->label(trans('voorstel verwijderen')),

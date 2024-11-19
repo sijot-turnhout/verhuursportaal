@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Class BillingItem
@@ -24,8 +24,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class BillingItem extends Model
 {
-    use HasFactory;
-
     protected $guarded = ['id'];
 
     /**
@@ -39,13 +37,24 @@ final class BillingItem extends Model
     /**
      * Data relation for the creator of the invoice line.
      *
-     * @return BelongsTo<User, self>
+     * @return BelongsTo<User, covariant $this>
      */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
 
+    /**
+     * @return MorphTo<Model, covariant $this>
+     */
+    public function billingdocumentable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * @return BelongsTo<Invoice, covariant $this>
+     */
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);

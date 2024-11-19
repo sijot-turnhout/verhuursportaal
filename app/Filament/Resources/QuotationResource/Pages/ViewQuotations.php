@@ -34,15 +34,18 @@ final class ViewQuotations extends ViewRecord
      * Define the actions that will be displayed in the header of the view page.
      * These actions include finalizing, approving, declining, and deleting the quotation.
      *
-     * @return array The array of actions for the header.
+     * @return array<int, Actions\ActionGroup|Actions\DeleteAction|Actions\EditAction> The array of actions for the header.
      */
     protected function getHeaderActions(): array
     {
         return [
-            QuotationResource\Actions\MarkAsFinalizedAction::make(),
-            QuotationResource\Actions\MarkAsApprovedAction::make(),
-            QuotationResource\Actions\MarkAsDeclinedAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make()->color('gray')->icon('heroicon-o-pencil-square'),
+            Actions\ActionGroup::make([
+                QuotationResource\Actions\MarkAsFinalizedAction::make(),
+                QuotationResource\Actions\MarkAsApprovedAction::make(),
+                QuotationResource\Actions\MarkAsDeclinedAction::make(),
+            ])->label('Offerte status')->icon('heroicon-o-tag')->color('gray')->button(),
+            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
         ];
     }
 }

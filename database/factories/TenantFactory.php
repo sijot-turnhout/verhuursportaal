@@ -27,4 +27,14 @@ final class TenantFactory extends Factory
             'created_at' => $this->faker->dateTimeBetween(now()->startOfYear(), now()->endOfYear()),
         ];
     }
+
+    /**
+     * Inidcate that the tenant has been put on the blacklist in the application.
+     *
+     * @return static
+     */
+    public function blacklisted(): static
+    {
+        return $this->state(fn(array $attributes): array => ['banned_at' => now()]);
+    }
 }

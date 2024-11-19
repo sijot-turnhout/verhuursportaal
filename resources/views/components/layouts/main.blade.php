@@ -66,7 +66,7 @@
                                     <x-heroicon-o-user-circle class="icon icon-page-title me-1"/> {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="">
                                         <x-heroicon-o-adjustments-vertical class="icon me-1"/> Accountbeheer
                                     </a>
@@ -123,7 +123,7 @@
                                 <p class="text-copyright small">
                                     Copyright {{ date('Y') }} &copy; {{ config('app.name', 'Laravel') }}
 
-                                    <a href="{{ route('legal.privacy') }}" class="float-end text-decoration-none">
+                                    <a href="{{ route('legal.privacy') }}" data-pan="privacy-verklaring" class="float-end text-decoration-none">
                                         <x-heroicon-o-eye-slash class="icon me-1"/> Privacyverklaring
                                     </a>
                                     <a href="" class="float-end text-decoration-none me-3">

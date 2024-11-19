@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Concerns;
 
+use App\Features\Feedback as FeedbackFeatureFlag;
 use App\Models\Feedback;
-use App\Models\Lease;
 use App\Notifications\FeedbackNotification;
-use App\Support\Features;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Laravel\Pennant\Feature;
 
 /**
  * Trait HasFeedbackSupport
@@ -21,7 +21,7 @@ trait HasFeedbackSupport
     /**
      * Define a relationship to the Feedback model.
      *
-     * @return BelongsTo<Feedback, self> The relationship to the Feedback model.
+     * @return BelongsTo<Feedback, covariant $this> The relationship to the Feedback model.
      */
     public function feedback(): BelongsTo
     {
@@ -35,6 +35,7 @@ trait HasFeedbackSupport
      * with a validity period specified by $validUntil.
      *
      * @param  Carbon  $validUntil  The timestamp until the feedback request is valid.
+     * @return void
      */
     public function sendFeedbackNotification(Carbon $validUntil): void
     {
@@ -52,8 +53,8 @@ trait HasFeedbackSupport
      */
     public function canSendOutFeedbackNotification(): bool
     {
-        return ($this->feedback()->doesntExist() && is_null($this->feedback_valid_until))
-            && Features::enabled(Features::feedback());
+        return ($this->feedback()->doesntExist() && null === $this->feedback_valid_until)
+            && Feature::active(FeedbackFeatureFlag::class);
     }
 
     /**
