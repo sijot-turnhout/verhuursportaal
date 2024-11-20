@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Enums\UserGroup;
+use App\Filament\Clusters\WebmasterResources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
@@ -45,6 +46,14 @@ final class UserResource extends Resource
      * @var ?string
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    /**
+     * Specifies the cluster to which this resource belongs.
+     * In this case, the resource is grouped under the "Billing" cluster in the application.
+     *
+     * {@inheritdoc}
+     */
+    protected static ?string $cluster = WebmasterResources::class;
 
     /**
      * Method to render the creation/edit form in the UserReource.

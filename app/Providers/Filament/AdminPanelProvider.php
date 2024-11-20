@@ -46,11 +46,6 @@ class AdminPanelProvider extends PanelProvider
             ->font('Open sans')
             ->databaseNotifications()
             ->maxContentWidth(MaxWidth::Full)
-            ->colors([
-                'gray' => Color::Zinc,
-                'primary' => '#826644',
-
-            ])
             ->renderHook(
                 // PanelsRenderHook::BODY_END,
                 PanelsRenderHook::FOOTER,
@@ -96,6 +91,7 @@ class AdminPanelProvider extends PanelProvider
                     \App\Filament\Resources\InvoiceResource::class,
                     \App\Filament\Resources\QuotationResource::class,
                     \App\Filament\Clusters\Billing\Resources\DepositResource::class,
+                    \App\Filament\Clusters\WebmasterResources\Resources\ActivityLogResource::class,
                 ]),
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(config('app.debug'))
