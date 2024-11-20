@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\WebmasterResources\Resources;
 
 use App\Filament\Clusters\WebmasterResources;
+use App\Filament\Clusters\WebmasterResources\Resources\ActivityLogResource\Filters\DateRangeFilter;
 use App\Filament\Clusters\WebmasterResources\Resources\ActivityLogResource\Pages;
 use App\Models\Activity;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,26 +32,7 @@ final class ActivityLogResource extends Resource
             ->columns(self::tableColumnsLayout())
             ->actions(self::tableRecordActions())
             ->bulkActions(self::headerActions())
-            ->filters([
-
-                        DatePicker::make('created_from')->native(false)->placeholder('start datum'),
-                        DatePicker::make('created_until')->native(false)->placeholder('eind datum'),
-                    ])->query(function (Builder $query, array $data) : Builder {
-                        return $query
-                            ->when(value: $data['created_from'], callback: fn (Builder $query, $date) : Builder => $query->whereDate('created_at', '>=', $date))
-                            ->when(value: $data['created_until'], callback: fn (Builder $query, $date) : Builder => $query->whereDate('created_at', '<=', $date));
-                    })->indicateUsing(function (array $data) : array {
-                        $indicators = [];
-                        if ($data['created_from'] ?? null) {
-                            $indicators['created_from'] = 'Order from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
-                        }
-                        if ($data['created_until'] ?? null) {
-                            $indicators['created_until'] = 'Order until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
-                        }
-
-                        return $indicators;
-                    }),
-            ]);
+            ->filters([DateRangeFilter::register()]);
     }
 
     public static function getPages() : array
