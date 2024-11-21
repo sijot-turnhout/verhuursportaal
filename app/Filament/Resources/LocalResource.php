@@ -11,6 +11,8 @@ use App\Filament\Resources\LocalResource\RelationManagers\IssuesRelationManager;
 use App\Filament\Resources\LocalResource\Tables\LocalResourceTable;
 use App\Models\Local;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -118,6 +120,18 @@ final class LocalResource extends Resource
         return [IssuesRelationManager::class];
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(trans('Algemene informatie'))
+                    ->icon('heroicon-o-home-modern')
+                    ->iconColor('primary')
+                    ->compact()
+                    ->description('De algemene informatie over het lokaal die nodig is om het lokaal goed te beheren en of te documenteren.')
+            ]);
+    }
+
     /**
      * Define the pages that implement the resource's functionality.
      *
@@ -136,6 +150,7 @@ final class LocalResource extends Resource
         return [
             'index' => Pages\ListLocals::route('/'),
             'create' => Pages\CreateLocal::route('/create'),
+            'view' => Pages\ViewLocal::route('/{record}'),
             'edit' => Pages\EditLocal::route('/{record}/edit'),
         ];
     }
