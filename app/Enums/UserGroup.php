@@ -6,6 +6,7 @@ namespace App\Enums;
 
 use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 /**
@@ -16,7 +17,7 @@ use Filament\Support\Contracts\HasLabel;
  *
  * @package App\Enums
  */
-enum UserGroup: string implements HasColor, HasLabel
+enum UserGroup: string implements HasColor, HasLabel, HasIcon
 {
     use Comparable;
 
@@ -60,6 +61,11 @@ enum UserGroup: string implements HasColor, HasLabel
     public function getLabel(): ?string
     {
         return $this->name;
+    }
+
+    public function getIcon(): ?string
+    {
+        return 'heroicon-o-users';
     }
 
     /**

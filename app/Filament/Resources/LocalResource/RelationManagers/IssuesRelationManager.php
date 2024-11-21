@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LocalResource\RelationManagers;
 
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Enums\Priority;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
-use App\Filament\Resources\IssueResource;
+use App\Filament\Resources\IssueResource\Actions\CloseIssueAction;
+use App\Filament\Resources\IssueResource\Actions\ConnectUserAction;
+use App\Filament\Resources\IssueResource\Actions\ReopenIssueAction;
 use App\Filament\Resources\LocalResource\Enums\Status;
 use App\Filament\Resources\LocalResource\Pages\EditLocal;
 use App\Filament\Resources\LocalResource\Pages\ViewLocal;
@@ -60,13 +63,7 @@ final class IssuesRelationManager extends RelationManager
      */
     public function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')->label('Titel')->required()->maxLength(255)->columnSpan(12),
-                Forms\Components\Select::make('user_id')->label('Opgevolgd door')->options(User::query()->pluck('name', 'id'))->searchable()->columnSpan(6),
-                Forms\Components\Select::make('priority')->label('Prioriteit')->options(Priority::class)->columnSpan(6)->default(Priority::Low)->selectablePlaceholder(false),
-                Forms\Components\Textarea::make('description')->label('Beschrijving')->autosize()->rows(4)->columnSpan(12),
-            ])->columns(12);
+        return $form->schema(IssueResource::issueInformationFormfields())->columns(12);
     }
 
     /**
@@ -159,10 +156,10 @@ final class IssuesRelationManager extends RelationManager
                     ]),
 
                 Tables\Actions\ActionGroup::make([
-                    IssueResource\Actions\ConnectUserAction::make(),
+                    ConnectUserAction::make(),
                     Tables\Actions\EditAction::make()->slideOver(),
-                    IssueResource\Actions\CloseIssueAction::make(),
-                    IssueResource\Actions\ReopenIssueAction::make(),
+                    CloseIssueAction::make(),
+                    ReopenIssueAction::make(),
                     Tables\Actions\DeleteAction::make(),
                 ]),
             ]);

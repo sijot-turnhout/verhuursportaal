@@ -5,10 +5,17 @@ declare(strict_types=1);
 namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
+use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Enums\Priority;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Pages;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Support\IssueOverviewTable;
 use App\Models\Issue;
+use App\Models\User;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -106,6 +113,28 @@ final class IssueResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return IssueInformationInfolist::make($infolist);
+    }
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make(trans('Werkpunt informatie'))
+                    ->description(trans('Algemene informatie van het werkpunt in de applicatie.'))
+                    ->columns(12)
+                    ->compact()
+                    ->schema(self::issueInformationFormFields())
+            ]);
+    }
+
+    public static function issueInformationFormFields(): array
+    {
+        return [
+            TextInput::make('title')->label('Titel')->required()->maxLength(255)->columnSpan(12),
+            Select::make('user_id')->label('Opgevolgd door')->options(User::query()->pluck('name', 'id'))->searchable()->columnSpan(6),
+            Select::make('priority')->label('Prioriteit')->options(Priority::class)->columnSpan(6)->default(Priority::Low)->selectablePlaceholder(false),
+            Textarea::make('description')->label('Beschrijving')->autosize()->rows(4)->columnSpan(12),
+        ];
     }
 
     /**
