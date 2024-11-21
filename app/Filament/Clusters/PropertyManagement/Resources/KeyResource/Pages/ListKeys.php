@@ -6,7 +6,7 @@ use App\Filament\Clusters\PropertyManagement\Resources\KeyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListKeys extends ListRecords
+final class ListKeys extends ListRecords
 {
     protected static string $resource = KeyResource::class;
 
@@ -16,7 +16,12 @@ class ListKeys extends ListRecords
             Actions\CreateAction::make()
                 ->label('Sleutel registreren')
                 ->translateLabel()
-                ->icon('heroicon-o-plus'),
+                ->icon('heroicon-o-plus')
+                ->modalIcon('heroicon-o-key')
+                ->modalIconColor('primary')
+                ->modalHeading(trans('Sleutel registreren'))
+                ->modalDescription(trans('Alle nodige informatie om een sleutel te registreren en te beheren in de applicatie.'))
+            ->slideOver(),
         ];
     }
 }
