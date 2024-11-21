@@ -21,7 +21,7 @@ final class ListKeys extends ListRecords
                 ->modalIconColor('primary')
                 ->modalHeading(trans('Sleutel registreren'))
                 ->modalDescription(trans('Alle nodige informatie om een sleutel te registreren en te beheren in de applicatie.'))
-            ->slideOver(),
+                ->slideOver(),
         ];
     }
 }

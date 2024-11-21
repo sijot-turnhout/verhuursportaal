@@ -80,15 +80,15 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     }
 
     /**
-     * Retrieves activity chart data for a specified period. This function
-     * leverages the `Flowframe\Trend` library to aggregate activity data
-     * and format it for chart display.  It supports various aggregation
-     * periods like hourly, daily, and monthly.
+     * Retrieves activity chart data for a specified period.
+     * This function leverages the `Flowframe\Trend` library to aggregate activity data and format it for chart display.
+     * It supports various aggregation periods like hourly, daily, and monthly.
      *
      * @param Carbon $start The starting date of the period for which to retrieve data.
-     * @param Carbon $end The ending date of the period.
+     * @param Carbon $end    The ending date of the period.
      * @param string $period The aggregation period.  Valid values are Trend constants such as 'perHour', 'perDay', 'perWeek', 'perMonth', 'perQuarter', 'perYear'.
-     *                      See the Flowframe\Trend documentation for a full list of supported periods: [link to documentation if available].  Incorrect values will likely result in unexpected behavior.
+     *                       See the Flowframe\Trend documentation for a full list of supported periods: [link to documentation if available].
+     *                       Incorrect values will likely result in unexpected behavior.
      *
      * @return array An associative array containing the chart data. The array has two keys:
      *               - `datasets`: An array of datasets, each containing a label and data points.
@@ -98,8 +98,8 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
      *
      * @example
      *
-     * $this->getActivityChartData(now()->startOfDay(), now()->endOfDay(), 'perHour'); // Get hourly data for today.
-     * $this->getActivityChartData(now()->startOfMonth(), now()->endOfMonth(), 'perDay'); // Get daily data for this month.
+     * $this->getActivityChartData(now()->startOfDay(), now()->endOfDay(), 'perHour');      // Get hourly data for today.
+     * $this->getActivityChartData(now()->startOfMonth(), now()->endOfMonth(), 'perDay');   // Get daily data for this month.
      */
     private function getActivityChartData(Carbon $start, Carbon $end, string $period): array
     {
