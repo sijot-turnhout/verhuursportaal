@@ -33,6 +33,7 @@ final readonly class IssueOverviewTable
     {
         return [
             Tables\Columns\TextColumn::make('reference_number')->label('#')->weight(FontWeight::SemiBold)->searchable(),
+            Tables\Columns\TextColumn::make('issueable.name')->label('Lokaal')->sortable(),
             Tables\Columns\TextColumn::make('status')->label('Status')->sortable()->badge(),
             Tables\Columns\TextColumn::make('priority')->label('Prioriteit')->sortable()->badge(),
             Tables\Columns\TextColumn::make('title')->label('Titel')->searchable(),
