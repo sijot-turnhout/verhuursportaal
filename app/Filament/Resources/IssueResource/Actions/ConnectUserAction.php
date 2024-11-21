@@ -29,6 +29,11 @@ final class ConnectUserAction extends Action
     public static function make(?string $name = null): static
     {
         return parent::make($name ?? 'Koppelen')
+            ->modalHeading(trans('Koppelen aan gebruiker'))
+            ->modalIcon('heroicon-o-link')
+            ->modalIconColor('primary')
+            ->modalDescription(trans('Door een gebruiker te koppelen aan het werkpunt, zal deze toegewezen worden als opvolger en verantwoordelijke van het werkpuntje.'))
+            ->modalSubmitActionLabel(trans('Koppelen'))
             ->icon('heroicon-o-link')
             ->visible(fn(Issue $issue): bool => $issue->user()->doesntExist())
             ->action(function (Issue $issue, array $data): void {
@@ -40,8 +45,7 @@ final class ConnectUserAction extends Action
                     ->label('Opvolger van het werkpunt')
                     ->options(User::query()->pluck('name', 'id'))
                     ->searchable()
-                    ->required()
-                    ->helperText(trans('Deze gebruiker zal toegewezen worden als opvolger en verantwoordelijke van het werkpuntje')),
+                    ->required(),
             ]);
     }
 }
