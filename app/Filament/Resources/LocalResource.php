@@ -11,7 +11,9 @@ use App\Filament\Resources\LocalResource\RelationManagers\IssuesRelationManager;
 use App\Filament\Resources\LocalResource\Tables\LocalResourceTable;
 use App\Models\Local;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
@@ -128,7 +130,15 @@ final class LocalResource extends Resource
                     ->icon('heroicon-o-home-modern')
                     ->iconColor('primary')
                     ->compact()
+                    ->columns(12)
                     ->description('De algemene informatie over het lokaal die nodig is om het lokaal goed te beheren en of te documenteren.')
+                    ->schema([
+                        TextEntry::make('name')->columnSpan(4)->label('Naam')->translateLabel(),
+                        IconEntry::make('storage_location')->columnSpan(2)->label('Opslaglocatie')->translateLabel(),
+                        TextEntry::make('created_at')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3)->label('Aangemaakt op')->translateLabel()->date(),
+                        TextEntry::make('updated_at')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3)->label('Laatst gewijzigd op')->translateLabel()->date(),
+                        TextEntry::make('description')->columnSpan(12)->label('Beschrijving/Extra informatie')->translateLabel()->placeholder(trans('- Geen extra informatie of beschrijving opgegeven')),
+                    ])
             ]);
     }
 
