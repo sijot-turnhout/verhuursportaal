@@ -8,6 +8,7 @@ use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Enums\Prior
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Resources\IssueResource;
 use App\Filament\Resources\LocalResource\Enums\Status;
+use App\Filament\Resources\LocalResource\Pages\EditLocal;
 use App\Models\Issue;
 use App\Models\User;
 use Exception;
@@ -18,6 +19,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class IssuesRelationManager
@@ -77,6 +79,11 @@ final class IssuesRelationManager extends RelationManager
         return IssueInformationInfolist::make($infolist);
     }
 
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $pageClass === EditLocal::class;
+    }
+
     /**
      * Method to display the issues overview table in the relation manager.
      *
@@ -103,13 +110,15 @@ final class IssuesRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')->label('Status')->sortable()->badge(),
                 Tables\Columns\TextColumn::make('title')->label('Titel')->searchable(),
-                Tables\Columns\TextColumn::make('description')->label('Beschrijving')->placeholder('(geen beschrijving opgegeven)')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->label('Aangemaakt op')->date()->searchable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->label('Status')
-                    ->options(Status::class),
+                    ->options(Status::class)
+                    ->multiple()
+                    ->searchable(false)
+                    ->default([Status::Open->value, Status::Closed->value]),
                 Tables\Filters\SelectFilter::make('user')
                     ->label('Toegewezen aan')
                     ->relationship('user', 'name')
@@ -145,9 +154,7 @@ final class IssuesRelationManager extends RelationManager
 
                 Tables\Actions\ActionGroup::make([
                     IssueResource\Actions\ConnectUserAction::make(),
-
                     Tables\Actions\EditAction::make()->slideOver(),
-
                     IssueResource\Actions\CloseIssueAction::make(),
                     IssueResource\Actions\ReopenIssueAction::make(),
                     Tables\Actions\DeleteAction::make(),
