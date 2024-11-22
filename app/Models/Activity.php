@@ -6,7 +6,4 @@ namespace App\Models;
 
 use Spatie\Activitylog\Models\Activity as SpatieActivity;
 
-final class Activity extends SpatieActivity
-{
-    //
-}
+final class Activity extends SpatieActivity {}

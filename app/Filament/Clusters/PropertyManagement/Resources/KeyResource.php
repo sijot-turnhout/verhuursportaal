@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Clusters\PropertyManagement\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
 use App\Filament\Clusters\PropertyManagement\Resources\KeyResource\Enums\KeyTypes;
 use App\Filament\Clusters\PropertyManagement\Resources\KeyResource\Pages;
-use App\Filament\Clusters\PropertyManagement\Resources\KeyResource\RelationManagers;
 use App\Models\Key;
 use App\Models\Local;
 use Filament\Forms;
@@ -89,7 +90,7 @@ class KeyResource extends Resource
 
                 Forms\Components\Toggle::make('is_master_key')
                     ->columnSpan(12)
-                    ->label('Deze sleutel is een loper')
+                    ->label('Deze sleutel is een loper'),
             ]);
     }
 
@@ -100,13 +101,13 @@ class KeyResource extends Resource
             ->emptyStateHeading(trans('Geen sleutels geregistreerd'))
             ->emptyStateDescription(trans('Momenteel zijn er nog geen sleutels geregistreerd in de applicatie'))
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')->label('Bewaarder')->translateLabel()->searchable(),
+                TextColumn::make('user.name')->label('Bewaarder')->translateLabel()->searchable(),
                 Tables\Columns\IconColumn::make('is_master_key')->label('Loper')->translateLabel()->searchable()->boolean(),
-                Tables\Columns\TextColumn::make('type')->label('Type')->translateLabel()->searchable()->badge(),
+                TextColumn::make('type')->label('Type')->translateLabel()->searchable()->badge(),
                 TextColumn::make('name')->label('Naam v/d sleutel')->translateLabel()->searchable(),
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -123,7 +124,7 @@ class KeyResource extends Resource
                     ->slideOver(),
 
                 Tables\Actions\DeleteAction::make()
-                    ->modalHeading('Sleutelregistratie verwijderen')
+                    ->modalHeading('Sleutelregistratie verwijderen'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -135,7 +136,7 @@ class KeyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 

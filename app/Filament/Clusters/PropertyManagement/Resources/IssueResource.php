@@ -123,7 +123,7 @@ final class IssueResource extends Resource
                     ->description(trans('Algemene informatie van het werkpunt in de applicatie.'))
                     ->columns(12)
                     ->compact()
-                    ->schema(self::issueInformationFormFields())
+                    ->schema(self::issueInformationFormFields()),
             ]);
     }
 

@@ -9,7 +9,6 @@ use App\Filament\Resources\LeaseResource\Widgets\LatestReservationRequests;
 use App\Filament\Resources\LeaseResource\Widgets\StatsOverview;
 use App\Filament\Resources\QuotationResource\Widgets\LastestQuotationRequestsTable;
 use App\Filament\Resources\UtilityResource\Widgets\UtilityUsageWidget;
-use App\Filament\Widgets\ActivityRegistrationChart;
 use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
 use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;

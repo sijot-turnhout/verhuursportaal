@@ -122,32 +122,9 @@ final class ActivityLogResource extends Resource
      *
      * @return array
      */
-    public static function getPages() : array
+    public static function getPages(): array
     {
         return ["index" => Pages\ListActivityLogs::route("/")];
-    }
-
-    /**
-     * Defines the actions available for individual records in the activity log table.
-     * These actions allow users to interact with specific log entries directly from the table view.
-     * Common actions include viewing details, editing, or deleting a log entry.
-     * This method configures the appearance and behavior of these row actions.
-     *
-     * Returns an array of action configurations, each defining a specific action that can be performed on a table row.
-     * These configurations use Filament's table action builder methods to define the action's label, icon, and behavior.
-     *
-     * @return array
-     */
-    private static function tableRecordActions() : array
-    {
-        return [
-            Tables\Actions\ViewAction::make()->label("Bekijk")
-                ->slideOver()
-                ->modalHeading(trans('Geregistreerde activiteit'))
-                ->modalDescription(trans('Alle benodigde informatie voor het bekijken van de geregistreerde activiteit in de applicatie'))
-                ->modalIconColor('primary')
-                ->modalIcon('heroicon-o-information-circle'),
-        ];
     }
 
     /**
@@ -173,23 +150,6 @@ final class ActivityLogResource extends Resource
     }
 
     /**
-     * Defines the actions available in the header of the activity log table.
-     * These actions typically operate on multiple selected entries, such as bulk export or deletion.
-     * This method configures which bulk actions are available and how they behave.
-     *
-     * Returns an array of bulk action configurations, each defining a specific action that can be performed on selected rows in the table.
-     * These configurations use Filament's table bulk action builder methods.
-     *
-     * @return array
-     */
-    private static function headerActions() : array
-    {
-        return [
-            ExportBulkAction::make(),
-        ];
-    }
-
-    /**
      * Defines the widgets to be displayed on this resource's page.
      * Widgets can provide visualizations, summaries, or other interactive elements related to the resource data.
      * This method returns an array of widget class names, allowing for customization of the information presented alongside the main resource view.
@@ -199,6 +159,46 @@ final class ActivityLogResource extends Resource
     public static function getWidgets(): array
     {
         return [ActivityRegistrationChart::class];
+    }
+
+    /**
+     * Defines the actions available for individual records in the activity log table.
+     * These actions allow users to interact with specific log entries directly from the table view.
+     * Common actions include viewing details, editing, or deleting a log entry.
+     * This method configures the appearance and behavior of these row actions.
+     *
+     * Returns an array of action configurations, each defining a specific action that can be performed on a table row.
+     * These configurations use Filament's table action builder methods to define the action's label, icon, and behavior.
+     *
+     * @return array
+     */
+    private static function tableRecordActions(): array
+    {
+        return [
+            Tables\Actions\ViewAction::make()->label("Bekijk")
+                ->slideOver()
+                ->modalHeading(trans('Geregistreerde activiteit'))
+                ->modalDescription(trans('Alle benodigde informatie voor het bekijken van de geregistreerde activiteit in de applicatie'))
+                ->modalIconColor('primary')
+                ->modalIcon('heroicon-o-information-circle'),
+        ];
+    }
+
+    /**
+     * Defines the actions available in the header of the activity log table.
+     * These actions typically operate on multiple selected entries, such as bulk export or deletion.
+     * This method configures which bulk actions are available and how they behave.
+     *
+     * Returns an array of bulk action configurations, each defining a specific action that can be performed on selected rows in the table.
+     * These configurations use Filament's table bulk action builder methods.
+     *
+     * @return array
+     */
+    private static function headerActions(): array
+    {
+        return [
+            ExportBulkAction::make(),
+        ];
     }
 
     /**
@@ -213,7 +213,7 @@ final class ActivityLogResource extends Resource
      *
      * @return array
      */
-    private static function tableColumnsLayout() : array
+    private static function tableColumnsLayout(): array
     {
         return [
             Tables\Columns\TextColumn::make("causer.name")

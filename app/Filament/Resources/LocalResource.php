@@ -138,7 +138,7 @@ final class LocalResource extends Resource
                         TextEntry::make('created_at')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3)->label('Aangemaakt op')->translateLabel()->date(),
                         TextEntry::make('updated_at')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3)->label('Laatst gewijzigd op')->translateLabel()->date(),
                         TextEntry::make('description')->columnSpan(12)->label('Beschrijving/Extra informatie')->translateLabel()->placeholder(trans('- Geen extra informatie of beschrijving opgegeven')),
-                    ])
+                    ]),
             ]);
     }
 
