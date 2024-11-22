@@ -54,7 +54,7 @@ final class UtilitiesRelationManager extends RelationManager
      * Method for determining whether the utility metric panel is visible of not.
      *
      * @param  Model   $ownerRecord  The owner record of the relation entity. In this case it is the lease entity.
-     * @param  string  $pageClass
+     * @param  string  $pageClass    The name and class FQN for the resource page where this relation manager is rendered.
      * @return bool
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
@@ -62,6 +62,10 @@ final class UtilitiesRelationManager extends RelationManager
         return Feature::active(UtilityMetrics::class) && Gate::allows('finalize-metrics', $ownerRecord);
     }
 
+    /**
+     *
+     * @return bool
+     */
     public function isReadOnly(): bool
     {
         return false;

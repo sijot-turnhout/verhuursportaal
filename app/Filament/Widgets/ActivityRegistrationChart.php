@@ -122,6 +122,11 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         return $this->getActivityChartData(now()->startOfDay(), now()->endOfDay(), 'perHour');
     }
 
+    /**
+     * Generate chart data for the current week.
+     *
+     * @return array  The activity chart data for the current week
+     */
     private function getChartForLastWeek(): array
     {
         return $this->getActivityChartData(now()->startOfWeek(), now()->endOfWeek(), 'perDay');
