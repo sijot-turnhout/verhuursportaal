@@ -25,6 +25,6 @@ final readonly class PlatformAnalyticsWidget
      */
     public function resolve(mixed $scope): bool
     {
-        return false;
+        return true;
     }
 }

@@ -62,6 +62,11 @@ final class UtilitiesRelationManager extends RelationManager
         return Feature::active(UtilityMetrics::class) && Gate::allows('finalize-metrics', $ownerRecord);
     }
 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     /**
      * Method for building up the modal that allows us to edit/view the form for the energy metrics.
      *

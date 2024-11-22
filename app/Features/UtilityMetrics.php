@@ -27,6 +27,6 @@ final class UtilityMetrics
      */
     public function resolve(User $user): bool
     {
-        return false;
+        return true;
     }
 }
