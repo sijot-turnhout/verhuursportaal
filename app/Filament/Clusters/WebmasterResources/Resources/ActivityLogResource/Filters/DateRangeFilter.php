@@ -17,8 +17,8 @@ final class DateRangeFilter extends Filter
             ->label('Uitvoeringsdatum')
             ->translateLabel()
             ->form(self::dateRangeFormFields())
-            ->query(fn (Builder $query, array $data): Builder => self::dateRangeQuery($query, $data))
-            ->indicateUsing(fn (array $data): array => self::registerIndicators($data));
+            ->query(fn(Builder $query, array $data): Builder => self::dateRangeQuery($query, $data))
+            ->indicateUsing(fn(array $data): array => self::registerIndicators($data));
     }
 
     private static function dateRangeFormFields(): array
@@ -42,10 +42,10 @@ final class DateRangeFilter extends Filter
     {
         return $query->when(
             value: $data['created_from'],
-            callback: fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date)
+            callback: fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
         )->when(
             value: $data['created_until'],
-            callback: fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date)
+            callback: fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
         );
     }
 
@@ -55,7 +55,7 @@ final class DateRangeFilter extends Filter
 
         if ($data['created_from'] ?? null) {
             $indicators['created_from'] = trans('vanaf: :date', [
-                'date' => Carbon::parse($data['created_from'])->toFormattedDateString()
+                'date' => Carbon::parse($data['created_from'])->toFormattedDateString(),
             ]);
         }
 

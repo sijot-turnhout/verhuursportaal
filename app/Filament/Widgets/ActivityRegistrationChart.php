@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Widgets;
 
 use App\Models\Activity;
 use Carbon\Carbon;
 use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
+use Exception;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Contracts\Support\Htmlable;
 
 final class ActivityRegistrationChart extends AdvancedChartWidget
 {
+    public ?string $filter = 'today';
     protected static ?string $icon = 'heroicon-o-pencil-square';
     protected static ?string $iconColor = 'danger';
     protected static string $color = 'danger';
@@ -26,8 +30,6 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         ],
         'plugins' => ['legend' => ['display' => true, 'fill' => true]],
     ];
-
-    public ?string $filter = 'today';
 
     public function getLabel(): string|Htmlable|null
     {
@@ -70,7 +72,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
             'today' => $this->getChartForToday(),
             'week' => $this->getChartForLastWeek(),
             'month' => $this->getChartForLastMonth(),
-            'year' => $this->getChartForLastYear()
+            'year' => $this->getChartForLastYear(),
         };
     }
 
@@ -94,7 +96,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
      *               - `datasets`: An array of datasets, each containing a label and data points.
      *               - `labels`: An array of labels for the x-axis of the chart.  The format depends on the $period parameter.
      *
-     * @throws \Exception If an invalid $period value is provided. While not explicitly checked here, invalid periods may cause exceptions within the Trend library.
+     * @throws Exception If an invalid $period value is provided. While not explicitly checked here, invalid periods may cause exceptions within the Trend library.
      *
      * @example
      *

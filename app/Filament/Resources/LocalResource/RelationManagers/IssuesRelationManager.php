@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LocalResource\RelationManagers;
 
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource;
-use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Enums\Priority;
 use App\Filament\Clusters\PropertyManagement\Resources\IssueResource\Infolists\IssueInformationInfolist;
 use App\Filament\Resources\IssueResource\Actions\CloseIssueAction;
 use App\Filament\Resources\IssueResource\Actions\ConnectUserAction;
 use App\Filament\Resources\IssueResource\Actions\ReopenIssueAction;
 use App\Filament\Resources\LocalResource\Enums\Status;
-use App\Filament\Resources\LocalResource\Pages\EditLocal;
 use App\Filament\Resources\LocalResource\Pages\ViewLocal;
 use App\Models\Issue;
-use App\Models\User;
 use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -55,6 +52,11 @@ final class IssuesRelationManager extends RelationManager
      */
     protected static ?string $title = 'Werkpunten';
 
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return ViewLocal::class === $pageClass;
+    }
+
     /**
      * Method to build the create/edit form that is attached to the relation manager.
      *
@@ -75,11 +77,6 @@ final class IssuesRelationManager extends RelationManager
     public function infolist(Infolist $infolist): Infolist
     {
         return IssueInformationInfolist::make($infolist);
-    }
-
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $pageClass === ViewLocal::class;
     }
 
     public function isReadOnly(): bool
