@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\QuotationStatus;
+use App\Enums\UserGroup;
 use App\Models\Quotation;
 use App\Models\User;
 
@@ -36,6 +37,11 @@ final readonly class QuotationPolicy
     {
         return ($user->user_group->isRvb() || $user->user_group->isWebmaster())
             && QuotationStatus::Draft === $quotation->status;
+    }
+
+    public function delete(User $user, Quotation $quotation): bool
+    {
+        return $user->user_group->notIn(enums: [UserGroup::Leiding, UserGroup::Vzw]);
     }
 
     /**
