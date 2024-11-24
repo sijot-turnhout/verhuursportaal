@@ -24,6 +24,7 @@ use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 /**
@@ -204,37 +205,15 @@ final class LeaseResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->label('Aangevraagd op')->date()->sortable(),
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\ActionGroup::make([
-                        Action::make('Bekijk factuur')
-                            ->icon('heroicon-o-document-text')
-                            ->visible(fn(Lease $record): bool => $record->invoice()->exists())
-                            ->url(fn(Lease $record) => route('filament.admin.billing.resources.invoices.view', $record->invoice)),
-
-                        Action::make('Bekijk offerte')
-                            ->icon('heroicon-o-document-text')
-                            ->visible(fn(Lease $record): bool => $record->quotation()->exists()),
-                    ])->dropdown(false),
-
-                    Tables\Actions\ActionGroup::make([
-                        self::archiveAction(),
-                        Tables\Actions\DeleteAction::make(),
-                    ])->dropdown(false),
-                ])
-                    ->label('acties')
-                    ->translateLabel()
-                    ->button()
-                    ->size('sm')
-                    ->link()
-                    ->icon('heroicon-o-cog-8-tooth'),
+                Tables\Actions\ViewAction::make(),
             ])
             ->defaultSort('arrival_date')
             ->bulkActions([
                 ExportBulkAction::make(),
                 self::archiveBulkAction(),
-                Tables\Actions\DeleteBulkAction::make()->label('verwijderen'),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->visible(fn(Lease $record): bool => Gate::allows('delete', $record))
+                    ->label('verwijderen'),
             ]);
     }
 

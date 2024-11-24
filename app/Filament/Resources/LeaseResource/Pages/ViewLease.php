@@ -122,16 +122,14 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
             GenerateInvoice::make(),
             GenerateQuotation::make(),
 
-            ActionGroup::make([
-                Action::make('Bekijk waarborg') // 'View deposit' in Dutch
-                    ->icon('heroicon-o-eye')
-                    ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
-                    ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
-                    ->openUrlInNewTab(),
+            Action::make('Bekijk waarborg') // 'View deposit' in Dutch
+                ->icon('heroicon-o-eye')
+                ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
+                ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
+                ->openUrlInNewTab(),
 
-                ViewInvoice::make(),
-                ViewQuotation::make(),
-            ])->dropdown(false),
+            ViewInvoice::make(),
+            ViewQuotation::make(),
         ])
             ->color('gray')
             ->icon('heroicon-o-banknotes')
@@ -152,10 +150,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
         return ActionGroup::make([
             AssignAuthenticatedUserAction::make(),
             EditAction::make()->color('gray'),
-
-            ActionGroup::make([
-                DeleteAction::make(),
-            ])->dropdown(false),
+            DeleteAction::make(),
         ])
             ->button()
             ->label('opties') // 'Options' for user understanding

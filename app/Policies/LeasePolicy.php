@@ -52,6 +52,10 @@ final readonly class LeasePolicy
             && $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster]);
     }
 
+    public function create(User $user): bool
+    {
+        return $user->user_group->in(enums: [UserGroup::Webmaster, UserGroup::Rvb]);
+    }
 
     /**
      * Determine if the user can view the invoice for the lease.
@@ -169,6 +173,7 @@ final readonly class LeasePolicy
     public function configureDeposit(User $user, Lease $lease): bool
     {
         return $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Webmaster])
-            && $lease->deposit()->doesntExist();
+            && $lease->deposit()->doesntExist()
+            && $lease->status->notIn([LeaseStatus::Cancelled, LeaseStatus::Finalized, LeaseStatus::Archived]);
     }
 }
