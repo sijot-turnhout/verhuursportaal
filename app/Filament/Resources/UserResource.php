@@ -9,6 +9,7 @@ use App\Filament\Clusters\WebmasterResources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -64,30 +65,28 @@ final class UserResource extends Resource
     {
         return $form
             ->schema([
-                // General information section for the user.
-                // here we render the form section for the general information off the user account.
-                Forms\Components\Section::make('Algemene informatie')
-                    ->description('Alle benodigde informatie die vereist is om een gebruiker aan te maken in het systeem.')
-                    ->icon('heroicon-m-user')
-                    ->schema([
-                        Forms\Components\Select::make('user_group')->label('Functie')->required()->options(UserGroup::class)->columnSpan(3),
-                        Forms\Components\TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
-                        Forms\Components\TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
-                        Forms\Components\TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
-                    ])->columns(12),
-
-                // Section that is related to the security information from the user account.
-                // Only things such as the password will be handled/registered here.
-                Forms\Components\Section::make('Beveiligings informatie')
-                    ->icon('heroicon-m-shield-check')
-                    ->description('Zorg ervoor dat het account een lang willekeurig wachtwoord gebruikt om veilig te blijven')
-                    ->schema([
-                        Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->same('password_confirmation')->password()->revealable(),
-                        Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
-                    ])
-                    ->hidden(fn(string $operation): bool => 'edit' === $operation)
-                    ->columns(12),
+                self::generalInformationSection(),
+                self::securityInformationSection(),
             ]);
+    }
+
+    /**
+     * General information section for the user.
+     * Here we render the form section for the general information off the user account.
+     *
+     * @return Section
+     */
+    public static function generalInformationSection(): Section
+    {
+        return Section::make('Algemene informatie')
+            ->description('Alle benodigde informatie die vereist is om een gebruiker aan te maken in het systeem.')
+            ->icon('heroicon-m-user')
+            ->schema([
+                Forms\Components\Select::make('user_group')->label('Functie')->required()->options(UserGroup::class)->columnSpan(3),
+                Forms\Components\TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
+                Forms\Components\TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
+                Forms\Components\TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
+            ])->columns(12);
     }
 
     /**
@@ -120,17 +119,6 @@ final class UserResource extends Resource
     }
 
     /**
-     * Method to define all the relation managers that are associated with the user information.
-     * Such as key manegement en supervised leases
-     *
-     * @return array<int>
-     */
-    public static function getRelations(): array
-    {
-        return [];
-    }
-
-    /**
      * Method to render all the related resource endpoint of the UserResource in the application.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
@@ -142,5 +130,24 @@ final class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * Section that is related to the security information from the user account.
+     * Only things such as the password will be handled/registered here.
+     *
+     * @return Section
+     */
+    private static function securityInformationSection(): Section
+    {
+        return Section::make('Beveiligings informatie')
+            ->icon('heroicon-m-shield-check')
+            ->description('Zorg ervoor dat het account een lang willekeurig wachtwoord gebruikt om veilig te blijven')
+            ->schema([
+                Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->same('password_confirmation')->password()->revealable(),
+                Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
+            ])
+            ->hidden(fn(string $operation): bool => 'edit' === $operation)
+            ->columns(12);
     }
 }
