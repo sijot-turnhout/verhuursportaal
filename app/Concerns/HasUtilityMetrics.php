@@ -55,6 +55,13 @@ trait HasUtilityMetrics
         return null !== $this->metrics_registered_at;
     }
 
+    public function finalizeUtilityMetrics(): void
+    {
+        if ($this->utilityStatistics()->exists()) {
+            $this->update(attributes: ['metrics_registered_at' => now()]);
+        }
+    }
+
     public function hasntFinalizedUtilityMetrics(): bool
     {
         return ! $this->hasRegisteredMetrics();

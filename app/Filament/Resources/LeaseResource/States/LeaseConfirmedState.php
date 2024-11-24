@@ -26,7 +26,10 @@ final class LeaseConfirmedState extends LeaseState
     public function transitionToCompleted(): bool
     {
         $this->lease->markAs(LeaseStatus::Finalized);
+        $this->lease->finalizeUtilityMetrics();
+
         $this->lease->sendFeedbackNotification(now()->addMonths(2));
+
 
         return true;
     }

@@ -72,7 +72,7 @@ final class UtilitiesRelationManager extends RelationManager
     }
 
     /**
-     * Method for building up the modal that allows us to edit/view the form for the energy metrics.
+     * Method for building up the modal that allows us to edit/view the form for the energy metrics.w
      *
      * @param  Form  $form  The form builder class that will be used to build the edit form for the utility metrics.
      * @return Form
@@ -101,40 +101,50 @@ final class UtilitiesRelationManager extends RelationManager
             ->emptyStateIcon('heroicon-o-document-chart-bar')
             ->emptyStateDescription('Momenteel zijn er nog geen verbruiks statistieken gevonden die gekoppeld zijn aan de verhuring')
             ->emptyStateActions([Actions\InitializeMetricsAction::make()])
-            ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Type verbruik'),
-                Tables\Columns\TextColumn::make('start_value')
-                    ->label('Meterstand (start)')
-                    ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix())
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('usage_total')
-                    ->label('Verbruik')
-                    ->sortable()
-                    ->color('warning')
-                    ->weight(FontWeight::Bold)
-                    ->prefix('+')
-                    ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix()),
-                Tables\Columns\TextColumn::make('end_value')
-                    ->label('Meterstand (eind)')
-                    ->sortable()
-                    ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix()),
-                Tables\Columns\TextColumn::make('unit_price')->label('Eenheidsprijs')
-                    ->money('EUR')
-                    ->weight(FontWeight::ExtraBold),
-                Tables\Columns\TextColumn::make('billing_amount')
-                    ->label('Verbruiksprijs')
-                    ->sortable()
-                    ->money('EUR')
-                    ->color('success')
-                    ->summarize(Sum::make()->label('Totale kost')->money('EUR'))
-                    ->weight(FontWeight::Bold),
-            ])
-            ->headerActions([
-                Actions\FinalizeMetricsAction::make(),
-                Actions\UnlockMetricsAction::make(),
-            ])
+            ->columns($this->getTableColumnsLayout())
+            ->headerActions($this->getTableHeaderActionsLayout())
             ->actions([Tables\Actions\EditAction::make()])
             ->paginated(false);
+    }
+
+    private function getTableColumnsLayout(): array
+    {
+        return [
+            Tables\Columns\TextColumn::make('name')
+                ->label('Type verbruik'),
+            Tables\Columns\TextColumn::make('start_value')
+                ->label('Meterstand (start)')
+                ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix())
+                ->sortable(),
+            Tables\Columns\TextColumn::make('usage_total')
+                ->label('Verbruik')
+                ->sortable()
+                ->color('warning')
+                ->weight(FontWeight::Bold)
+                ->prefix('+')
+                ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix()),
+            Tables\Columns\TextColumn::make('end_value')
+                ->label('Meterstand (eind)')
+                ->sortable()
+                ->suffix(fn(Utility $utility): string => ' ' . $utility->name->getSuffix()),
+            Tables\Columns\TextColumn::make('unit_price')->label('Eenheidsprijs')
+                ->money('EUR')
+                ->weight(FontWeight::ExtraBold),
+            Tables\Columns\TextColumn::make('billing_amount')
+                ->label('Verbruiksprijs')
+                ->sortable()
+                ->money('EUR')
+                ->color('success')
+                ->summarize(Sum::make()->label('Totale kost')->money('EUR'))
+                ->weight(FontWeight::Bold),
+        ];
+    }
+
+    private function getTableHeaderActionsLayout(): array
+    {
+        return [
+            Actions\FinalizeMetricsAction::make(),
+            Actions\UnlockMetricsAction::make(),
+        ];
     }
 }
