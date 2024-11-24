@@ -20,6 +20,11 @@ use App\Models\User;
  */
 final class ChangelogPolicy
 {
+    public function create(User $user): bool
+    {
+        return $user->user_group->notIn(enums: [UserGroup::Leiding]);
+    }
+
     /**
      * Determine whether the user can close a specific changelog.
      * This method checks if the given `User` has permission to close a `Changelog`.
