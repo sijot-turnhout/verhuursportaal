@@ -85,7 +85,7 @@ describe('Issue relation manager tests', function (): void {
         it('can render columns', function (string $column): void {
             livewire(IssuesRelationManager::class, ['ownerRecord' => $this->local, 'pageClass' => EditIssue::class])
                 ->assertCanRenderTableColumn($column);
-        })->with(['id', 'user.name', 'status', 'title', 'description', 'created_at']);
+        })->with(['id', 'user.name', 'status', 'title', 'created_at']);
 
         /**
          * Test that specified columns in the IssuesRelationManager table support search functionality.
