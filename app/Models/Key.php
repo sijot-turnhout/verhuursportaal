@@ -27,21 +27,6 @@ final class Key extends Model
     protected $guarded = ['id'];
 
     /**
-     * Tells the system how to handle specific key attributes.
-     * For example, whether a key is a master key is stored as a special 'MasterKey' type,
-     * and the key's production type is stored as a 'KeyTypes' type.
-     *
-     * @return array{is_master_key: class-string, type: class-string}
-     */
-    protected function casts(): array
-    {
-        return [
-            'is_master_key' => MasterKey::class,
-            'type' => KeyTypes::class,
-        ];
-    }
-
-    /**
      * Defines the relationship between a key and the user who possesses it.
      * This allows us to easily find out who has a particular key.
      * A key belongs to a single user.
@@ -64,5 +49,20 @@ final class Key extends Model
     public function local(): BelongsTo
     {
         return $this->belongsTo(Local::class);
+    }
+
+    /**
+     * Tells the system how to handle specific key attributes.
+     * For example, whether a key is a master key is stored as a special 'MasterKey' type,
+     * and the key's production type is stored as a 'KeyTypes' type.
+     *
+     * @return array{is_master_key: class-string, type: class-string}
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_master_key' => MasterKey::class,
+            'type' => KeyTypes::class,
+        ];
     }
 }

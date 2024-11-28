@@ -33,7 +33,7 @@ final class ListUsers extends ListRecords
      * Defines the actions that will appear in the page header, such as buttons for
      * creating new user records. In this case, it includes a create action with a user-plus icon.
      *
-     * @return array<\Filament\Actions\Action>
+     * @return array<Actions\Action>
      */
     protected function getHeaderActions(): array
     {

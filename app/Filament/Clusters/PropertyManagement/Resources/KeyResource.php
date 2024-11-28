@@ -119,7 +119,7 @@ final class KeyResource extends Resource
                 TextColumn::make('local.name')->default('alle lokalen')->icon('heroicon-o-home')->iconColor('primary')->searchable(),
                 TextColumn::make('key_number')->label('Serienummer')->searchable()->sortable()->placeholder('onbekend / n.v.t'),
                 TextColumn::make('name')->label('Naam v/d sleutel')->translateLabel()->searchable(),
-                Tables\Columns\TextColumn::make('is_master_key')->label('Sleutel type')->translateLabel()->searchable()->badge(),
+                TextColumn::make('is_master_key')->label('Sleutel type')->translateLabel()->searchable()->badge(),
                 TextColumn::make('type')->label('Productie')->badge()->sortable(),
             ])
             ->actions(self::registerTableActions())
@@ -171,7 +171,7 @@ final class KeyResource extends Resource
                         ->hiddenOn('edit')
                         ->columnSpan(12)
                         ->live()
-                        ->options(MasterKey::class)
+                        ->options(MasterKey::class),
                 ]),
 
             Forms\Components\Fieldset::make('Sleutel informatie')
@@ -202,7 +202,7 @@ final class KeyResource extends Resource
                         ->options(fn() => Local::query()->pluck('name', 'id'))
                         ->columnSpan(12)
                         ->requiredIf('is_master_key', MasterKey::False->value)
-                        ->hidden(fn (Forms\Get $get) => $get('is_master_key') == MasterKey::True->value),
+                        ->hidden(fn(Forms\Get $get) => $get('is_master_key') === MasterKey::True->value),
 
                     Forms\Components\Textarea::make('description')
                         ->label(trans('Beschrijving/Extra informatie'))
@@ -224,7 +224,7 @@ final class KeyResource extends Resource
                 KeyResource\Actions\ViewKeyRegistration::make(),
                 KeyResource\Actions\EditKeyRegistration::make(),
                 KeyResource\Actions\DeleteKeyRegistration::make(),
-            ])
+            ]),
         ];
     }
 

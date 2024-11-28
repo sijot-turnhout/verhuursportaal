@@ -86,8 +86,8 @@ final class LatestReservationRequests extends BaseWidget
     /**
      * Custom pagination logic for the table.
      *
-     * @param  Builder<\App\Models\Lease>    $query   The query builder instance for the table.
-     * @return Paginator<\App\Models\Lease>           The paginator instance for the query.
+     * @param  Builder<Lease>    $query   The query builder instance for the table.
+     * @return Paginator<Lease>           The paginator instance for the query.
      */
     protected function paginateTableQuery(Builder $query): Paginator|CursorPaginator
     {

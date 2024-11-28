@@ -125,7 +125,7 @@ final class ContactSubmissionResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        /** @var class-string<\App\Models\ContactSubmission> $modelClass */
+        /** @var class-string<ContactSubmission> $modelClass */
         $modelClass = static::$model;
 
         return (string) $modelClass::where('status', ContactMessageStatus::New)

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Key;
 use App\Models\Local;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;

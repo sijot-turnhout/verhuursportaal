@@ -57,12 +57,31 @@ final class KeyManagementRelationManager extends RelationManager
     protected static ?string $icon = 'heroicon-o-key';
 
     /**
+     * Determine if the user can view the record for the given page class.
+     *
+     * This method checks if the authenticated user has permission to view the specified
+     * record based on the provided Eloquent modal and page class.
+     *
+     * This method uses Laravel's Gate facade to check the 'viewAny' ability for the 'key' class
+     * and ensures that the provided page class matches the expected 'ViewLocal::class'.
+     *x
+     * @param  Model  $ownerRecord  The record of the owner model to check permissions for.
+     * @param  string $pageClass    The page class name of the page to check against.
+     * @return bool                 Returns 'true' is the user can view the record; 'false' otherwise
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        // Check if the user is authorized to view any 'key' records and ensure the page class corresponds to 'ViewLocal'
+        return Gate::allows('viewAny', Key::class) && ViewLocal::class === $pageClass;
+    }
+
+    /**
      * Defines the form schema for the Key Management relationship.
      *
      * @param  Form $form The form instance used to build the schema.
      * @return Form       The form instance with the schema defined.
      */
-    public function form(Form $form) : Form
+    public function form(Form $form): Form
     {
         return $form
             ->columns(12)
@@ -81,25 +100,6 @@ final class KeyManagementRelationManager extends RelationManager
     }
 
     /**
-     * Determine if the user can view the record for the given page class.
-     *
-     * This method checks if the authenticated user has permission to view the specified
-     * record based on the provided Eloquent modal and page class.
-     *
-     * This method uses Laravel's Gate facade to check the 'viewAny' ability for the 'key' class
-     * and ensures that the provided page class matches the expected 'ViewLocal::class'.
-     *x
-     * @param  Model  $ownerRecord  The record of the owner model to check permissions for.
-     * @param  string $pageClass    The page class name of the page to check against.
-     * @return bool                 Returns 'true' is the user can view the record; 'false' otherwise
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        // Check if the user is authorized to view any 'key' records and ensure the page class corresponds to 'ViewLocal'
-        return Gate::allows('viewAny', Key::class) && $pageClass === ViewLocal::class;
-    }
-
-    /**
      * Determine if the relation manager is in a read-only state.
      *
      * This method is used to check whether the relationship is managed by this 'KeyManagementRelationManager'
@@ -107,7 +107,7 @@ final class KeyManagementRelationManager extends RelationManager
      *
      * @return bool Returns 'false' indicating that the relationship is not read-only and can be modified.
      */
-    public function isReadOnly() : bool
+    public function isReadOnly(): bool
     {
         return false;
     }
@@ -118,7 +118,7 @@ final class KeyManagementRelationManager extends RelationManager
      * @param  Table $table The table instance used to build the table representation.
      * @return Table        The table instance with defined columns, actions, and bulk actions.
      */
-    public function table(Table $table) : Table
+    public function table(Table $table): Table
     {
         return $table
             ->heading(trans('Sleutels van het lokaal'))

@@ -33,7 +33,7 @@ final class EditUser extends EditRecord
      * Defines the actions that will appear in the page header, such as buttons for
      * deleting the record. In this case, it includes a delete action with a trash icon.
      *
-     * @return array<\Filament\Actions\Action>
+     * @return array<Actions\Action>
      */
     protected function getHeaderActions(): array
     {

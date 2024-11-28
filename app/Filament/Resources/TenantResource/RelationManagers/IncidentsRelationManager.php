@@ -194,7 +194,7 @@ final class IncidentsRelationManager extends RelationManager
      * These actions allow users to create new incident records directly.
      * This section is flexible if you’d like to add other batch actions.
      *
-     * @return array<int, \Filament\Tables\Actions\Action> List of header actions for incidents.
+     * @return array<int, Actions\Action> List of header actions for incidents.
      */
     private static function getHeaderActions(): array
     {
@@ -261,7 +261,7 @@ final class IncidentsRelationManager extends RelationManager
      * With edit and delete actions, users can easily manage each incident entry.
      * We’re open to suggestions on additional actions that may be useful here!
      *
-     * @return array<int, Tables\Actions\ActionGroup> List of actions for each incident record.
+     * @return array<int, Actions\ActionGroup> List of actions for each incident record.
      */
     private function getIncidentTableActions(): array
     {

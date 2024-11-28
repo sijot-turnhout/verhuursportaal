@@ -40,7 +40,7 @@ final class IssueResource extends Resource
      * This property defines the model class associated with this resource. The resource
      * interacts with this model to perform CRUD operations and display data.
      *
-     * @var class-string<\App\Models\Issue>|null
+     * @var class-string<Issue>|null
      */
     protected static ?string $model = Issue::class;
 

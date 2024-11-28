@@ -8,7 +8,6 @@ use App\Filament\Clusters\PropertyManagement\Resources\KeyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-
 /**
  * This class represents the page in the Filament admin panel that lists all the keys.
  * It handles displaying the keys and provides actions like creating a new key registration.

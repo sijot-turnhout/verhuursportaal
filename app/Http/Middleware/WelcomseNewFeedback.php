@@ -23,7 +23,7 @@ final class WelcomseNewFeedback
      * Handle an incoming request.
      *
      * @param  Request $request The incoming HTTP request.
-     * @param  Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next  The next middleware or request handler.
+     * @param  Closure(Request): (Response)  $next  The next middleware or request handler.
      * @return Response Returns a Symfony Response instance.
      */
     public function handle(Request $request, Closure $next): Response

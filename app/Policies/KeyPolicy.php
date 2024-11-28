@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Enums\UserGroup;
 use App\Models\User;
+use Exception;
 
 /**
  * Defines authorization logic for the Key model, focusing on community-based access control.
@@ -22,7 +23,7 @@ final readonly class KeyPolicy
      *
      * @param  User $user  The community member for whom to check authorization.
      * @return bool        True if authorized, false otherwise
-     * @throws \Exception  If the user group check encounters an unexpected error.
+     * @throws Exception  If the user group check encounters an unexpected error.
      */
     public function viewAny(User $user): bool
     {
@@ -36,7 +37,7 @@ final readonly class KeyPolicy
      *
      * @param  User $user  The community member for whom to check authorization.
      * @return bool        True if the user is authorized to create keys, false otherwise.
-     * @throws \Exception  If the use group check encounters an unexpected error.
+     * @throws Exception  If the use group check encounters an unexpected error.
      */
     public function create(User $user): bool
     {
