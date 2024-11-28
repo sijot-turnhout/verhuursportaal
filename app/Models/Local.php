@@ -6,6 +6,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -41,6 +43,17 @@ final class Local extends Model
     public function issues(): MorphMany
     {
         return $this->morphMany(Issue::class, 'issueable');
+    }
+
+    /**
+     * Defines a relationship where a single user can have multiple keys associated with them.
+     * This allows easy access to all keys held by a specific user.
+     *
+     * @return HasMany
+     */
+    public function keyManagement(): HasMany
+    {
+        return $this->hasMany(Key::class);
     }
 
     /**

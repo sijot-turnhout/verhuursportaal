@@ -14,15 +14,75 @@ use Illuminate\Contracts\Support\Htmlable;
 
 final class ActivityRegistrationChart extends AdvancedChartWidget
 {
+    /**
+     * The currently applied filter for the chart data. Defaults to 'today'.
+     * Available options are typically 'today', 'week', 'month', and 'year'.
+     *
+     * @var string|null
+     */
     public ?string $filter = 'today';
+
+    /**
+     * The icon to display for the widget.
+     * Uses Heroicons as icon library.
+     *
+     * @var string|null
+     */
     protected static ?string $icon = 'heroicon-o-pencil-square';
+
+    /**
+     * The color of the widget's icon. Corresponds to Tailwind CSS color names.
+     *
+     * @var string|null
+     */
     protected static ?string $iconColor = 'danger';
+
+    /**
+     * The primary color of the widget. Corresponds to Tailwind CSS color names.
+     *
+     * @var string
+     */
     protected static string $color = 'danger';
+
+    /**
+     * The background color of the widget's icon. Corresponds to Tailwind CSS color names.
+     *
+     * @var string|null
+     */
     protected static ?string $iconBackgroundColor = 'danger';
+
+    /**
+     * The position of the badge icon relative to the badge text. Can be 'before' or 'after'.
+     *
+     * @var string|null
+     */
     protected static ?string $badgeIconPosition = 'after';
+
+    /**
+     * The maximum height of the widget. Uses Tailwind CSS units.
+     *
+     * @var string|null
+     */
     protected static ?string $maxHeight = '150px';
+
+    /**
+     * The column span of the widget. Can be 'full', an integer, or an array for responsive behaviour.
+     *
+     * @var int|string|array
+     */
     protected int|string|array $columnSpan = 'full';
 
+    /**
+     * Configuration options for the chart.
+     * This controls things like the axes, legend, and stacking behaviour.
+     *
+     * 'scales' configures the x and y axes.
+     * 'y' is set to stack data, always display, start at zero, and have ticks increment by 1.
+     * 'x' is also set to stack data.
+     * 'plugins' configures the chart's legend to be displayed and filled.
+     *
+     * @var array|null
+     */
     protected static ?array $options = [
         'scales' => [
             'y' => ['stacked' => true, 'display' => true, 'beginAtZero' => true, 'ticks' => ['stepSize' => 1]],
@@ -31,6 +91,11 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         'plugins' => ['legend' => ['display' => true, 'fill' => true]],
     ];
 
+    /**
+     * Gets the label (title) for the chart based on the selected filter.
+     *
+     * @return string|Htmlable|null The translated chart label.
+     */
     public function getLabel(): string|Htmlable|null
     {
         return match ($this->filter) {
@@ -41,6 +106,11 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         };
     }
 
+    /**
+     * Gets the chart's heading, which displays the total number of registered activities based on the selected filter.
+     *
+     * @return string|Htmlable|null The translated heading with the activity count.
+     */
     public function getHeading(): string|Htmlable|null
     {
         $registerActivitiesToday = Activity::query()->whereDate('created_at', Carbon::today())->count();
@@ -56,6 +126,11 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         };
     }
 
+    /**
+     * Returns the available filters for the chart.
+     *
+     * @return array|null The available filter options.
+     */
     protected function getFilters(): ?array
     {
         return [
@@ -66,6 +141,11 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         ];
     }
 
+    /**
+     * Retrieves the data to be displayed in the chart.  The data returned depends on the currently selected filter.
+     *
+     * @return array The chart data.
+     */
     protected function getData(): array
     {
         return match ($this->filter) {
@@ -76,32 +156,27 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         };
     }
 
+    /**
+     * Specifies the type of chart to be rendered.
+     *
+     * @return string The chart type ('line' in this case).
+     */
     protected function getType(): string
     {
         return 'line';
     }
 
     /**
-     * Retrieves activity chart data for a specified period.
-     * This function leverages the `Flowframe\Trend` library to aggregate activity data and format it for chart display.
-     * It supports various aggregation periods like hourly, daily, and monthly.
+     * Retrieves and formats activity chart data for a given period.
+     * This is a helper function used by the filter-specific data retrieval methods.
+     * It leverages the Flowframe\Trend library to aggregate activity data.
      *
-     * @param Carbon $start The starting date of the period for which to retrieve data.
-     * @param Carbon $end    The ending date of the period.
-     * @param string $period The aggregation period.  Valid values are Trend constants such as 'perHour', 'perDay', 'perWeek', 'perMonth', 'perQuarter', 'perYear'.
-     *                       See the Flowframe\Trend documentation for a full list of supported periods: [link to documentation if available].
-     *                       Incorrect values will likely result in unexpected behavior.
+     * @param Carbon $start  The start of the period.
+     * @param Carbon $end    The end of the period.
+     * @param string $period The aggregation period (e.g., 'perHour', 'perDay', 'perMonth').
      *
-     * @return array An associative array containing the chart data. The array has two keys:
-     *               - `datasets`: An array of datasets, each containing a label and data points.
-     *               - `labels`: An array of labels for the x-axis of the chart.  The format depends on the $period parameter.
-     *
-     * @throws Exception If an invalid $period value is provided. While not explicitly checked here, invalid periods may cause exceptions within the Trend library.
-     *
-     * @example
-     *
-     * $this->getActivityChartData(now()->startOfDay(), now()->endOfDay(), 'perHour');      // Get hourly data for today.
-     * $this->getActivityChartData(now()->startOfMonth(), now()->endOfMonth(), 'perDay');   // Get daily data for this month.
+     * @return array     The formatted chart data.
+     * @throws Exception If there's an issue with the $period value.
      */
     private function getActivityChartData(Carbon $start, Carbon $end, string $period): array
     {
@@ -119,15 +194,20 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         ];
     }
 
+    /**
+     * Retrieves chart data for today, aggregated per hour.
+     *
+     * @return array The chart data for today.
+     */
     private function getChartForToday(): array
     {
         return $this->getActivityChartData(now()->startOfDay(), now()->endOfDay(), 'perHour');
     }
 
     /**
-     * Generate chart data for the current week.
+     * Retrieves chart data for the last week, aggregated per day.
      *
-     * @return array  The activity chart data for the current week
+     * @return array The chart data for the last week.
      */
     private function getChartForLastWeek(): array
     {
@@ -135,9 +215,9 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     }
 
     /**
-     * Retrieves activity chart data for the last month, aggregated by day.
+     * Retrieves chart data for the last month, aggregated per day.
      *
-     * @return array The chart data, as returned by getActivityChartData().
+     * @return array The chart data for the last month.
      */
     private function getChartForLastMonth(): array
     {
@@ -145,9 +225,9 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     }
 
     /**
-     * Retrieves activity chart data for the last year, aggregated by month.
+     * Retrieves chart data for the last year, aggregated per month.
      *
-     * @return array The chart data, as returned by getActivityChartData().
+     * @return array The chart data for the last year.
      */
     private function getChartForLastYear(): array
     {

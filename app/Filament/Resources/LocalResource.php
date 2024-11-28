@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Clusters\PropertyManagement;
+use App\Filament\Clusters\PropertyManagement\Resources\KeyResource\RelationManagers\KeyManagementRelationManager;
 use App\Filament\Resources\LocalResource\Forms\LocalResourceForm;
 use App\Filament\Resources\LocalResource\Pages;
 use App\Filament\Resources\LocalResource\RelationManagers\IssuesRelationManager;
@@ -119,9 +120,19 @@ final class LocalResource extends Resource
      */
     public static function getRelations(): array
     {
-        return [IssuesRelationManager::class];
+        return [
+            IssuesRelationManager::class,
+            KeyManagementRelationManager::class,
+        ];
     }
 
+    /**
+     * Defines the information list schema for displaying general room details.
+     * This structure is used to present information about a room in a clear and organised way.
+     *
+     * @param  Infolist $infolist The infolist object to configure.
+     * @return Infolist           The configured infolist object with the defined columns.
+     */
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist

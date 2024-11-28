@@ -17,19 +17,13 @@ return new class () extends Migration {
     {
         Schema::create('keys', function (Blueprint $table): void {
             $table->id();
-            $table->boolean('is_master_key')->default(false);
+            $table->string('is_master_key')->default(false);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Local::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('type');
             $table->string('key_number')->nullable();
             $table->string('description');
-            $table->timestamps();
-        });
-
-        Schema::create('key_local', function (Blueprint $table): void {
-            $table->id();
-            $table->foreignIdFor(Local::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Key::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -39,7 +33,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('key_local');
         Schema::dropIfExists('keys');
     }
 };
