@@ -48,7 +48,7 @@ final class SecurityDepositBuilder extends Builder
                 event: trans('waarborg registratie'),
                 auditMessage: trans('Heeft de betaling van een waarborg geregistreerd'),
                 extraProperties: [
-                    'deposit_balance' => $deposit->paid_amount
+                    'deposit_balance' => $deposit->paid_amount,
                 ],
             );
 
@@ -73,14 +73,14 @@ final class SecurityDepositBuilder extends Builder
                 auditMessage: trans('Heeft de waarborg geregistreerd als volledig terugbetaald.'),
                 extraProperties: [
                     'deposit_balance' => $this->model->paid_amount,
-                    'refunded_balance' => $this->model->paid_amount
+                    'refunded_balance' => $this->model->paid_amount,
                 ],
             );
 
             return $this->model->update(attributes: [
                 'status' => DepositStatus::FullyRefunded,
                 'refunded_at' => now(),
-                'refunded_amount' => $this->model->paid_amount
+                'refunded_amount' => $this->model->paid_amount,
             ]);
         });
     }
@@ -103,7 +103,7 @@ final class SecurityDepositBuilder extends Builder
                 extraProperties: [
                     'deposit_balance' => $this->model->paid_amount,
                     'refunded_balance' => '0.00',
-                    'withheld_balance' => $this->model->paid_amount
+                    'withheld_balance' => $this->model->paid_amount,
                 ],
             );
 
@@ -111,7 +111,7 @@ final class SecurityDepositBuilder extends Builder
                 'status' => DepositStatus::WithDrawn,
                 'revoked_amount' => $this->model->paid_amount,
                 'refunded_amount' => '0.00',
-                'refunded_at' => now()
+                'refunded_at' => now(),
             ]));
         });
     }
@@ -135,14 +135,15 @@ final class SecurityDepositBuilder extends Builder
                 auditMessage: trans('Heeft een gedeeltelijke terugbetaling van de waarborg geregistreerd'),
                 extraProperties: [
                     'refunded_amount' => $calculatedRefund,
-                    'revoked_amount' => $depositData['revoked_amount']
+                    'revoked_amount' => $depositData['revoked_amount'],
                 ],
             );
 
-            return $this->model->update(attributes: array_merge($depositData, [
-                'status' => DepositStatus::PartiallyRefunded,
-                'refuned_at' => now(),
-                'refunded_amount' => $calculatedRefund])
+            return $this->model->update(
+                attributes: array_merge($depositData, [
+                    'status' => DepositStatus::PartiallyRefunded,
+                    'refuned_at' => now(),
+                    'refunded_amount' => $calculatedRefund]),
             );
         });
     }
@@ -163,7 +164,7 @@ final class SecurityDepositBuilder extends Builder
         string $event,
         string $auditMessage,
         $extraProperties = [],
-        ?Model $performedOn = null
+        ?Model $performedOn = null,
     ): Activity|null {
         return activity(trans('waarborg-betalingen'))
             ->performedOn($performedOn ?? $this->model)
