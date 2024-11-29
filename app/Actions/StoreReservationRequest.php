@@ -35,7 +35,7 @@ final readonly class StoreReservationRequest implements StoreReservation
             }
 
             // Notification sending
-            $tenant->sendOutReservationConfirmation();
+            $tenant->sendOutReservationConfirmation($lease);
             $this->sendOutNotificationToTheBackend();
         });
 

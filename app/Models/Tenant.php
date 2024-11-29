@@ -72,11 +72,12 @@ final class Tenant extends Model implements BannableInterface
     /**
      * Method for sending out the reservation request confirmation to the tenant.
      *
+     * @param  Lease $lease The entiry from the lease reservation that has been sotred in them application.
      * @return void
      */
-    public function sendOutReservationConfirmation(): void
+    public function sendOutReservationConfirmation(Lease $lease): void
     {
-        $this->notify((new ReservationConfirmation())->afterCommit());
+        $this->notify((new ReservationConfirmation($lease))->afterCommit());
     }
 
     /**
