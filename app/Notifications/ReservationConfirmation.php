@@ -16,7 +16,7 @@ final class ReservationConfirmation extends Notification implements ShouldQueue
     use Queueable;
 
     public function __construct(
-        public readonly Lease $lease
+        public readonly Lease $lease,
     ) {}
 
     /** @return array<int, string> */
@@ -34,7 +34,7 @@ final class ReservationConfirmation extends Notification implements ShouldQueue
             ->subject('Bevestiging aanvraag tot verhuring')
             ->view('mail.reservation-confirmation', data: [
                 'tenantInformation' => $notifiable,
-                'leaseInformation' => $this->lease
+                'leaseInformation' => $this->lease,
             ]);
     }
 }
