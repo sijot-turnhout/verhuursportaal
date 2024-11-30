@@ -15,14 +15,25 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Handles reservation requests.
+ *
+ * This action class orchestrates the process of creating and processing reservation requests.
+ * It includes tasks like finding or creating tenants, registering leases,
+ * sending notifications, and triggering risk assessments.
+ *
+ * @package App\Actions
+ */
 final readonly class StoreReservationRequest implements StoreReservation
 {
     /**
-     * The method that handles the storage process of the reservation in the applicitaon.
-     * Mainly we do a couple things here such as find or creating the tenant in the application backend.
-     * And creating the lease reservation and sending out the confirmation mail to the tenant.
+     * Processes the reservation request.
+     *
+     * This method orchestrates the entire reservation process, ensuring data integrity
+     * and triggering necessary actions.
      *
      * @param  ReservationDataObject $reservationDataObject The data object that contains the initial request data in a mapped form. for the reservation request.
+     * @return void
      */
     public function process(ReservationDataObject $reservationDataObject): void
     {
@@ -43,9 +54,13 @@ final readonly class StoreReservationRequest implements StoreReservation
     }
 
     /**
-     * Method for find or storing the tenant in the reservation backend of the application.
+     * Finds an existing tenant by email or registrers a new one.
      *
-     * @param  ReservationDataObject $reservationDataObject The data obejct that contains all the needed information for storing the reservation;
+     * This method prioritizes finding an existing tenant based on their email address.
+     * If no match is found, a new tenant record is created using the provided information.
+     *
+     * @param  ReservationDataObject $reservationDataObject The data obejct that contains all the needed information for storing the reservation.
+     * @return Tenant                                       The found or created tenant instance.
      */
     public function findTenantByEmailOrRegister(ReservationDataObject $reservationDataObject): Tenant
     {
@@ -53,11 +68,29 @@ final readonly class StoreReservationRequest implements StoreReservation
             ->firstOr(fn(): Tenant|Model => Tenant::query()->create($reservationDataObject->getTenantInformation()->toArray()));
     }
 
+    /**
+     * Registers a new lease reservation.
+     *
+     * This method creates a new lease record in the database using the provided lease information.
+     *
+     * @param ReservationDataObject $reservationDataObject The data object containing the reservation details.
+     * @return Lease                                       The newly created lease instance.
+     */
     private function registerLeaseReservartion(ReservationDataObject $reservationDataObject): Lease
     {
         return Lease::create($reservationDataObject->getLeaseInformation()->toArray());
     }
 
+    /**
+     * Registers or finds a tenant and associates them with the lease.
+     *
+     * This method first finds or creates a tenant and then associates the newly created lease
+     * with the tenant. Additionally, it dispatches a job to perform a risk assessment on the lease.
+     *
+     * @param  ReservationDataObject $reservationDataObject  The data object containing the reservation details.
+     * @param  Lease                 $lease                  The newly created lease instance.
+     * @return Tenant                                        The tenant associated with the lease.
+     */
     private function registerOrFindTenant(ReservationDataObject $reservationDataObject, Lease $lease): Tenant
     {
         $tenant = $this->findTenantByEmailOrRegister($reservationDataObject);
@@ -83,7 +116,7 @@ final readonly class StoreReservationRequest implements StoreReservation
                 ->icon('heroicon-o-document-text')
                 ->iconColor('success')
                 ->title('Nieuwe aanvraag tot verhuring')
-                ->body('Er is een nieuwe aangevraagd in de applicatie.')
+                ->body('Er is een verhuring nieuwe aangevraagd in de applicatie.')
                 ->sendToDatabase($user);
         });
     }

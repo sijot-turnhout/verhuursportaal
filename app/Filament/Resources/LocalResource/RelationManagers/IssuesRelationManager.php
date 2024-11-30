@@ -33,8 +33,6 @@ use Illuminate\Database\Eloquent\Model;
  * @todo See if we can implement a cron job console command to register a issue ticket as inactive after X months.
  *
  * @see \App\Policies\IssuePolicy::class
- *
- * @package App\Filament\Resources\LocalResource\RelationManagers
  */
 final class IssuesRelationManager extends RelationManager
 {
@@ -60,8 +58,7 @@ final class IssuesRelationManager extends RelationManager
     /**
      * Method to build the create/edit form that is attached to the relation manager.
      *
-     * @param  Form  $form  The form builder that will be used to create the form in the relation manager.
-     * @return Form
+     * @param Form $form The form builder that will be used to create the form in the relation manager.
      */
     public function form(Form $form): Form
     {
@@ -71,8 +68,7 @@ final class IssuesRelationManager extends RelationManager
     /**
      * Method to define the infolist view for the information view of the issue ticket;
      *
-     * @param  Infolist  $infolist  The infolist builder instance to build up the infolist
-     * @return Infolist
+     * @param Infolist $infolist The infolist builder instance to build up the infolist
      */
     public function infolist(Infolist $infolist): Infolist
     {
@@ -87,12 +83,11 @@ final class IssuesRelationManager extends RelationManager
     /**
      * Method to display the issues overview table in the relation manager.
      *
-     * @param  Table  $table  The table builder instance that will be used to display the issue overview table.
-     * @return Table
-     *
-     * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
+     * @param Table $table The table builder instance that will be used to display the issue overview table.
      *
      * @throws Exception
+     *
+     * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
      */
     public function table(Table $table): Table
     {
@@ -134,20 +129,20 @@ final class IssuesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->modalIcon('heroicon-o-information-circle')
-                    ->modalDescription(fn(Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
+                    ->modalDescription(fn (Issue $issue): string => trans('Referentienummer #:number', ['number' => $issue->id]))
                     ->modalIconColor('primary')
                     ->slideOver()
                     ->modalCancelAction(false)
                     ->extraModalFooterActions([
                         Tables\Actions\Action::make('Werkpunt afsluiten')
-                            ->visible(fn(Issue $issue): bool => auth()->user()->can('close', $issue))
-                            ->action(fn(Issue $issue) => $issue->state()->transitionToClosed())
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('close', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToClosed())
                             ->color('danger')
                             ->icon('heroicon-o-document-check'),
 
                         Tables\Actions\Action::make('Werkpunt heropenen')
-                            ->visible(fn(Issue $issue): bool => auth()->user()->can('reopen', $issue))
-                            ->action(fn(Issue $issue) => $issue->state()->transitionToOpen())
+                            ->visible(fn (Issue $issue): bool => auth()->user()->can('reopen', $issue))
+                            ->action(fn (Issue $issue) => $issue->state()->transitionToOpen())
                             ->color('gray')
                             ->icon('heroicon-o-arrow-path'),
                     ]),
