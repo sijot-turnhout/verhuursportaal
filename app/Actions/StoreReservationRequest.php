@@ -6,11 +6,13 @@ namespace App\Actions;
 
 use App\Contracts\StoreReservation;
 use App\DataObjects\ReservationDataObject;
+use App\Filament\Resources\LeaseResource\Pages\ViewLease;
 use App\Jobs\PerformRiskAssesment;
 use App\Jobs\QuotationGenerator;
 use App\Models\Lease;
 use App\Models\Tenant;
 use App\Models\User;
+use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -47,7 +49,7 @@ final readonly class StoreReservationRequest implements StoreReservation
 
             // Notification sending
             $tenant->sendOutReservationConfirmation($lease);
-            $this->sendOutNotificationToTheBackend();
+            $this->sendOutNotificationToTheBackend($lease);
         });
 
         flash(trans('Wij hebben u reservatie aanvraag goed ontvangen. En gaan hier zo snel mogelijk mee aan de slag.'), 'alert-success');
@@ -105,18 +107,24 @@ final readonly class StoreReservationRequest implements StoreReservation
      * This method will allow us to send out notifications to the users of the platform.
      * In the backend. So We can keep them informed there about the newly created request.
      *
-     * @todo Register actions in the notifications where the backend administrator simply can click to get on the requsted lease information page.
-     *
+     * @param  Lease $lease The database entity of the lease that has been created through the request.
      * @return void
      */
-    private function sendOutNotificationToTheBackend(): void
+    private function sendOutNotificationToTheBackend(Lease $lease): void
     {
-        User::all()->each(function ($user): void {
+        User::all()->each(function ($user) use ($lease): void {
             Notification::make()
                 ->icon('heroicon-o-document-text')
                 ->iconColor('success')
                 ->title('Nieuwe aanvraag tot verhuring')
                 ->body('Er is een verhuring nieuwe aangevraagd in de applicatie.')
+                ->actions([
+                    Action::make('viewLease')
+                        ->label('Bekijk verhuring')
+                        ->translateLabel()
+                        ->url(ViewLease::getUrl(['record' => $lease]))
+                        ->markAsRead()
+                ])
                 ->sendToDatabase($user);
         });
     }
