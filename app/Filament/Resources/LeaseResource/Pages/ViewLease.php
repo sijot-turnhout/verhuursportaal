@@ -7,6 +7,7 @@ namespace App\Filament\Resources\LeaseResource\Pages;
 use App\Enums\LeaseStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\RegisterDepositAction;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
+use App\Filament\Resources\LeaseResource\Actions\StateTransitions;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\Actions\ViewQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
@@ -76,10 +77,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     protected function registerStatusManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
-            // Transition to "Option" status
-            $this->changeStateTransitionAction(state: LeaseStatus::Option)
-                ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToOption()),
+            StateTransitions\TransitionToOptionAction::make(),
 
             // Transition lease to "Quotation" status
             $this->changeStateTransitionAction(state: LeaseStatus::Quotation)
