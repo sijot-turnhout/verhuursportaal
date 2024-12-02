@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\Actions\StateTransitions;
 
 use App\Enums\LeaseStatus;
-use App\Filament\Support\StateMachines\StateTransitionActionContract;
+use App\Filament\Support\Actions\StateTransitionAction;
 use App\Models\Lease;
-use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Gate;
  *
  * @package App\Filament\Resources\LeaseResource\Actions\StateTransitions
  */
-final class TransitionToOptionAction extends Action implements StateTransitionActionContract
+final class TransitionToOptionAction extends StateTransitionAction
 {
     /**
      * Creates a new instance of the action with the specified configuration.
@@ -29,13 +28,7 @@ final class TransitionToOptionAction extends Action implements StateTransitionAc
      */
     public static function make(?string $name = null): static
     {
-        $finalState = LeaseStatus::Option;
-
-        return parent::make($name)
-            ->label('Markeren als Optie')
-            ->translateLabel()
-            ->color($finalState->getColor())
-            ->icon($finalState->getIcon())
+        return self::buildStateTransitionAction(name: 'transition-to-option', label: 'Markeren als optie', finalState: LeaseStatus::Option)
             ->visible(fn (Lease $lease): bool => self::canTransition($lease))
             ->action(fn (Lease $lease) => self::performActionLogic($lease));
     }
@@ -46,7 +39,7 @@ final class TransitionToOptionAction extends Action implements StateTransitionAc
     public static function canTransition(Model $lease): bool
     {
         /** @phpstan-ignore-next-line */
-        return Gate::allows('update', $lease) && $lease->status->in(self::configureAllowedStates());
+        return Gate::allows('update', $lease) && $lease->status->in(enums: self::configureAllowedStates());
     }
 
     /**

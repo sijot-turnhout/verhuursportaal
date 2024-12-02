@@ -10,27 +10,27 @@ use App\Models\Lease;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
-final class TransitionToQuotationAction extends StateTransitionAction
+final class TransitionToFinalizedAction extends StateTransitionAction
 {
     public static function make(?string $name = null): static
     {
-        return self::buildStateTransitionAction(name: 'transition-to-quotation', label: 'Markeren as offerte optie', finalState: LeaseStatus::Quotation)
+        return self::buildStateTransitionAction(name: 'transition-to-finalized', label: 'Markeren als afgelopen', finalState: LeaseStatus::Finalized)
             ->visible(fn (Lease $lease): bool => self::canTransition($lease))
             ->action(fn (Lease $lease) => self::performActionLogic($lease));
     }
 
-    public static function canTransition(Model $lease): bool
+    public static function canTransition(Model $model): bool
     {
-        return Gate::allows('update', $lease) && $lease->status->in(enums: self::configureAllowedStates());
+        return Gate::allows('update', $model) && $model->status->in(enums: self::configureAllowedStates());
     }
 
     public static function configureAllowedStates(): array
     {
-        return [LeaseStatus::Request];
+        return [LeaseStatus::Confirmed];
     }
 
-    public static function performActionLogic(Model $lease): void
+    public static function performActionLogic(Model $model): void
     {
-        $lease->state()->transitionToQuotationRequest();
+        $model->state()->transitionToCompleted();
     }
 }

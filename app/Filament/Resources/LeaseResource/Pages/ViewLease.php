@@ -78,21 +78,9 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
     {
         return ActionGroup::make([
             StateTransitions\TransitionToOptionAction::make(),
-
-            // Transition lease to "Quotation" status
-            $this->changeStateTransitionAction(state: LeaseStatus::Quotation)
-                ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToQuotationRequest()),
-
-            // Transition lease o "Confirmed" status
-            $this->changeStateTransitionAction(state: LeaseStatus::Confirmed)
-                ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Option, LeaseStatus::Quotation]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToConfirmed()),
-
-            // Transition lease to "Finalized" status
-            $this->changeStateTransitionAction(state: LeaseStatus::Finalized)
-                ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Confirmed]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToCompleted()),
+            StateTransitions\TransitionToQuotationAction::make(),
+            StateTransitions\TransitionToConfirmedAction::make(),
+            StateTransitions\TransitionToFinalizedAction::make(),
 
             // Transition lease to "Cancelled" status
             $this->changeStateTransitionAction(state: LeaseStatus::Cancelled)
