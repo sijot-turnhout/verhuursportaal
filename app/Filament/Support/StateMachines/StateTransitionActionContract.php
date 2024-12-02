@@ -7,6 +7,7 @@ use FontLib\Table\Type\name;
 namespace App\Filament\Support\StateMachines;
 
 use Illuminate\Database\Eloquent\Model;
+
 /**
  * Contract for defining state transition actions within a state machine.
  *

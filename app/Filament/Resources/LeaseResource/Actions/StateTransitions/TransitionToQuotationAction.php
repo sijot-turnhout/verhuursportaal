@@ -20,7 +20,7 @@ final class TransitionToQuotationAction extends Action implements StateTransitio
             ->translateLabel()
             ->color($finalState->getColor())
             ->icon($finalState->getIcon())
-            ->visible(fn (Lease $lease): bool => self::canTransition($lease))
-            ->action(fn (Lease $lease) => self::performActionLogic($lease));
+            ->visible(fn(Lease $lease): bool => self::canTransition($lease))
+            ->action(fn(Lease $lease) => self::performActionLogic($lease));
     }
 }

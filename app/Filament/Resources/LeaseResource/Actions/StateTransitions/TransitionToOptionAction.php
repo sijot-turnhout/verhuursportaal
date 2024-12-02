@@ -36,8 +36,8 @@ final class TransitionToOptionAction extends Action implements StateTransitionAc
             ->translateLabel()
             ->color($finalState->getColor())
             ->icon($finalState->getIcon())
-            ->visible(fn (Lease $lease): bool => self::canTransition($lease))
-            ->action(fn (Lease $lease) => self::performActionLogic($lease));
+            ->visible(fn(Lease $lease): bool => self::canTransition($lease))
+            ->action(fn(Lease $lease) => self::performActionLogic($lease));
     }
 
     /**
