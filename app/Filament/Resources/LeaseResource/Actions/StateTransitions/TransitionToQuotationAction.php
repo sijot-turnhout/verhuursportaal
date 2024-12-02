@@ -6,6 +6,7 @@ namespace App\Filament\Resources\LeaseResource\Actions\StateTransitions;
 
 use App\Enums\LeaseStatus;
 use App\Filament\Support\StateMachines\StateTransitionActionContract;
+use App\Models\Lease;
 use Filament\Actions\Action;
 
 final class TransitionToQuotationAction extends Action implements StateTransitionActionContract
@@ -17,6 +18,9 @@ final class TransitionToQuotationAction extends Action implements StateTransitio
         return parent::make($name)
             ->label('Markeren als offerte optie')
             ->translateLabel()
-            ->color()
+            ->color($finalState->getColor())
+            ->icon($finalState->getIcon())
+            ->visible(fn (Lease $lease): bool => self::canTransition($lease))
+            ->action(fn (Lease $lease) => self::performActionLogic($lease));
     }
 }
