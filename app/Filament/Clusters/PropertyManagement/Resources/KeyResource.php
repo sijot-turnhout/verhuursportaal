@@ -149,7 +149,7 @@ final class KeyResource extends Resource
      *
      * Returns an array defining the form fields for key management.
      *
-     * @return array<\Filament\Forms\Components\Component>
+     * @return array<Forms\Components\Component>
      */
     public static function registerKeyManagementForm(): array
     {

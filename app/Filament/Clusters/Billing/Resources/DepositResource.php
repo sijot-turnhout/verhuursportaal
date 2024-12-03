@@ -19,7 +19,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\Widget;
-use Filament\Widgets\WidgetConfiguration;
 
 /**
  * Resource class for managing security deposits within the Billing cluster of the Filament admin panel.
