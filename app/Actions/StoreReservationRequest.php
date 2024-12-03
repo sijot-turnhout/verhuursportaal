@@ -123,7 +123,7 @@ final readonly class StoreReservationRequest implements StoreReservation
                         ->label('Bekijk verhuring')
                         ->translateLabel()
                         ->url(ViewLease::getUrl(['record' => $lease]))
-                        ->markAsRead()
+                        ->markAsRead(),
                 ])
                 ->sendToDatabase($user);
         });
