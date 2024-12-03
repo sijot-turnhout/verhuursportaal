@@ -15,8 +15,8 @@ final class TransitionToConfirmedAction extends StateTransitionAction
     public static function make(?string $name = null): static
     {
         return self::buildStateTransitionAction(name: 'transition-to-confirmed', label: 'Markeren als bevestigd', finalState: LeaseStatus::Confirmed)
-            ->visible(fn (Lease $lease): bool => self::canTransition($lease))
-            ->action(fn (Lease $lease) => self::performActionLogic($lease));
+            ->visible(fn(Lease $lease): bool => self::canTransition($lease))
+            ->action(fn(Lease $lease) => self::performActionLogic($lease));
     }
 
     public static function canTransition(Model $model): bool
