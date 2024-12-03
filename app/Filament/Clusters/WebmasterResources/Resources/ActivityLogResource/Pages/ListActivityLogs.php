@@ -11,6 +11,11 @@ final class ListActivityLogs extends ListRecords
 {
     protected static string $resource = ActivityLogResource::class;
 
+    /**
+     * Method to register the header widgets for the Activity log overview in the Filament Admin resource
+     *
+     * @return array<int, class-string>
+     */
     protected function getHeaderWidgets(): array
     {
         return ActivityLogResource::getWidgets();

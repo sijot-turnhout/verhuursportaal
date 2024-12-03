@@ -34,11 +34,13 @@ final class TransitionToOptionAction extends StateTransitionAction
     }
 
     /**
-     * @param Lease $lease
+     * The method that checks if the authenticated user is authorizated to perform the state transition.
+     *
+     * @param  Lease $lease The resource entity from the database storage.
+     * @return bool
      */
     public static function canTransition(Model $lease): bool
     {
-        /** @phpstan-ignore-next-line */
         return Gate::allows('update', $lease) && $lease->status->in(enums: self::configureAllowedStates());
     }
 
@@ -53,7 +55,8 @@ final class TransitionToOptionAction extends StateTransitionAction
     /**
      * Method to perform the needed logic for the state transition action.
      *
-     * @param Lease $lease
+     * @param  Lease $lease The resource entity that needs the transition update.
+     * @return void
      */
     public static function performActionLogic(Model $lease): void
     {

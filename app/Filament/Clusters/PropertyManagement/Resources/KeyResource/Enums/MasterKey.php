@@ -68,7 +68,7 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
     /**
      * Gets the color used to represent this key type visually.
      *
-     * @return string|array|null
+     * {@inheritDoc}
      */
     public function getColor(): string|array|null
     {

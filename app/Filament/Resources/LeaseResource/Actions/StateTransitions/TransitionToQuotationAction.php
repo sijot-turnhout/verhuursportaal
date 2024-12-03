@@ -47,9 +47,7 @@ final class TransitionToQuotationAction extends StateTransitionAction
     }
 
     /**
-     * Configures the allowed states for the action.
-     *
-     * @return array<mixed> The allowed states.
+     * {@inheritDoc}
      */
     public static function configureAllowedStates(): array
     {
