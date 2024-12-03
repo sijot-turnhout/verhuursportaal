@@ -14,8 +14,6 @@ use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
 use App\Filament\Resources\LeaseResource;
 use App\Filament\Resources\LeaseResource\Actions\AssignAuthenticatedUserAction;
-use App\Filament\Support\StateMachines\StateTransitionGuard;
-use App\Filament\Support\StateMachines\StateTransitionGuardContract;
 use App\Models\Lease;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -37,10 +35,8 @@ use Filament\Resources\Pages\ViewRecord;
  * @todo Refine individual method documentation to make each transition and action more descriptive.
  * @package App\Filament\Resources\LeaseResource\Pages
  */
-final class ViewLease extends ViewRecord implements StateTransitionGuardContract
+final class ViewLease extends ViewRecord
 {
-    use StateTransitionGuard;
-
     /**
      * Links this page to the LeaseResource, which defines the core schema for leases.
      *
@@ -72,7 +68,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
      * when they are permitted by the current state. These actions help users navigate the lifecycle
      * of a lease—from request to confirmation to cancellation.
      *
-     * @todo Resolve authorization issues encountered in state transitions.
+     * @return ActionGroup  The configured action groud that contains the state trkansition action classes.
      */
     protected function registerStatusManipulationActions(): ActionGroup
     {
@@ -81,11 +77,7 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
             StateTransitions\TransitionToQuotationAction::make(),
             StateTransitions\TransitionToConfirmedAction::make(),
             StateTransitions\TransitionToFinalizedAction::make(),
-
-            // Transition lease to "Cancelled" status
-            $this->changeStateTransitionAction(state: LeaseStatus::Cancelled)
-                ->visible(fn(Lease $lease): bool => $this->allowTransitionTo($lease, [LeaseStatus::Request, LeaseStatus::Quotation, LeaseStatus::Option, LeaseStatus::Confirmed]))
-                ->action(fn(Lease $lease): bool => $lease->state()->transitionToCancelled()),
+            StateTransitions\transitionToCancelledAction::make(),
         ])
             ->button()
             ->label(trans('markeren als')) // Label translates to 'Mark as' for accessibility.
@@ -142,21 +134,5 @@ final class ViewLease extends ViewRecord implements StateTransitionGuardContract
             ->label('opties') // 'Options' for user understanding
             ->icon('heroicon-o-cog-8-tooth')
             ->color('primary');
-    }
-
-    /**
-     * Creates a state transition action for a lease, configuring the display and behavior based on the provided state.
-     *
-     * This method ensures that each action has consistent styling and labeling,
-     * making it easier for users to distinguish between different status options.
-     *
-     * @param  LeaseStatus $state  The target state for the transition action.
-     * @return Action              Configured action for the specified state.
-     */
-    private function changeStateTransitionAction(LeaseStatus $state): Action
-    {
-        return Action::make(trans($state->getLabel()))
-            ->color($state->getColor())
-            ->icon($state->getIcon());
     }
 }
