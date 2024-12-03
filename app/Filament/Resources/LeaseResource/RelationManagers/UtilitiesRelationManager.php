@@ -150,7 +150,7 @@ final class UtilitiesRelationManager extends RelationManager
     /**
      * Custom method to define the header actions that are implemented in the header of the utility overview table.
      *
-     * @return array<int, \Filament\Tables\Actions\Action>
+     * @return array<int, Tables\Actions\Action>
      */
     private function getTableHeaderActionsLayout(): array
     {
