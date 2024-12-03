@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\Pages;
 
-use App\Enums\LeaseStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\RegisterDepositAction;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\Actions\ViewQuotation;

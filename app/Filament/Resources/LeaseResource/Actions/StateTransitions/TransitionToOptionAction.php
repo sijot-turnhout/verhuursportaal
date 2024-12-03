@@ -29,8 +29,8 @@ final class TransitionToOptionAction extends StateTransitionAction
     public static function make(?string $name = null): static
     {
         return self::buildStateTransitionAction(name: 'transition-to-option', label: 'Markeren als optie', finalState: LeaseStatus::Option)
-            ->visible(fn (Lease $lease): bool => self::canTransition($lease))
-            ->action(fn (Lease $lease) => self::performActionLogic($lease));
+            ->visible(fn(Lease $lease): bool => self::canTransition($lease))
+            ->action(fn(Lease $lease) => self::performActionLogic($lease));
     }
 
     /**

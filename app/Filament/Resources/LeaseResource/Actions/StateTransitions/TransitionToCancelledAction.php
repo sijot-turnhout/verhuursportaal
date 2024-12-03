@@ -15,8 +15,8 @@ final class transitionToCancelledAction extends StateTransitionAction
     public static function make(?string $name = null): static
     {
         return self::buildStateTransitionAction(name: 'transition-to-cacnelled', label: 'Markeren als geannuleerd', finalState: LeaseStatus::Cancelled)
-            ->visible(fn (Lease $lease): bool => self::canTransition($lease))
-            ->action(fn (Lease $lease) => self::performActionLogic($lease));
+            ->visible(fn(Lease $lease): bool => self::canTransition($lease))
+            ->action(fn(Lease $lease) => self::performActionLogic($lease));
     }
 
     public static function canTransition(Model $model): bool
