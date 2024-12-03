@@ -34,7 +34,7 @@ final class TransitionToOptionAction extends StateTransitionAction
     }
 
     /**
-     * {@inheritDoc}
+     * @param Lease $lease
      */
     public static function canTransition(Model $lease): bool
     {
@@ -51,7 +51,9 @@ final class TransitionToOptionAction extends StateTransitionAction
     }
 
     /**
-     * {@inheritDoc}
+     * Method to perform the needed logic for the state transition action.
+     *
+     * @param Lease $lease
      */
     public static function performActionLogic(Model $lease): void
     {

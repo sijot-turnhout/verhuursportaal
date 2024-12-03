@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * in a consistent manner. Implementing this contract ensures that state transitions
  * are well-defined and reusable across different models.
  *
+ * @todo We need to check if we still need this interface and that it is used somewhere.
+ *
  * @package App\Filament\Support\StateMachines
  */
 interface StateTransitionActionContract
@@ -34,7 +36,7 @@ interface StateTransitionActionContract
      * This method defines the starting states that can lead to the target state
      * for the action implementing this interface.
      *
-     * @return array The list of allowed states for the transition.
+     * @return array<mixed> The list of allowed states for the transition.
      */
     public static function configureAllowedStates(): array;
 
