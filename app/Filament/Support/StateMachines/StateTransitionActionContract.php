@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use FontLib\Table\Type\name;
-
 namespace App\Filament\Support\StateMachines;
 
 use Illuminate\Database\Eloquent\Model;
