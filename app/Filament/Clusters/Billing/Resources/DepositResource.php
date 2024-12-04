@@ -19,7 +19,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\Widget;
-use Filament\Widgets\WidgetConfiguration;
 
 /**
  * Resource class for managing security deposits within the Billing cluster of the Filament admin panel.
@@ -168,7 +167,7 @@ final class DepositResource extends Resource
      * Defines the widgets to display on the deposit resources's index page.
      * These widgets can provide visualizations and summaries of deposit-related data.
      *
-     * @return array<class-string<Widget>|WidgetConfiguration> An array of widget class names to be displayed.
+     * @return array<mixed> An array of widget class names to be displayed.
      */
     public static function getWidgets(): array
     {

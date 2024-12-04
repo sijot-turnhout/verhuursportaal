@@ -127,6 +127,11 @@ final class IssueResource extends Resource
             ]);
     }
 
+    /**
+     * Method to define the form layout for the issue information.
+     *
+     * @return array<int, TextInput|Select|Textarea>
+     */
     public static function issueInformationFormFields(): array
     {
         return [

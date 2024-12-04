@@ -29,7 +29,7 @@ abstract class StateTransitionAction extends Action
     /**
      * Configures the allowed states for the transition.
      *
-     * @return array An array of the allowed states.
+     * @return array<mixed> An array of the allowed states.
      */
     abstract public static function configureAllowedStates(): array;
 

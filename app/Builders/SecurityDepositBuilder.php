@@ -22,6 +22,8 @@ use Spatie\Activitylog\Contracts\Activity;
  * @template TModelClass of Deposit
  * @extends Builder<Deposit>
  *
+ * @todo We need to fix the array<mixed> declarations in the class to improve static analysis (PHPSTAN)
+ *
  * @package App\Builders
  */
 final class SecurityDepositBuilder extends Builder
@@ -32,13 +34,13 @@ final class SecurityDepositBuilder extends Builder
      * This method creates a deposit record, associates it with the lease,
      * and logs an audit entry with detailsm about the transaction.
      *
-     * @param  Lease   $lease        The lease associated with the deposit.
-     * @param  array   $depositData  The data of tthe deposit, such as amopunt and other details.
-     * @return Deposit               The newly created deposit instance.
+     * @param  Lease          $lease        The lease associated with the deposit.
+     * @param  array<mixed>   $depositData  The data of tthe deposit, such as amopunt and other details.
+     * @return Deposit|bool                 The newly created deposit instance.
      */
-    public function initiateDeposit(Lease $lease, array $depositData): Deposit
+    public function initiateDeposit(Lease $lease, array $depositData): Deposit|bool
     {
-        return DB::transaction(function () use ($lease, $depositData): Deposit {
+        return DB::transaction(function () use ($lease, $depositData): Deposit|bool {
             // Create a new deposit with the provided data and set the payment time to the current timestamp.
             $deposit = Deposit::create(array_merge($depositData, ['paid_at' => now()]));
 
@@ -91,7 +93,7 @@ final class SecurityDepositBuilder extends Builder
      * Withdrawals mean the deposit is retained by the organization without any refund.
      * This methods updates the status to 'Withdrawn', records the withheld amount, als logs the transaction.
      *
-     * @param  array $depositData   An associative array with additional details about the withdrawal.
+     * @param  array<mixed> $depositData   An associative array with additional details about the withdrawal.
      * @return bool                 True if the operation succeeded, false otherwise.
      */
     public function initiateWithdrawal(array $depositData): bool
@@ -122,7 +124,7 @@ final class SecurityDepositBuilder extends Builder
      * Calculates the refundable ampint based on the withheld amount,
      * updoates the deposit's status to 'PartiallyRefunded', and records the transaction.
      *
-     * @param  array $depositData   An associative array containing details about the withheld amount ('revoked_amount').
+     * @param  array<mixed> $depositData   An associative array containing details about the withheld amount ('revoked_amount').
      * @return bool                 True if the operation succeeded, false otherwise.
      */
     public function initiatePartiallyRefund(array $depositData): bool
@@ -154,11 +156,11 @@ final class SecurityDepositBuilder extends Builder
      * Uses the activitylog to save details about the performed action,
      * including the event type, message, related model, and extra properties.
      *
-     * @param  string      $event            The type of event being logged (e.g., 'Refund').
-     * @param  string      $auditMessage     A description of the action performed.
-     * @param  array       $extraProperties  Additional contextual data to include in the log.
-     * @param  Model|null  $performedOn      The model instance the action was performed on (optional).
-     * @return Activity|null                 The recorded audit log entry of null if it failed
+     * @param  string        $event            The type of event being logged (e.g., 'Refund').
+     * @param  string        $auditMessage     A description of the action performed.
+     * @param  array<mixed>  $extraProperties  Additional contextual data to include in the log.
+     * @param  Model|null    $performedOn      The model instance the action was performed on (optional).
+     * @return Activity|null                   The recorded audit log entry of null if it failed
      */
     private function recordAuditActionInAuditLog(
         string $event,

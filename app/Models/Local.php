@@ -48,7 +48,7 @@ final class Local extends Model
      * Defines a relationship where a single user can have multiple keys associated with them.
      * This allows easy access to all keys held by a specific user.
      *
-     * @return HasMany
+     * @return HasMany<Key, covariant $this>
      */
     public function keyManagement(): HasMany
     {

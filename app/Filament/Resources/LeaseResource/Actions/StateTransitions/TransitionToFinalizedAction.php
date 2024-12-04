@@ -19,18 +19,33 @@ final class TransitionToFinalizedAction extends StateTransitionAction
             ->action(fn(Lease $lease) => self::performActionLogic($lease));
     }
 
+    /**
+     * Method to check if the user is authorized to perform the action.
+     *
+     * @param  Lease $model The resource entity to check against.
+     * @return bool
+     */
     public static function canTransition(Model $model): bool
     {
         return Gate::allows('update', $model) && $model->status->in(enums: self::configureAllowedStates());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function configureAllowedStates(): array
     {
         return [LeaseStatus::Confirmed];
     }
 
-    public static function performActionLogic(Model $model): void
+    /**
+     * Method to perform the state transition logic that couples with this action class.
+     *
+     * @param  Lease $lease The resource entity where the state transition happends on.
+     * @return void
+     */
+    public static function performActionLogic(Model $lease): void
     {
-        $model->state()->transitionToCompleted();
+        $lease->state()->transitionToCompleted();
     }
 }

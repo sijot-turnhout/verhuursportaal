@@ -79,7 +79,7 @@ final class ActivityLogResource extends Resource
      * Clusters are used to group related resources together in the Filament navigation menu, improving organization and usability for administrators.
      * This property should be set to the fully qualified class name of the cluster.
      *
-     * @var string|null
+     * {@inheritDoc}
      */
     protected static ?string $cluster = WebmasterResources::class;
 
@@ -120,7 +120,7 @@ final class ActivityLogResource extends Resource
      *
      * Returns an array of page configurations, where each key represents a page name (e.g., "index") and the value is a route definition using Filament's routing conventions.
      *
-     * @return array
+     * {@inheritDoc}
      */
     public static function getPages(): array
     {
@@ -154,7 +154,9 @@ final class ActivityLogResource extends Resource
      * Widgets can provide visualizations, summaries, or other interactive elements related to the resource data.
      * This method returns an array of widget class names, allowing for customization of the information presented alongside the main resource view.
      *
-     * @return array  An array of fully qualified widget class names. Each class name should correspond to a Filament widget component.
+     * Returns an array of fully qualified widget class names. Each class name should correspond to a Filament widget component.
+     *
+     * @return array<int, class-string>
      */
     public static function getWidgets(): array
     {
@@ -170,7 +172,7 @@ final class ActivityLogResource extends Resource
      * Returns an array of action configurations, each defining a specific action that can be performed on a table row.
      * These configurations use Filament's table action builder methods to define the action's label, icon, and behavior.
      *
-     * @return array
+     * @return array<int, Tables\Actions\ViewAction>
      */
     private static function tableRecordActions(): array
     {
@@ -192,13 +194,11 @@ final class ActivityLogResource extends Resource
      * Returns an array of bulk action configurations, each defining a specific action that can be performed on selected rows in the table.
      * These configurations use Filament's table bulk action builder methods.
      *
-     * @return array
+     * @return array<int, ExportBulkAction>
      */
     private static function headerActions(): array
     {
-        return [
-            ExportBulkAction::make(),
-        ];
+        return [ExportBulkAction::make()];
     }
 
     /**
@@ -211,7 +211,7 @@ final class ActivityLogResource extends Resource
      * These configurations utilize Filament's table column builder methods to specify the
      * column's data source, label, formatting, and interactive features.
      *
-     * @return array
+     * @return array<int, Tables\Columns\TextColumn>
      */
     private static function tableColumnsLayout(): array
     {

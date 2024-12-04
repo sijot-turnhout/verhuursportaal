@@ -69,7 +69,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->columnSpan(4)
                     ->translateLabel()
                     ->prefixIcon('heroicon-o-currency-euro')
-                    ->prefixIconColor('primary')
+                    ->prefixIconColor('primary') /** @phpstan-ignore-next-line */
                     ->default(fn(Deposit $deposit): float|string => $deposit->paid_amount)
                     ->disabled(),
 
@@ -78,7 +78,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->columnSpan(4)
                     ->numeric()
                     ->translateLabel()
-                    ->required()
+                    ->required() /** @phpstan-ignore-next-line */
                     ->maxValue(fn(Deposit $deposit): float|string => $deposit->paid_amount)
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->prefixIcon('heroicon-o-currency-euro')
