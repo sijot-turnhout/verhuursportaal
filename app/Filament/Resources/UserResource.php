@@ -11,8 +11,12 @@ use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section as InfolistSection;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -60,6 +64,7 @@ final class UserResource extends Resource
      * Method to render the creation/edit form in the UserReource.
      *
      * @param  Form $form The form builder instance that will be used to render the forms in the UserResource.
+     * @return Form       The configured form instance.
      */
     public static function form(Form $form): Form
     {
@@ -67,6 +72,76 @@ final class UserResource extends Resource
             ->schema([
                 self::generalInformationSection(),
                 self::securityInformationSection(),
+            ]);
+    }
+
+    /**
+     * Creates an infolist for the user resource.
+     * This method returns the infolist configuration used to display the user information in the view page of the rersource.
+     *
+     * @param  Infolist $infolist The infolist instance that needs to be configured.
+     * @return Infolist           The configured infolist instance.
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                InfolistSection::make()
+                    ->collapsible()
+                    ->icon('heroicon-o-information-circle')
+                    ->iconColor('primary')
+                    ->heading(trans('Algemene informatie'))
+                    ->description(trans('Alle algemene informatie omtrent het gebruikersaccount in :app', ['app' => config('app.name', 'Laravel')]))
+                    ->compact()
+                    ->columns(12)
+                    ->schema([
+                        TextEntry::make('name')
+                            ->icon('heroicon-o-user-circle')
+                            ->iconColor('primary')
+                            ->label('Volledige naam')
+                            ->translateLabel()
+                            ->columnSpan(3),
+                        TextEntry::make('user_group')
+                            ->badge()
+                            ->label('Gebruikersgroep')
+                            ->translateLabel()
+                            ->columnSpan(3),
+                        TextEntry::make('email')
+                            ->icon('heroicon-o-envelope')
+                            ->iconColor('primary')
+                            ->translateLabel()
+                            ->columnSpan(3),
+                        TextEntry::make('phone_number')
+                            ->label('Telefoon nummer')
+                            ->translateLabel()
+                            ->placeholder(trans('onbekend'))
+                            ->icon('heroicon-o-device-phone-mobile')
+                            ->iconColor('primary')
+                            ->columnSpan(3),
+                        TextEntry::make('email_verified_at')
+                            ->label('Email verificatie datum')
+                            ->translateLabel()
+                            ->placeholder(trans('Niet geverifieerd'))
+                            ->icon('heroicon-o-clock')
+                            ->iconColor('primary')
+                            ->date()
+                            ->columnSpan(3),
+                        TextEntry::make('last_seen_at')
+                            ->label('Laatste aanmelding')
+                            ->translateLabel()
+                            ->placeholder('-')
+                            ->icon('heroicon-o-clock')
+                            ->iconColor('primary')
+                            ->date()
+                            ->columnSpan(3),
+                        TextEntry::make('created_at')
+                            ->label('Geregistreerd op')
+                            ->translateLabel()
+                            ->icon('heroicon-o-clock')
+                            ->iconColor('primary')
+                            ->date()
+                            ->columnSpan(3),
+                    ])
             ]);
     }
 
@@ -106,6 +181,7 @@ final class UserResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->label('Registratie datum'),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
@@ -128,6 +204,7 @@ final class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
+            'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
