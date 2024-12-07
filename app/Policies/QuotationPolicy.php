@@ -44,6 +44,11 @@ final readonly class QuotationPolicy
         return $user->user_group->notIn(enums: [UserGroup::Leiding, UserGroup::Vzw]);
     }
 
+    public function download(User $user, Quotation $quotation): bool
+    {
+        return $quotation->status->isNot(enum: QuotationStatus::Draft);
+    }
+
     /**
      * Determine if the user can update a draft quotation.
      *

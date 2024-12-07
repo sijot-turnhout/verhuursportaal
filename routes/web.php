@@ -31,7 +31,7 @@ Route::get('status', function (): Illuminate\Http\RedirectResponse {
     abort_if( ! auth()->check(), 404);
     return redirect('pulse');
 });
-
+Route::get('/quotations/{record}/download', [DownloadDocumentController::class, 'quotation'])->name('quotations.download')->middleware('auth');
 Route::get('/invoices/{record}/download', [DownloadDocumentController::class, 'invoice'])->name('invoices.download')->middleware('auth');
 
 Route::group(['middleware' => [WelcomseNewFeedback::class]], function (): void {

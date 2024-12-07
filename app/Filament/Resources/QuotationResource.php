@@ -19,6 +19,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * @todo Docblock this class.
@@ -118,7 +119,10 @@ final class QuotationResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\Action::make('Exporteer offerte')
-                        ->icon('heroicon-o-document-text'),
+                        ->visible(fn (Quotation $quotation): bool => Gate::allows('download', $quotation))
+                        ->icon('heroicon-o-document-text')
+                        ->url(fn(Quotation $quotation): string => route('quotations.download', $quotation))
+                        ->openUrlInNewTab(),
 
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
