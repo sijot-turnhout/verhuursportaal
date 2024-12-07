@@ -119,7 +119,7 @@ final class QuotationResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\Action::make('Exporteer offerte')
-                        ->visible(fn (Quotation $quotation): bool => Gate::allows('download', $quotation))
+                        ->visible(fn(Quotation $quotation): bool => Gate::allows('download', $quotation))
                         ->icon('heroicon-o-document-text')
                         ->url(fn(Quotation $quotation): string => route('quotations.download', $quotation))
                         ->openUrlInNewTab(),
