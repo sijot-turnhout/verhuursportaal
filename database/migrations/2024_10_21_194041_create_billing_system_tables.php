@@ -25,9 +25,11 @@ return new class () extends Migration {
             $table->foreignIdFor(Lease::class, 'lease_id')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Tenant::class, 'reciever_id')->nullable()->references('id')->on('tenants')->nullOnDelete();
             $table->text('description')->nullable();
+            $table->text('signature')->nullable()->comment('The signature of the administrator who closes of the quotation proposal');
             $table->timestamp('expires_at')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('rejected_at')->nullable();
+            $table->timestamp('signed_at')->nullable();
             $table->timestamps();
         });
 

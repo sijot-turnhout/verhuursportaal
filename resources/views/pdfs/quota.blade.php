@@ -116,55 +116,55 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse ($record->quotationLines as $invoiceLine)
-                            <tr>
-                                <td>{{ $invoiceLine->name }}</td>
-                                <td>{{ (int) $invoiceLine->quantity }}</td>
-                                <td>{{ $invoiceLine->unit_price }}€</td>
-                                <td>
-                                        <span class="float-end">
-                                            @if ($invoiceLine->type === \App\Filament\Resources\InvoiceResource\Enums\BillingType::Discount)
-                                                -{{ $invoiceLine->total_price }}€
-                                            @else
-                                                {{ $invoiceLine->total_price }}€
-                                            @endif
+                            @forelse ($record->quotationLines as $invoiceLine)
+                                <tr>
+                                    <td>{{ $invoiceLine->name }}</td>
+                                    <td>{{ (int) $invoiceLine->quantity }}</td>
+                                    <td>{{ $invoiceLine->unit_price }}€</td>
+                                    <td>
+                                            <span class="float-end">
+                                                @if ($invoiceLine->type === \App\Filament\Resources\InvoiceResource\Enums\BillingType::Discount)
+                                                    -{{ $invoiceLine->total_price }}€
+                                                @else
+                                                    {{ $invoiceLine->total_price }}€
+                                                @endif
+                                            </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5">
+                                        <span class="text-muted">
+                                            Het lijkt erop dat er geen items zijn toegevoegd in deze offerte.
                                         </span>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5">
-                                    <span class="text-muted">
-                                        Het lijkt erop dat er geen items zijn toegevoegd in deze offerte.
-                                    </span>
-                                </td>
-                            </tr>
-                        @endforelse
+                                    </td>
+                                </tr>
+                            @endforelse
 
-                        <tr>
-                            <td colspan="3" class="border-bottom-0 pe-3">
-                                <span class="float-end text-brown"><strong>{{ __('SUBTOTAAL') }}</strong></span>
-                            </td>
-                            <td colspan="1" class="bg-light border-bottom-0 pe-2">
-                                <span class="float-end fw-bold">{{ $record->getSubTotal() }}€</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="border-bottom-0 pe-3">
-                                <span class="float-end text-brown"><strong>{{ __('VERMINDERING') }}</strong></span>
-                            </td>
-                            <td colspan="1" class="bg-light border-bottom-0 pe-2">
-                                <span class="float-end fw-bold">- {{ $record->getDiscountTotal() }}€</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="border-bottom-0 pe-3">
-                                <span class="float-end text-brown"><strong>{{ __('TOTAALPRIJS') }}</strong></span>
-                            </td>
-                            <td colspan="1" class="bg-light border-bottom-0 pe-2">
-                                <span class="float-end fw-bold">{{ $record->billableTotal }}€</span>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td colspan="3" class="border-bottom-0 pe-3">
+                                    <span class="float-end text-brown"><strong>{{ __('SUBTOTAAL') }}</strong></span>
+                                </td>
+                                <td colspan="1" class="bg-light border-bottom-0 pe-2">
+                                    <span class="float-end fw-bold">{{ $record->getSubTotal() }}€</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="border-bottom-0 pe-3">
+                                    <span class="float-end text-brown"><strong>{{ __('VERMINDERING') }}</strong></span>
+                                </td>
+                                <td colspan="1" class="bg-light border-bottom-0 pe-2">
+                                    <span class="float-end fw-bold">{{ $record->getDiscountTotal() }}€</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="border-bottom-0 pe-3">
+                                    <span class="float-end text-brown"><strong>{{ __('TE BETALEN') }}</strong></span>
+                                </td>
+                                <td colspan="1" class="bg-light border-bottom-0 pe-2">
+                                    <span class="float-end fw-bold">{{ $record->billableTotal }}€</span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -178,6 +178,9 @@
             <div class="col-6">
                 <p class="mb-0 fw-bold text-brown">{{ __('Voor akkoord (verhuurder)') }}</p>
                 <p class="mt-2 mb-3">Naam + datum en handtekening</p>
+
+                <img class="my-2" src="{{ $record->signature }}" alt=""><br>
+                <span class="fst-italic fw-lighter">(Ondertekend op {{ $record->signed_at->format('d/m/Y') }})</span>
             </div>
             <div class="col-6">
                 <p class="mb-0 fw-bold text-brown">{{ __('Voor akkoord (huurder)') }}</p>

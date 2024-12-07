@@ -173,6 +173,7 @@ final class Quotation extends Model implements FinancialAssistance
             'expires_at' => 'date',
             'approved_at' => 'date',
             'rejected_at' => 'date',
+            'signed_at' => 'date',
         ];
     }
 }
