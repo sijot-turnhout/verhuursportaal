@@ -8,7 +8,9 @@ use App\Filament\Resources\QuotationResource;
 use App\Models\Quotation;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 
 /**
  * Class MarkAsFinalizedAction
@@ -34,8 +36,14 @@ final class MarkAsFinalizedAction extends Action
             ->requiresConfirmation()
             ->modalDescription(trans('Indien u de offerte afrond eal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.'))
             ->successRedirectUrl(fn(Quotation $quotation): string => QuotationResource::getUrl('view', ['record' => $quotation]))
-            ->action(function (Quotation $quotation): void {
-                $quotation->state()->transitionToOpen();
+            ->form([
+                SignaturePad::make('signature'),
+            ])
+            ->action(function (array $data, Quotation $quotation): void {
+                DB::transaction(function () use ($data, $quotation): void {
+                    $quotation->state()->transitionToOpen();
+                });
+
                 Notification::make()->title('Offerte status gewijzigd')->body(trans('De offerte staat u geregistreerd als een openstaande offerte'))->success()->send();
             });
     }
