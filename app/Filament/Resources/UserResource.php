@@ -141,7 +141,7 @@ final class UserResource extends Resource
                             ->iconColor('primary')
                             ->date()
                             ->columnSpan(3),
-                    ])
+                    ]),
             ]);
     }
 
@@ -173,12 +173,12 @@ final class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Naam')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('user_group')->label('Gebruikers groep')->sortable()->badge(),
-                Tables\Columns\TextColumn::make('email')->label('Email adres')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('phone_number')->label('Tel. nummer')->searchable()->placeholder('-'),
-                Tables\Columns\TextColumn::make('last_seen_at')->label('Laatst gezien')->since()->placeholder('-'),
-                Tables\Columns\TextColumn::make('created_at')->label('Registratie datum'),
+                TextColumn::make('name')->label('Naam')->sortable()->searchable(),
+                TextColumn::make('user_group')->label('Gebruikers groep')->sortable()->badge(),
+                TextColumn::make('email')->label('Email adres')->sortable()->searchable(),
+                TextColumn::make('phone_number')->label('Tel. nummer')->searchable()->placeholder('-'),
+                TextColumn::make('last_seen_at')->label('Laatst gezien')->since()->placeholder('-'),
+                TextColumn::make('created_at')->label('Registratie datum'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
