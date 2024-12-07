@@ -68,9 +68,9 @@
                         <p class="font-weight-bold h6">{{ __('Huurder') }}</p>
 
                         <ul class="list-unstyled mb-0">
-                            <li><x-heroicon-o-user-circle class="icon me-1"/> {{ $record->customer->name }}</li>
-                            <li><x-heroicon-o-home-modern class="icon me-1"/> {{ $record->customer->address ?? trans('N.V.T of onbekend') }}</li>
-                            <li><x-heroicon-o-envelope class="icon me-1"/> {{ $record->customer->email }}</li>
+                            <li><x-heroicon-o-user-circle class="icon me-1"/> {{ $record->reciever->name }}</li>
+                            <li><x-heroicon-o-home-modern class="icon me-1"/> {{ $record->reciever->address ?? trans('N.V.T of onbekend') }}</li>
+                            <li><x-heroicon-o-envelope class="icon me-1"/> {{ $record->reciever->email }}</li>
                         </ul>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($record->invoiceLines as $invoiceLine)
+                        @foreach ($record->quotationLines as $invoiceLine)
                             <tr>
                                 <td>{{ $invoiceLine->name }}</td>
                                 <td>{{ (int) $invoiceLine->quantity }}</td>
