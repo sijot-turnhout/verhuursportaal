@@ -17,7 +17,6 @@ use App\Models\Invoice;
 use App\Models\Lease;
 use App\Models\Quotation;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', FrontPageController::class)->name('welcome');
@@ -42,15 +41,9 @@ Route::group(['middleware' => [WelcomseNewFeedback::class]], function (): void {
 
 // FIXME:: Register this to a seperated route file.
 if (config('app.debug') && ! app()->environment(['prod', 'production'])) {
-    Route::get('debug/invoice', function (): Renderable {
-        return view('pdfs.invoice', ['record' => Invoice::firstOr(fn () => abort(404))]);
-    });
+    Route::get('debug/invoice', fn(): Renderable => view('pdfs.invoice', ['record' => Invoice::firstOr(fn() => abort(404))]));
 
-    Route::get('debug/quotation', function (): Renderable {
-        return view('pdfs.quota', ['record' => Quotation::firstOr(fn () => abort(404))]);
-    });
+    Route::get('debug/quotation', fn(): Renderable => view('pdfs.quota', ['record' => Quotation::firstOr(fn() => abort(404))]));
 
-    Route::get('debug/feedback', function (): Renderable {
-        return view('feedback.submit-form', ['lease' => Lease::firstOr(fn () => abort(404))]);
-    });
+    Route::get('debug/feedback', fn(): Renderable => view('feedback.submit-form', ['lease' => Lease::firstOr(fn() => abort(404))]));
 }
