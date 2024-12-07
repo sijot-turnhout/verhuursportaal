@@ -73,7 +73,7 @@ final class Quotation extends Model implements FinancialAssistance
     public function billableTotal(): Attribute
     {
         /** @phpstan-ignore-next-line */
-        return Attribute::get(fn (): int|float => $this->getSubTotal() ?? 0 - $this->getDiscountTotal() ?? 0);
+        return Attribute::get(fn (): int|string|float => $this->getSubTotal() ?? 0 - $this->getDiscountTotal() ?? 0);
     }
 
     public function getDiscountTotal(): int|float|string

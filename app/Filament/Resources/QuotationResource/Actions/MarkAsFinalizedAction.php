@@ -46,7 +46,10 @@ final class MarkAsFinalizedAction extends Action
     private static function modalFormConfiguration(): array
     {
         return [
-            SignaturePad::make('signature')->required()->hiddenLabel(),
+            SignaturePad::make('signature')
+                ->required()
+                ->hiddenLabel()
+                ->exportPenColor("#000"),
         ];
     }
 

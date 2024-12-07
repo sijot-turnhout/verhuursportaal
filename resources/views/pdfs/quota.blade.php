@@ -118,7 +118,10 @@
                         <tbody>
                             @forelse ($record->quotationLines as $invoiceLine)
                                 <tr>
-                                    <td>{{ $invoiceLine->name }}</td>
+                                    <td>
+                                        {{ $invoiceLine->name }} <br>
+                                        <small class="fts-italic text-muted">{{ $invoiceLine->description }}</small>
+                                    </td>
                                     <td>{{ (int) $invoiceLine->quantity }}</td>
                                     <td>{{ $invoiceLine->unit_price }}€</td>
                                     <td>
