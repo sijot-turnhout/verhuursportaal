@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Contracts\Eloquent\FinancialAssistance;
 use App\Enums\QuotationStatus;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\States;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\States\QuotationStateContract;
+use App\Filament\Resources\InvoiceResource\Enums\BillingType;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -24,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  *
  * @package App\Models
  */
-final class Quotation extends Model
+final class Quotation extends Model implements FinancialAssistance
 {
     /**
      * The attributes that are protected from the mass assignment system.
@@ -65,6 +68,22 @@ final class Quotation extends Model
             $lastNumber = $lastQuotation ? (int) mb_substr($lastQuotation->reference, -6) : 0;
             $quotation->reference = date('Y') . '-' . mb_str_pad((string) ($lastNumber + 1), 6, '0', STR_PAD_LEFT);
         });
+    }
+
+    public function billableTotal(): Attribute
+    {
+        /** @phpstan-ignore-next-line */
+        return Attribute::get(fn (): int|float => $this->getSubTotal() ?? 0 - $this->getDiscountTotal() ?? 0);
+    }
+
+    public function getDiscountTotal(): int|float|string
+    {
+        return $this->quotationLines()->where('type', BillingType::Discount)->sum('total_price');
+    }
+
+    public function getSubTotal(): int|float|string
+    {
+        return $this->quotationLines()->where('type', BillingType::BillingLine)->sum('total_price');
     }
 
     /**

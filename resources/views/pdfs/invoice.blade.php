@@ -148,7 +148,7 @@
                                     <span class="float-end text-brown"><strong>{{ __('TE BETALEN') }}</strong></span>
                                 </td>
                                 <td colspan="1" class="border-bottom-0">
-                                    <span class="float-end fw-bold">{{ $record->invoiceTotal }}€</span>
+                                    <span class="float-end fw-bold">{{ $record->billableTotal }}€</span>
                                 </td>
                             </tr>
                         </tbody>

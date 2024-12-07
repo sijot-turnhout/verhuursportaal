@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Contracts\Eloquent\FinancialAssistance;
 use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
 use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
@@ -32,7 +33,7 @@ use InvalidArgumentException;
  *
  * @method static uncollectibleInvoices() The collection of invoices that are registered as uncollected.
  */
-final class Invoice extends Model
+final class Invoice extends Model implements FinancialAssistance
 {
     /**
      * The attributes that are protected from the mass assignment system.
@@ -84,7 +85,7 @@ final class Invoice extends Model
     /**
      * @return Attribute<int|float, never-return>
      */
-    public function invoiceTotal(): Attribute
+    public function billableTotal(): Attribute
     {
         /** @phpstan-ignore-next-line */
         return Attribute::get(fn(): int|float => $this->getSubTotal() - $this->getDiscountTotal());

@@ -26,7 +26,7 @@
     <div class="container my-4">
         <div class="row">
             <div class="col-9">
-                <h3 class="text-brown fw-bold">{{ __('OFFERTE #:nr', ['nr' => $record->payment_reference]) }}</h3>
+                <h3 class="text-brown fw-bold">{{ __('OFFERTE #:nr', ['nr' => $record->reference]) }}</h3>
                 <p class="text-muted mb-0"><small>{{ $record->description }}</small></p>
             </div>
 
@@ -38,19 +38,23 @@
         <div class="card border-0 bg-light mt-4">
             <div class="card-body">
                 <div class="row ">
-                    <div class="col-4 mb-4">
+                    <div class="col-4">
                         <p class="font-weight-bold h6">{{ __('Referentie nr.') }}</p>
-                        <p class="card-text"><code>#{{ $record->payment_reference }}</code></p>
+                        <p class="card-text"><code>#{{ $record->reference }}</code></p>
                     </div>
 
-                    <div class="col-4 mb-4">
+                    <div class="col-4">
                         <p class="font-weight-bold h6">{{ __('Opgesteld op') }}</p>
                         <p class="card-text">{{ $record->created_at->format('d/m/Y') }}</p>
                     </div>
 
-                    <div class="col-4 mb-4">
+                    <div class="col-4">
                         <p class="font-weight-bold h6">{{ __('Vervaldatum') }}</p>
-                        <p class="card-text">{{ optional($record->quotation_due_at)->format('d/m/Y') ?? '-' }}</p>
+                        <p class="card-text">{{ optional($record->expires_at)->format('d/m/Y') ?? '-' }}</p>
+                    </div>
+
+                    <div class="col-12">
+                        <hr class="border-gray my-4">
                     </div>
 
                     <div class="col-6">
@@ -112,7 +116,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($record->quotationLines as $invoiceLine)
+                        @forelse ($record->quotationLines as $invoiceLine)
                             <tr>
                                 <td>{{ $invoiceLine->name }}</td>
                                 <td>{{ (int) $invoiceLine->quantity }}</td>
@@ -127,30 +131,38 @@
                                         </span>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5">
+                                    <span class="text-muted">
+                                        Het lijkt erop dat er geen items zijn toegevoegd in deze offerte.
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforelse
 
                         <tr>
-                            <td colspan="3" class="border-bottom-0">
+                            <td colspan="3" class="border-bottom-0 pe-3">
                                 <span class="float-end text-brown"><strong>{{ __('SUBTOTAAL') }}</strong></span>
                             </td>
-                            <td colspan="1" class="border-bottom-0">
+                            <td colspan="1" class="bg-light border-bottom-0 pe-2">
                                 <span class="float-end fw-bold">{{ $record->getSubTotal() }}€</span>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="border-bottom-0">
+                            <td colspan="3" class="border-bottom-0 pe-3">
                                 <span class="float-end text-brown"><strong>{{ __('VERMINDERING') }}</strong></span>
                             </td>
-                            <td colspan="1" class="border-bottom-0">
+                            <td colspan="1" class="bg-light border-bottom-0 pe-2">
                                 <span class="float-end fw-bold">- {{ $record->getDiscountTotal() }}€</span>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="border-bottom-0">
+                            <td colspan="3" class="border-bottom-0 pe-3">
                                 <span class="float-end text-brown"><strong>{{ __('TOTAALPRIJS') }}</strong></span>
                             </td>
-                            <td colspan="1" class="border-bottom-0">
-                                <span class="float-end fw-bold">{{ $record->invoiceTotal }}€</span>
+                            <td colspan="1" class="bg-light border-bottom-0 pe-2">
+                                <span class="float-end fw-bold">{{ $record->billableTotal }}€</span>
                             </td>
                         </tr>
                         </tbody>
@@ -159,11 +171,16 @@
             </div>
         </div>
 
-        <hr>
-
         <div class="row">
+            <div class="col-12">
+                <hr>
+            </div>
             <div class="col-6">
-                <p class="mb-0 fw-bold text-brown">{{ __('Voor akkoord') }}</p>
+                <p class="mb-0 fw-bold text-brown">{{ __('Voor akkoord (verhuurder)') }}</p>
+                <p class="mt-2 mb-3">Naam + datum en handtekening</p>
+            </div>
+            <div class="col-6">
+                <p class="mb-0 fw-bold text-brown">{{ __('Voor akkoord (huurder)') }}</p>
                 <p class="mt-2 mb-3">Naam + datum en handtekening</p>
             </div>
         </div>
