@@ -36,11 +36,11 @@ final class MarkAsFinalizedAction extends Action
             ->requiresConfirmation()
             ->modalDescription(trans(
                 'Indien u de offerte afrond eal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.
-                Wat u enkel nog hoeft te doen is uw handtekening te zetten onder de offerte'
+                Wat u enkel nog hoeft te doen is uw handtekening te zetten onder de offerte',
             ))
             ->successRedirectUrl(fn(Quotation $quotation): string => QuotationResource::getUrl('view', ['record' => $quotation]))
             ->form(self::modalFormConfiguration())
-            ->action(fn (array $data, Quotation $quotation) => self::performActionLogic($data, $quotation));
+            ->action(fn(array $data, Quotation $quotation) => self::performActionLogic($data, $quotation));
     }
 
     private static function modalFormConfiguration(): array

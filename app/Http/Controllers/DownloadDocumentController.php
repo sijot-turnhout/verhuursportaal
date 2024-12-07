@@ -16,7 +16,7 @@ final readonly class DownloadDocumentController
 {
     public function invoice(Request $request, Invoice $record): PdfBuilder
     {
-        abort_if( boolean: $request->user()->cannot('download-invoice', $record), code: Response::HTTP_NOT_FOUND);
+        abort_if(boolean: $request->user()->cannot('download-invoice', $record), code: Response::HTTP_NOT_FOUND);
 
         return pdf()
             ->view('pdfs.invoice', compact('record'))
@@ -30,7 +30,5 @@ final readonly class DownloadDocumentController
      * @param Quotation $quotation
      * @return PdfBuilder
      */
-    public function quotation(Request $request, Quotation $quotation): PdfBuilder
-    {
-    }
+    public function quotation(Request $request, Quotation $quotation): PdfBuilder {}
 }
