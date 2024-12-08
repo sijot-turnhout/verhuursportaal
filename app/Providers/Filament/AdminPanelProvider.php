@@ -15,6 +15,7 @@ use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -51,6 +52,13 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::FOOTER,
                 fn() => view('footer'),
             )
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label(trans('Documentatie'))
+                    ->icon('heroicon-o-book-open')
+                    ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/')
+                    ->openUrlInNewTab()
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
