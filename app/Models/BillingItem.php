@@ -24,9 +24,31 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 final class BillingItem extends Model
 {
+    /**
+     * The attributes that are not mass assignable.
+     *
+     * This property protects the specified attributes from mass assignment,
+     * ensuring they cannot be directly set via methods like 'create' or 'fill'.
+     *
+     * In this case, the 'id' field is guarded to prevent accidental or malicious
+     * modification of the primary key
+     *
+     * @var array<int, string> An array pf attribute names to guard.
+     */
     protected $guarded = ['id'];
 
     /**
+     * The default attributes for the model.
+     *
+     * This property is used to set default values for the model's attributes when a new instance is created.
+     * The attributes defined here will be automatically assigned to the model is no other value is provided.
+     *
+     * - 'type' is set to a default value of 'BillingType::BillingLine' representing the type of billing
+     *    (an enum constant from the 'BillingType' enumeration)
+     * - 'quantity' is set to a default value of '1', indicating that by default, the invoice line has a qty of 1.
+     *
+     * returns: An associative array where the keys are attribute names and the values are their default values.
+     *
      * @var array<string, BillingType|int>
      */
     protected $attributes = [
@@ -35,9 +57,12 @@ final class BillingItem extends Model
     ];
 
     /**
-     * Data relation for the creator of the invoice line.
+     * Relationship to the user who created the invoice line.
      *
-     * @return BelongsTo<User, covariant $this>
+     * This defines a `BelongsTo` relationship between the invoice line and the
+     * user who created it, based on the `creator_id` foreign key.
+     *
+     * @return BelongsTo<User, covariant $this> A `BelongsTo` relationship instance.
      */
     public function creator(): BelongsTo
     {
@@ -45,7 +70,12 @@ final class BillingItem extends Model
     }
 
     /**
-     * @return MorphTo<Model, covariant $this>
+     * Polymorphic relationship for the billing documentable entity.
+     *
+     *  This defines a `MorphTo` relationship, allowing the invoice line
+     *  to associate with different types of billing document entities.
+     *
+     * @return MorphTo<Model, covariant $this> A `MorphTo` relationship instance.
      */
     public function billingdocumentable(): MorphTo
     {
@@ -53,7 +83,12 @@ final class BillingItem extends Model
     }
 
     /**
-     * @return BelongsTo<Invoice, covariant $this>
+     * Relationship to the associated invoice.
+     *
+     * This defines a 'BelongsTo' relationship between the invoice line and its parent invoice,
+     * based on the default 'invoice_id' foreign key.
+     *
+     * @return BelongsTo<Invoice, covariant $this> A `BelongsTo` relationship for the associated invoice.
      */
     public function invoice(): BelongsTo
     {
@@ -61,9 +96,12 @@ final class BillingItem extends Model
     }
 
     /**
-     * Get the attributes that should be cast.
+     * Get the attributes that should be cast to specific types.
      *
-     * @return array<string, string>
+     * This method returns an array mapping attribute names to the type or class
+     * they should be cast when accessed or saved in the database.
+     *
+     * @return array<string, string> An associative array of attribute casts.
      */
     protected function casts(): array
     {
