@@ -23,12 +23,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
- * Class Lease
+ * Class Lease represents a lease agreement within the application.
+ *
+ * This model includes various attributes and relationships that define the properties and associations of a lease.
+ * It also uses specific traits and enums for additional functionalities and type safety.
  *
  * @property int                             $id                      The unique identifier from the record in the database.
- * @property string                          $reference_number
- * @property int                             $risk_accessment_score
- * @property RiskLevel                       $risk_accessment_label
+ * @property string                          $reference_number        Reference number uniquely identifying the lease.
+ * @property int                             $risk_accessment_score   Score indicating the risk level of the lease.
+ * @property RiskLevel                       $risk_accessment_label   Label describing the assessed risk level.
  * @property string                          $group                   The name of the group/organisation that requested the lease in the application.
  * @property \Illuminate\Support\Carbon      $arrival_date            The timestamp that represent the arrival date of the group at our domain.
  * @property \Illuminate\Support\Carbon      $departure_date          THe timestamp that represent the departure date of the group from our domain.
@@ -57,13 +60,16 @@ final class Lease extends Model
     use HasUtilityMetrics;
 
     /**
-     * The database columns that are protected from the mass-assignment system provided by Laravel.
+     * List of database columns that are protected from mass assignment.
+     * These columns cannot be directly set via mass-assignment
      *
      * @var array<int, string>
      */
     protected $guarded = ['id'];
 
     /**
+     * Default attributes for new Lease instances.
+     *
      * @var array<string, object|int|string>
      */
     protected $attributes = ['status' => LeaseStatus::Request];
@@ -92,7 +98,10 @@ final class Lease extends Model
     }
 
     /**
-     * The data relation for getting the user information from the user who performs the follow-up of the lease.
+     * Defines the relationship to the supervisor of the lease.
+     *
+     * This belongs-to relationship connects the lease to a User model, representing
+     * the person responsible for overseeing the lease's execution and maintenance.
      *
      * @return BelongsTo<User, covariant $this>
      */
@@ -102,6 +111,11 @@ final class Lease extends Model
     }
 
     /**
+     * Establishes a one-to-one relationship with the Deposit model.
+     *
+     * This relationship associates a specific deposit with the lease,
+     * typically used for financial securities or down payments.
+     *
      * @return HasOne<Deposit, covariant $this>
      */
     public function deposit(): HasOne
@@ -110,7 +124,10 @@ final class Lease extends Model
     }
 
     /**
-     * The data relation for the locals (lokalen) that are attached to the given lease.
+     * Many-to-many relationship with the Local model representing specific venues or locations.
+     *
+     * Leases can be associated with multiple locations, reflecting the spaces rented
+     * for the specific agreement.
      *
      * @return BelongsToMany<Local, covariant $this>
      */
@@ -120,7 +137,10 @@ final class Lease extends Model
     }
 
     /**
-     * Data relation for getting the information about the tenant that is attached to the lease.
+     * Defines the relationship with the Tenant linked to this lease.
+     *
+     * This association connects the lease with the specific tenant entity
+     * responsible for fulfilling its terms.
      *
      * @return BelongsTo<Tenant, covariant $this>
      */
@@ -130,7 +150,10 @@ final class Lease extends Model
     }
 
     /**
-     * Data relation for getting the notes that are attached to the lease.
+     * Polymorphic relationship to multiple Note instances associated with the lease.
+     *
+     * This allows the attachment of various notes to the lease, each serving as
+     * distinct comments or records pertinent to the lease.
      *
      * @return MorphMany<Note, covariant $this>
      */
@@ -140,7 +163,10 @@ final class Lease extends Model
     }
 
     /**
-     * Data relation for getting the invoice that is attached to the lease.
+     * Belongs-to relationship with the Invoice model associated with the lease.
+     *
+     * This links a specific financial document (invoice) to the lease, facilitating
+     * monetary transactions and records.
      *
      * @return BelongsTo<Invoice, covariant $this>
      */
@@ -168,6 +194,11 @@ final class Lease extends Model
     }
 
     /**
+     * Relationship with the Quotation model linked to the lease.
+     *
+     * This association is used to connect a quotation or proposal, often acting
+     * as the precursor to formalizing the lease terms.
+     *
      * @return BelongsTo<Quotation, covariant $this>
      */
     public function quotation(): BelongsTo
@@ -191,7 +222,9 @@ final class Lease extends Model
     }
 
     /**
-     * Get the attributes that should be cast.
+     * Specifies the attribute casting for the model, converting attributes to specific types.
+     *
+     * This includes enums and date fields to ensure the correct format and integrity.
      *
      * @return array<string, string>
      */
@@ -206,12 +239,15 @@ final class Lease extends Model
     }
 
     /**
-     * The attribute that computes the lease period field based on the arrival and departure date.
+     * Provides a computed attribute that represents the lease period.
+     *
+     * Compiles the 'arrival_date' and 'departure_date' into a single string, indicating
+     * the duration of the lease.
      *
      * @return Attribute<string, never>
      */
     protected function period(): Attribute
     {
-        return Attribute::get(fn(): string => "{$this->arrival_date->format('d/m/Y H:i')} - {$this->departure_date->format('d/m/Y H:i')}");
+        return Attribute::get(fn (): string => "{$this->arrival_date->format('d/m/Y H:i')} - {$this->departure_date->format('d/m/Y H:i')}");
     }
 }
