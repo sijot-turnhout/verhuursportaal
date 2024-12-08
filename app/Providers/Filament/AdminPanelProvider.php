@@ -57,7 +57,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label(trans('Documentatie'))
                     ->icon('heroicon-o-book-open')
                     ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/')
-                    ->openUrlInNewTab()
+                    ->openUrlInNewTab(),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
