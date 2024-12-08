@@ -63,6 +63,7 @@ final class UtilitiesRelationManager extends RelationManager
     }
 
     /**
+     * Determine whether the relation manager is readonly on the information view of the main resource.
      *
      * @return bool
      */
@@ -107,6 +108,12 @@ final class UtilitiesRelationManager extends RelationManager
             ->paginated(false);
     }
 
+    /**
+     * Method for defining the table layout for the Utilities relation manager.
+     * The declaration of the layout is separated from the main method for clarification in the code.
+     *
+     * @return array<int, Tables\Columns\TextColumn>
+     */
     private function getTableColumnsLayout(): array
     {
         return [
@@ -140,6 +147,11 @@ final class UtilitiesRelationManager extends RelationManager
         ];
     }
 
+    /**
+     * Custom method to define the header actions that are implemented in the header of the utility overview table.
+     *
+     * @return array<int, Tables\Actions\Action>
+     */
     private function getTableHeaderActionsLayout(): array
     {
         return [

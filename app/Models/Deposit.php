@@ -64,9 +64,11 @@ final class Deposit extends Model
      * meaning no events are recorded unless explicitly specified. You can customize this array to include specific
      * events such as 'created', 'updated', or 'deleted' based on your logging requirements.
      *
-     * @var array<string> $recordevents  List of event names that should be logged. For example, ['created', 'updated'].
+     * @var array $recordevents  List of event names that should be logged. For example, ['created', 'updated'].
+     *
+     * @phpstan-ignore-next-line - Ignore the phpstan error because otherwise we got inconsistency in our logging of the deposits.
      */
-    protected static $recordEvents = [];
+    protected static array $recordEvents = [];
 
     /**
      * Defines the relationship between the Deposit and Lease models.

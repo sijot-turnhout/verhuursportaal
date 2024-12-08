@@ -138,7 +138,7 @@
                                 <tr>
                                     <td colspan="5">
                                         <span class="text-muted">
-                                            Het lijkt erop dat er geen items zijn toegevoegd in deze offerte.
+                                            <small>Het lijkt erop dat er geen items zijn toegevoegd in deze offerte.</small>
                                         </span>
                                     </td>
                                 </tr>
@@ -182,7 +182,7 @@
                 <p class="mb-0 fw-bold text-brown">{{ __('Voor akkoord (verhuurder)') }}</p>
                 <p class="mt-2 mb-3">Naam + datum en handtekening</p>
 
-                <img class="my-2" src="{{ $record->signature }}" alt=""><br>
+                <img class="my-2" style="width: 75%" src="{{ $record->signature }}" alt=""><br>
                 <span class="fst-italic fw-lighter">(Ondertekend op {{ $record->signed_at->format('d/m/Y') }})</span>
             </div>
             <div class="col-6">
