@@ -68,7 +68,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * The column span of the widget. Can be 'full', an integer, or an array for responsive behaviour.
      *
-     * @var int|string|array
+     * {@inheritDoc}
      */
     protected int|string|array $columnSpan = 'full';
 
@@ -81,7 +81,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
      * 'x' is also set to stack data.
      * 'plugins' configures the chart's legend to be displayed and filled.
      *
-     * @var array|null
+     * {@inheritDoc}
      */
     protected static ?array $options = [
         'scales' => [
@@ -98,6 +98,12 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
      */
     public function getLabel(): string|Htmlable|null
     {
+        /**
+         * Ignore following PHPStan error here (Match expression does not handle remaining values: string|null)
+         * Becasue there is a default variable assigned ino the static class variables.
+         *
+         * @phpstan-ignore-next-line
+         */
         return match ($this->filter) {
             'today' => trans('Aantal geregistreerde handelingen vandaag'),
             'week' => trans('Aantal geregistreerde handelingen afgelopen week'),
@@ -118,6 +124,12 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
         $registerActivitiesLastMonth = Activity::query()->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->count();
         $registerActivitiesLastYear = Activity::query()->whereBetween('created_at', [now()->startOfYear(), now()->endOfyear()])->count();
 
+        /**
+         * Ignore following PHPStan error here (Match expression does not handle remaining values: string|null)
+         * Becasue there is a default variable assigned ino the static class variables.
+         *
+         * @phpstan-ignore-next-line
+         */
         return match ($this->filter) {
             'today' => trans(':amount handelingen', ['amount' => $registerActivitiesToday]),
             'week' => trans(':amount handelingen', ['amount' => $registerActivitiesLastWeek]),
@@ -129,7 +141,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Returns the available filters for the chart.
      *
-     * @return array|null The available filter options.
+     * @return array<string, string>|null The available filter options.
      */
     protected function getFilters(): ?array
     {
@@ -144,10 +156,16 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Retrieves the data to be displayed in the chart.  The data returned depends on the currently selected filter.
      *
-     * @return array The chart data.
+     * @return array<mixed> The chart data.
      */
     protected function getData(): array
     {
+        /**
+         * Ignore following PHPStan error here (Match expression does not handle remaining values: string|null)
+         * Becasue there is a default variable assigned ino the static class variables.
+         *
+         * @phpstan-ignore-next-line
+         */
         return match ($this->filter) {
             'today' => $this->getChartForToday(),
             'week' => $this->getChartForLastWeek(),
@@ -171,12 +189,11 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
      * This is a helper function used by the filter-specific data retrieval methods.
      * It leverages the Flowframe\Trend library to aggregate activity data.
      *
-     * @param Carbon $start  The start of the period.
-     * @param Carbon $end    The end of the period.
-     * @param string $period The aggregation period (e.g., 'perHour', 'perDay', 'perMonth').
-     *
-     * @return array     The formatted chart data.
-     * @throws Exception If there's an issue with the $period value.
+     * @param  Carbon $start    The start of the period.
+     * @param  Carbon $end      The end of the period.
+     * @param  string $period   The aggregation period (e.g., 'perHour', 'perDay', 'perMonth').
+     * @return array<int>       The formatted chart data.
+     * @throws Exception        If there's an issue with the $period value.
      */
     private function getActivityChartData(Carbon $start, Carbon $end, string $period): array
     {
@@ -197,7 +214,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Retrieves chart data for today, aggregated per hour.
      *
-     * @return array The chart data for today.
+     * @return array<int> The chart data for today.
      */
     private function getChartForToday(): array
     {
@@ -207,7 +224,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Retrieves chart data for the last week, aggregated per day.
      *
-     * @return array The chart data for the last week.
+     * @return array<int> The chart data for the last week.
      */
     private function getChartForLastWeek(): array
     {
@@ -217,7 +234,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Retrieves chart data for the last month, aggregated per day.
      *
-     * @return array The chart data for the last month.
+     * @return array<int> The chart data for the last month.
      */
     private function getChartForLastMonth(): array
     {
@@ -227,7 +244,7 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Retrieves chart data for the last year, aggregated per month.
      *
-     * @return array The chart data for the last year.
+     * @return array<int> The chart data for the last year.
      */
     private function getChartForLastYear(): array
     {

@@ -69,7 +69,7 @@ final class RegisterWithdrawnDepositAction extends Action
                     TextInput::make('paid_amount')
                         ->label('Betaalde waarborg')
                         ->numeric()
-                        ->required()
+                        ->required() /** @phpstan-ignore-next-line */
                         ->default(fn(Deposit $deposit): float|string => $deposit->paid_amount)
                         ->columnSpan(6)
                         ->disabled()

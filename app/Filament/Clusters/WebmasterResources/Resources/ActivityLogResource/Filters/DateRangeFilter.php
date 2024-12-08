@@ -21,6 +21,11 @@ final class DateRangeFilter extends Filter
             ->indicateUsing(fn(array $data): array => self::registerIndicators($data));
     }
 
+    /**
+     * Function to build up the form fields for the data range filter.
+     *
+     * @return array<int, DatePicker>
+     */
     private static function dateRangeFormFields(): array
     {
         return [
@@ -38,6 +43,13 @@ final class DateRangeFilter extends Filter
         ];
     }
 
+    /**
+     * Method to declare the date range queries for the filter.
+     *
+     * @param  Builder<\Illuminate\Database\Eloquent\Model> $query
+     * @param  array<mixed>                                 $data
+     * @return Builder<\Illuminate\Database\Eloquent\Model>
+     */
     private static function dateRangeQuery(Builder $query, array $data): Builder
     {
         return $query->when(
@@ -49,6 +61,12 @@ final class DateRangeFilter extends Filter
         );
     }
 
+    /**
+     * Method to register the indicators from the filters.
+     *
+     * @param  array{created_from?: string, created_until?: string} $data  The from the filter that will be used in the indicators.
+     * @return array{created_from?: string, created_until?: string}
+     */
     private static function registerIndicators(array $data): array
     {
         $indicators = [];

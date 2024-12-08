@@ -31,7 +31,7 @@ final class Key extends Model
      * This allows us to easily find out who has a particular key.
      * A key belongs to a single user.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, covariant $this>
      */
     public function user(): BelongsTo
     {
@@ -44,7 +44,7 @@ final class Key extends Model
      *
      * If there is no location assigned to this key or relationship. Then this key is registered as a master key.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Local, covariant $this>
      */
     public function local(): BelongsTo
     {

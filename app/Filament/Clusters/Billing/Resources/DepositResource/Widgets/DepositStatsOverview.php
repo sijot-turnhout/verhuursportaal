@@ -20,7 +20,9 @@ final class DepositStatsOverview extends BaseWidget
      * and assets held in custody, partially or fully revoked deposits, and the corresponding amounts.
      * Each statistic includes a label, value, and optional icons with colors to indicate the status.
      *
-     * @return array An array of statistical data objects depicting the status and value of deposits and assets.
+     * Returns an array of statistical data objects depicting the status and value of deposits and assets.
+     *
+     * @return array<mixed>
      */
     protected function getStats(): array
     {

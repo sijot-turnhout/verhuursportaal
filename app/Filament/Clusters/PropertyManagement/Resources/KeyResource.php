@@ -61,7 +61,7 @@ final class KeyResource extends Resource
      * Associates this resource with the "Property management" cluster.
      * This bundles multiple resources in to a main resource.
      *
-     * @var string|null
+     * {@inheritDoc}
      */
     protected static ?string $cluster = PropertyManagement::class;
 
@@ -147,7 +147,9 @@ final class KeyResource extends Resource
      * Creates the specific form fields used for managing key data.
      * This method defines details like input fields for the key's name, type, and other attributes.
      *
-     * @return array An array defining the form fields for key management.
+     * Returns an array defining the form fields for key management.
+     *
+     * @return array<Forms\Components\Component>
      */
     public static function registerKeyManagementForm(): array
     {
@@ -215,7 +217,9 @@ final class KeyResource extends Resource
     /**
      * Configures the actions available for the table.
      *
-     * @return array The array of configured table actions including view, edit, and delete actions encapsulated in an action group.
+     * Returns the array of configured table actions including view, edit, and delete actions encapsulated in an action group.
+     *
+     * @return array<int, Tables\Actions\ActionGroup>
      */
     public static function registerTableActions(): array
     {
@@ -230,8 +234,9 @@ final class KeyResource extends Resource
 
     /**
      * Registers the bulk actions available for the table.
+     * Returns the array of bulk action groups defined for the table.
      *
-     * @return array The array of bulk action groups defined for the table.
+     * @return array<int, Tables\Actions\BulkActionGroup>
      */
     public static function registerTableBulkActions(): array
     {

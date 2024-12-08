@@ -91,7 +91,7 @@ final class KeyManagementRelationManager extends RelationManager
     /**
      * Retrieves and returns the informational list for Key Resource.
      *
-     * @param Infolist $infolist The Infolist instance used to retrieve the information.
+     * @param  Infolist $infolist The Infolist instance used to retrieve the information.
      * @return Infolist          The Infolist instance populated with Key Resource information.
      */
     public function infolist(Infolist $infolist): Infolist
@@ -136,7 +136,9 @@ final class KeyManagementRelationManager extends RelationManager
     /**
      * Defines the schema for the columns in the table representation.
      *
-     * @return array The array containing the column definitions.
+     * Returns the array containing the column definitions.
+     *
+     * @return array<int, Tables\Columns\TextColumn>
      */
     private function tableColumnsSchema(): array
     {
