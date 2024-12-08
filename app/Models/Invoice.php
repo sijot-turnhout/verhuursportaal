@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Contracts\Eloquent\FinancialAssistance;
 use App\Filament\Clusters\Billing\Resources\InvoiceResource\States;
 use App\Filament\Clusters\Billing\Resources\InvoiceResource\States\InvoiceStateContract;
 use App\Filament\Resources\InvoiceResource\Enums\BillingType;
@@ -32,7 +33,7 @@ use InvalidArgumentException;
  *
  * @method static uncollectibleInvoices() The collection of invoices that are registered as uncollected.
  */
-final class Invoice extends Model
+final class Invoice extends Model implements FinancialAssistance
 {
     /**
      * The attributes that are protected from the mass assignment system.
@@ -50,6 +51,22 @@ final class Invoice extends Model
         'status' => InvoiceStatus::Draft,
     ];
 
+    /**
+     * Boot the model and set up event listeners for the Invoice lifecycle.
+     *
+     * This method defines a `creating` event listener to automatically
+     * generate a unique payment reference when a new Invoice is being created.
+     *
+     * The payment reference format is: `{current year}-{incremental number}`
+     * - The incremental number is determined based on the last invoice's payment reference.
+     * - If there is no previous invoice, the number starts at 1.
+     *
+     * Example:
+     * - Last payment reference: `2024-000123`
+     * - New payment reference: `2024-000124`
+     *
+     * @return void
+     */
     public static function boot(): void
     {
         parent::boot();
@@ -82,19 +99,45 @@ final class Invoice extends Model
     }
 
     /**
-     * @return Attribute<int|float, never-return>
+     * Calpculpate the total billable amount for the invoice.
+     *
+     * This method creates a custom Eloquent attribute that computes the
+     * billable total by subtracting the discount total from the subtotal.
+     *
+     * @return Attribute<int|float, never-return> Custom attribute for the billable amount.
      */
-    public function invoiceTotal(): Attribute
+    public function billableTotal(): Attribute
     {
-        /** @phpstan-ignore-next-line */
+        /**
+         * Using the Attribute class, define a getter that calculates
+         * the billable total dynamically.
+         *
+         * @phpstan-ignore-next-line The ignored line ensures static analysis does not flag this.
+         */
         return Attribute::get(fn(): int|float => $this->getSubTotal() - $this->getDiscountTotal());
     }
 
+    /**
+     * Get the total value of all discounts applied to the invoice.
+     *
+     * This method queries the invoice lines with the type 'Discount'
+     * and sums up their 'total_price' values.
+     *
+     * @return integer|float|string The total discount value as an integer, float, or string.
+     */
     public function getDiscountTotal(): int|float|string
     {
         return $this->invoiceLines()->where('type', BillingType::Discount)->sum('total_price');
     }
 
+    /**
+     * Get the subtotal of all billable items in the invoice.
+     *
+     * This method queries the invoice lines with the type 'BillingLine'
+     * and sums up their `total_price` values.
+     *
+     * @return int|float|string The subtotal value as an integer, float, or string.
+     */
     public function getSubTotal(): int|float|string
     {
         return $this->invoiceLines()->where('type', BillingType::BillingLine)->sum('total_price');
