@@ -123,7 +123,7 @@ final class Invoice extends Model implements FinancialAssistance
      * This method queries the invoice lines with the type 'Discount'
      * and sums up their 'total_price' values.
      *
-     * @return integer|float|string The total discount value as an integer, float, or string.
+     * @return int|float|string The total discount value as an integer, float, or string.
      */
     public function getDiscountTotal(): int|float|string
     {

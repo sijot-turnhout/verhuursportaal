@@ -23,7 +23,20 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * Quotation status can transition through various states such as Draft, Open, Accepted, Declined, and Expired.
  * The state design pattern is employed to handle state-specific behaviors and transitions cleanly and effectively.
  *
- * @property QuotationStatus $status
+ * @property int                              $id            The unique identifier from the quotation in the application.
+ * @property string                           $reference     The uniique reference for the quotation. Mainly forp the bookkeeping purposes.
+ * @property QuotationStatus                  $status        The current status of the quotation in the application;
+ * @property int                              $user_id       The unique identifier from the user account that is associated with the quotation.
+ * @property int                              $lease_id      The unique identifier from the lease that in associated with the given quotation.
+ * @property int                              $reciever_id   The unique identifier from the tenant that will recieve the quotation.
+ * @property string                           $description   The description of the quotation can be extra information notes that will be displayed on the generated quotation.
+ * @property string                           $signature     The base:64 image encoding for the signature from the admin. That marks the quotation as final and ready to be sent.
+ * @property \Illuminate\Support\Carbon|null  $expires_at    The timestamp indicating when the quotation proposal expires.
+ * @property \Illuminate\Support\Carbon|null  $approved_at   The timestamp indicating when the quotation is registered as approived by the tenant.
+ * @property \Illuminate\Support\Carbon|null  $rejected_at   The timestamp indicating when the quotation is registered as rejected by the tenant.
+ * @property \Illuminate\Support\Carbon|null  $signed_at     The timestamp indicating when the quotation is generated and signed by the administrator.
+ * @property \Illuminate\Support\Carbon|null  $updated_at    The timestamp indicating when the information from the question is last edited in the application.
+ * @property \Illuminate\Support\Carbon|null  $created_at    The timestamp indicating when the quotation draft has been created for the time in the application.
  *
  * @package App\Models
  */
@@ -76,11 +89,27 @@ final class Quotation extends Model implements FinancialAssistance
         return Attribute::get(fn(): int|string|float => $this->getSubTotal() ?? 0 - $this->getDiscountTotal() ?? 0);
     }
 
+    /**
+     * Get the total value of all discounts applied to the quotation.
+     *
+     * This method queries the quotation lines with the type 'Discount'
+     * and sums up their 'total_price' values.
+     *
+     * @return int|float|string The total discount value as an integer, float, or string
+     */
     public function getDiscountTotal(): int|float|string
     {
         return $this->quotationLines()->where('type', BillingType::Discount)->sum('total_price');
     }
 
+    /**
+     * Get the subtotal of all billable items in the invoice.
+     *
+     * This method queries the quotation lines with the type 'BillingLine'
+     * and sums up their 'total_price' values.
+     *
+     * @return integer|float|string The subtotal value as an integer, float, or string
+     */
     public function getSubTotal(): int|float|string
     {
         return $this->quotationLines()->where('type', BillingType::BillingLine)->sum('total_price');
