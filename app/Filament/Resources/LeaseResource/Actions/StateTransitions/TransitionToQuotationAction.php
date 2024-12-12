@@ -6,6 +6,7 @@ namespace App\Filament\Resources\LeaseResource\Actions\StateTransitions;
 
 use App\Enums\LeaseStatus;
 use App\Filament\Support\Actions\StateTransitionAction;
+use App\Jobs\QuotationGenerator;
 use App\Models\Lease;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
@@ -32,7 +33,9 @@ final class TransitionToQuotationAction extends StateTransitionAction
             /** @param TModel $lease - The resource entity from the database (lease information in this case) */
             ->visible(fn(Lease $lease): bool => self::canTransition($lease))
             /** @param TModel $lease - The resource entity from the database (lease information in this case) */
-            ->action(fn(Lease $lease) => self::performActionLogic($lease));
+            ->action(fn(Lease $lease) => self::performActionLogic($lease))
+            ->requiresConfirmation()
+            ->modalDescription(trans('Weet u zeker dat u de verhuring wilpt registreren als oeen offerte optie? Bij deze zal er automatisch een klad offerte worden aangemaakt.'));
     }
 
     /**
@@ -62,6 +65,10 @@ final class TransitionToQuotationAction extends StateTransitionAction
      */
     public static function performActionLogic(Model $lease): void
     {
+        if ($lease->quotation()->doesntExist()) {
+            QuotationGenerator::process($lease, $lease->tenant);
+        }
+
         $lease->state()->transitionToQuotationRequest();
     }
 }

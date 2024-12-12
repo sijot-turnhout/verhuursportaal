@@ -35,7 +35,7 @@ final class MarkAsFinalizedAction extends Action
             ->visible(fn(Quotation $quotation): bool => Gate::allows('finalize', $quotation))
             ->requiresConfirmation()
             ->modalDescription(trans(
-                'Indien u de offerte afrond eal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.
+                'Indien u de offerte afrond zal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.
                 Wat u enkel nog hoeft te doen is uw handtekening te zetten onder de offerte',
             ))
             ->successRedirectUrl(fn(Quotation $quotation): string => QuotationResource::getUrl('view', ['record' => $quotation]))
