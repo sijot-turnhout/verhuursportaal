@@ -18,7 +18,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * The changelog model represents a record (list) of changes or updates on the locals and inventory items in the system.
  * It includes information about follow-ups and the user responsible for those follow-ups.
  *
- * @property ChangelogStatus $status
+ * @property int                              $id           The unique identifier from the changelog entry in the application.
+ * @property int                              $user_id      The uniquep identifier from the user who is associated as creator or supervisor of the changelog.
+ * @property ChangelogStatus                  $status       The status for the changelog in the application.
+ * @property string                           $title        The title of the changelog that is regi)stered in the application;
+ * @property string                           $description  The briefly description for the changelog on the domain.
+ * @property \Illuminate\Support\Carbon|null  $created_at   The timestamp indicating when the record has been created in the application.
+ * @property \Illuminate\Support\Carbon|null  $updated_at   The timestamp indicating when the recortd last has been updated.
  *
  * @package App\Models
  */
