@@ -97,6 +97,8 @@ final class UtilitiesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(trans('Nutsverbruik registratie'))
+            ->description('In dit tabblad dat gekoppeld is aan de verhuring kan u het nutsverbuik van de verbruik registreren. Dit kan handig zijn voor de facturatie of om een analytisch overzicht te verkrijgen')
             ->modelLabel('Verbruik')
             ->pluralModelLabel('Verbruik')
             ->emptyStateIcon('heroicon-o-document-chart-bar')

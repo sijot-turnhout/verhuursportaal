@@ -46,6 +46,15 @@ enum UtilityMetricTypes: string implements HasIcon
      */
     case Electricity = 'Electriciteit verbruik';
 
+    public function getBillingLine(): string
+    {
+        return match($this) {
+            self::Gas => 'Verbruik van gas tijdens de verhuring',
+            self::Water => 'Verbruik van water tijdens de verhuring',
+            self::Electricity => 'Verbruik van elektriciteit tijdens de verhuring',
+        };
+    }
+
     /**
      * Get the associated icon for the utility metric type.
      *

@@ -38,7 +38,7 @@ trait HasUtilityMetrics
         return LeaseStatus::Confirmed === $this->status;
     }
 
-    public function canDisplayTHeFinalizeButton(): bool
+    public function canDisplayTheFinalizeButton(): bool
     {
         return $this->utilityStatistics()->exists()
             && $this->hasntFinalizedUtilityMetrics()

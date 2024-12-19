@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 return [
     'billing' => [
+        'automatic_invoicing' => true, // TODO: Document config flag
         'price_per_night' => '5.5',
         'guarantee_payment_amount' => 250,
 

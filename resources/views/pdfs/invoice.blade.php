@@ -99,7 +99,7 @@
                         </thead>
                         <tbody>
                             @forelse ($record->invoiceLines as $invoiceLine)
-                                <tr>
+                                <tr class="small">
                                     <td>
                                         {{ $invoiceLine->name }}
 
@@ -107,7 +107,7 @@
                                             <br> <small class="text-muted">{{ $invoiceLine->description }}</small>
                                         @endif
                                     </td>
-                                    <td>{{ (int) $invoiceLine->quantity }}</td>
+                                    <td>{{ $invoiceLine->quantity }}</td>
                                     <td>{{ $invoiceLine->unit_price }}€</td>
                                     <td>
                                         <span class="float-end">
@@ -127,7 +127,7 @@
                                 </tr>
                             @endforelse
 
-                            <tr>
+                            <tr class="small">
                                 <td colspan="3" class="border-bottom-0">
                                     <span class="float-end text-brown"><strong>{{ __('SUBTOTAAL') }}</strong></span>
                                 </td>
@@ -135,7 +135,7 @@
                                     <span class="float-end fw-bold">{{ $record->getSubTotal() }}€</span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="small">
                                 <td colspan="3" class="border-bottom-0">
                                     <span class="float-end text-brown"><strong>{{ __('VERMINDERING') }}</strong></span>
                                 </td>
@@ -143,7 +143,7 @@
                                     <span class="float-end fw-bold">- {{ $record->getDiscountTotal() }}€</span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="small">
                                 <td colspan="3" class="border-bottom-0">
                                     <span class="float-end text-brown"><strong>{{ __('TE BETALEN') }}</strong></span>
                                 </td>

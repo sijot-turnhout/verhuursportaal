@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\UtilityResource\Actions;
 
+use App\Jobs\InvoiceUtilityUsage;
+use App\Models\Lease;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class FinalizeMetricsAction
@@ -36,8 +40,36 @@ final class FinalizeMetricsAction extends Action
             ->icon('heroicon-o-lock-closed')
             ->requiresConfirmation()
             ->modalDescription(trans('Na het registreren van het verbruik is het niet meer mogelijk om deze te wijzigen. Vandaar dat we u willen vragen om bij twijfel alles nog is na te kijken.'))
-            ->action(fn(RelationManager $livewire): bool => $livewire->getOwnerRecord()->update(['metrics_registered_at' => now()]))
-            /** @phpstan-ignore-next-line */
-            ->visible(fn(RelationManager $livewire): bool => $livewire->getOwnerRecord()->canDisplayTheFinalizeButton());
+            ->modalDescription('test')
+            ->visible(fn(RelationManager $livewire): bool => self::canPerformAction($livewire->getOwnerRecord()))
+            ->action(fn(RelationManager $livewire): bool => self::performFinalizeMetricsAction($livewire->getOwnerRecord()));
     }
+
+    /**
+     * Method that performs the authorization check for the action.
+     *
+     * @param  Model|Lease $lease The lease entity from the database.
+     * @return bool
+     */
+    private static function canPerformAction(Model|Lease $lease): bool
+    {
+        return $lease->canDisplayTheFinalizeButton();
+    }
+
+    /**
+     * The method that performs the needed logic to perform the finalization of the utility metrics.
+     *
+     * @param  Model|Lease $lease The lease entity from the database where the finalization happends on.
+     * @return bool
+     */
+    private static function performFinalizeMetricsAction(Model|Lease $lease): bool
+    {
+        return DB::transaction(function () use ($lease) {
+            InvoiceUtilityUsage::dispatch($lease);
+
+            return $lease->update(['metrics_registered_at' => now()]);
+        });
+    }
+
+
 }
