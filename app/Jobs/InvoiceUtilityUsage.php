@@ -8,6 +8,7 @@ use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Models\BillingItem;
 use App\Models\Lease;
 use App\Models\Utility;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -34,7 +35,7 @@ final readonly class InvoiceUtilityUsage
      * @return bool          Returns `false` if invoicing is skipped due to configuration or draft invoice status.
      *                       Otherwise, returns `true` once utility statistics have been processed.
      *
-     * @throws \Exception    If there is an issue while processing the utility statistics or adding billing items.
+     * @throws Exception    If there is an issue while processing the utility statistics or adding billing items.
      */
     public static function dispatch(Lease $lease): bool
     {
@@ -42,7 +43,7 @@ final readonly class InvoiceUtilityUsage
             return false;
         }
 
-        return $lease->utilityStatistics()->each(fn (Utility $metric) => self::addBillinglineToInvoice($lease, $metric));
+        return $lease->utilityStatistics()->each(fn(Utility $metric) => self::addBillinglineToInvoice($lease, $metric));
     }
 
     /**

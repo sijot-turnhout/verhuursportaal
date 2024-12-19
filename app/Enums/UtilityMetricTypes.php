@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use Filament\Support\Contracts\HasIcon;
+use UnhandledMatchError;
 
 /**
  * Enum UtilityMetricTypes
@@ -55,11 +56,11 @@ enum UtilityMetricTypes: string implements HasIcon
      *
      * @return string The descriptive billing line corresponding to the utility type.
      *
-     * @throws \UnhandledMatchError If the method is called on an unsupported or undefined utility type. This should not occur if the enum cases are strictly defined.
+     * @throws UnhandledMatchError If the method is called on an unsupported or undefined utility type. This should not occur if the enum cases are strictly defined.
      */
     public function getBillingLine(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Gas => 'Verbruik van gas tijdens de verhuring',
             self::Water => 'Verbruik van water tijdens de verhuring',
             self::Electricity => 'Verbruik van elektriciteit tijdens de verhuring',
