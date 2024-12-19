@@ -20,6 +20,7 @@ final readonly class DownloadDocumentController
 
         return pdf()
             ->view('pdfs.invoice', compact('record'))
+            ->margins(top: 10, bottom: 10)
             ->name($record->payment_reference . '.pdf');
     }
 

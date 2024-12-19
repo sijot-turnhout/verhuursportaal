@@ -39,37 +39,50 @@ final class FinalizeMetricsAction extends Action
         return parent::make($name ?? trans('Verbruik registreren'))
             ->icon('heroicon-o-lock-closed')
             ->requiresConfirmation()
-            ->modalDescription(trans('Na het registreren van het verbruik is het niet meer mogelijk om deze te wijzigen. Vandaar dat we u willen vragen om bij twijfel alles nog is na te kijken.'))
-            ->modalDescription('test')
-            ->visible(fn(RelationManager $livewire): bool => self::canPerformAction($livewire->getOwnerRecord()))
+            ->modalDescription(self::configureModalDescription())
+            ->visible(fn(RelationManager $livewire): bool => $livewire->getOwnerRecord()->canDisplayTheFinalizeButton())
             ->action(fn(RelationManager $livewire): bool => self::performFinalizeMetricsAction($livewire->getOwnerRecord()));
     }
 
     /**
-     * Method that performs the authorization check for the action.
+     * Finalizes utility usage metrics for a given lease and triggers invoice generation.
      *
-     * @param  Model|Lease $lease The lease entity from the database.
-     * @return bool
-     */
-    private static function canPerformAction(Model|Lease $lease): bool
-    {
-        return $lease->canDisplayTheFinalizeButton();
-    }
-
-    /**
-     * The method that performs the needed logic to perform the finalization of the utility metrics.
+     * This method ensures that the registration of utility usage metrics is a transactional operation,
+     * meaning all changes will either be fully applied or rolled back if an error occurs. Once the
+     * metrics are finalized, an asynchronous dispatch is triggered to generate billing items
+     * for the utility usage, provided invoicing conditions are met.
      *
-     * @param  Model|Lease $lease The lease entity from the database where the finalization happends on.
-     * @return bool
+     * @param  Model|Lease $lease The lease instance for which utility metrics are being finalized.
+     * @return bool               Returns `true` if the metrics were successfully finalized and the lease was updated. Returns `false` if the transaction fails.
+     *
+     * @throws \Throwable If the transaction fails or an error occurs during deferred dispatch.
      */
     private static function performFinalizeMetricsAction(Model|Lease $lease): bool
     {
         return DB::transaction(function () use ($lease) {
-            InvoiceUtilityUsage::dispatch($lease);
+            defer(callback: fn () => InvoiceUtilityUsage::dispatch($lease));
 
             return $lease->update(['metrics_registered_at' => now()]);
         });
     }
 
+    /**
+     * Configures the description for the modal based on automatic invoicing settings.
+     *
+     * This method generates a dynamic modal description string that informs the user about the
+     * consequences of finalizing utility metrics. If automatic invoicing is disabled, the message
+     * focuses solely on the inability to make changes post-finalization. If automatic invoicing
+     * is enabled, the message also highlights that the utility data will be added to a draft
+     * invoice if one exists.
+     *
+     * @return string The translated modal description string.
+     */
+    private static function configureModalDescription(): string
+    {
+        if (! config()->boolean('sijot-verhuur.billing.automatic_invoicing', false)) {
+            return trans('Na het registreren van het verbruik is het niet meer mogelijk om deze te wijzigen. Vandaar dat we u willen vragen om bij twijfel alles nog is na te kijken.');
+        }
 
+        return trans('Na het registreren van het verbruik is het niet meer mogelijk om deze te wijzigen en zullen deze gegevens toegevoegd worden op het facturatievoorstel indien er een is in de applicatie. Vandaar dat we u willen vragen om bij twijfel alles nog is na te kijken.');;
+    }
 }

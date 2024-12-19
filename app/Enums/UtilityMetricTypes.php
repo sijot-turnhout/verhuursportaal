@@ -46,6 +46,17 @@ enum UtilityMetricTypes: string implements HasIcon
      */
     case Electricity = 'Electriciteit verbruik';
 
+    /**
+     * Retrieves a descriptive billing line for the utility type.
+     *
+     * This method uses a `match` expression to return a specific description for each type of utility,
+     * tailored to its usage during a rental period. These descriptions are intended to be displayed
+     * on invoices or billing documents, providing clear details about the associated charges.
+     *
+     * @return string The descriptive billing line corresponding to the utility type.
+     *
+     * @throws \UnhandledMatchError If the method is called on an unsupported or undefined utility type. This should not occur if the enum cases are strictly defined.
+     */
     public function getBillingLine(): string
     {
         return match($this) {
