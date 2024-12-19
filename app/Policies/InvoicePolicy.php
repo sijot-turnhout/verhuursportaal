@@ -88,7 +88,7 @@ final readonly class InvoicePolicy
      */
     public function finalizeInvoiceDraft(User $user, Invoice $invoice): bool
     {
-        return $invoice->status->is(InvoiceStatus::Draft);
+        return $invoice->status->is(InvoiceStatus::Draft) && $invoice->invoiceLines->count() > 0;
     }
 
     /**

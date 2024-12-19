@@ -36,7 +36,8 @@ final readonly class QuotationPolicy
     public function finalize(User $user, Quotation $quotation): bool
     {
         return ($user->user_group->isRvb() || $user->user_group->isWebmaster())
-            && QuotationStatus::Draft === $quotation->status;
+            && QuotationStatus::Draft === $quotation->status
+            && $quotation->quotationLines->count() > 0;
     }
 
     public function delete(User $user, Quotation $quotation): bool
