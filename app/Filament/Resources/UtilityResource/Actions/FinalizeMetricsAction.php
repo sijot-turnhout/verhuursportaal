@@ -10,6 +10,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Class FinalizeMetricsAction
@@ -55,12 +56,12 @@ final class FinalizeMetricsAction extends Action
      * @param  Model|Lease $lease The lease instance for which utility metrics are being finalized.
      * @return bool               Returns `true` if the metrics were successfully finalized and the lease was updated. Returns `false` if the transaction fails.
      *
-     * @throws \Throwable If the transaction fails or an error occurs during deferred dispatch.
+     * @throws Throwable If the transaction fails or an error occurs during deferred dispatch.
      */
     private static function performFinalizeMetricsAction(Model|Lease $lease): bool
     {
         return DB::transaction(function () use ($lease) {
-            defer(callback: fn () => InvoiceUtilityUsage::dispatch($lease));
+            defer(callback: fn() => InvoiceUtilityUsage::dispatch($lease));
 
             return $lease->update(['metrics_registered_at' => now()]);
         });
@@ -79,10 +80,11 @@ final class FinalizeMetricsAction extends Action
      */
     private static function configureModalDescription(): string
     {
-        if (! config()->boolean('sijot-verhuur.billing.automatic_invoicing', false)) {
+        if ( ! config()->boolean('sijot-verhuur.billing.automatic_invoicing', false)) {
             return trans('Na het registreren van het verbruik is het niet meer mogelijk om deze te wijzigen. Vandaar dat we u willen vragen om bij twijfel alles nog is na te kijken.');
         }
 
-        return trans('Na het registreren van het verbruik is het niet meer mogelijk om deze te wijzigen en zullen deze gegevens toegevoegd worden op het facturatievoorstel indien er een is in de applicatie. Vandaar dat we u willen vragen om bij twijfel alles nog is na te kijken.');;
+        return trans('Na het registreren van het verbruik is het niet meer mogelijk om deze te wijzigen en zullen deze gegevens toegevoegd worden op het facturatievoorstel indien er een is in de applicatie. Vandaar dat we u willen vragen om bij twijfel alles nog is na te kijken.');
+        ;
     }
 }
