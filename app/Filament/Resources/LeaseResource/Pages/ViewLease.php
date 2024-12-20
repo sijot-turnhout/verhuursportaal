@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\Pages;
 
-use App\Filament\Clusters\Billing\Resources\DepositResource\Actions\RegisterDepositAction;
-use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Actions as DepositActions;
 use App\Filament\Clusters\Billing\Resources\QuotationResource\Actions\ViewQuotation;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateInvoice;
 use App\Filament\Resources\InvoiceResource\Actions\GenerateQuotation;
@@ -13,8 +12,6 @@ use App\Filament\Resources\InvoiceResource\Actions\ViewInvoice;
 use App\Filament\Resources\LeaseResource;
 use App\Filament\Resources\LeaseResource\Actions\AssignAuthenticatedUserAction;
 use App\Filament\Resources\LeaseResource\Actions\StateTransitions;
-use App\Models\Lease;
-use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -95,16 +92,12 @@ final class ViewLease extends ViewRecord
     protected function registerDepositActions(): ActionGroup
     {
         return ActionGroup::make([
-            RegisterDepositAction::make(),
+            ActionGroup::make([
+                DepositActions\RegisterDepositAction::make(),
+            ])->dropdown(false),
+
             GenerateInvoice::make(),
             GenerateQuotation::make(),
-
-            Action::make('Bekijk waarborg') // 'View deposit' in Dutch
-                ->icon('heroicon-o-eye')
-                ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
-                ->url(fn(Lease $lease): string => ViewDeposit::getUrl(parameters: ['record' => $lease->deposit]))
-                ->openUrlInNewTab(),
-
             ViewInvoice::make(),
             ViewQuotation::make(),
         ])

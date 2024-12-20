@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\InvoiceResource;
 
+use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use App\Models\Lease;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
@@ -11,7 +12,7 @@ use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\FontWeight;
 
 /**
  * Class LeaseInfolist
@@ -40,6 +41,7 @@ final readonly class LeaseInfolist
                 ->tabs([
                     self::tenantInformationSection(),
                     self::leaseInformationSection(),
+                    self::securityDepositInformationSection(),
                     self::feedbackInformationSection(),
                 ])
             ]);
@@ -76,6 +78,76 @@ final readonly class LeaseInfolist
                     }),
 
                 TextEntry::make('tenant.banned_at')->label(trans('Op de zwarte lijst sinds'))->default('-')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3),
+            ]);
+    }
+
+    /**
+     * Create the security deposit information section
+     *
+     * @todo
+     *
+     * @return Tab The security deposit information section.
+     */
+    private static function securityDepositInformatioNSection(): Tab
+    {
+        return Tab::make(trans('Waarborg'))
+            ->columns(12)
+            ->icon('heroicon-o-credit-card')
+            ->visible(fn (Lease $lease): bool => $lease->deposit()->exists())
+            ->schema([
+                TextEntry::make('deposit.status')
+                    ->label('Waarborg status')
+                    ->badge()
+                    ->columnSpan(3)
+                    ->translateLabel(),
+
+                TextEntry::make('deposit.paid_amount')
+                    ->label('Gestorte waarborg')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->is(DepositStatus::Paid))
+                    ->money('EUR')
+                    ->columnSpan(3)
+                    ->weight(FontWeight::ExtraBold)
+                    ->color('primary'),
+
+                TextEntry::make('deposit.refunded_amount')
+                    ->label('Teruggestorte borg')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->isNot(DepositStatus::Paid))
+                    ->money('EUR')
+                    ->columnSpan(3)
+                    ->weight(FontWeight::ExtraBold)
+                    ->color('primary'),
+
+                TextEntry::make('deposit.paid_at')
+                    ->label('Betaald op')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->is(DepositStatus::Paid))
+                    ->date()
+                    ->columnSpan(3),
+
+                TextEntry::make('deposit.revoked_amount')
+                    ->label('Ingehouden borg')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->isNot(DepositStatus::Paid))
+                    ->money('EUR')
+                    ->columnSpan(3)
+                    ->weight(FontWeight::ExtraBold)
+                    ->color('danger'),
+
+                TextEntry::make('deposit.refunded_at')
+                    ->label('Teruggestort op')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->isNot(DepositStatus::Paid))
+                    ->columnSpan(3)
+                    ->date(),
+
+                TextEntry::make('deposit.refund_at')
+                    ->label('Uiterste terugbetalingsdatum')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->is(DepositStatus::Paid))
+                    ->date()
+                    ->columnSpan(3),
+
+                TextEntry::make('deposit.note')
+                    ->columnSpan(12)
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->notIn([DepositStatus::Paid, DepositStatus::FullyRefunded]))
+                    ->label('Reden tot gedeeltelijke terugbetaling of intrekking van de waarborg')
+                    ->color('gray'),
             ]);
     }
 
