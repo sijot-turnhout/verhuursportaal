@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Filament\Resources\InvoiceResource;
 
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
 use App\Models\Lease;
+use Filament\Infolists\Components\Actions;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconSize;
 
 /**
  * Class LeaseInfolist
@@ -92,6 +96,9 @@ final readonly class LeaseInfolist
     {
         return Tab::make(trans('Waarborg'))
             ->columns(12)
+            ->badge(fn (Lease $lease) => $lease->depositRepaymentIsDue() ? trans('verlopen'): null)
+            ->badgeColor('danger')
+            ->badgeIcon('heroicon-m-bell-alert')
             ->icon('heroicon-o-credit-card')
             ->visible(fn (Lease $lease): bool => $lease->deposit()->exists())
             ->schema([
@@ -148,6 +155,16 @@ final readonly class LeaseInfolist
                     ->visible(fn(Lease $lease): bool => $lease->deposit->status->notIn([DepositStatus::Paid, DepositStatus::FullyRefunded]))
                     ->label('Reden tot gedeeltelijke terugbetaling of intrekking van de waarborg')
                     ->color('gray'),
+
+                Actions::make([
+                    Action::make('Waarborg registratie beheren')
+                        ->color('gray')
+                        ->icon('heroicon-o-wrench-screwdriver')
+                        ->iconSize(IconSize::Small)
+                        ->size(ActionSize::ExtraSmall)
+                        ->url(fn (Lease $lease): string => ViewDeposit::getUrl(['record' => $lease->deposit]))
+                        ->openUrlInNewTab(),
+                ])->columnSpan(12)
             ]);
     }
 
@@ -180,6 +197,7 @@ final readonly class LeaseInfolist
             ->icon('heroicon-o-home-modern')
             ->columns(12)
             ->schema([
+                TextEntry::make('reference_number')->label('Referentie')->columnSpan(3)->placeholder('-'),
                 TextEntry::make('supervisor.name')
                     ->label(trans('Opgevold door'))
                     ->icon('heroicon-o-user-circle')
@@ -188,7 +206,6 @@ final readonly class LeaseInfolist
                     ->columnSpan(3),
                 TextEntry::make('persons')->label('Aantal personen')->icon('heroicon-o-users')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('status')->label('Verhurings status')->badge()->columnSpan(3),
-                TextEntry::make('deposit.status')->label('Waarborg')->badge()->columnSpan(3)->placeholder('niet geregistreerd'),
                 TextEntry::make('locals.name')->badge()->columnSpan(6)->label('Inbegrepen lokalen')->icon('heroicon-o-home')->default('geen lokalen gekoppeld')->iconColor('primary'),
                 TextEntry::make('arrival_date')->label(trans('aankomst datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('departure_date')->label(trans('vertrek datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
