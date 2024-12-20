@@ -7,6 +7,8 @@ namespace App\Filament\Resources\InvoiceResource;
 use App\Models\Lease;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Support\Enums\IconSize;
@@ -32,23 +34,25 @@ final readonly class LeaseInfolist
      */
     public static function make(Infolist $infolist): Infolist
     {
-        return $infolist
-            ->schema([
-                self::tenantInformationSection(),
-                self::leaseInformationSection(),
-                self::feedbackInformationSection(),
+        return $infolist->schema([
+            Tabs::make('lmease-information-tabs')
+                ->columnSpan(12)
+                ->tabs([
+                    self::tenantInformationSection(),
+                    self::leaseInformationSection(),
+                    self::feedbackInformationSection(),
+                ])
             ]);
     }
 
     /**
      * Create the tenant information section.
      *
-     * @return Section The tenant information section.
+     * @return Tab The tenant information section.
      */
-    private static function tenantInformationSection(): Section
+    private static function tenantInformationSection(): Tab
     {
-        return self::baseSection(name: 'Huurder informatie')
-            ->description(trans('Alle benodigde informatie omtrent de huurder die de verhuring heeft aangevraagd'))
+        return Tab::make('Huurder')
             ->icon('heroicon-o-user-circle')
             ->columns(12)
             ->schema([
@@ -78,19 +82,19 @@ final readonly class LeaseInfolist
     /**
      * Create the feedback information section.
      *
-     * @return Section The feedback information section.
+     * @return Tab The feedback information section.
      */
-    private static function feedbackInformationSection(): Section
+    private static function feedbackInformationSection(): Tab
     {
-        return self::baseSection(name: trans('Feedback'))
-            ->description(trans('Gebruikersfeedback die ons domein en of diensten kunnen verbeteren.'))
+        return Tab::make(trans('Feedback'))
+            ->columns(12)
             ->icon('heroicon-o-chat-bubble-left-right')
             ->visible(fn(Lease $lease) => $lease->feedback()->exists())
             ->schema([
                 TextEntry::make('feedback.subject')->label(trans('Onderwerp'))->icon('heroicon-o-hashtag')->iconColor('primary')->columnSpan(9),
                 TextEntry::make('feedback.created_at')->date()->label(trans('Ingezonden op'))->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('feedback.message')->label(trans('Ingezonden feedback'))->columnSpan(12),
-            ])->columns(12);
+            ]);
     }
 
     /**
@@ -98,11 +102,11 @@ final readonly class LeaseInfolist
      *
      * @return Section The lease information section.
      */
-    private static function leaseInformationSection(): Section
+    private static function leaseInformationSection(): Tab
     {
-        return self::baseSection(name: trans('Reservatie informatie'))
-            ->description(trans('Alle nodige informatie omtrent de aangevraagde verhuring'))
+        return Tab::make(trans('Reservatie'))
             ->icon('heroicon-o-home-modern')
+            ->columns(12)
             ->schema([
                 TextEntry::make('supervisor.name')
                     ->label(trans('Opgevold door'))
@@ -116,22 +120,6 @@ final readonly class LeaseInfolist
                 TextEntry::make('locals.name')->badge()->columnSpan(6)->label('Inbegrepen lokalen')->icon('heroicon-o-home')->default('geen lokalen gekoppeld')->iconColor('primary'),
                 TextEntry::make('arrival_date')->label(trans('aankomst datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('departure_date')->label(trans('vertrek datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
-            ])->columns(12);
-    }
-
-    /**
-     * Create a base section with default properties.
-     *
-     * @param  string $name  The name of the section.
-     * @return Section       The base section with default properties.
-     */
-    private static function baseSection(string $name): Section
-    {
-        return Section::make($name)
-            ->compact()
-            ->collapsible()
-            ->iconSize(IconSize::Medium)
-            ->collapsed()
-            ->iconColor('primary');
+            ]);
     }
 }

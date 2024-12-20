@@ -103,6 +103,7 @@ final class LeaseResource extends Resource
      * @return Form         The configured form instance.
      *
      * @todo sijot-turnhout/verhuursportaal#22 - Gebruikers kunnen nog steeds de status aanpassen.
+     * @todo Het lijkt om het het formulier in een soort wizard te laten lopen.
      */
     public static function form(Form $form): Form
     {
