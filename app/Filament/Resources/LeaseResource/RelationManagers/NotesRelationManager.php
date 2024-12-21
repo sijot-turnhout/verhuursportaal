@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\RelationManagers;
 
+use App\Filament\Resources\LeaseResource\Pages\ViewLease;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class NotesRelationManager
@@ -49,6 +51,38 @@ class NotesRelationManager extends RelationManager
      * @var string|null
      */
     protected static ?string $title = 'Notities';
+
+    /**
+     * Determines if notes can be viewed for a specific lease record and page class.
+     *
+     * This method ensures notes are only visible when lease details through
+     * the ViewLease page, restricting access in other contexts for better security
+     * and user expierence.
+     *
+     * @param  Model  $ownerRecord  The lease record being viewed.
+     * @param  string $pageClass    The class name of the current page.
+     * @return bool                 Returns true is the current page is a ViewLease page.
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return new $pageClass() instanceOf ViewLease;
+    }
+
+    /**
+     * Determines whether the notes relpation manager should be read-only.
+     *
+     * This method controls whether users can modify notes associated wuth a lease.
+     * When true, notes can be viewed but nog created, edited of deleted.
+     * When false, full CRUD operations are allowed on notes.
+     *
+     * Currently set to false to allow full note management capabilities.
+     *
+     * @return bool Returns false to enable full note management functionality.
+     */
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
 
     /**
      * Configures the form for creating and editing notes.
