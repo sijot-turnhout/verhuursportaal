@@ -47,8 +47,8 @@ final readonly class LeaseInfolist
                     self::leaseInformationSection(),
                     self::securityDepositInformationSection(),
                     self::feedbackInformationSection(),
-                ])
-            ]);
+                ]),
+        ]);
     }
 
     /**
@@ -96,11 +96,11 @@ final readonly class LeaseInfolist
     {
         return Tab::make(trans('Waarborg'))
             ->columns(12)
-            ->badge(fn (Lease $lease) => $lease->depositRepaymentIsDue() ? trans('verlopen'): null)
+            ->badge(fn(Lease $lease) => $lease->depositRepaymentIsDue() ? trans('verlopen') : null)
             ->badgeColor('danger')
             ->badgeIcon('heroicon-m-bell-alert')
             ->icon('heroicon-o-credit-card')
-            ->visible(fn (Lease $lease): bool => $lease->deposit()->exists())
+            ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
             ->schema([
                 TextEntry::make('deposit.status')
                     ->label('Waarborg status')
@@ -162,9 +162,9 @@ final readonly class LeaseInfolist
                         ->icon('heroicon-o-wrench-screwdriver')
                         ->iconSize(IconSize::Small)
                         ->size(ActionSize::ExtraSmall)
-                        ->url(fn (Lease $lease): string => ViewDeposit::getUrl(['record' => $lease->deposit]))
+                        ->url(fn(Lease $lease): string => ViewDeposit::getUrl(['record' => $lease->deposit]))
                         ->openUrlInNewTab(),
-                ])->columnSpan(12)
+                ])->columnSpan(12),
             ]);
     }
 

@@ -6,10 +6,9 @@ namespace App\Filament\Clusters\Billing\Resources\DepositResource\Pages;
 
 use App\Filament\Clusters\Billing\Resources\DepositResource;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Actions;
+use App\Models\Deposit;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
-use App\Models\Deposit;
-use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ViewDeposit

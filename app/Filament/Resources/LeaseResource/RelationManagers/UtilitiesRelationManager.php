@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\RelationManagers;
 
 use App\Features\UtilityMetrics;
-use App\Filament\Resources\LeaseResource\Pages\CreateLease;
 use App\Filament\Resources\LeaseResource\Pages\ViewLease;
 use App\Filament\Resources\UtilityResource\Actions;
 use App\Models\Utility;

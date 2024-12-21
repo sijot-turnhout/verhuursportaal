@@ -96,21 +96,6 @@ final class DocumentRelationManager extends RelationManager
     }
 
     /**
-     * Determines whether the relation manager is in read-only mode.
-     *
-     * This method indicates whether users can modify the data managed by this
-     * relation. Returning false means that modifications (such as adding, editing,
-     * or deleting documents) are permitted. This method can be overridden in
-     * subclasses to enforce read-only behavior based on specific conditions.
-     *
-     * @return bool Returns false, allowing modifications to the related data.
-     */
-    public function isReadOnly(): bool
-    {
-        return false;
-    }
-
-    /**
      * Determines if documents can be viewed for a specific lease record an page class.
      *
      * THis method checks if the current page is a ViewLease page, ensuring documents are only visible
@@ -123,6 +108,21 @@ final class DocumentRelationManager extends RelationManager
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
         return new $pageClass() instanceof ViewLease;
+    }
+
+    /**
+     * Determines whether the relation manager is in read-only mode.
+     *
+     * This method indicates whether users can modify the data managed by this
+     * relation. Returning false means that modifications (such as adding, editing,
+     * or deleting documents) are permitted. This method can be overridden in
+     * subclasses to enforce read-only behavior based on specific conditions.
+     *
+     * @return bool Returns false, allowing modifications to the related data.
+     */
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 
     /**

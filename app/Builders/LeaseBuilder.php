@@ -24,7 +24,7 @@ final class LeaseBuilder extends Builder
 {
     public function depositRepaymentIsDue(): bool
     {
-        return (is_null($this->model->deposit->refunded) && optional($this->model->deposit)->refund_at->isPast())
+        return (null === $this->model->deposit->refunded && optional($this->model->deposit)->refund_at->isPast())
             && $this->model->deposit->status->is(DepositStatus::Paid);
     }
 

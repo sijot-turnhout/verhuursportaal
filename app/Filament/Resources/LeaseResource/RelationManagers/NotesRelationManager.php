@@ -76,7 +76,7 @@ class NotesRelationManager extends RelationManager
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
-        return new $pageClass() instanceOf ViewLease;
+        return new $pageClass() instanceof ViewLease;
     }
 
     /**
