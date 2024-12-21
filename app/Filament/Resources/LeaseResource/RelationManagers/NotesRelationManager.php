@@ -51,6 +51,17 @@ class NotesRelationManager extends RelationManager
      * @var string|null
      */
     protected static ?string $title = 'Notities';
+    /**
+     * The icon name used for representing this relationship in the UI.
+     * This string corresponds to an icon identifier, typically used to
+     * visually represent the relationship within the application.
+     *
+     * Note: The icon name usually follows a naming convention or comes from an icon
+     * library (e.g., "heroicon-o-book-open")
+     *
+     * @var string|null
+     */
+    protected static ?string $icon = 'heroicon-o-book-open';
 
     /**
      * Determines if notes can be viewed for a specific lease record and page class.

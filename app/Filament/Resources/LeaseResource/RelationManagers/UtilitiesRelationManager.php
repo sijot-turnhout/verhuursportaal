@@ -53,6 +53,18 @@ final class UtilitiesRelationManager extends RelationManager
     protected static string $relationship = 'utilityStatistics';
 
     /**
+     * The icon name used for representing this relationship in the UI.
+     * This string corresponds to an icon identifier, typically used to
+     * visually represent the relationship within the application.
+     *
+     * Note: The icon name usually follows a naming convention or comes from an icon
+     * library (e.g., "heroicon-o-queue-list")
+     *
+     * @var string|null
+     */
+    protected static ?string $icon = 'heroicon-o-queue-list';
+
+    /**
      * Method for determining whether the utility metric panel is visible of not.
      *
      * @param  Model   $ownerRecord  The owner record of the relation entity. In this case it is the lease entity.

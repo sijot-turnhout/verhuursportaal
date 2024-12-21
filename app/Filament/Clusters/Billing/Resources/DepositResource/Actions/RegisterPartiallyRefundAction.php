@@ -80,6 +80,7 @@ final class RegisterPartiallyRefundAction extends Action
                     ->translateLabel()
                     ->required() /** @phpstan-ignore-next-line */
                     ->maxValue(fn(Deposit $deposit): float|string => $deposit->paid_amount)
+                    // The regex pattern ensures the value is a number with up to 6 digits before the decimal point and up to 2 digits after the decimal point.
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->prefixIcon('heroicon-o-currency-euro')
                     ->prefixIconColor('primary'),

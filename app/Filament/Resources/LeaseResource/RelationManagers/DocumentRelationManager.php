@@ -64,6 +64,18 @@ final class DocumentRelationManager extends RelationManager
     protected static ?string $title = 'Documenten';
 
     /**
+     * The icon name used for representing this relationship in the UI.
+     * This string corresponds to an icon identifier, typically used to
+     * visually represent the relationship within the application.
+     *
+     * Note: The icon name usually follows a naming convention or comes from an icon
+     * library (e.g., "heroicon-o-cloud")
+     *
+     * @var string|null
+     */
+    protected static ?string $icon = 'heroicon-o-cloud';
+
+    /**
      * Retrieve a badge indicating the number of documents associated with the owner record.
      *
      * This method checks the number of documents linked to the specified owner record (e.g., a Lease or User).
