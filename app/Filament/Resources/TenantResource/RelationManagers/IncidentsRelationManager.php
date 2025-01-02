@@ -91,14 +91,12 @@ final class IncidentsRelationManager extends RelationManager
                     ->columnSpan(6)
                     ->required()
                     ->native(false)
-                    ->hintAction(function (Action $action): Action {
-                        return $action->make('check-documentation')
-                            ->label('help')
-                            ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#impact-score-van-incidenten')
-                            ->openUrlInNewTab()
-                            ->color('primary')
-                            ->icon('heroicon-m-question-mark-circle');
-                    }),
+                    ->hintAction(fn(Action $action): Action => $action->make('check-documentation')
+                        ->label('help')
+                        ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#impact-score-van-incidenten')
+                        ->openUrlInNewTab()
+                        ->color('primary')
+                        ->icon('heroicon-m-question-mark-circle')),
 
                 Forms\Components\Textarea::make('description')
                     ->label(__('Extra informatie'))
