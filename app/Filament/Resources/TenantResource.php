@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\LeaseManagement;
 use App\Filament\Resources\TenantResource\Pages;
 use App\Filament\Resources\TenantResource\RelationManagers\IncidentsRelationManager;
 use App\Filament\Resources\TenantResource\RelationManagers\LeasesRelationManager;
@@ -50,6 +51,17 @@ final class TenantResource extends Resource
      * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+
+    /**
+     * The cluster (group) of resources that this resource belongs to.
+     *
+     * This specifies tthat the 'TenantResource' belongs to the 'LeaseManagement' cluster.
+     * Clusters are used to group related resources in the admin panel for better organization.
+     *
+     * @var class-string<\Filament\Clusters\Cluster>|null
+     */
+    protected static ?string $cluster = LeaseManagement::class;
 
     /**
      * Method for displaying the edit/create view for the tenant resource.
