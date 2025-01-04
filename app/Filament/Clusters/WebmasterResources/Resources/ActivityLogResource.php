@@ -140,7 +140,7 @@ final class ActivityLogResource extends Resource
         return $infolist
             ->columns(12)
             ->schema([
-                TextEntry::make('causer.name')->label('Uitgevoerd door')->translateLabel()->icon('heroicon-o-user-circle')->iconColor('primary')->columnSpan(6),
+                TextEntry::make('causer.name')->label('Uitgevoerd door')->translateLabel()->icon('heroicon-o-user-circle')->iconColor('primary')->default(trans('Systeem gebruiker'))->columnSpan(6),
                 TextEntry::make('created_at')->label('Uitgevoerd op')->translateLabel()->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(6),
                 TextEntry::make('log_name')->label('Categorie')->translateLabel()->icon('heroicon-o-tag')->badge()->columnSpan(6),
                 TextEntry::make('event')->label('Handeling')->translateLabel()->columnSpan(6),
@@ -218,6 +218,7 @@ final class ActivityLogResource extends Resource
         return [
             Tables\Columns\TextColumn::make("causer.name")
                 ->label("Uitgevoerd door")
+                ->default(trans('Systeem gebruiker'))
                 ->icon('heroicon-o-user-circle')
                 ->iconColor('primary')
                 ->translateLabel()

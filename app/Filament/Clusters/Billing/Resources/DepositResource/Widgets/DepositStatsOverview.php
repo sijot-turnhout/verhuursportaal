@@ -9,8 +9,14 @@ use App\Models\Deposit;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
 
+/**
+ * @todo Implement class doc
+ */
 final class DepositStatsOverview extends BaseWidget
 {
+    /**
+     * @todo implement docblock
+     */
     protected int | string | array $columnSpan = '2';
 
     /**
@@ -56,7 +62,12 @@ final class DepositStatsOverview extends BaseWidget
      */
     private function getTotalAssetsInCustody(): string
     {
-        return '€ ' . Deposit::query()->where('status', DepositStatus::Paid)->sum('paid_amount');
+        $deposits = Deposit::query()
+            ->where('status', DepositStatus::Paid)
+            ->orWhere('status', DepositStatus::DueRefund)
+            ->sum('paid_amount');
+
+        return '€ ' . $deposits;
     }
 
     /**
@@ -69,7 +80,10 @@ final class DepositStatsOverview extends BaseWidget
      */
     private function getDepositsInCustody(): int
     {
-        return Deposit::query()->where('status', DepositStatus::Paid)->count();
+        return Deposit::query()
+            ->where('status', DepositStatus::Paid)
+            ->orWhere('status', DepositStatus::DueRefund)
+            ->count();
     }
 
     /**
