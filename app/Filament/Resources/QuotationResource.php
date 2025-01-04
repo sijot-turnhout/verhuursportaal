@@ -90,7 +90,7 @@ final class QuotationResource extends Resource
                             TextEntry::make('reciever.email')->label('Email adres')->columnSpan(3)->icon('heroicon-o-envelope')->iconColor('primary'),
                             TextEntry::make('reciever.phone_number')->label('Telefoon nummer')->columnSpan(3)->icon('heroicon-o-phone')->iconColor('primary')->placeholder('Onbekend on niet opgegeven'),
 
-                        ]), 
+                        ]),
 
                     Fieldset::make(trans('Extra informatie'))
                         ->columns(12)

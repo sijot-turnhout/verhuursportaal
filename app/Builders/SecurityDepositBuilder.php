@@ -167,7 +167,7 @@ final class SecurityDepositBuilder extends Builder
         return DB::transaction(function (): bool {
             $this->recordAuditActionInAuditLog(
                 event: 'verstreken terugbetaling',
-                auditMessage:  trans('Gemarkeerd als terugbetalingstermijn verstreken'),
+                auditMessage: trans('Gemarkeerd als terugbetalingstermijn verstreken'),
             );
 
             return $this->model->update(attributes: ['status' => DepositStatus::DueRefund]);

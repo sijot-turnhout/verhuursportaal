@@ -55,11 +55,9 @@ final class ListQuotations extends ListRecords
                 ->icon($status->getIcon())
                 ->badgeColor($status->getColor())
                 ->query(fn(Builder $query) => $query->where('status', $status))
-                ->badge(Cache::flexible($status->value . '_quotations_count', [30, 60], function () use ($status) {
-                    return Quotation::query()
-                        ->where('status', $status)
-                        ->count();
-                })))
+                ->badge(Cache::flexible($status->value . '_quotations_count', [30, 60], fn() => Quotation::query()
+                    ->where('status', $status)
+                    ->count())))
             ->toArray();
 
         // Adds an "All" tab as the default view, allowing users to see all quotations.

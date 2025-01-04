@@ -54,22 +54,6 @@ final class SecurityDepositRefundReminder extends Command implements Isolatable
      */
     protected $hidden = true;
 
-    /**
-     * Retrieves deposits that are due for refund.
-     *
-     * Queries deposit where:
-     * - Refund date has passed (refund < current date)
-     * - Not yet refunded (refunded_at is null)
-     *
-     * @return Builder  Query builder for the due deposit refunds.
-     */
-    private function getDueDepositRefunds(): Builder
-    {
-        return Deposit::query()
-            ->whereDate('refund_at', '<', now()->toDateString())
-            ->where('refunded_at', '=', null);
-    }
-
 
     /**
      * Execute the console command.
@@ -126,9 +110,25 @@ final class SecurityDepositRefundReminder extends Command implements Isolatable
                     ->label('Bekijk waarborgen')
                     ->translateLabel()
                     ->url(ListDeposits::getUrl(parameters: ['activeTab' => 4]))
-                    ->markAsRead()
+                    ->markAsRead(),
             ])
             ->sendToDatabase($users);
+    }
+
+    /**
+     * Retrieves deposits that are due for refund.
+     *
+     * Queries deposit where:
+     * - Refund date has passed (refund < current date)
+     * - Not yet refunded (refunded_at is null)
+     *
+     * @return Builder  Query builder for the due deposit refunds.
+     */
+    private function getDueDepositRefunds(): Builder
+    {
+        return Deposit::query()
+            ->whereDate('refund_at', '<', now()->toDateString())
+            ->where('refunded_at', '=', null);
     }
 
     /**
