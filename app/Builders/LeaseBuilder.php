@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Enums\LeaseStatus;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -21,6 +22,12 @@ use Illuminate\Database\Eloquent\Builder;
  */
 final class LeaseBuilder extends Builder
 {
+    public function depositRepaymentIsDue(): bool
+    {
+        return (null === $this->model->deposit->refunded && optional($this->model->deposit)->refund_at->isPast())
+            && $this->model->deposit->status->is(DepositStatus::Paid);
+    }
+
     /**
      * Updates the status of the lease to the specified `LeaseStatus`.
      *

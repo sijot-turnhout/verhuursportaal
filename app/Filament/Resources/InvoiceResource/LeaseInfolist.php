@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\InvoiceResource;
 
+use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
+use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
 use App\Models\Lease;
+use Filament\Infolists\Components\Actions;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Components\Tabs\Tab;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Support\Enums\ActionSize;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconSize;
 
 /**
@@ -32,23 +39,26 @@ final readonly class LeaseInfolist
      */
     public static function make(Infolist $infolist): Infolist
     {
-        return $infolist
-            ->schema([
-                self::tenantInformationSection(),
-                self::leaseInformationSection(),
-                self::feedbackInformationSection(),
-            ]);
+        return $infolist->schema([
+            Tabs::make('lmease-information-tabs')
+                ->columnSpan(12)
+                ->tabs([
+                    self::tenantInformationSection(),
+                    self::leaseInformationSection(),
+                    self::securityDepositInformationSection(),
+                    self::feedbackInformationSection(),
+                ]),
+        ]);
     }
 
     /**
      * Create the tenant information section.
      *
-     * @return Section The tenant information section.
+     * @return Tab The tenant information section.
      */
-    private static function tenantInformationSection(): Section
+    private static function tenantInformationSection(): Tab
     {
-        return self::baseSection(name: 'Huurder informatie')
-            ->description(trans('Alle benodigde informatie omtrent de huurder die de verhuring heeft aangevraagd'))
+        return Tab::make('Huurder')
             ->icon('heroicon-o-user-circle')
             ->columns(12)
             ->schema([
@@ -74,21 +84,104 @@ final readonly class LeaseInfolist
     }
 
     /**
+     * Create the security deposit information section
+     *
+     * @todo
+     *
+     * @return Tab The security deposit information section.
+     */
+    private static function securityDepositInformatioNSection(): Tab
+    {
+        return Tab::make(trans('Waarborg'))
+            ->columns(12)
+            ->badge(fn(Lease $lease) => $lease->depositRepaymentIsDue() ? trans('verlopen') : null)
+            ->badgeColor('danger')
+            ->badgeIcon('heroicon-m-bell-alert')
+            ->icon('heroicon-o-credit-card')
+            ->visible(fn(Lease $lease): bool => $lease->deposit()->exists())
+            ->schema([
+                TextEntry::make('deposit.status')
+                    ->label('Waarborg status')
+                    ->badge()
+                    ->columnSpan(3)
+                    ->translateLabel(),
+
+                TextEntry::make('deposit.paid_amount')
+                    ->label('Gestorte waarborg')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->is(DepositStatus::Paid))
+                    ->money('EUR')
+                    ->columnSpan(3)
+                    ->weight(FontWeight::ExtraBold)
+                    ->color('primary'),
+
+                TextEntry::make('deposit.refunded_amount')
+                    ->label('Teruggestorte borg')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->isNot(DepositStatus::Paid))
+                    ->money('EUR')
+                    ->columnSpan(3)
+                    ->weight(FontWeight::ExtraBold)
+                    ->color('primary'),
+
+                TextEntry::make('deposit.paid_at')
+                    ->label('Betaald op')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->is(DepositStatus::Paid))
+                    ->date()
+                    ->columnSpan(3),
+
+                TextEntry::make('deposit.revoked_amount')
+                    ->label('Ingehouden borg')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->isNot(DepositStatus::Paid))
+                    ->money('EUR')
+                    ->columnSpan(3)
+                    ->weight(FontWeight::ExtraBold)
+                    ->color('danger'),
+
+                TextEntry::make('deposit.refunded_at')
+                    ->label('Teruggestort op')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->isNot(DepositStatus::Paid))
+                    ->columnSpan(3)
+                    ->date(),
+
+                TextEntry::make('deposit.refund_at')
+                    ->label('Uiterste terugbetalingsdatum')
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->is(DepositStatus::Paid))
+                    ->date()
+                    ->columnSpan(3),
+
+                TextEntry::make('deposit.note')
+                    ->columnSpan(12)
+                    ->visible(fn(Lease $lease): bool => $lease->deposit->status->notIn([DepositStatus::Paid, DepositStatus::FullyRefunded]))
+                    ->label('Reden tot gedeeltelijke terugbetaling of intrekking van de waarborg')
+                    ->color('gray'),
+
+                Actions::make([
+                    Action::make('Waarborg registratie beheren')
+                        ->color('gray')
+                        ->icon('heroicon-o-wrench-screwdriver')
+                        ->iconSize(IconSize::Small)
+                        ->size(ActionSize::ExtraSmall)
+                        ->url(fn(Lease $lease): string => ViewDeposit::getUrl(['record' => $lease->deposit]))
+                        ->openUrlInNewTab(),
+                ])->columnSpan(12),
+            ]);
+    }
+
+    /**
      * Create the feedback information section.
      *
-     * @return Section The feedback information section.
+     * @return Tab The feedback information section.
      */
-    private static function feedbackInformationSection(): Section
+    private static function feedbackInformationSection(): Tab
     {
-        return self::baseSection(name: trans('Feedback'))
-            ->description(trans('Gebruikersfeedback die ons domein en of diensten kunnen verbeteren.'))
+        return Tab::make(trans('Feedback'))
+            ->columns(12)
             ->icon('heroicon-o-chat-bubble-left-right')
             ->visible(fn(Lease $lease) => $lease->feedback()->exists())
             ->schema([
                 TextEntry::make('feedback.subject')->label(trans('Onderwerp'))->icon('heroicon-o-hashtag')->iconColor('primary')->columnSpan(9),
                 TextEntry::make('feedback.created_at')->date()->label(trans('Ingezonden op'))->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('feedback.message')->label(trans('Ingezonden feedback'))->columnSpan(12),
-            ])->columns(12);
+            ]);
     }
 
     /**
@@ -96,12 +189,13 @@ final readonly class LeaseInfolist
      *
      * @return Section The lease information section.
      */
-    private static function leaseInformationSection(): Section
+    private static function leaseInformationSection(): Tab
     {
-        return self::baseSection(name: trans('Reservatie informatie'))
-            ->description(trans('Alle nodige informatie omtrent de aangevraagde verhuring'))
+        return Tab::make(trans('Reservatie'))
             ->icon('heroicon-o-home-modern')
+            ->columns(12)
             ->schema([
+                TextEntry::make('reference_number')->label('Referentie')->columnSpan(3)->placeholder('-'),
                 TextEntry::make('supervisor.name')
                     ->label(trans('Opgevold door'))
                     ->icon('heroicon-o-user-circle')
@@ -110,26 +204,9 @@ final readonly class LeaseInfolist
                     ->columnSpan(3),
                 TextEntry::make('persons')->label('Aantal personen')->icon('heroicon-o-users')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('status')->label('Verhurings status')->badge()->columnSpan(3),
-                TextEntry::make('deposit.status')->label('Waarborg')->badge()->columnSpan(3)->placeholder('niet geregistreerd'),
                 TextEntry::make('locals.name')->badge()->columnSpan(6)->label('Inbegrepen lokalen')->icon('heroicon-o-home')->default('geen lokalen gekoppeld')->iconColor('primary'),
                 TextEntry::make('arrival_date')->label(trans('aankomst datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
                 TextEntry::make('departure_date')->label(trans('vertrek datum'))->date()->icon('heroicon-o-calendar')->iconColor('primary')->columnSpan(3),
-            ])->columns(12);
-    }
-
-    /**
-     * Create a base section with default properties.
-     *
-     * @param  string $name  The name of the section.
-     * @return Section       The base section with default properties.
-     */
-    private static function baseSection(string $name): Section
-    {
-        return Section::make($name)
-            ->compact()
-            ->collapsible()
-            ->iconSize(IconSize::Medium)
-            ->collapsed()
-            ->iconColor('primary');
+            ]);
     }
 }

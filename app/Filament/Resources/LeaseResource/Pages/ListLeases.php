@@ -104,7 +104,7 @@ final class ListLeases extends ListRecords
     {
         return [
             CreateAction::make()
-                ->label('Verhuring toevoegen')
+                ->label('Aanvraag toevoegen')
                 ->icon('heroicon-o-plus'),
         ];
     }

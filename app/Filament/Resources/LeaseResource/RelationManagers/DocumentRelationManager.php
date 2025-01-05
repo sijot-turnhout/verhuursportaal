@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\RelationManagers;
 
+use App\Filament\Resources\LeaseResource\Pages\ViewLease;
 use App\Models\Document;
 use Filament\Actions\StaticAction;
 use Filament\Forms;
@@ -95,6 +96,36 @@ final class DocumentRelationManager extends RelationManager
     }
 
     /**
+     * Determines if documents can be viewed for a specific lease record an page class.
+     *
+     * THis method checks if the current page is a ViewLease page, ensuring documents are only visible
+     * when viewing lease details and not in other contexts.
+     *
+     * @param  Model   $ownerRecord  The lease record being viewed.
+     * @param  string  $pageClass    The class name of the current page.
+     * @return bool                  Returns true if the page is a ViewLease page, false otherwise
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return new $pageClass() instanceof ViewLease;
+    }
+
+    /**
+     * Determines whether the relation manager is in read-only mode.
+     *
+     * This method indicates whether users can modify the data managed by this
+     * relation. Returning false means that modifications (such as adding, editing,
+     * or deleting documents) are permitted. This method can be overridden in
+     * subclasses to enforce read-only behavior based on specific conditions.
+     *
+     * @return bool Returns false, allowing modifications to the related data.
+     */
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
+    /**
      * Creates and returns the form schema for managing document uploads.
      *
      * This form allows users to upload new documents to a lease, specifying
@@ -135,21 +166,6 @@ final class DocumentRelationManager extends RelationManager
                     ->helperText('Momenteel ondersteunen we enkel pdf bestanden')
                     ->downloadable(),
             ]);
-    }
-
-    /**
-     * Determines whether the relation manager is in read-only mode.
-     *
-     * This method indicates whether users can modify the data managed by this
-     * relation. Returning false means that modifications (such as adding, editing,
-     * or deleting documents) are permitted. This method can be overridden in
-     * subclasses to enforce read-only behavior based on specific conditions.
-     *
-     * @return bool Returns false, allowing modifications to the related data.
-     */
-    public function isReadOnly(): bool
-    {
-        return false;
     }
 
     /**

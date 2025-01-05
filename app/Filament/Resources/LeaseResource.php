@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Enums\LeaseStatus;
+use App\Filament\Clusters\LeaseManagement;
 use App\Filament\Resources\InvoiceResource\LeaseInfolist;
 use App\Filament\Resources\LeaseResource\Pages;
 use App\Filament\Resources\LeaseResource\RelationManagers;
@@ -73,7 +74,7 @@ final class LeaseResource extends Resource
      *
      * @var ?string
      */
-    protected static ?string $modelLabel = 'verhuring';
+    protected static ?string $modelLabel = 'Aanvraag';
 
     /**
      * The singular label for this resource.
@@ -82,7 +83,7 @@ final class LeaseResource extends Resource
      *
      * @var ?string
      */
-    protected static ?string $pluralModelLabel = 'Verhuringen';
+    protected static ?string $pluralModelLabel = 'Aanvragen';
 
     /**
      * The icon used for navigation in the admin panel.
@@ -94,6 +95,16 @@ final class LeaseResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 
     /**
+     * The cluster (group) of resources that this resource belongs to.
+     *
+     * This specifies that the 'LeaseResource' belongs to the 'LeaseManagement' clister.
+     * Clusters are used to group related resources in the admin panel for better organisation.
+     *
+     * @var class-string<\Filament\Clusters\Cluster>|null
+     */
+    protected static ?string $cluster = LeaseManagement::class;
+
+    /**
      * Defines the form schema for creating and editing lease records.
      *
      * This method returns the form schema used for creating and editing lease records in the admin panel.
@@ -103,6 +114,7 @@ final class LeaseResource extends Resource
      * @return Form         The configured form instance.
      *
      * @todo sijot-turnhout/verhuursportaal#22 - Gebruikers kunnen nog steeds de status aanpassen.
+     * @todo Het lijkt om het het formulier in een soort wizard te laten lopen.
      */
     public static function form(Form $form): Form
     {

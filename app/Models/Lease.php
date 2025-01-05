@@ -48,6 +48,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  *
  * @property mixed $tenant
  * @property Invoice $invoice
+ * @property Deposit $deposit
  *
  * @method bool markAs($leaseStatus)
  */
