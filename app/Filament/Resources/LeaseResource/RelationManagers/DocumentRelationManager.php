@@ -181,6 +181,10 @@ final class DocumentRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon('heroicon-o-cloud')
+            ->emptyStateHeading('Geen documenten geupload')
+            ->emptyStateDescription(trans('Het lijkt erop dat er momenteel nog geen documenten geupload zijn die gerelateerd zijn aan deze reservatie.'))
+            ->description(trans('Geuploade documenten die relevant zijn voor de verhuring zoals contracten, ondertekende offertes en andere documenten'))
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('#')
@@ -235,7 +239,7 @@ final class DocumentRelationManager extends RelationManager
             ->modalSubmitAction(fn(StaticAction $action) => $action->icon('heroicon-o-paper-airplane'))
             ->modalDescription('Upload hier de benodigde documenten in PDF-formaat voor administratie van de verhuring. Zorg ervoor dat alle bestanden duidelijk leesbaar zijn en voldoen aan de interne eisen voor documentatiebeheer.')
             ->label('Document uploaden')
-            ->icon('heroicon-o-plus');
+            ->icon('heroicon-o-document-plus');
     }
 
     /**

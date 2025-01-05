@@ -119,6 +119,7 @@ class NotesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->description(trans('Extra notulen omtrent de reservatie aanvraag zoals bv speciale wensen van de huurder.'))
             ->columns([
                 Tables\Columns\TextColumn::make('author.name')->label('Ingevoegd door')->weight(FontWeight::Bold),
                 Tables\Columns\TextColumn::make('title')->label('Titel')->searchable(),
