@@ -98,7 +98,7 @@ final class DocumentRelationManager extends RelationManager
     /**
      * Determines if documents can be viewed for a specific lease record an page class.
      *
-     * THis method checks if the current page is a ViewLease page, ensuring documents are only visible
+     * This method checks if the current page is a ViewLease page, ensuring documents are only visible
      * when viewing lease details and not in other contexts.
      *
      * @param  Model   $ownerRecord  The lease record being viewed.
