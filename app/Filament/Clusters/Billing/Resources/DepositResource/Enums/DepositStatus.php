@@ -56,7 +56,7 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
      * but the refund deadline has passed. It signals that immediate action is needed to
      * process the pending refund and resolve the overdue status.
      */
-    case DueRefund = 'Terugbateling vereist';
+    case DueRefund = 'Terugbetaling vereist';
 
     /**
      * Returns the label for the deposit status.
