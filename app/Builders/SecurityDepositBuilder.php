@@ -151,6 +151,30 @@ final class SecurityDepositBuilder extends Builder
     }
 
     /**
+     * Marks the deposit as due for refund.
+     *
+     * Checks if the deposit is already marked as due for refund. If not, it updates the status to 'DueRefund'
+     * and records this action in the audit log.
+     *
+     * @return bool  True if the status was updated successfully, false if it was already marked as due for refund.
+     */
+    public function markAsDueRefund(): bool
+    {
+        if ($this->model->status->is(DepositStatus::DueRefund)) {
+            return false;
+        }
+
+        return DB::transaction(function (): bool {
+            $this->recordAuditActionInAuditLog(
+                event: 'verstreken terugbetaling',
+                auditMessage: trans('Gemarkeerd als terugbetalingstermijn verstreken'),
+            );
+
+            return $this->model->update(attributes: ['status' => DepositStatus::DueRefund]);
+        });
+    }
+
+    /**
      * Records an action in the audit log for traceability
      *
      * Uses the activitylog to save details about the performed action,
@@ -171,7 +195,7 @@ final class SecurityDepositBuilder extends Builder
         return activity(trans('waarborg-betalingen'))
             ->performedOn($performedOn ?? $this->model)
             ->event($event)
-            ->causedBy(auth()->user())
+            ->causedBy(auth()->user() ?? null)
             ->withProperties($extraProperties)
             ->log(trans($auditMessage));
     }

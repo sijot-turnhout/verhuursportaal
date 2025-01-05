@@ -62,14 +62,12 @@ final readonly class LeaseInfolist
                     ->label('Risico profiel')
                     ->translateLabel()->columnSpan(3)
                     ->badge()
-                    ->hintAction(function (Action $action) {
-                        return $action->make('check-documentation')
-                            ->label('uitleg')
-                            ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#risico-analyse')
-                            ->openUrlInNewTab()
-                            ->color('primary')
-                            ->icon('heroicon-m-question-mark-circle');
-                    }),
+                    ->hintAction(fn(Action $action) => $action->make('check-documentation')
+                        ->label('uitleg')
+                        ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#risico-analyse')
+                        ->openUrlInNewTab()
+                        ->color('primary')
+                        ->icon('heroicon-m-question-mark-circle')),
 
                 TextEntry::make('tenant.banned_at')->label(trans('Op de zwarte lijst sinds'))->default('-')->icon('heroicon-o-clock')->iconColor('primary')->columnSpan(3),
             ]);

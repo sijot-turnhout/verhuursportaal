@@ -50,6 +50,15 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
     case FullyRefunded = 'Volledig terugbetaald';
 
     /**
+     * Status indicating the deposit refund is overdue
+     *
+     * This status is applied when a deposit should have been refunded after the lease ended
+     * but the refund deadline has passed. It signals that immediate action is needed to
+     * process the pending refund and resolve the overdue status.
+     */
+    case DueRefund = 'Terugbateling vereist';
+
+    /**
      * Returns the label for the deposit status.
      *
      * @return string|null The user-friendly label for the current status.
@@ -73,7 +82,7 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
     {
         return match ($this) {
             self::Paid, self::FullyRefunded => 'success',
-            self::WithDrawn => 'danger',
+            self::WithDrawn, self::DueRefund => 'danger',
             self::PartiallyRefunded => 'warning',
         };
     }
@@ -91,7 +100,7 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
     {
         return match ($this) {
             self::Paid, self::PartiallyRefunded, self::FullyRefunded => 'heroicon-o-credit-card',
-            self::WithDrawn => 'heroicon-o-exclamation-triangle',
+            self::WithDrawn, self::DueRefund => 'heroicon-o-exclamation-triangle',
         };
     }
 }

@@ -42,11 +42,9 @@ final class ListInvoices extends ListRecords
                 ->icon($status->getIcon())
                 ->badgeColor($status->getColor())
                 ->query(fn(Builder $query) => $query->where('status', $status))
-                ->badge(Cache::flexible($status->value . '_invoices_count', [30, 60], function () use ($status) {
-                    return Invoice::query()
-                        ->where('status', $status)
-                        ->count();
-                })))
+                ->badge(Cache::flexible($status->value . '_invoices_count', [30, 60], fn() => Invoice::query()
+                    ->where('status', $status)
+                    ->count())))
             ->toArray();
 
         // Adds an "All" tab as the default view, allowing users to see all invoices.
