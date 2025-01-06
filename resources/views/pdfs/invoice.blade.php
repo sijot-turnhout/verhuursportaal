@@ -24,7 +24,7 @@
 </head>
 <body class="d-flex flex-column bg-white h-100">
 <div id="app"> {{-- CONTENT --}}
-    <div class="container my-4">
+    <div class="container">
         <div class="row">
             <div class="col-9">
                 <h3 class="text-brown font-weight-bold">{{ __('Factuur :nr', ['nr' => $record->payment_reference]) }}</h3>
@@ -98,10 +98,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($record->invoiceLines as $invoiceLine)
-                                <tr>
-                                    <td>{{ $invoiceLine->name }}</td>
-                                    <td>{{ (int) $invoiceLine->quantity }}</td>
+                            @forelse ($record->invoiceLines as $invoiceLine)
+                                <tr class="small">
+                                    <td>
+                                        {{ $invoiceLine->name }}
+
+                                        @if ($invoiceLine->description)
+                                            <br> <small class="text-muted">{{ $invoiceLine->description }}</small>
+                                        @endif
+                                    </td>
+                                    <td>{{ $invoiceLine->quantity }}</td>
                                     <td>{{ $invoiceLine->unit_price }}€</td>
                                     <td>
                                         <span class="float-end">
@@ -113,9 +119,15 @@
                                         </span>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="4">
+                                        <span class="text-muted">{{ __('Er zijn geen zaken in rekening gebracht op deze factuur') }}</span>
+                                    </td>
+                                </tr>
+                            @endforelse
 
-                            <tr>
+                            <tr class="small">
                                 <td colspan="3" class="border-bottom-0">
                                     <span class="float-end text-brown"><strong>{{ __('SUBTOTAAL') }}</strong></span>
                                 </td>
@@ -123,7 +135,7 @@
                                     <span class="float-end fw-bold">{{ $record->getSubTotal() }}€</span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="small">
                                 <td colspan="3" class="border-bottom-0">
                                     <span class="float-end text-brown"><strong>{{ __('VERMINDERING') }}</strong></span>
                                 </td>
@@ -131,12 +143,12 @@
                                     <span class="float-end fw-bold">- {{ $record->getDiscountTotal() }}€</span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="small">
                                 <td colspan="3" class="border-bottom-0">
                                     <span class="float-end text-brown"><strong>{{ __('TE BETALEN') }}</strong></span>
                                 </td>
                                 <td colspan="1" class="border-bottom-0">
-                                    <span class="float-end fw-bold">{{ $record->invoiceTotal }}€</span>
+                                    <span class="float-end fw-bold">{{ $record->billableTotal }}€</span>
                                 </td>
                             </tr>
                         </tbody>

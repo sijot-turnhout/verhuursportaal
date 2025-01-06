@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\QuotationResource\Actions;
 
-use App\Filament\Resources\InvoiceResource\Enums\InvoiceStatus;
 use App\Filament\Resources\QuotationResource;
-use App\Models\Invoice;
+use App\Models\Quotation;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 
 /**
  * Class MarkAsFinalizedAction
@@ -31,13 +32,38 @@ final class MarkAsFinalizedAction extends Action
         return parent::make($name ?? trans('offerte afronden'))
             ->color('gray')
             ->icon('heroicon-o-clipboard-document-check')
-            ->visible(fn(Invoice $invoice): bool => Gate::allows('finalize-quotation', $invoice))
+            ->visible(fn(Quotation $quotation): bool => Gate::allows('finalize', $quotation))
             ->requiresConfirmation()
-            ->modalDescription(trans('Indien u de offerte afrond eal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.'))
-            ->successRedirectUrl(fn(Invoice $invoice): string => QuotationResource::getUrl('view', ['record' => $invoice]))
-            ->action(function (Invoice $invoice): void {
-                $invoice->markQuotationAs(InvoiceStatus::Quotation_Declined, now()->addMonths(2));
-                Notification::make()->title('Offerte status gewijzigd')->body(trans('De offerte staat u geregistreerd als een openstaande offerte'))->success()->send();
-            });
+            ->modalDescription(trans(
+                'Indien u de offerte afrond zal het niet meer mogelijk zijn om deze aan te passen. Dus kijk alles nog is goed na bij twijfel.
+                Wat u enkel nog hoeft te doen is uw handtekening te zetten onder de offerte',
+            ))
+            ->successRedirectUrl(fn(Quotation $quotation): string => QuotationResource::getUrl('view', ['record' => $quotation]))
+            ->form(self::modalFormConfiguration())
+            ->action(fn(array $data, Quotation $quotation) => self::performActionLogic($data, $quotation));
+    }
+
+    private static function modalFormConfiguration(): array
+    {
+        return [
+            SignaturePad::make('signature')
+                ->required()
+                ->hiddenLabel()
+                ->exportPenColor("#000"),
+        ];
+    }
+
+    private static function performActionLogic(array $formData, Quotation $quotation): void
+    {
+        DB::transaction(function () use ($formData, $quotation): void {
+            $quotation->update(attributes: [
+                'signature' => $formData['signature'],
+                'signed_at' => now(),
+            ]);
+
+            $quotation->state()->transitionToOpen();
+        });
+
+        Notification::make()->title('Offerte status gewijzigd')->body(trans('De offerte staat u geregistreerd als een openstaande offerte'))->success()->send();
     }
 }

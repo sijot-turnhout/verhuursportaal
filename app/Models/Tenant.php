@@ -15,12 +15,23 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * @property string $firstName The first name of the tenant that is stored in the database
- * @property string $lastName  The last name of the tenant that is stored in the database
+ * Class Tenant
+ *
+ * @property string                          $name          The full name of the tenant. Virually generated bases on the firstName and LastName.
+ * @property string                          $firstName     The first name of the tenant that is stored in the database
+ * @property string                          $lastName      The last name of the tenant that is stored in the database
+ * @property string                          $email         The email address of the tenant in the application
+ * @property string|null                     $phone_number  The phone number of the tenant in the application.
+ * @property string|null                     $address       The billing address for the tenant in the application.
+ * @property \Illuminate\Support\Carbon|null $banned_at     The timestamp that indicates when the tenant is marked as 'bannad tenant' in the application.
+ * @property \Illuminate\Support\Carbon      $created_at    The timestamp that indicated when the record has been created in the database.
+ * @property \Illuminate\Support\Carbon      $updated_at    The timestamp that indicates when the record has been updated for the last time.
  */
 final class Tenant extends Model implements BannableInterface
 {
     use Bannable;
+
+    /** @use hasFactory<\Database\Factories\TenantFactory> */
     use HasFactory;
     use Notifiable;
 
@@ -34,7 +45,7 @@ final class Tenant extends Model implements BannableInterface
     /**
      * Data relation for all the leases that are attached to the tenant.
      *
-     * @return HasMany<Lease>
+     * @return HasMany<Lease, covariant $this>
      */
     public function leases(): HasMany
     {
@@ -44,25 +55,36 @@ final class Tenant extends Model implements BannableInterface
     /**
      * Data relation for the notes that are attached to the tenant.
      *
-     * @return MorphMany<Note>
+     * @return MorphMany<Note, covariant $this>
      */
     public function notes(): MorphMany
     {
         return $this->morphMany(Note::class, 'noteable');
     }
+    /**
+     * @return HasMany<Incident, covariant $this>
+     */
+    public function incidents(): HasMany
+    {
+        return $this->hasMany(Incident::class);
+    }
 
     /**
      * Method for sending out the reservation request confirmation to the tenant.
      *
+     * @param  Lease $lease The entiry from the lease reservation that has been sotred in them application.
      * @return void
      */
-    public function sendOutReservationConfirmation(): void
+    public function sendOutReservationConfirmation(Lease $lease): void
     {
-        $this->notify((new ReservationConfirmation())->afterCommit());
+        $this->notify((new ReservationConfirmation($lease))->afterCommit());
     }
 
     /**
      * Attribute cast to get the full name of the tenant
+     *
+     * @todo We need to investigate if we can remove this attribute
+     * @deprecated
      *
      * @return Attribute<string, never>
      */

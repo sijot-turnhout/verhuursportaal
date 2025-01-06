@@ -8,12 +8,22 @@ use App\Filament\Support\LineChartBase;
 use App\Models\ContactSubmission;
 use App\Models\Feedback;
 use App\Models\Lease;
+use App\Models\Quotation;
 use App\Models\Tenant;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
+/**
+ * Class StatsOverview
+ *
+ * Represents a line chart widget that provides an overview of various statistics related to leases,
+ * tenants, contact submissions, and feedback. This widget is part of the Filament resource management system
+ * and displays data on a yearly basis.$
+ *
+ * @package App\FIlament\Resources\LeaseResource\Widgets
+ */
 final class StatsOverview extends LineChartBase
 {
     /**
@@ -62,36 +72,44 @@ final class StatsOverview extends LineChartBase
         $tenantChartData = $this->getChartData(Tenant::class);
         $contactChartData = $this->getChartData(ContactSubmission::class);
         $feedbackChartData = $this->getChartData(Feedback::class);
+        $quotationChartData = $this->getChartData(Quotation::class);
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Aanvragen',
+                    'label' => 'Verhuringen',
                     'data' => $leaseChartData->map(fn(TrendValue $value) => $value->aggregate),
-                    'backgroundColor' => '#84cc16',
-                    'borderColor' => '#84cc16',
-                    'pointBackgroundColor' => '#84cc16',
+                    'backgroundColor' => '#2C3830',
+                    'borderColor' => '#2C3830',
+                    'pointBackgroundColor' => '#2C3830',
+                ],
+                [
+                    'label' => 'Offertes',
+                    'data' => $quotationChartData->map(fn(TrendValue $value) => $value->aggregate),
+                    'backgroundColor' => '#1B1E1E',
+                    'borderColor' => '#1B1E1E',
+                    'pointBackgroundColor' => '#1B1E1E',
                 ],
                 [
                     'label' => 'Huurders',
                     'data' => $tenantChartData->map(fn(TrendValue $value) => $value->aggregate),
-                    'backgroundColor' => '#4338ca',
-                    'borderColor' => '#4338ca',
-                    'pointBackgroundColor' => '#4338ca',
+                    'backgroundColor' => '#AA8344',
+                    'borderColor' => '#AA8344',
+                    'pointBackgroundColor' => '#AA8344',
                 ],
                 [
                     'label' => 'Contactnames',
                     'data' => $contactChartData->map(fn(TrendValue $value) => $value->aggregate),
-                    'backgroundColor' => '#be123c',
-                    'borderColor' => '#be123c',
-                    'pointBackgroundColor' => '#be123c',
+                    'backgroundColor' => '#D3BA75',
+                    'borderColor' => '#D3BA75',
+                    'pointBackgroundColor' => '#D3BA75',
                 ],
                 [
                     'label' => trans('Feedback'),
                     'data' => $feedbackChartData->map(fn(TrendValue $value) => $value->aggregate),
-                    'backgroundColor' => '#083344',
-                    'borderColor' => '#083344',
-                    'pointBackgroundColor' => '#083344',
+                    'backgroundColor' => '#47553C',
+                    'borderColor' => '#47553C',
+                    'pointBackgroundColor' => '#47553C',
                 ],
 
             ],

@@ -1,0 +1,22 @@
+name: Feature request
+description: Heb je een idee voor een functie in het programma. Laat het ons weten.
+title: "[Feature request]: "
+labels: ["type: feature", "state: pending"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bedankt voor het voorstelling van een nieuwe functionaliteit voor de applicatie.
+  - type: textarea
+    id: feature-beschrijving
+    attributes:
+      label: Feature beschrijving
+      description: Hoe zou de functionaliteit eruit moeten zien of werken?
+      placeholder: Locatie in de broncode, gebruik van de feature, output ...
+    validations:
+      required: true
+  - type: textarea
+    id: uitleg
+    attributes:
+      label: Is deze feature ook waardevol voor andere gebruikers en waarom?
+      description: We willen het project zodat opbouwen dat het bruikbaar is voor allen.

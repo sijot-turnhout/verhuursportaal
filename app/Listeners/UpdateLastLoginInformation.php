@@ -7,7 +7,7 @@ namespace App\Listeners;
 use App\Models\User;
 use Illuminate\Auth\Events\Login;
 
-final class UpdateLastLoginInformation
+final readonly class UpdateLastLoginInformation
 {
     public function handle(Login $login): void
     {

@@ -10,4 +10,5 @@ Artisan::command('inspire', function (): void {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command('ban:delete-expired')->everyMinute();
+Schedule::command('ban:delete-expired')->everyMinute()->withoutOverlapping();
+Schedule::command('lease:refund-deposit-reminder')->dailyAt('00:01');

@@ -9,13 +9,10 @@ declare(strict_types=1);
  * For now the basic configuration is applied. But feel free to mpodify the configuration values to your own needs.
  */
 
-use App\Support\Features;
 
 return [
-    /**
-     * @todo document this configuration in a later phase of the project.
-     */
     'billing' => [
+        'automatic_invoicing' => true, // TODO: Document config flag
         'price_per_night' => '5.5',
         'guarantee_payment_amount' => 250,
 
@@ -26,19 +23,26 @@ return [
         ],
     ],
 
+    'server' => [
+        'shared' => true,
+    ],
+
     /**
-     * -------------------------------------------------------------------------------------------------
-     * Feature configuration
-     * -------------------------------------------------------------------------------------------------
+     * Configuration for risk assessment thresholds, mapping risk levels to numeric values.
      *
-     * In the array below u can enable of disable built-in features of the application.
-     * So you can easily customize it to your own needs as organization.
-     * For Simplicity, we've registered all the features. If you decide to not use some specific feature
-     * you can delete or comment the feature declaration.
+     * Each risk level represents a threshold score indicating the severity or likelihood of risk,
+     * useful for assessing and categorizing risks in the application.
+     *
+     * @see https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#configuratie-van-de-tresholds-voor-de-risico-profielen
      */
-    'features' => [
-        Features::utilityMetrics(),
-        Features::automaticBillingLinesImport(),
-        Features::feedback(),
+    'risk_accessment' => [
+        'very_low' => 10,   // Threshold for a 'Very low' risk level, representing minimal concern.
+        'low' => 20,        // Threshold for a "Low" risk level, indicating below-averages risk.
+        'medium' => 35,     // Threshold for a 'medium' risk level, signifying moderate risk.
+        'high' => 50,       // Threshold for a "high risk level, associated with above average risk."
+    ],
+
+    'deposit' => [
+        'default_amount' => 350, // Default price for the security deposit in a lease.
     ],
 ];

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\InvoiceResource\Enums;
 
+use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
@@ -18,6 +19,8 @@ use Filament\Support\Contracts\HasLabel;
  */
 enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
 {
+    use Comparable;
+
     /**
      * Status: draft
      *
@@ -76,22 +79,26 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
      */
     case Uncollected = 'uncollected';
 
-    case Quotation_Request = 'offerte aanvraag';
-
-    case Quotation = 'openstaande offerte';
-
-    case Quotation_Declined = 'afgewezen offerte';
-
+    /**
+     * Get the color associated with each invoice status for UI purposes.
+     *
+     * {@inheritDoc}
+     */
     public function getColor(): string|array|null
     {
         return match ($this) {
             self::Draft, self::Void => 'gray',
-            self::Open, self::Quotation_Request => 'info',
-            self::Paid, self::Quotation => 'success',
-            self::Uncollected, self::Quotation_Declined => 'danger',
+            self::Open => 'info',
+            self::Paid => 'success',
+            self::Uncollected => 'danger',
         };
     }
 
+    /**
+     * Get the user-friendly label for each invoice status.
+     *
+     * @return string|null  The localized label representing the status.
+     */
     public function getLabel(): ?string
     {
         return match ($this) {
@@ -100,19 +107,21 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
             self::Paid => trans('betaald'),
             self::Void => trans('geannuleerd'),
             self::Uncollected => trans('onbetaald'),
-            self::Quotation_Request => trans('offerte aanvraag'),
-            self::Quotation => trans('openstaande offerte'),
-            self::Quotation_Declined => trans('afgewezen offerte'),
         };
     }
 
+    /**
+     * Get the icon associated with each invoice status for UI purposes.
+     *
+     * @return string|null  The icon representing the status.
+     */
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::Draft, self::Quotation_Request => 'heroicon-o-pencil-square',
-            self::Open, self::Quotation => 'heroicon-o-document-text',
+            self::Draft => 'heroicon-o-pencil-square',
+            self::Open => 'heroicon-o-document-text',
             self::Paid => 'heroicon-o-check-circle',
-            self::Void, self::Quotation_Declined => 'heroicon-o-x-circle',
+            self::Void => 'heroicon-o-x-circle',
             self::Uncollected => 'heroicon-o-exclamation-triangle',
         };
     }

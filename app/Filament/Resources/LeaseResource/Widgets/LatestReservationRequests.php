@@ -11,23 +11,60 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class LatestReservationRequests
+ *
+ * This class defines a widget that displays the latest reservation requests in a table format within the Filament admin panel.
+ * The widget shows recent lease requests with details such as period, responsible person, number of people, tenant, organization,
+ * and request date. It provides options for pagination and navigation to the lease resource.
+ *
+ * @package App\Filament\Resources\LeaseResource\Widgets
+ */
 final class LatestReservationRequests extends BaseWidget
 {
+    /**
+     * Defines the column span of the widget in the layout.
+     *
+     * @var int|string|array<string, int|null>
+     */
     protected int|string|array $columnSpan = 'full';
+
+    /**
+     * The heading text displayed at the top of the widget.
+     *
+     * @var string|null
+     */
     protected static ?string $heading = 'Nieuwe aanvragen';
+
+    /**
+     * The sort order of the widget relative to other widgets.
+     *
+     * @var int|null
+     */
     protected static ?int $sort = 2;
 
+    /**
+     * Configures and returns the table instance for the widget.
+     *
+     * @param  Table $table  The table builder instance to configure.
+     * @return Table         The configured table instance.
+     */
     public function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon('heroicon-o-queue-list')
+            ->emptyStateHeading('Geen aanvragen gevonden')
+            ->emptyStateDescription('Momenteel zijn er geen nieuwe verhuringen aangevraagd door personen in het systeem')
             ->extremePaginationLinks()
             ->paginated([3, 6, 9, 12])
             ->query(LeaseResource::getEloquentQuery()->where('status', LeaseStatus::Request))
             ->headerActions([
                 Tables\Actions\Action::make('verhuringen')
+                    ->visible(fn(Lease $lease): bool => $lease->where('status', LeaseStatus::Request)->count() > 0)
                     ->color('gray')
                     ->icon('heroicon-o-eye')
                     ->url(LeaseResource::getUrl('index')),
@@ -46,8 +83,15 @@ final class LatestReservationRequests extends BaseWidget
             ]);
     }
 
-    protected function paginateTableQuery(Builder $query): Paginator
+    /**
+     * Custom pagination logic for the table.
+     *
+     * @param  Builder<Lease>    $query   The query builder instance for the table.
+     * @return Paginator<Lease>           The paginator instance for the query.
+     */
+    protected function paginateTableQuery(Builder $query): Paginator|CursorPaginator
     {
+        /** @phpstan-ignore-next-line */
         return $query->simplePaginate(('all' === $this->getTableRecordsPerPage()) ? $query->count() : $this->getTableRecordsPerPage());
     }
 }

@@ -11,10 +11,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property UtilityMetricTypes $name
+ * Class Utility
+ *
+ * @property int                             $id              The unique identifier from the utility metric in the database.
+ * @property int                             $lease_id        The unique identifier from the lease where the utility metrics are attached to.
+ * @property UtilityMetricTypes              $name            The name of the utility metric.
+ * @property UtilityMetric                   $start_valie     The value of the metric at the start of their lease;
+ * @property UtilityMetric                   $end_value       The value of the metric at the end of the tenant their lease.
+ * @property int|float                       $unit_price      The price per quantity of the utility metric
+ * @property int|float|null                  $usage_total     The total usage metric of the utility that is used by the tenant during their lease.
+ * @property int|float|null                  $billing_amount  The total price that will be billend to the customer (tenant).
+ * @property \Illuminate\Support\Carbon|null $created_at      The timestamp that indicates when the record has been created in the application.
+ * @property \Illuminate\Support\Carbon|null $updated_at      The timestamp that indicates when the record has been updated for the last time.
  */
 final class Utility extends Model
 {
+    /** @use HasFactory<\Database\Factories\UtilityFactory> */
     use HasFactory;
 
     protected $guarded = ['id'];
@@ -22,7 +34,7 @@ final class Utility extends Model
     /**
      * Data relation for getting the information about lease that is attached to the utility metric.
      *
-     * @return BelongsTo<Lease, self>
+     * @return BelongsTo<Lease, covariant $this>
      */
     public function lease(): BelongsTo
     {

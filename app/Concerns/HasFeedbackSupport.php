@@ -4,27 +4,24 @@ declare(strict_types=1);
 
 namespace App\Concerns;
 
-use App\Enums\LeaseStatus;
+use App\Features\Feedback as FeedbackFeatureFlag;
 use App\Models\Feedback;
-use App\Models\Lease;
 use App\Notifications\FeedbackNotification;
-use App\Support\Features;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Laravel\Pennant\Feature;
 
 /**
  * Trait HasFeedbackSupport
  *
  * This trait provides feedback-related functionalities for a model.
- *
- * @todo Document feedback system
  */
 trait HasFeedbackSupport
 {
     /**
      * Define a relationship to the Feedback model.
      *
-     * @return BelongsTo<Feedback, self> The relationship to the Feedback model.
+     * @return BelongsTo<Feedback, covariant $this> The relationship to the Feedback model.
      */
     public function feedback(): BelongsTo
     {
@@ -42,8 +39,8 @@ trait HasFeedbackSupport
      */
     public function sendFeedbackNotification(Carbon $validUntil): void
     {
-        $this->markAsFeedbackRequested($validUntil);
         $this->tenant->notify(new FeedbackNotification($validUntil, $this));
+        $this->markAsFeedbackRequested($validUntil);
     }
 
     /**
@@ -57,8 +54,7 @@ trait HasFeedbackSupport
     public function canSendOutFeedbackNotification(): bool
     {
         return ($this->feedback()->doesntExist() && null === $this->feedback_valid_until)
-            && LeaseStatus::Finalized === $this->status
-            && Features::enabled(Features::feedback());
+            && Feature::active(FeedbackFeatureFlag::class);
     }
 
     /**

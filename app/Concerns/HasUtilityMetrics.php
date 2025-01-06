@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 trait HasUtilityMetrics
 {
     /**
-     * @return HasMany<Utility>
+     * @return HasMany<Utility, covariant $this>
      */
     public function utilityStatistics(): HasMany
     {
@@ -20,6 +20,8 @@ trait HasUtilityMetrics
 
     /**
      * Method to check if the lease is registered as finalized.
+     *
+     * @deprecated v1.0.0
      */
     public function isFinalized(): bool
     {
@@ -28,13 +30,15 @@ trait HasUtilityMetrics
 
     /**
      * Method to check if the lease is registered as confirmed.
+     *
+     * @deprecated v1.0.0
      */
     public function isConfirmed(): bool
     {
         return LeaseStatus::Confirmed === $this->status;
     }
 
-    public function canDisplayTHeFinalizeButton(): bool
+    public function canDisplayTheFinalizeButton(): bool
     {
         return $this->utilityStatistics()->exists()
             && $this->hasntFinalizedUtilityMetrics()
@@ -49,6 +53,13 @@ trait HasUtilityMetrics
     public function hasRegisteredMetrics(): bool
     {
         return null !== $this->metrics_registered_at;
+    }
+
+    public function finalizeUtilityMetrics(): void
+    {
+        if ($this->utilityStatistics()->exists()) {
+            $this->update(attributes: ['metrics_registered_at' => now()]);
+        }
     }
 
     public function hasntFinalizedUtilityMetrics(): bool

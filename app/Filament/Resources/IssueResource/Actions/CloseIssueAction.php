@@ -10,10 +10,22 @@ use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Gate;
 
 /**
- * @see \App\Policies\IssuePolicy::close()
+ * Class CloseIssueAction
+ *
+ * Represents an action for closing an issue within the Filament admin panel. This action allows a user with
+ * the necessary permissions to mark an issue as closed. The action is visible only if the user has the
+ * authorization to perform the close operation.
+ *
+ * @see \App\Policies\IssuePolicy::close() - The policy method that defines the authorization logic for closing an issue.
  */
 final class CloseIssueAction extends Action
 {
+    /**
+     * Creates a new instance of CloseIssueAction with a default or provided name.
+     *
+     * @param  string|null $name  The name of the action. Defaults to 'Werkpunt sluiten' if not provided.
+     * @return static             The newly created instance of CloseIssueAction.
+     */
     public static function make(?string $name = null): static
     {
         return parent::make($name ?? 'Werkpunt sluiten')

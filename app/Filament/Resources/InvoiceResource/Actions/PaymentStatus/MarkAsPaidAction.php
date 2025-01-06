@@ -33,7 +33,7 @@ final class MarkAsPaidAction extends Action
         return parent::make('markeer als betaald')
             ->icon('heroicon-o-check-circle')
             ->color('success')
-            ->visible(fn(Invoice $invoice): bool => Gate::allows('update-payment-status', $invoice))
+            ->visible(fn(Invoice $invoice): bool => Gate::allows('mark-as-paid', $invoice))
             ->action(function (Invoice $invoice): void {
                 $invoice->update(['status' => InvoiceStatus::Paid, 'paid_at' => now(), 'due_at' => null]);
                 Notification::make()->title('De factuur is geregistreerd als betaald.')->success()->send();

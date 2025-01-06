@@ -90,25 +90,29 @@
 
     {{-- Information + signup form --}}
         <div class="row mb-3 mt-3">
-            <div class="col-8 pe-5">
+            <div class="col-12">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ active('welcome') }}" href="{{ route('welcome') }}" aria-selected="true" role="tab">Algemene informatie</a>
+                        <a class="nav-link {{ active('welcome') }}" href="{{ route('welcome') }}" data-pan="algemene-informatie" aria-selected="true" role="tab">Algemene informatie</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ active('price-information') }}" href="{{ route('price-information') }}">Wat kost dat?!</a>
+                        <a class="nav-link {{ active('price-information') }}" data-pan="kosten-informatie" href="{{ route('price-information') }}">Wat kost dat?!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ active('offerte.information') }}" href="{{ route('offerte.information') }}">Offerte aanvragen</a>
+                        <a class="nav-link {{ active('offerte.information') }}" data-pan="offerte-informatie" href="{{ route('offerte.information') }}">Offerte aanvragen</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ active('availability') }}" href="{{ route('availability') }}">Beschikbaarheid</a>
+                        <a class="nav-link {{ active('availability') }}" data-pan="beschikbaarheid" href="{{ route('availability') }}">Beschikbaarheid</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="behandeling">Behandelingsprocedure</a>
+                        <a class="nav-link" href="behandeling" data-pan="behandelingsprocedure">Behandelingsprocedure</a>
                     </li>
                 </ul>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-8 pe-5 mt-0">
                 <div id="myTabContent" class="tab-content">
                     <div class="tab-pane fade active show" role="tabpanel">
                         {{ $slot }}
@@ -116,7 +120,7 @@
                 </div>
             </div>
 
-            <div class="col-4 pt-5">
+            <div class="col-4 pt-3 mb-3">
                 <x-reservation-form/>
             </div>
         </div>

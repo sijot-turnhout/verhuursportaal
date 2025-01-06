@@ -19,7 +19,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @todo Write documentation for this resource
+ * Class ContactSubmissionResource
+ *
+ * Manages the ContactSubmission resource within the Filament admin panel.
+ * This resource handles the display, management, and interaction with contact submissions
+ * through various pages, tables, and widgets.
+ *
+ * @package App\Filament\Resources
  */
 final class ContactSubmissionResource extends Resource
 {
@@ -62,6 +68,9 @@ final class ContactSubmissionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateIcon(self::$navigationIcon)
+            ->emptyStateHeading(trans('Geen contactnames gevonden'))
+            ->emptyStateDescription(trans('Het lijkt erop dat er geen contactnames zijn gevonden onder de opgegeven citeria'))
             ->columns([
                 TextColumn::make('full_name')->label('Ingestuurd door')->sortable()->searchable(),
                 TextColumn::make('status')->label('Status')->sortable()->badge(),
@@ -116,7 +125,7 @@ final class ContactSubmissionResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        /** @var class-string<\App\Models\ContactSubmission> $modelClass */
+        /** @var class-string<ContactSubmission> $modelClass */
         $modelClass = static::$model;
 
         return (string) $modelClass::where('status', ContactMessageStatus::New)

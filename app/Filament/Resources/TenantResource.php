@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\LeaseManagement;
 use App\Filament\Resources\TenantResource\Pages;
+use App\Filament\Resources\TenantResource\RelationManagers\IncidentsRelationManager;
 use App\Filament\Resources\TenantResource\RelationManagers\LeasesRelationManager;
 use App\Filament\Resources\TenantResource\RelationManagers\NotesRelationManager;
 use App\Models\Tenant;
@@ -24,28 +26,48 @@ final class TenantResource extends Resource
 {
     /**
      * The database model entity for the resource that is related to the tenants.
+     *
+     * @return string|null
      */
     protected static ?string $model = Tenant::class;
 
     /**
-     * The label name that willbe displayed from the database model
+     * The label name that willbe displayed from the database model.
+     *
+     * @return string|null
      */
     protected static ?string $modelLabel = 'Huurder';
 
     /**
      * The plural representation of the label that will be displayed.
+     *
+     * @return string|null
      */
     protected static ?string $pluralModelLabel = 'Huurders';
 
     /**
      * The name of the navigation icon that will be used in the navigation
+     *
+     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+
+    /**
+     * The cluster (group) of resources that this resource belongs to.
+     *
+     * This specifies tthat the 'TenantResource' belongs to the 'LeaseManagement' cluster.
+     * Clusters are used to group related resources in the admin panel for better organization.
+     *
+     * @var class-string<\Filament\Clusters\Cluster>|null
+     */
+    protected static ?string $cluster = LeaseManagement::class;
 
     /**
      * Method for displaying the edit/create view for the tenant resource.
      *
-     * @param  Form  $form  The form builder class that we use to build up the create/edit form.
+     * @param  Form  $form  The form builder class that we use to build up the create/edit form.$
+     * @return Form         THe confiured form instance for the Filament resource
      */
     public static function form(Form $form): Form
     {
@@ -61,20 +83,27 @@ final class TenantResource extends Resource
                         Forms\Components\TextInput::make('firstName')
                             ->label('voornaam')
                             ->required()
+                            ->maxLength(255)
                             ->columnSpan(5),
                         Forms\Components\TextInput::make('lastName')
                             ->label('achternaam')
                             ->required()
+                            ->maxLength(255)
                             ->columnSpan(7),
                         Forms\Components\TextInput::make('email')
                             ->unique(ignoreRecord: true)
+                            ->email()
+                            ->maxLength(255)
                             ->required()
                             ->columnSpan(6),
                         Forms\Components\TextInput::make('phone_number')
                             ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
                             ->columnSpan(6),
                         Forms\Components\TextInput::make('address')
                             ->label('Adres')
+                            ->maxLength(255)
                             ->columnSpan(12),
                     ])->columns(12),
             ]);
@@ -84,12 +113,13 @@ final class TenantResource extends Resource
      * Method for displaying the tenant overview table.
      *
      * @param  Table  $table  The table builder instance for the overview page in the tenant resource.
+     * @return Table          The configured table display for the filament resource
      */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('fullName')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Naam')
                     ->sortable()
                     ->searchable(),
@@ -116,6 +146,8 @@ final class TenantResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
+
+                    // TODO Place this in  a separated action class
                     Tables\Actions\Action::make('Huurder blokkeren')
                         ->authorize('deactivate')
                         ->icon('heroicon-o-lock-closed')
@@ -140,6 +172,7 @@ final class TenantResource extends Resource
                         }),
 
                     // Custom action for reactivating the tenant in the lease managament system.
+                    // TODO Place this in  a separated action class
                     Tables\Actions\Action::make('Huurder heractiveren')
                         ->color('success')
                         ->icon('heroicon-o-lock-open')
@@ -174,6 +207,7 @@ final class TenantResource extends Resource
         return [
             LeasesRelationManager::class,
             NotesRelationManager::class,
+            IncidentsRelationManager::class,
         ];
     }
 

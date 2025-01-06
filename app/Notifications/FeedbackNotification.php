@@ -6,8 +6,10 @@ namespace App\Notifications;
 
 use App\Models\Lease;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Queue\Middleware\Skip;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 
@@ -17,7 +19,7 @@ use Illuminate\Support\Facades\URL;
  * This notification class represents an email notification sent to tenants
  * to request feedback on their lease.
  */
-final class FeedbackNotification extends Notification
+final class FeedbackNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -31,6 +33,16 @@ final class FeedbackNotification extends Notification
         public readonly Carbon $validUntil,
         public readonly Lease $lease,
     ) {}
+
+    /**
+     * Get the middleware the notification job should pass through.
+     *
+     * @return array<int, Skip>
+     */
+    public function middleware(): array
+    {
+        return [Skip::unless($this->lease->canSendOutFeedbackNotification())];
+    }
 
     /**
      * Get the notification's delivery channels.

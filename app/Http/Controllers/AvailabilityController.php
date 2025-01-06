@@ -19,7 +19,7 @@ use Illuminate\Contracts\Support\Renderable;
  *       The calendar will render it as end on the second day of July. But if we updated the timestamp to 00:001:00 on the 3th of july.
  *       It will dispaly correctly on the calendar. We should further investigate this and fix the issue.
  */
-final class AvailabilityController extends Controller
+final readonly class AvailabilityController
 {
     /**
      * @param  GetConfirmedLeasesForCalendar $getConfirmedLeasesForCalendar The query class for getting all the confirmed leases out of the storage.
