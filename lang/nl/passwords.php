@@ -17,6 +17,6 @@ return [
     'sent' => 'We hebben een e-mail vestuurd met instructies om een nieuw wachtwoord in te stellen.',
     'throttled' => 'Gelieve even te wachten avorens het opniew te proberen.',
     'token' => 'Deze wachtwoord herstel token is ongeldig.',
-    'user' => "Geenj gebruiker bekend met het opgegeven e-mailadres.",
+    'user' => "Geen gebruiker bekend met het opgegeven e-mailadres.",
 
 ];
