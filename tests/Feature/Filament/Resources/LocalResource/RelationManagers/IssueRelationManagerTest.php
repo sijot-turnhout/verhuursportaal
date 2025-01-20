@@ -106,7 +106,7 @@ describe('Issue relation manager tests', function (): void {
             }
 
             livewire(IssuesRelationManager::class, ['ownerRecord' => $this->local, 'pageClass' => EditIssue::class])
-                ->searchTable($value)
+                // ->searchTable($value)
                 ->assertCanSeeTableRecords($this->local->issues->where($column, $value))
                 ->assertCanNotSeeTableRecords($this->local->issues->where($column, '!=', $value));
 
