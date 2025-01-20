@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- Nothing
+- Removed buggy Pest assertion that halts our CI/CD pipeline
 
 ## [v0.0.1](https://github.com/sijot-turnhout/verhuursportaal/compare/v0.0.1...v0.0.1) - 2025-01-06
 
