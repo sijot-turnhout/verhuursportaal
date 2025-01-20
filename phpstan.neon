@@ -1,19 +1,21 @@
 includes:
     - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
 
     paths:
-        - app/
-        - database/
+        - app
+        - bootstrap
+        - database/factories
+        - routes
 
     # Level 9 is the highest level
-    level: 7
+    level: max
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
 #
-    excludePaths:
-        - ./database/migrations/2024_06_17_035250_create_pulse_tables.php
 #
 #    checkMissingIterableValueType: false
