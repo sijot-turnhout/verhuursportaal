@@ -7,8 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/sijot-turnhout/verhuursportaal/compare/v0.0.1...0.x)
 
+### Added
+
+- Nothing
+
+### Changed
+
 - Updated to changelog format to support the keep a chgangelog format.
-- Dump a couple composer to start the PHPStan 2.0 adoption.
+- Bump a couple composer to start the PHPStan 2.0 adoption.
+
+### Removed
+
+- Nothing
 
 ## [v0.0.1](https://github.com/sijot-turnhout/verhuursportaal/compare/v0.0.1...v0.0.1) - 2025-01-06
 
