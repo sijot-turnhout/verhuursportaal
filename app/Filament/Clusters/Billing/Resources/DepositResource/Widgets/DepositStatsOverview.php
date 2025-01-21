@@ -10,14 +10,26 @@ use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
 
 /**
- * @todo Implement class doc
+ * Class DepositStatsOverview
+ *
+ * This class represents a widget for displaying an overview of deposit statistics
+ * within the Filament Clusters Billing module. It provides a summary of relevant
+ * deposit data to be displayed in the user interface.
+ *
+ * @package App\Filament\Clusters\Billing\Resources\DepositResource\Widgets
  */
 final class DepositStatsOverview extends BaseWidget
 {
     /**
-     * @todo implement docblock
+     * Specifies the span of the column in the layout.
+     *
+     * This property determines how many columns the element will span in the layout.
+     * It can be specified as an integer, a string, or an array, allowing for flexible
+     * configuration based on the layout requirements.
+     *
+     * @var int|string|array $columnSpan The span can be an integer, a string, or an array.
      */
-    protected int | string | array $columnSpan = '2';
+    protected int|string|array $columnSpan = '2';
 
     /**
      * Retrieves an array of statistical data related to deposits and assets.
