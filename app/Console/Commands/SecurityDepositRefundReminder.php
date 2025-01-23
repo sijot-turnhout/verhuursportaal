@@ -69,6 +69,7 @@ final class SecurityDepositRefundReminder extends Command implements Isolatable
 
         $this->consoleOutputHeader();
 
+        /** @phpstan-ignore-next-line */
         $dueDepositRefunds->get()->each(function (Deposit $deposit): void {
             $deposit->markAsDueRefund();
             $this->consoleOutputLine($deposit);

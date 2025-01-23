@@ -121,9 +121,9 @@ final class ContactSubmissionResource extends Resource
     /**
      * MMethod to display the item count in the navigation bar item of the resource.
      *
-     * @return string|null
+     * @return string
      */
-    public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): string
     {
         /** @var class-string<ContactSubmission> $modelClass */
         $modelClass = static::$model;

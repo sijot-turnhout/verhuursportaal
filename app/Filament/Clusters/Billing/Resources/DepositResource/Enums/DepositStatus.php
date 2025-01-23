@@ -61,9 +61,9 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
     /**
      * Returns the label for the deposit status.
      *
-     * @return string|null The user-friendly label for the current status.
+     * @return string The user-friendly label for the current status.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->value;
     }
@@ -78,7 +78,7 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Paid, self::FullyRefunded => 'success',
@@ -94,9 +94,9 @@ enum DepositStatus: string implements HasLabel, HasColor, HasIcon
      * enhancing the user experience by making it easier to recognize
      * different states of deposits.
      *
-     * @return string|null The icon associated with the current status.
+     * @return string The icon associated with the current status.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Paid, self::PartiallyRefunded, self::FullyRefunded => 'heroicon-o-credit-card',

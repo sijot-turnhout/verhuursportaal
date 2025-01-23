@@ -198,9 +198,9 @@ final class IssueResource extends Resource
      * next to the resource name in the navigation menu. Typically, this could be a count
      * of records or any other meaningful number.
      *
-     * @return string|null
+     * @return string
      */
-    public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): string
     {
         return (string) static::getModel()::count();
     }
@@ -212,9 +212,9 @@ final class IssueResource extends Resource
      * name in the navigation menu, based on a condition such as the number of records.
      * For example, the badge may turn 'danger' (red) if the count exceeds a threshold.
      *
-     * @return string|null
+     * @return string
      */
-    public static function getNavigationBadgeColor(): ?string
+    public static function getNavigationBadgeColor(): string
     {
         return static::getModel()::count() > 10 ? 'danger' : 'warning';
     }

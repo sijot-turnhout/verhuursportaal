@@ -83,6 +83,9 @@ final class Quotation extends Model implements FinancialAssistance
         });
     }
 
+    /**
+     * @return Attribute<int|string|float, never>
+     */
     public function billableTotal(): Attribute
     {
         /** @phpstan-ignore-next-line */

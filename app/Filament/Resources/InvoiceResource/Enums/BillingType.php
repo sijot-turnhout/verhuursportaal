@@ -41,7 +41,7 @@ enum BillingType: int implements HasColor, HasLabel
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::BillingLine => 'success',
@@ -57,10 +57,10 @@ enum BillingType: int implements HasColor, HasLabel
      *
      * These labels are useful for presenting user-friendly names in the application.
      *
-     * @return string|null  The label associated with the billing type.
+     * @return string  The label associated with the billing type.
      */
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::BillingLine => 'facturatieregel',

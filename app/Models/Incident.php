@@ -30,7 +30,7 @@ final class Incident extends Model
     /**
      * Protected attributes that cannot be mass assigned.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $guarded = ['id'];
 

@@ -28,13 +28,13 @@ final readonly class DownloadDocumentController
      * @todo Build up this function
      *
      * @param Request $request
-     * @param Quotation $quotation
+     * @param Quotation $record
      * @return PdfBuilder
      */
     public function quotation(Request $request, Quotation $record): PdfBuilder
     {
         return pdf()
             ->view('pdfs.quota', compact('record'))
-            ->name($record->payment_reference . '.pdf');
+            ->name($record->reference . '.pdf');
     }
 }

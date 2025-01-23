@@ -245,7 +245,7 @@ final class Lease extends Model
      * Compiles the 'arrival_date' and 'departure_date' into a single string, indicating
      * the duration of the lease.
      *
-     * @return Attribute<string, never>
+     * @return Attribute<non-falsy-string, never>
      */
     protected function period(): Attribute
     {

@@ -72,7 +72,7 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Low => 'info',
@@ -88,9 +88,9 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      * This method returns a translated label that describes the priority level, providing a user-friendly
      * way to convey the urgency of an issue.
      *
-     * @return string|null  The label corresponding to the priority level.
+     * @return string  The label corresponding to the priority level.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Low => trans('Geen prioriteit'),
@@ -106,9 +106,9 @@ enum Priority: int implements HasLabel, HasIcon, HasColor
      * This method returns an icon name that visually represents the priority level, helping users
      * quickly identify the severity of an issue in the UI.
      *
-     * @return string|null  The icon representing the priority level.
+     * @return string  The icon representing the priority level.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Low => 'heroicon-o-ellipsis-horizontal-circle',

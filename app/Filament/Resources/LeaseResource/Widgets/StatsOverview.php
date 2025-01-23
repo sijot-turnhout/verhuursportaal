@@ -12,7 +12,6 @@ use App\Models\Quotation;
 use App\Models\Tenant;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
 /**
@@ -43,9 +42,9 @@ final class StatsOverview extends LineChartBase
     /**
      * Method to register the chart widget heading.
      *
-     * @return string|Htmlable|null
+     * @return string
      */
-    public function getHeading(): string|Htmlable|null
+    public function getHeading(): string
     {
         return trans('Nieuwe registraties');
     }
@@ -53,9 +52,9 @@ final class StatsOverview extends LineChartBase
     /**
      * Method to register the description of the chartw widget component.
      *
-     * @return string|null
+     * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return trans('Statistiesche weergave van alle nieuwe registraties in :app op jaarbasis', [
             'app' => config('app.name', 'Laravel'),

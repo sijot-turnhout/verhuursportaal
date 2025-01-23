@@ -34,9 +34,9 @@ enum ChangelogStatus: int implements HasLabel, HasColor
      * This method returns a translated string that represents the current status.
      * The label us used in the UI to display the status in a user-friendly way.
      *
-     * @return string|null  The translated label for the status.
+     * @return string The translated label for the status.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Open => trans('open'),
@@ -54,7 +54,7 @@ enum ChangelogStatus: int implements HasLabel, HasColor
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Open => 'success',

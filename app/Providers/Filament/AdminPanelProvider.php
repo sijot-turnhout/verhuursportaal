@@ -29,6 +29,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 
@@ -102,7 +103,7 @@ class AdminPanelProvider extends PanelProvider
                     \App\Filament\Clusters\WebmasterResources\Resources\ActivityLogResource::class,
                 ]),
                 FilamentDeveloperLoginsPlugin::make()
-                    ->enabled(config('app.debug'))
+                    ->enabled(Config::boolean('app.debug', false))
                     ->users([
                         'leiding' => 'leiding@domain.tld',
                         'raad van bestuur' => 'rvb@domain.tld',

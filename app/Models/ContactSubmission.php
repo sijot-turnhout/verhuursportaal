@@ -27,13 +27,10 @@ final class ContactSubmission extends Model
     use HasFactory;
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = ['first_name', 'last_name', 'email', 'phone_number', 'message', 'status'];
 
-    /**
-     * @phpstan-ignore-next-line
-     */
     protected $attributes = ['status' => ContactMessageStatus::New];
 
     /**

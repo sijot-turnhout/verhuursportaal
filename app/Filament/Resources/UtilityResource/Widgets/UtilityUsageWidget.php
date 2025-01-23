@@ -10,7 +10,6 @@ use App\Filament\Support\LineChartBase;
 use App\Models\Utility;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
 /**
@@ -25,8 +24,10 @@ final class UtilityUsageWidget extends LineChartBase
 
     /**
      * Method for registering the Heading title of the chart panel in the widget.
+     *
+     * @return string
      */
-    public function getHeading(): string|Htmlable|null
+    public function getHeading(): string
     {
         return match ($this->filter) {
             'unit' => trans('Nutsverbuik overzicht'),
@@ -37,8 +38,10 @@ final class UtilityUsageWidget extends LineChartBase
 
     /**
      * Method for registering the chart panel description text.
+     *
+     * @return string
      */
-    public function getDescription(): string|Htmlable|null
+    public function getDescription(): string
     {
         return trans('Statistische weergave van het nutsverbuik tijdens verhuringen die geregistreerd staan in :app', ['app' => config('app.name', 'Laravel')]);
     }

@@ -60,9 +60,9 @@ enum RiskLevel: string implements HasColor, HasLabel
      * Returns the label that represents the risk level, used as a user-friendly name in UI components.
      * For instance, the 'zeer laag' value for VeryLow can be directly displayed to users for easier interpretation.
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->value;
     }
@@ -79,8 +79,9 @@ enum RiskLevel: string implements HasColor, HasLabel
      * color-coded risk indicators. Color is a key tool for helping users quickly identify and assess risk at a glance.
      *
      * {@inheritDoc}
+     * @phpstan-ignore return.unusedType, missingType.iterableValue
      */
-    public function getColor(): string|array|null
+    public function getColor(): string|array
     {
         return match ($this) {
             self::Unknown => Color::Slate,

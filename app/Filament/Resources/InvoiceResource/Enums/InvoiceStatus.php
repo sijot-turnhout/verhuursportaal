@@ -84,7 +84,7 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Draft, self::Void => 'gray',
@@ -97,9 +97,9 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
     /**
      * Get the user-friendly label for each invoice status.
      *
-     * @return string|null  The localized label representing the status.
+     * @return string  The localized label representing the status.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Draft => trans('klad factuur'),
@@ -113,9 +113,9 @@ enum InvoiceStatus: string implements HasColor, HasIcon, HasLabel
     /**
      * Get the icon associated with each invoice status for UI purposes.
      *
-     * @return string|null  The icon representing the status.
+     * @return string  The icon representing the status.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Draft => 'heroicon-o-pencil-square',

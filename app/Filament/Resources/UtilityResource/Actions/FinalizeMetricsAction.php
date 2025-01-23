@@ -41,6 +41,7 @@ final class FinalizeMetricsAction extends Action
             ->icon('heroicon-o-lock-closed')
             ->requiresConfirmation()
             ->modalDescription(self::configureModalDescription())
+            /** @phpstan-ignore-next-line */
             ->visible(fn(RelationManager $livewire): bool => $livewire->getOwnerRecord()->canDisplayTheFinalizeButton())
             ->action(fn(RelationManager $livewire): bool => self::performFinalizeMetricsAction($livewire->getOwnerRecord()));
     }
@@ -61,7 +62,7 @@ final class FinalizeMetricsAction extends Action
     private static function performFinalizeMetricsAction(Model|Lease $lease): bool
     {
         return DB::transaction(function () use ($lease) {
-            defer(callback: fn() => InvoiceUtilityUsage::dispatch($lease));
+            defer(callback: fn(Lease $lease) => InvoiceUtilityUsage::dispatch($lease));
 
             return $lease->update(['metrics_registered_at' => now()]);
         });

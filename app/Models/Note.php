@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 final class Note extends Model
 {
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = ['title'];
 

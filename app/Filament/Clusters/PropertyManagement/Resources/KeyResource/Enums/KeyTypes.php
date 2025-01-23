@@ -54,9 +54,9 @@ enum KeyTypes: string implements HasLabel, HasIcon, HasColor
      *
      * This friendly label is displayed in the user interface to help users understand the type of key.
      *
-     * @return string|null A user-friendly label for the key type.
+     * @return string A user-friendly label for the key type.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->value;
     }
@@ -67,9 +67,9 @@ enum KeyTypes: string implements HasLabel, HasIcon, HasColor
      * Icons provide a visual cue to help users quickly recognize the key type.
      * This method returns the name of the icon used.
      *
-     * @return string|null The icon name for the key type.
+     * @return string The icon name for the key type.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return 'heroicon-o-key';
     }
@@ -83,9 +83,9 @@ enum KeyTypes: string implements HasLabel, HasIcon, HasColor
      * - Master keys are marked with 'danger' to reflect their importance.
      * - Reproduction keys are marked with 'info' as they are duplicates.
      *
-     * @return string|null The color code for the key type.
+     * @return string The color code for the key type.
      */
-    public function getColor(): ?string
+    public function getColor(): string
     {
         return match ($this) {
             self::Master => 'danger',
