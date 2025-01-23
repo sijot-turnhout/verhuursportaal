@@ -38,7 +38,6 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
-        "driftingly/rector-laravel": "^2.0",
         "fakerphp/faker": "^1.23",
         "jetbrains/phpstorm-attributes": "^1.2",
         "larastan/larastan": "3.0",
@@ -51,6 +50,7 @@
         "pestphp/pest-plugin-livewire": "^3.0",
         "pestphp/pest-plugin-watch": "^3.0",
         "phpunit/phpunit": "^11.0.1",
+        "rector/rector": "^2.0",
         "staabm/phpstan-todo-by": "^0.2"
     },
     "autoload": {
