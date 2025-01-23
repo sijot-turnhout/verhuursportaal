@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Notifications\Notifiable;
+use JetBrains\PhpStorm\Deprecated;
 
 /**
  * Class Tenant
@@ -84,10 +85,10 @@ final class Tenant extends Model implements BannableInterface
      * Attribute cast to get the full name of the tenant
      *
      * @todo We need to investigate if we can remove this attribute
-     * @deprecated
      *
      * @return Attribute<non-falsy-string, never>
      */
+    #[Deprecated(reason: 'Deprecated in favor of using the mysql virtual columns', since: '1.0')]
     protected function fullName(): Attribute
     {
         return Attribute::get(fn(): string => "{$this->firstName} {$this->lastName}");

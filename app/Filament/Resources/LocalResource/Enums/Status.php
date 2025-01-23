@@ -7,6 +7,7 @@ namespace App\Filament\Resources\LocalResource\Enums;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use JetBrains\PhpStorm\Deprecated;
 
 /**
  * Enum representing the status of an issue within the application.
@@ -91,10 +92,9 @@ enum Status: string implements HasColor, HasIcon, HasLabel
      * This method can be used to determine if the status is currently `Open`.
      * It provides a convenient way to check the state without comparing enum values directly.
      *
-     * @deprecated v1.1.0 - This function will be refactored to a more universal approach with enum helpers support.
-     *
      * @return bool True if the status is `Open`, otherwise false.
      */
+    #[Deprecated(reason: 'Will be solved with the Comperable trait from ArchTech/enums', since: '1.0')]
     public function isOpenIssueTicket(): bool
     {
         return self::Open === $this;
@@ -106,10 +106,9 @@ enum Status: string implements HasColor, HasIcon, HasLabel
      * This method can be used to determine if the status is currently `Closed`.
      * It provides a convenient way to check the state without comparing enum values directly.
      *
-     * @deprecated v1.1.0 - This function will be refactored to a more universal approach with enum helpers support.
-     *
      * @return bool True if the status is `Closed`, otherwise false.
      */
+    #[Deprecated(reason: 'Will be solved with the Comperable trait from ArchTech/enums', since: '1.0')]
     public function isClosedIssueTicket(): bool
     {
         return self::Closed === $this;

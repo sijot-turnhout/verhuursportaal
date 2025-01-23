@@ -7,6 +7,7 @@ namespace App\Concerns;
 use App\Enums\LeaseStatus;
 use App\Models\Utility;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use JetBrains\PhpStorm\Deprecated;
 
 trait HasUtilityMetrics
 {
@@ -20,9 +21,8 @@ trait HasUtilityMetrics
 
     /**
      * Method to check if the lease is registered as finalized.
-     *
-     * @deprecated v1.0.0
      */
+    #[Deprecated(reason: 'Will be solved with the Comperable trait from ArchTech/enums', since: '1.0')]
     public function isFinalized(): bool
     {
         return LeaseStatus::Finalized === $this->status;
@@ -30,9 +30,8 @@ trait HasUtilityMetrics
 
     /**
      * Method to check if the lease is registered as confirmed.
-     *
-     * @deprecated v1.0.0
      */
+    #[Deprecated(reason: 'Will be solved with the Comperable trait from ArchTech/enums', since: '1.0')]
     public function isConfirmed(): bool
     {
         return LeaseStatus::Confirmed === $this->status;
