@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use Filament\Support\Contracts\HasIcon;
-use UnhandledMatchError;
 
 /**
  * Enum UtilityMetricTypes

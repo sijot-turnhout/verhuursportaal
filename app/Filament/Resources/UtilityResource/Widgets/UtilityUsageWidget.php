@@ -10,7 +10,6 @@ use App\Filament\Support\LineChartBase;
 use App\Models\Utility;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 
 /**

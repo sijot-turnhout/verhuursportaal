@@ -10,7 +10,6 @@ use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
 use Exception;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Illuminate\Contracts\Support\Htmlable;
 
 final class ActivityRegistrationChart extends AdvancedChartWidget
 {
