@@ -201,6 +201,7 @@ final class LeaseResource extends Resource
                 Tables\Columns\TextColumn::make('period')->label('Periode')
                     ->weight(FontWeight::SemiBold)
                     ->icon('heroicon-o-exclamation-triangle')
+                    /** @phpstan-ignore-next-line */
                     ->iconColor(fn(Lease $lease) => $lease->risk_accessment_label->getColor() ?? 'gray'),
 
                 Tables\Columns\TextColumn::make('tenant.fullName')->label('Huurder')
@@ -247,11 +248,11 @@ final class LeaseResource extends Resource
      * This method returns the lease's period to be displayed as the title in global search results.
      *
      * @param  Model $record  The lease record being displayed in search results.
-     * @return string|\Illuminate\Contracts\Support\Htmlable
+     * @return string
      *
      * @phpstan-param Lease $record
      */
-    public static function getGlobalSearchResultTitle(Model $record): string|\Illuminate\Contracts\Support\Htmlable
+    public static function getGlobalSearchResultTitle(Model $record): string
     {
         return $record->period;
     }

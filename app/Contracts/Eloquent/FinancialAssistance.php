@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 interface FinancialAssistance
 {
+    /**
+     * @phpstan-ignore-next-line
+     */
     public function billableTotal(): Attribute;
 
     public function getDiscountTotal(): int|float|string;

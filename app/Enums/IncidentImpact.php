@@ -18,7 +18,10 @@ enum IncidentImpact: int implements HasColor, HasLabel, HasIcon
     case High = 4;
     case VeryHigh = 5;
 
-    public function getColor(): string|array|null
+    /**
+     * @return string|array<int, string>
+     */
+    public function getColor(): string|array
     {
         return match ($this) {
             self::Unknown, self::VeryLow => 'gray',
@@ -29,7 +32,7 @@ enum IncidentImpact: int implements HasColor, HasLabel, HasIcon
         };
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Unknown => trans('Onbekend'),
@@ -41,7 +44,7 @@ enum IncidentImpact: int implements HasColor, HasLabel, HasIcon
         };
     }
 
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Unknown => 'heroicon-o-question-mark-circle',

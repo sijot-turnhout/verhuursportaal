@@ -59,7 +59,15 @@ enum QuotationStatus: string implements HasLabel, HasIcon, HasColor
      */
     case Expired = 'Verlopen offerte';
 
-    public function getIcon(): ?string
+    /**
+     * Returns the appropriate Heroicon name for the current status of the object.
+     *
+     * This function maps the current status of the object to a corresponding Heroicon
+     * class name, which can be used to display an icon representing the status.
+     *
+     * @return string The Heroicon class name for the current status.
+     */
+    public function getIcon(): string
     {
         return match ($this) {
             self::Draft => 'heroicon-o-pencil-square',
@@ -81,7 +89,7 @@ enum QuotationStatus: string implements HasLabel, HasIcon, HasColor
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Declined => 'danger',
@@ -98,9 +106,9 @@ enum QuotationStatus: string implements HasLabel, HasIcon, HasColor
      * This method returns the string value of the status, which can be used as a
      * label in the user interface to display the name of the status in a readable format.
      *
-     * @return string|null The label for the current status, or null if not defined.
+     * @return string The label for the current status, or null if not defined.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->value;
     }

@@ -43,6 +43,10 @@ final class MarkAsFinalizedAction extends Action
             ->action(fn(array $data, Quotation $quotation) => self::performActionLogic($data, $quotation));
     }
 
+    /**
+     *
+     * @return array<\Filament\Forms\Components\Component>
+     */
     private static function modalFormConfiguration(): array
     {
         return [
@@ -53,6 +57,11 @@ final class MarkAsFinalizedAction extends Action
         ];
     }
 
+    /**
+     * @param  array<mixed>  $formData
+     * @param  Quotation     $quotation
+     * @return void
+     */
     private static function performActionLogic(array $formData, Quotation $quotation): void
     {
         DB::transaction(function () use ($formData, $quotation): void {

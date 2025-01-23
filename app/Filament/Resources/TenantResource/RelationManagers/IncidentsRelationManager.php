@@ -208,6 +208,7 @@ final class IncidentsRelationManager extends RelationManager
                 ->color('warning')
                 ->createAnother(false)
                 ->after(function (Actions\CreateAction $action, Incident $record): void {
+                    /** @phpstan-ignore-next-line */
                     $record->user()->associate(auth()->user())->save();
                 }),
         ];

@@ -43,9 +43,9 @@ enum Status: string implements HasColor, HasIcon, HasLabel
      *
      * Returns the color value associated with the status.
      *
-     * {@inheritDoc}
+     * @return string
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Open => 'danger',
@@ -59,9 +59,9 @@ enum Status: string implements HasColor, HasIcon, HasLabel
      * Returns the human-readable label for the status, which is displayed in the UI.
      * This label is localized and should be understandable to end-users.
      *
-     * @return string|null The label associated with the status.
+     * @return string The label associated with the status.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Open => 'Open',
@@ -75,9 +75,9 @@ enum Status: string implements HasColor, HasIcon, HasLabel
      * Returns the icon used to visually represent the status in the UI. The icons are typically
      * Heroicons, which are used throughout Filament for consistent and recognizable visuals.
      *
-     * @return string|null The icon associated with the status.
+     * @return string The icon associated with the status.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Open => 'heroicon-o-exclamation-circle',

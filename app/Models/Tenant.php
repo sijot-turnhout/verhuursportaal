@@ -86,7 +86,7 @@ final class Tenant extends Model implements BannableInterface
      * @todo We need to investigate if we can remove this attribute
      * @deprecated
      *
-     * @return Attribute<string, never>
+     * @return Attribute<non-falsy-string, never>
      */
     protected function fullName(): Attribute
     {

@@ -55,8 +55,6 @@ enum UtilityMetricTypes: string implements HasIcon
      * on invoices or billing documents, providing clear details about the associated charges.
      *
      * @return string The descriptive billing line corresponding to the utility type.
-     *
-     * @throws UnhandledMatchError If the method is called on an unsupported or undefined utility type. This should not occur if the enum cases are strictly defined.
      */
     public function getBillingLine(): string
     {
@@ -73,9 +71,9 @@ enum UtilityMetricTypes: string implements HasIcon
      * This method returns the icon name to be used in the UI for representing the specific
      * utility metric. Icons are selected to visually correspond with the type of resource being tracked.
      *
-     * @return string|null  The icon name corresponding to the utility metric type.
+     * @return string The icon name corresponding to the utility metric type.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Gas => 'heroicon-o-fire',
@@ -90,9 +88,9 @@ enum UtilityMetricTypes: string implements HasIcon
      * This method returns the suffix to be appended to the numerical value of the metric,
      * representing the unit of measurement (e.g., m3 for gas, L for water, KWh for electricity).
      *
-     * @return string|null  The unit suffix corresponding to the utility metric type.
+     * @return string  The unit suffix corresponding to the utility metric type.
      */
-    public function getSuffix(): ?string
+    public function getSuffix(): string
     {
         return match ($this) {
             self::Gas => 'm3',

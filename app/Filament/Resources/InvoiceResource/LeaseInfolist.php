@@ -86,8 +86,6 @@ final readonly class LeaseInfolist
     /**
      * Create the security deposit information section
      *
-     * @todo
-     *
      * @return Tab The security deposit information section.
      */
     private static function securityDepositInformatioNSection(): Tab
@@ -187,7 +185,7 @@ final readonly class LeaseInfolist
     /**
      * Create the lease information section.
      *
-     * @return Section The lease information section.
+     * @return Tab The lease information Tab.
      */
     private static function leaseInformationSection(): Tab
     {

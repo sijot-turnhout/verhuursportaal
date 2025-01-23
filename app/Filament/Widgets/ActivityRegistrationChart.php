@@ -94,9 +94,9 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Gets the label (title) for the chart based on the selected filter.
      *
-     * @return string|Htmlable|null The translated chart label.
+     * @return string The translated chart label.
      */
-    public function getLabel(): string|Htmlable|null
+    public function getLabel(): string
     {
         /**
          * Ignore following PHPStan error here (Match expression does not handle remaining values: string|null)
@@ -115,9 +115,9 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Gets the chart's heading, which displays the total number of registered activities based on the selected filter.
      *
-     * @return string|Htmlable|null The translated heading with the activity count.
+     * @return string The translated heading with the activity count.
      */
-    public function getHeading(): string|Htmlable|null
+    public function getHeading(): string
     {
         $registerActivitiesToday = Activity::query()->whereDate('created_at', Carbon::today())->count();
         $registerActivitiesLastWeek = Activity::query()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
@@ -141,9 +141,9 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * Returns the available filters for the chart.
      *
-     * @return array<string, string>|null The available filter options.
+     * @return array<string, string> The available filter options.
      */
-    protected function getFilters(): ?array
+    protected function getFilters(): array
     {
         return [
             'today' => 'Vandaag',
@@ -189,11 +189,11 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
      * This is a helper function used by the filter-specific data retrieval methods.
      * It leverages the Flowframe\Trend library to aggregate activity data.
      *
-     * @param  Carbon $start    The start of the period.
-     * @param  Carbon $end      The end of the period.
-     * @param  string $period   The aggregation period (e.g., 'perHour', 'perDay', 'perMonth').
-     * @return array<int>       The formatted chart data.
-     * @throws Exception        If there's an issue with the $period value.
+     * @param  Carbon $start        The start of the period.
+     * @param  Carbon $end          The end of the period.
+     * @param  string $period       The aggregation period (e.g., 'perHour', 'perDay', 'perMonth').
+     * @return array<string, mixed> The formatted chart data.
+     * @throws Exception            If there's an issue with the $period value.
      */
     private function getActivityChartData(Carbon $start, Carbon $end, string $period): array
     {

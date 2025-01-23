@@ -56,14 +56,19 @@ enum UserGroup: string implements HasColor, HasLabel, HasIcon
      * The label is derived from the enum's name, making it a simple and consistent
      * representation of the group.
      *
-     * @return string|null  The label corresponding to the user group.
+     * @return string  The label corresponding to the user group.
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->name;
     }
 
-    public function getIcon(): ?string
+    /**
+     * Gets the Heroicon icon associated with this UserGroup.
+     *
+     * @return string The name of the Heroicon icon to be used.
+     */
+    public function getIcon(): string
     {
         return 'heroicon-o-users';
     }
@@ -78,7 +83,7 @@ enum UserGroup: string implements HasColor, HasLabel, HasIcon
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Leiding => 'info',

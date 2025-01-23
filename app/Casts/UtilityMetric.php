@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @implements CastsAttributes<self, \App\Models\Utility>
  *
  * @template TModel of \App\Models\Utility
- * @template TGet of mixed|null
- * @template TSet of mixed|null
  */
 final class UtilityMetric implements CastsAttributes
 {

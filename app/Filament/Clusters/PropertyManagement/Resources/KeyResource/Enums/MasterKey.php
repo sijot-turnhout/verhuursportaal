@@ -42,9 +42,9 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
     /**
      * Get the user-friendly name for this key type.
      *
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::True => __('Loper'),
@@ -55,9 +55,9 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
     /**
      * Provides a more detailed explanation of this key type.
      *
-     * @return string|null
+     * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return match ($this) {
             self::True => __('Bij lopers is het niet nodig om de toegangen te registreren van de sleutel omdat word geacht dat deze sleutel toegang heeft tot alle lokalen.'),
@@ -70,7 +70,7 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::True => 'danger',
@@ -81,9 +81,9 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
     /**
      * Gets the icon used to represent this key type visually.
      *
-     * @return string|null
+     * @return string
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::True => 'heroicon-o-exclamation-circle',

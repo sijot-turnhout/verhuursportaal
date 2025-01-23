@@ -20,12 +20,15 @@ enum IncidentCodes: string implements HasDescription, HasLabel, HasIcon, HasColo
     case ExtraGuest = 'Overcapaciteit';
     case Other = 'Andere inbreuken';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->value;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @todo Check if we can register the descriptions to php attributes.
+     */
+    public function getDescription(): string
     {
         $description = match ($this) {
             self::LatePayment => 'Een te late betaling, wat een risico vormt voor de financiële stabiliteit.',
@@ -41,7 +44,7 @@ enum IncidentCodes: string implements HasDescription, HasLabel, HasIcon, HasColo
         return trans($description);
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::LatePayment, self::RuleViolation, self::ExtraGuest => 'warning',
@@ -51,7 +54,7 @@ enum IncidentCodes: string implements HasDescription, HasLabel, HasIcon, HasColo
         };
     }
 
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::LatePayment => 'heroicon-o-document-currency-dollar',

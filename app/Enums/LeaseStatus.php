@@ -90,7 +90,7 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      *
      * {@inheritDoc}
      */
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Request => 'info',
@@ -109,9 +109,9 @@ enum LeaseStatus: string implements HasColor, HasIcon, HasLabel
      *
      * @see https://heroicons.com/ for reference on available icons.
      *
-     * @return string|null The icon name corresponding to the lease status. Uses Heroicons naming convention.
+     * @return string The icon name corresponding to the lease status. Uses Heroicons naming convention.
      */
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Request => 'heroicon-m-plus-circle',

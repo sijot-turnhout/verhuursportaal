@@ -8,6 +8,7 @@ use App\Enums\ContactMessageStatus;
 use App\Filament\Resources\ContactSubmissionResource;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 /**
  * Class ListContactSubmissions
@@ -46,7 +47,7 @@ final class ListContactSubmissions extends ListRecords
     {
         return [
             ContactMessageStatus::New->value => Tab::make()->query(fn($query) => $query->where('status', ContactMessageStatus::New)),
-            ContactMessageStatus::InProgress->value => Tab::make()->query(fn($query) => $query->where('status', ContactMessageStatus::InProgress)),
+            ContactMessageStatus::InProgress->value => Tab::make()->query(fn(Builder $query) => $query->where('status', ContactMessageStatus::InProgress)),
             ContactMessageStatus::Completed->value => Tab::make()->query(fn($query) => $query->where('status', ContactMessageStatus::Completed)),
             null => Tab::make('Alle'),
         ];
