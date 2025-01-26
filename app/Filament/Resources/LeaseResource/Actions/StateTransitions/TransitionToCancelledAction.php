@@ -36,7 +36,7 @@ final class TransitionToCancelledAction extends StateTransitionAction
             ->modalHeading(trans('aanvraag annuleren'))
             ->modalWidth(MaxWidth::Large)
             ->modalDescription(trans('De huurder heeft aangegeven dat hij/zij de verhuring wenst te annuleren. Of de verhuur kan doormiddel van omstandigheden niet doorgaan. Enkel vragen we u nog de redenen voor de annulatie op te geven hieronder.'))
-            ->form(fn (): array => self::cancellationModalForm())
+            ->form(fn(): array => self::cancellationModalForm())
             ->action(fn(array $data, Lease $lease) => self::performFormActionLogic($data, $lease));
     }
 
@@ -53,24 +53,6 @@ final class TransitionToCancelledAction extends StateTransitionAction
     public static function canTransition(Model $model): bool
     {
         return Gate::allows('update', $model) && $model->status->in(enums: self::configureAllowedStates());
-    }
-
-    /**
-     * Define the form structure for the cancellation modal.
-     * This form includes a required textarea for the user to provide the reason for cancellation.
-     *
-     * @return array  The array of form components to be displayed in the model.
-     */
-    private static function cancellationModalForm(): array
-    {
-        return [
-            Textarea::make('cancellation_reason')
-                ->label('Reden tot annulatie')
-                ->translateLabel()
-                ->placeholder('Beschrijf kort waarom de verhuring/aanvraag is geannuleerd')
-                ->rows(4)
-                ->required(),
-        ];
     }
 
     /**
@@ -93,5 +75,23 @@ final class TransitionToCancelledAction extends StateTransitionAction
     {
         dd($data);
         $model->state()->transitionToCancelled();
+    }
+
+    /**
+     * Define the form structure for the cancellation modal.
+     * This form includes a required textarea for the user to provide the reason for cancellation.
+     *
+     * @return array  The array of form components to be displayed in the model.
+     */
+    private static function cancellationModalForm(): array
+    {
+        return [
+            Textarea::make('cancellation_reason')
+                ->label('Reden tot annulatie')
+                ->translateLabel()
+                ->placeholder('Beschrijf kort waarom de verhuring/aanvraag is geannuleerd')
+                ->rows(4)
+                ->required(),
+        ];
     }
 }
