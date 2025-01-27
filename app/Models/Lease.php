@@ -41,8 +41,10 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property int|null                        $feedback_id             The unique identifier from the feedback when there is any feedback provided on the lease.
  * @property int|null                        $invoice_id              The unique identifier from the invoice when there is an invoice attached to the lease.
  * @property LeaseStatus                     $status                  The current registered status of the lease in the application.
+ * @property string                          $cancellation_reason     The reason why the lease requestt is cancelled by the tenant of an admin.
  * @property \Illuminate\Support\Carbon|null $metrics_registered_at   The timestamp that indicates when the energy utility metrics are registered (finalized)
  * @property \Illuminate\Support\Carbon|null $feedback_valid_until    The timestamp that indicates when the feedback form for the lease will expire
+ * @property \Illuminate\Support\Carbon|null $cancelled_at            The Timestamp that indicates when the lease request is cancelled.
  * @property \Illuminate\Support\Carbon|null $created_at              The timestamp from when the record has been created in the database storage.
  * @property \Illuminate\Support\Carbon|null $updated_at              The timestamp from when the record has been updated last time in the database.
  *

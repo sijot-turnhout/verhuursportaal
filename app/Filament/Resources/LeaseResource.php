@@ -230,6 +230,21 @@ final class LeaseResource extends Resource
     }
 
     /**
+     * Retrieve the base Eloquent query builder for the resource, with additional selected columns and eager-loaded relationships.
+     *
+     * This method overrides the parent class's `getEloquentQuery()` method to customize the query by selecting specific columns
+     * and eager-loading the related `tenant` model to optimize database performance.
+     *
+     * @return Builder  The query builder instance with the required selections and relationships.
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->select(['id', 'tenant_id', 'status', 'persons', 'created_at', 'arrival_date', 'risk_accessment_score', 'risk_accessment_label', 'departure_date', 'group'])
+            ->with(['tenant']);
+    }
+
+    /**
      * Retrieves an array of attributes that are globally searchable for the lease resource.
      *
      * This method defines which attributes of the `Lease` resource can be searched using global search functionality
