@@ -11,6 +11,7 @@ use App\Enums\LeaseStatus;
 use App\Enums\RiskLevel;
 use App\Filament\Resources\LeaseResource\States;
 use App\Filament\Resources\LeaseResource\States\LeaseStateContract;
+use App\Filament\Support\Concerns\HasStatusses;
 use App\Observers\LeaseObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -61,6 +62,7 @@ final class Lease extends Model
     use HasFactory;
     use HasFeedbackSupport;
     use HasUtilityMetrics;
+    use HasStatusses;
 
     /**
      * List of database columns that are protected from mass assignment.

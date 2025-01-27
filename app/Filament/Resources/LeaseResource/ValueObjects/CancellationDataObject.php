@@ -12,7 +12,7 @@ final class CancellationDataObject extends Data
         protected readonly string $cancellationReason,
     ) {}
 
-    public function getCancellationReason(): string
+    public function getReason(): string
     {
         return $this->cancellationReason;
     }

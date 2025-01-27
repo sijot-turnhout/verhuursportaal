@@ -7,6 +7,7 @@ namespace App\Builders;
 use App\Enums\LeaseStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use Illuminate\Database\Eloquent\Builder;
+use JetBrains\PhpStorm\Deprecated;
 
 /**
  * Class LeaseBuilder
@@ -28,6 +29,11 @@ final class LeaseBuilder extends Builder
             && $this->model->deposit->status->is(DepositStatus::Paid);
     }
 
+    public function registerCancellation(string $reason): bool
+    {
+        return $this->model->update(['cancellation_reason' => $reason, 'cancelled_at' => now()]);
+    }
+
     /**
      * Updates the status of the lease to the specified `LeaseStatus`.
      *
@@ -36,6 +42,7 @@ final class LeaseBuilder extends Builder
      * @param  LeaseStatus $leaseStatus  The new status to be applied to the lease.
      * @return bool                      Returns true if the status update is successful, false otherwise.
      */
+    #[Deprecated(reason: 'In favor of the new setStatus method on models. (See GH #108)', since: '1.0')]
     public function markAs(LeaseStatus $leaseStatus): bool
     {
         return $this->model->update(['status' => $leaseStatus]);
