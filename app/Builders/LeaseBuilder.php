@@ -29,6 +29,23 @@ final class LeaseBuilder extends Builder
             && $this->model->deposit->status->is(DepositStatus::Paid);
     }
 
+    /**
+     * Registers a cancellation for the lease by updating the cancellation reason and timestamp.
+     *
+     * This method is responsible for handling the cancellation process of a lease. It updates the
+     * lease record with the provided cancellation reason and sets the cancellation timestamp to
+     * the current date and time. This ensures that the lease is marked as cancelled and the reason
+     * for the cancellation is recorded for future reference.
+     *
+     * @param  string $reason  The reason for cancelling the lease. This should be a descriptive
+     *                         explanation provided by the user or system indicating why the lease
+     *                         is being cancelled.
+     *
+     * @return bool            Returns true if the update was successful, indicating that the lease record
+     *                         was correctly updated with the cancellation reason and timestamp. Returns
+     *                         false if the update failed, which could be due to database errors or invalid
+     *                         input.
+     */
     public function registerCancellation(string $reason): bool
     {
         return $this->model->update(['cancellation_reason' => $reason, 'cancelled_at' => now()]);

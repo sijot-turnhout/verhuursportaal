@@ -54,6 +54,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property Deposit $deposit
  *
  * @method bool markAs($leaseStatus)
+ * @method bool registerCancellation($status)
  */
 #[ObservedBy(LeaseObserver::class)]
 final class Lease extends Model
