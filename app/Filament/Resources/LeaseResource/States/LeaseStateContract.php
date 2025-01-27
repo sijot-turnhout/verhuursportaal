@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\States;
 
+use App\Filament\Resources\LeaseResource\ValueObjects\CancellationDataObject;
+
 /**
  * Interface LeaseStateContract
  *
@@ -62,9 +64,10 @@ interface LeaseStateContract
      * This method cancels the lease and moves it to the cancelled state, ending the process
      * without completing the rental agreement.
      *
+     * @param  CancellationDataObject $cancellationObject  The data object that holds all the information for a lease request cancellation.
      * @return bool
      */
-    public function transitionToCancelled(): bool;
+    public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool;
 
     /**
      * Transitions the current state to "Archived."

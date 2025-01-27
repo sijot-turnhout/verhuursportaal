@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\Actions\StateTransitions;
 
 use App\Enums\LeaseStatus;
+use App\Filament\Resources\LeaseResource\ValueObjects\CancellationDataObject;
 use App\Filament\Support\Actions\StateTransitionAction;
 use App\Models\Lease;
 use Filament\Forms\Components\Textarea;
@@ -73,8 +74,8 @@ final class TransitionToCancelledAction extends StateTransitionAction
      */
     public static function performFormActionLogic(array $data, Model $model): void
     {
-        dd($data);
-        $model->state()->transitionToCancelled();
+        $cancellationDataObject = new CancellationDataObject(cancellationReason: $data['cancellation_reason']);
+        $model->state()->transitionToCancelled($cancellationDataObject);
     }
 
     /**

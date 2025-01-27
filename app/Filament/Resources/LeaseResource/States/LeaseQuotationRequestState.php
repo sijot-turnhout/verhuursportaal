@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\States;
 
 use App\Enums\LeaseStatus;
+use App\Filament\Resources\LeaseResource\ValueObjects\CancellationDataObject;
 
 /**
  * Class LeaseQuotationRequestState
@@ -38,7 +39,7 @@ final class LeaseQuotationRequestState extends LeaseState
     /**
      * {@inheritdoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool
     {
         return $this->lease->markAs(LeaseStatus::Cancelled);
     }
