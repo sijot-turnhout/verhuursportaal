@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added support for PHPStan 2.0 at level 7.
+- Ondersteuning voor de registratie van de annulatie redenen en datum voor verhuuraanvragen.
 
 ### Changed
 

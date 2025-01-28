@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\States;
 
+use App\Filament\Resources\LeaseResource\ValueObjects\CancellationDataObject;
 use App\Models\Lease;
 use LogicException;
 
@@ -65,7 +66,7 @@ class LeaseState implements LeaseStateContract
     /**
      * {@inheritDoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool
     {
         throw new LogicException('The transition to the cancelled state is not valid on the current state');
     }

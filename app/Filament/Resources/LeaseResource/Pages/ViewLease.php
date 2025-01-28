@@ -73,7 +73,7 @@ final class ViewLease extends ViewRecord
             StateTransitions\TransitionToQuotationAction::make(),
             StateTransitions\TransitionToConfirmedAction::make(),
             StateTransitions\TransitionToFinalizedAction::make(),
-            StateTransitions\transitionToCancelledAction::make(),
+            StateTransitions\TransitionToCancelledAction::make(),
         ])
             ->button()
             ->label(trans('markeren als')) // Label translates to 'Mark as' for accessibility.
