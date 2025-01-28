@@ -82,7 +82,7 @@ final class TransitionToCancelledAction extends StateTransitionAction
      * Define the form structure for the cancellation modal.
      * This form includes a required textarea for the user to provide the reason for cancellation.
      *
-     * @return array<int, TextArea>  The array of form components to be displayed in the model.
+     * @return array<int, Textarea>  The array of form components to be displayed in the model.
      */
     private static function cancellationModalForm(): array
     {
