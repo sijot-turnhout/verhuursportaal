@@ -68,8 +68,8 @@ final class TransitionToCancelledAction extends StateTransitionAction
      * Perform the core logic of the action, which includes transitioning the lease to the "Cancelled" state
      * and handling addtional form data such as the cancellation reason.
      *
-     * @param  array $data  The cancellation data that is submitted by the authenticated user.
-     * @param  Lease $model The resource entity to perform the state transition on.
+     * @param  array<mixed> $data  The cancellation data that is submitted by the authenticated user.
+     * @param  Lease        $model The resource entity to perform the state transition on.
      * @return void
      */
     public static function performFormActionLogic(array $data, Model $model): void
@@ -82,7 +82,7 @@ final class TransitionToCancelledAction extends StateTransitionAction
      * Define the form structure for the cancellation modal.
      * This form includes a required textarea for the user to provide the reason for cancellation.
      *
-     * @return array  The array of form components to be displayed in the model.
+     * @return array<int, TextArea>  The array of form components to be displayed in the model.
      */
     private static function cancellationModalForm(): array
     {

@@ -64,7 +64,7 @@ interface LeaseStateContract
      * This method cancels the lease and moves it to the cancelled state, ending the process
      * without completing the rental agreement.
      *
-     * @param  CancellationDataObject $cancellationObject  The data object that holds all the information for a lease request cancellation.
+     * @param  CancellationDataObject $cancellationDataObject  The data object that holds all the information for a lease request cancellation.
      * @return bool
      */
     public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool;
