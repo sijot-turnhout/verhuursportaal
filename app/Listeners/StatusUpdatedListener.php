@@ -25,9 +25,9 @@ final readonly class StatusUpdatedListener
      * @param  StatusUpdated $statusUpdated The event instance containing the status update details.
      * @return void
      */
-    public function handle(StatusUpdated $statusUpdated)
+    public function handle(StatusUpdated $statusUpdated): void
     {
-        if (is_null($statusUpdated->logMessage)) {
+        if (null === $statusUpdated->logMessage) {
             return;
         }
 

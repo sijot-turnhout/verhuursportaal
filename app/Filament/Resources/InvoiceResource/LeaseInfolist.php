@@ -63,7 +63,7 @@ final readonly class LeaseInfolist
         return Tab::make('Annulatie gegevens')
             ->translateLabel()
             ->icon(fn(Lease $lease): string => $lease->status->getIcon())
-            ->visible(fn (Lease $lease): bool => $lease->status->is(LeaseStatus::Cancelled))
+            ->visible(fn(Lease $lease): bool => $lease->status->is(LeaseStatus::Cancelled))
             ->columns(12)
             ->schema([
                 TextEntry::make('cancelled_at')
