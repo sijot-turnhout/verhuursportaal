@@ -33,7 +33,9 @@ trait HasStatusses
 
         // Dispatch an event to notify listeners about the status change.
         // The event provides the old status, the new status, and the model instance.
-        event(new StatusUpdated($oldStatus, $newStatus, $this));
+        event(new StatusUpdated($oldStatus, $newStatus, $this, trans('Heeft de status van een verhuring gewijzigd naar :status', [
+            'status' => $newStatus->getLabel(),
+        ])));
 
         // Return the current model instance for method chaining.
         return $this;

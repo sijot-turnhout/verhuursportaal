@@ -19,13 +19,15 @@ final readonly class StatusUpdated
     /**
      * Creates a new StatusUpdated event instance.
      *
-     * @param mixed $oldStatus The old status of the model.
-     * @param mixed $newStatus The new status of the model.
-     * @param Model $model     The model instance that has been updated.
+     * @param mixed  $oldStatus  The old status of the model.
+     * @param mixed  $newStatus  The new status of the model.
+     * @param Model  $model      The model instance that has been updated.
+     * @param string $logMessage The message that needs to be recorded in the activity log.
      */
     public function __construct(
         public mixed $oldStatus,
         public mixed $newStatus,
         public Model $model,
+        public ?string $logMessage = null,
     ) {}
 }
