@@ -62,8 +62,8 @@ final class Lease extends Model
     /** @use HasFactory<\Database\Factories\LeaseFactory> */
     use HasFactory;
     use HasFeedbackSupport;
-    use HasUtilityMetrics;
     use HasStatusses;
+    use HasUtilityMetrics;
 
     /**
      * List of database columns that are protected from mass assignment.
