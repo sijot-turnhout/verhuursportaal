@@ -20,7 +20,7 @@
         "filament/filament": "^3.2.64",
         "flowframe/laravel-trend": "^0.2.0",
         "guava/filament-knowledge-base": "^1.4",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^11.31",
         "laravel/pennant": "^1.11",
         "laravel/prompts": "^0.1.20",
         "laravel/pulse": "^1.2",
@@ -40,13 +40,14 @@
         "barryvdh/laravel-debugbar": "^3.14",
         "driftingly/rector-laravel": "^2.0",
         "fakerphp/faker": "^1.23",
+        "laravel/pail": "^1.1",
         "jetbrains/phpstorm-attributes": "^1.2",
         "larastan/larastan": "3.0",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "laravel/telescope": "^5.0",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.0",
+        "nunomaduro/collision": "^8.1",
         "pestphp/pest": "^3.2.0",
         "pestphp/pest-plugin-livewire": "^3.0",
         "pestphp/pest-plugin-watch": "^3.0",
@@ -84,6 +85,10 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ]
     },
     "extra": {
