@@ -20,6 +20,11 @@ use Illuminate\Support\Collection;
  */
 final class UtilityUsageWidget extends LineChartBase
 {
+    /**
+     * The variablem that contains the applied filter from the chart widget.
+     *
+     * @var string|null
+     */
     public ?string $filter = 'unit';
 
     /**
