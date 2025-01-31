@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added docblocks for the Incident Code Enumeration (#103)
 - Added docblocks for the Incident Impact Enumeration (#102)
 - Added `$filter` docblock in the the UtilityUsageWidget (#100)
 - Added support for PHPStan 2.0 at level 7.
