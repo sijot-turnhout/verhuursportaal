@@ -18,6 +18,8 @@ use Saade\FilamentAutograph\Forms\Components\SignaturePad;
  * This final class defines the action for marking an invoice as finalized within the Filament admin panel.
  * It configures the action button with a specific color, icon, visibility condition, and a confirmation requirement.
  * Upon execution, it updates the invoice status and sends a success notification.
+ *
+ * @package App\Filament\Resources\QuotationResource\Actions
  */
 final class MarkAsFinalizedAction extends Action
 {
@@ -44,8 +46,10 @@ final class MarkAsFinalizedAction extends Action
     }
 
     /**
+     * Defines the form schema shown in the confirmation modal.
+     * The user must sign the quotation before finalizing it.
      *
-     * @return array<\Filament\Forms\Components\Component>
+     * @return array<\Filament\Forms\Components\Component>  An array of form components for the modal.
      */
     private static function modalFormConfiguration(): array
     {
@@ -58,8 +62,14 @@ final class MarkAsFinalizedAction extends Action
     }
 
     /**
-     * @param  array<mixed>  $formData
-     * @param  Quotation     $quotation
+     * Handles the action when the user confirms finalization.
+     *
+     * - Saves the signature and timestamp.
+     * - Updates the quotation status.
+     * - Sends a notification confirming the change.
+     *
+     * @param  array<mixed>  $formData   Data from the form (contains the signature)
+     * @param  Quotation     $quotation  The quotation being finalized.
      * @return void
      */
     private static function performActionLogic(array $formData, Quotation $quotation): void
