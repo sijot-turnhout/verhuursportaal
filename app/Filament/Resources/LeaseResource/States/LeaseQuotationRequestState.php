@@ -42,7 +42,7 @@ final class LeaseQuotationRequestState extends LeaseState
      */
     public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool
     {
-        return DB::transaction(function() use ($cancellationDataObject): bool {
+        return DB::transaction(function () use ($cancellationDataObject): bool {
             $status = LeaseStatus::Cancelled;
             $auditMessage = trans('Heeft de status van een verhuring gewijzigd naar :status', ['status' => $status->getLabel()]);
 
