@@ -11,11 +11,9 @@ use LogicException;
 /**
  * Class LeaseState
  *
- * This class implements both LeaseStateContract and StateTransitionAuthorizationCheckerContract,
- * providing logic for transitioning a lease between different states. Each transition method
- * throws a LogicException by default, signaling that the transition is not valid in the current
- * state. Specific lease states should extend this class and override these methods to provide
- * the correct transition behavior.
+ * This class implements the LeaseStateContract providing logic for transitioning a lease between different states.
+ * Each transition method throws a LogicException by default, signaling that the transition is not valid in the current state.
+ * Specific lease states should extend this class and override these methods to provide the correct transition behavior.
  *
  * @package App\Filament\Resources\LeaseResource\States
  */
