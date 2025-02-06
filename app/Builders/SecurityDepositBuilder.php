@@ -173,30 +173,4 @@ final class SecurityDepositBuilder extends Builder
             return $this->model->update(attributes: ['status' => DepositStatus::DueRefund]);
         });
     }
-
-    /**
-     * Records an action in the audit log for traceability
-     *
-     * Uses the activitylog to save details about the performed action,
-     * including the event type, message, related model, and extra properties.
-     *
-     * @param  string        $event            The type of event being logged (e.g., 'Refund').
-     * @param  string        $auditMessage     A description of the action performed.
-     * @param  array<mixed>  $extraProperties  Additional contextual data to include in the log.
-     * @param  Model|null    $performedOn      The model instance the action was performed on (optional).
-     * @return Activity|null                   The recorded audit log entry of null if it failed
-     */
-    private function recordAuditActionInAuditLog(
-        string $event,
-        string $auditMessage,
-        $extraProperties = [],
-        ?Model $performedOn = null,
-    ): Activity|null {
-        return activity(trans('waarborg-betalingen'))
-            ->performedOn($performedOn ?? $this->model)
-            ->event($event)
-            ->causedBy(auth()->user() ?? null)
-            ->withProperties($extraProperties)
-            ->log(trans($auditMessage));
-    }
 }

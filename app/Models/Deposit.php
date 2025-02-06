@@ -6,8 +6,11 @@ namespace App\Models;
 
 use App\Builders\SecurityDepositBuilder;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
+use App\Filament\Clusters\Billing\Resources\DepositResource\States;
+use App\Filament\Support\Concerns\HasStatusses;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use JetBrains\PhpStorm\Deprecated;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -40,6 +43,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 final class Deposit extends Model
 {
     use LogsActivity;
+    use HasStatusses;
 
     /**
      * The attributes that are mass assignable.
@@ -82,6 +86,26 @@ final class Deposit extends Model
     }
 
     /**
+     * Returns the appropriate DepositPaymentStatus instance based on the current deposit payment status.
+     *
+     * This method uses a `match` expression to determine the current state of the deposit payment based on its status.
+     * It then returns an instance of the corresponding state class, which handles specific behaviours and transitions for that state.
+     * Each deposit payment stratus maps to a different state class, ensuring the correct state logic is applied at any given point in the deposit lifecycle.
+     *
+     * @return DepositPaymentStateContract  The corresponding state class for the current deposit payment status.
+     */
+    public function paymentStatus(): States\PaymentStateContract
+    {
+        return match($this->status) {
+            DepositStatus::Paid => new States\PaidState($this),
+            DepositStatus::DueRefund => new States\DueRefundState($this),
+            DepositStatus::WithDrawn => new States\WithdrawnState($this),
+            DepositStatus::PartiallyRefunded => new States\PartiallyRefundedState($this),
+            DepositStatus::FullyRefunded => new States\FullyRefundedState($this),
+        };
+    }
+
+    /**
      * Creates and returns a new instance of SecurityDepositBuilder.
      *
      * This method accepts a query parameter and uses it to instantiate a new SecurityDepositBuilder object, which is then returned.
@@ -90,6 +114,7 @@ final class Deposit extends Model
      * @param  \Illuminate\Database\Query\Builder  $query The query builder instance.
      * @return SecurityDepositBuilder<self> Returns an instance of SecurityDepositBuilder
      */
+    #[Deprecated(reason: 'Phase out of the builder because the state machine implementation')]
     public function newEloquentBuilder($query): SecurityDepositBuilder
     {
         return new SecurityDepositBuilder($query);

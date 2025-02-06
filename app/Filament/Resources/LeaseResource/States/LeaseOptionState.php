@@ -27,7 +27,10 @@ final class LeaseOptionState extends LeaseState
      */
     public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool
     {
-        return DB::transaction(fn(): bool => $this->lease->setStatus(LeaseStatus::Cancelled)->registerCancellation($cancellationDataObject->getReason()));
+        return DB::transaction(function(): bool {
+            $this->lease->setStatus(LeaseStatus::Cancelled)
+                ->registerCancellation($cancellationDataObject->getReason())
+        });
     }
 
     /**
