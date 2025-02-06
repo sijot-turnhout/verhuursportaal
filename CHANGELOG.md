@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Making the log message for status changes dynamic in thei status support trait.
 - `laravel/laravel` boilerplate code is geupdate en synchroon met v11.6.1
 - Updated to changelog format to support the keep a chgangelog format.
 - Bump a couple composer to start the PHPStan 2.0 adoption.

@@ -19,10 +19,11 @@ trait HasStatusses
     /**
      * Sets the status of the model.
      *
-     * @param  mixed $newStatus  The new status valuevor the môdel.
-     * @return self              The current model instance
+     * @param  mixed        $newStatus      The new status valuevor the model.
+     * @param  string|null  $auditMessage   The message that needs to be recorded in the audit log of the application.
+     * @return self                         The current model instance
      */
-    public function setStatus(mixed $newStatus): self
+    public function setStatus(mixed $newStatus, ?string $auditMessage = null): self
     {
         // Store the old status for late use in the event?
         $oldStatus = $this->status;
@@ -33,9 +34,7 @@ trait HasStatusses
 
         // Dispatch an event to notify listeners about the status change.
         // The event provides the old status, the new status, and the model instance.
-        event(new StatusUpdated($oldStatus, $newStatus, $this, trans('Heeft de status van een verhuring gewijzigd naar :status', [
-            'status' => $newStatus->getLabel(),
-        ])));
+        event(new StatusUpdated($oldStatus, $newStatus, $this, $auditMessage));
 
         // Return the current model instance for method chaining.
         return $this;

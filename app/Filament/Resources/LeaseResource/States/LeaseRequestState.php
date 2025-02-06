@@ -50,6 +50,11 @@ final class LeaseRequestState extends LeaseState
      */
     public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool
     {
-        return DB::transaction(fn(): bool => $this->lease->setStatus(LeaseStatus::Cancelled)->registerCancellation($cancellationDataObject->getReason()));
+        return DB::transaction(function () use ($cancellationDataObject): bool {
+            $status = LeaseStatus::Cancelled;
+            $auditMessage = trans('Heeft de status van een verhuring gewijzigd naar :status', ['status' => $status->getLabel()]);
+
+            return $this->lease->setStatus(newStatus: $status, auditMessage: $auditMessage)->registerCancellation($cancellationDataObject->getReason());
+        });
     }
 }
