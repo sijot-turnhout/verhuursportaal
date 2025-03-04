@@ -204,7 +204,8 @@ final class KeyResource extends Resource
                         ->options(fn() => Local::query()->pluck('name', 'id'))
                         ->columnSpan(12)
                         ->requiredIf('is_master_key', MasterKey::False->value)
-                        ->hidden(fn(Forms\Get $get) => $get('is_master_key') === MasterKey::True->value),
+                        ->hidden(fn(Forms\Get $get) => $get('is_master_key') === MasterKey::True->value)
+                        ->live(),
 
                     Forms\Components\Textarea::make('description')
                         ->label(trans('Beschrijving/Extra informatie'))
