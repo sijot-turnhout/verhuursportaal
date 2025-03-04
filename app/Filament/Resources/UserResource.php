@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -20,7 +21,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Filament\Forms\Get;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -163,9 +163,9 @@ final class UserResource extends Resource
             ->icon('heroicon-m-user')
             ->schema([
                 Forms\Components\Select::make('user_group')->label('Functie')->required()->options(UserGroup::class)->columnSpan(3),
-                Forms\Components\TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
-                Forms\Components\TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
-                Forms\Components\TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
+                TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
+                TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
+                TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
             ])->columns(12);
     }
 
@@ -229,12 +229,12 @@ final class UserResource extends Resource
                 TextInput::make('password')
                     ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
                     ->password()
-                    ->required(fn ($livewire) => $livewire instanceof Pages\CreateUser)
+                    ->required(fn($livewire) => $livewire instanceof Pages\CreateUser)
                     ->revealable(filament()->arePasswordsRevealable())
                     ->rule(Password::default())
                     ->autocomplete('new-password')
-                    ->dehydrated(fn ($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
+                    ->dehydrated(fn($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn($state): string => Hash::make($state))
                     ->live()
                     ->columnSpan(6)
                     ->same('passwordConfirmation')
@@ -244,7 +244,7 @@ final class UserResource extends Resource
                     ->revealable(filament()->arePasswordsRevealable())
                     ->required()
                     ->columnSpan(6)
-                    ->visible(fn (Get $get): bool => filled($get('password')))
+                    ->visible(fn(Get $get): bool => filled($get('password')))
                     ->dehydrated(false),
             ])
             ->hidden(fn(string $operation): bool => 'edit' === $operation)
