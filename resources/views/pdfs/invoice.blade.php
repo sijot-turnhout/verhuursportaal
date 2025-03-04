@@ -25,7 +25,7 @@
 <body class="d-flex flex-column bg-white h-100">
 <div id="app"> {{-- CONTENT --}}
     <div class="container">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-9">
                 <h3 class="text-brown font-weight-bold">{{ __('Factuur :nr', ['nr' => $record->payment_reference]) }}</h3>
                 <p class="text-muted"><small>{{ $record->description }}</small></p>
