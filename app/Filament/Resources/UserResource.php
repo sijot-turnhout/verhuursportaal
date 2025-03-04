@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Enums\UserGroup;
+use App\Filament\Actions\GeneratePasswordAction;
 use App\Filament\Clusters\WebmasterResources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Infolists\Components\TextEntry;
@@ -18,6 +20,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Forms\Get;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 /**
  * @todo Fill in the empty table rows in the overview of the users.
@@ -221,8 +226,26 @@ final class UserResource extends Resource
             ->icon('heroicon-m-shield-check')
             ->description('Zorg ervoor dat het account een lang willekeurig wachtwoord gebruikt om veilig te blijven')
             ->schema([
-                Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->same('password_confirmation')->password()->revealable(),
-                Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
+                TextInput::make('password')
+                    ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
+                    ->password()
+                    ->required(fn ($livewire) => $livewire instanceof Pages\CreateUser)
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->rule(Password::default())
+                    ->autocomplete('new-password')
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
+                    ->live()
+                    ->columnSpan(6)
+                    ->same('passwordConfirmation')
+                    ->suffixActions([GeneratePasswordAction::make()]),
+                TextInput::make('passwordConfirmation')
+                    ->password()
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->required()
+                    ->columnSpan(6)
+                    ->visible(fn (Get $get): bool => filled($get('password')))
+                    ->dehydrated(false),
             ])
             ->hidden(fn(string $operation): bool => 'edit' === $operation)
             ->columns(12);
