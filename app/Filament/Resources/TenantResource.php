@@ -53,13 +53,13 @@ final class TenantResource extends Resource
     protected static ?string $pluralModelLabel = 'Huurders';
 
     /**
-    * This property defines the icon that is displayed for this resource in the admin panel's navigation sidebar.
-    *
-    * It accepts a string (or null) that is the identifier of the icon.
-    * In our case, we are setting it to 'heroicon-o-users' to visually represent tenant-related functions with a group or user icon.
-    *
-    * @var string|null This value should be a valid icon name or null if not used.
-    */
+     * This property defines the icon that is displayed for this resource in the admin panel's navigation sidebar.
+     *
+     * It accepts a string (or null) that is the identifier of the icon.
+     * In our case, we are setting it to 'heroicon-o-users' to visually represent tenant-related functions with a group or user icon.
+     *
+     * @var string|null This value should be a valid icon name or null if not used.
+     */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
 

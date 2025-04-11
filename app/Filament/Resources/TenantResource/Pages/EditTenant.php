@@ -24,7 +24,7 @@ use Filament\Resources\Pages\EditRecord;
  */
 final class EditTenant extends EditRecord
 {
-     /**
+    /**
      * The resource associated with this page.
      * This property is used by Filament to determine the resource configuration, including the form fields, table columns, and other resource-specific settings.
      */
