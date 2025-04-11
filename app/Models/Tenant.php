@@ -91,14 +91,4 @@ final class Tenant extends Model implements BannableInterface
     {
         return Attribute::get(fn(): string => "{$this->firstName} {$this->lastName}");
     }
-
-    /**
-     * Attribute to determine whether the tenant is blacklisted in the application database of not.
-     *
-     * @return Attribute<bool, never-return>
-     */
-    protected function isBlacklisted(): Attribute
-    {
-        return Attribute::get(fn(): bool => $this->isBanned());
-    }
 }

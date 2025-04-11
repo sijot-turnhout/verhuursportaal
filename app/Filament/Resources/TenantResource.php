@@ -133,11 +133,6 @@ final class TenantResource extends Resource
                     ->label('Naam')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\IconColumn::make('isBlacklisted')
-                    ->label('Zwarte lijst')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-badge')
-                    ->falseIcon('heroicon-o-x-circle'),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email adres')
                     ->sortable()
