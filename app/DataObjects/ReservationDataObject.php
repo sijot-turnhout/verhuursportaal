@@ -10,15 +10,24 @@ use Spatie\LaravelData\Data;
 final class ReservationDataObject extends Data
 {
     public function __construct(
-        #[MapInputName('aankomst')]          public readonly string $arrival_date,
-        #[MapInputName('vertrek')]           public readonly string $departure_date,
-        #[MapInputName('groep')]             public readonly string $group,
-        #[MapInputName('aantal_personen')]   public readonly string $persons,
-        #[MapInputName('achternaam')]        public readonly string $firstName,
-        #[MapInputName('achternaam')]        public readonly string $lastName,
-        #[MapInputName('email')]             public readonly string $email,
-        #[MapInputName('telefoon_nummer')]   public readonly ?string $phone_number = null,
-        #[MapInputName('offerte_aanvraag')]  public readonly bool $quotation = false,
+        #[MapInputName('aankomst')]
+        public readonly string $arrival_date,
+        #[MapInputName('vertrek')]
+        public readonly string $departure_date,
+        #[MapInputName('groep')]
+        public readonly string $group,
+        #[MapInputName('aantal_personen')]
+        public readonly string $persons,
+        #[MapInputName('achternaam')]
+        public readonly string $firstName,
+        #[MapInputName('achternaam')]
+        public readonly string $lastName,
+        #[MapInputName('email')]
+        public readonly string $email,
+        #[MapInputName('telefoon_nummer')]
+        public readonly ?string $phone_number = null,
+        #[MapInputName('offerte_aanvraag')]
+        public readonly bool $quotation = false,
     ) {}
 
     /**
