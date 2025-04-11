@@ -15,7 +15,9 @@ final class ContactSubmissionData extends Data
         #[MapInputName('achternaam')]
         public readonly string $last_name,
         public readonly string $email,
-        #[MapInputName('tekst')] public readonly string $message,
-        #[MapInputName('telefoon_nummer')] public readonly ?string $phone_number,
+        #[MapInputName('tekst')]
+        public readonly string $message,
+        #[MapInputName('telefoon_nummer')]
+        public readonly ?string $phone_number,
     ) {}
 }
