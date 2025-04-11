@@ -74,7 +74,7 @@ final class LatestReservationRequests extends BaseWidget
                 Tables\Columns\TextColumn::make('period')->label('Periode')->weight(FontWeight::Bold)->color('primary'),
                 Tables\Columns\TextColumn::make('supervisor.name')->label('Verantwoordelijke')->sortable()->placeholder('- geen toewijzing'),
                 Tables\Columns\TextColumn::make('persons')->label('Aantal personen')->sortable()->badge()->icon('heroicon-o-user'),
-                Tables\Columns\TextColumn::make('tenant.fullName')->label('Huurder')->sortable(),
+                Tables\Columns\TextColumn::make('tenant.name')->label('Huurder')->sortable(),
                 Tables\Columns\TextColumn::make('group')->label('Organisatie')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->label('Aanvragingsdatum')->date()->sortable(),
             ])

@@ -79,16 +79,4 @@ final class Tenant extends Model implements BannableInterface
     {
         $this->notify((new ReservationConfirmation($lease))->afterCommit());
     }
-
-    /**
-     * Attribute cast to get the full name of the tenant
-     *
-     * @todo We need to investigate if we can remove this attribute
-     *
-     * @return Attribute<non-falsy-string, never>
-     */
-    #[Deprecated(since: '1.0')] protected function fullName(): Attribute
-    {
-        return Attribute::get(fn(): string => "{$this->firstName} {$this->lastName}");
-    }
 }

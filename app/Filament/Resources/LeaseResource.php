@@ -125,11 +125,12 @@ final class LeaseResource extends Resource
                     ->icon('heroicon-m-user')
                     ->iconColor('primary')
                     ->collapsible()
+                    ->compact()
                     ->collapsed(fn(string $operation): bool => 'edit' === $operation)
                     ->schema([
                         Forms\Components\Select::make('tenant_id')->label('Huurder')
                             ->required()
-                            ->relationship('tenant', 'firstName')
+                            ->relationship('tenant', 'name')
                             ->createOptionModalHeading('Registreren van een nieuwe huurder')
                             ->createOptionForm([
                                 Forms\Components\Grid::make(12)->schema([
@@ -204,7 +205,7 @@ final class LeaseResource extends Resource
                     /** @phpstan-ignore-next-line */
                     ->iconColor(fn(Lease $lease) => $lease->risk_accessment_label->getColor() ?? 'gray'),
 
-                Tables\Columns\TextColumn::make('tenant.fullName')->label('Huurder')
+                Tables\Columns\TextColumn::make('tenant.name')->label('Huurder')
                     ->sortable()
                     ->iconColor('warning')
                     ->icon(static fn(Lease $lease) => $lease->tenant->isBanned() ? 'heroicon-o-exclamation-triangle' : null)
