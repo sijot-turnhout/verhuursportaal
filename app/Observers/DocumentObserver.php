@@ -26,7 +26,6 @@ final readonly class DocumentObserver
      * that attachments for deleted Document records don’t remain in the filesystem.
      *
      * @param  Document $document The Document instance that is being deleted.
-     * @return void
      */
     public function deleted(Document $document): void
     {
@@ -48,7 +47,6 @@ final readonly class DocumentObserver
      * - Ensures the previous attachment file is non-null to avoid accidental deletions.
      *
      * @param  Document $document The Document instance that has been updated.
-     * @return void
      */
     public function updated(Document $document): void
     {

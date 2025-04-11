@@ -74,7 +74,6 @@ final class Tenant extends Model implements BannableInterface
      * Method for sending out the reservation request confirmation to the tenant.
      *
      * @param  Lease $lease The entiry from the lease reservation that has been sotred in them application.
-     * @return void
      */
     public function sendOutReservationConfirmation(Lease $lease): void
     {
@@ -88,8 +87,7 @@ final class Tenant extends Model implements BannableInterface
      *
      * @return Attribute<non-falsy-string, never>
      */
-    #[Deprecated(reason: 'Deprecated in favor of using the mysql virtual columns', since: '1.0')]
-    protected function fullName(): Attribute
+    #[Deprecated(since: '1.0')] protected function fullName(): Attribute
     {
         return Attribute::get(fn(): string => "{$this->firstName} {$this->lastName}");
     }

@@ -16,6 +16,8 @@ use Filament\Notifications\Notification;
  * proper conditions are met. By preventing assignment on finalized or archived leases,
  * it safeguards data integrity and fosters efficient collaboration.
  *
+ * @todo refactor the static methods out the action class.
+ *
  * @package App\Filament\Resources\LeaseResource\Actions
  */
 final class AssignAuthenticatedUserAction extends Action
@@ -26,8 +28,8 @@ final class AssignAuthenticatedUserAction extends Action
      * This action is a gateway to proactive lease management, allowing users
      * to seamlessly assign themselves to leases requiring attention.
      *
-     * @param  string|null $name Optional custom action name.
-     * @return static
+     * @param  string|null $name  Optional custom action name.
+     * @return static             Returns the initialized action instance with the configured settings.
      */
     public static function make(?string $name = null): static
     {
@@ -63,7 +65,6 @@ final class AssignAuthenticatedUserAction extends Action
      * confirm the action, promoting transparency and accountability.
      *
      * @param  Lease $lease The lease for which the user is being assigned.
-     * @return void
      */
     private static function performSupervisorAssignment(Lease $lease): void
     {
@@ -79,8 +80,6 @@ final class AssignAuthenticatedUserAction extends Action
      * A well-timed notification enhances user experience by providing immediate
      * feedback. This message confirms the assignment and encourages proactive
      * engagement with lease tasks.
-     *
-     * @return void
      */
     private static function notifyAssignmentSuccess(): void
     {

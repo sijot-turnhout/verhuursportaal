@@ -40,8 +40,6 @@ final class PerformRiskAssesment implements ShouldQueue, ShouldPerformAccessment
      *
      * Calculates the risk assessment score, determines the appropriate label based on
      * configuration thresholds, and stores the results in the lease.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -68,7 +66,6 @@ final class PerformRiskAssesment implements ShouldQueue, ShouldPerformAccessment
      *
      * @param  int       $impactScore           The calculated risk score.
      * @param  RiskLevel $finalAssesmentLabel   The risk level derived from the score.
-     * @return void
      */
     public function registerAccessmentResult(int $impactScore, RiskLevel $finalAssesmentLabel): void
     {

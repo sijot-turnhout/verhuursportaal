@@ -50,7 +50,7 @@ final class ListQuotations extends ListRecords
     public function getTabs(): array
     {
         $statuses = collect(QuotationStatus::cases())
-            ->map(fn(QuotationStatus $status) => Tab::make()
+            ->map(fn(QuotationStatus $status): Tab => Tab::make()
                 ->label(Str::plural($status->getLabel()))
                 ->icon($status->getIcon())
                 ->badgeColor($status->getColor())

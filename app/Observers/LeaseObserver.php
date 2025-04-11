@@ -35,7 +35,6 @@ final readonly class LeaseObserver
      * initial utility metrics.
      *
      * @param  Lease $lease The lease instance that was created.
-     * @return void
      */
     public function created(Lease $lease): void
     {
@@ -51,7 +50,6 @@ final readonly class LeaseObserver
      * removed, helping to manage storage resources efficiently.
      *
      * @param Lease $lease The lease instance that has been deleted.
-     * @return void
      */
     public function deleted(Lease $lease): void
     {

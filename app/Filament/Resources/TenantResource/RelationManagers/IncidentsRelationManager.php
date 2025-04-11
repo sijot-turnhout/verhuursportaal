@@ -43,26 +43,35 @@ final class IncidentsRelationManager extends RelationManager
     protected static string $relationship = 'incidents';
 
     /**
-     * We use 'Incident' here as a clear identifier, and it's easy to translate if needed.
-     *
-     * @var string|null Label displayed for a single incident.
-     */
-    protected static ?string $modelLabel = 'Incident';
-
-    /**
-     * 'Incidenten' is used for the plural form, keeping the Dutch terminology for our users.
-     * This also ensures the interface is familiar for those managing incidents in Dutch.
-     *
-     * @var string|null Label for multiple incidents in the interface.
-     */
-    protected static ?string $pluralModelLabvel = 'Incidenten';
-
-    /**
      * The title of the relation manager.
      *
      * @var string|null Title displayed at the top of the incidents section.
      */
     protected static ?string $title = 'Incidenten';
+
+    /**
+     * Defines the table layout for displaying incidents linked to a lease.
+     *
+     * This table structure includes all essential information, such as who reported the incident
+     * and when. It's designed to be compact but easy to read. Suggestions to improve the layout
+     * are always welcome!
+     *
+     * @param  Table $table  The table instance.
+     * @return Table         Configured table for incident records.
+     */
+    public function table(Table $table): Table
+    {
+        return $table
+            ->modelLabel('Incident')
+            ->pluralModelLabel('Incidenten')
+            ->emptyStateIcon('heroicon-o-shield-exclamation')
+            ->emptyStateHeading(trans('Geen incidenten gerapporteerd'))
+            ->emptyStateDescription(trans('Het lijkt erop dat er momenteel voor deze verhuring geen incidenten zijn geregistreerd.'))
+            ->columns($this->getTableColumnsLayout())
+            ->actions($this->getIncidentTableActions())
+            ->headerActions($this->getHeaderActions());
+    }
+
 
     /**
      * Sets up the form for creating or editing an incident.
@@ -120,27 +129,6 @@ final class IncidentsRelationManager extends RelationManager
     }
 
     /**
-     * Defines the table layout for displaying incidents linked to a lease.
-     *
-     * This table structure includes all essential information, such as who reported the incident
-     * and when. It's designed to be compact but easy to read. Suggestions to improve the layout
-     * are always welcome!
-     *
-     * @param  Table $table  The table instance.
-     * @return Table         Configured table for incident records.
-     */
-    public function table(Table $table): Table
-    {
-        return $table
-            ->emptyStateIcon('heroicon-o-shield-exclamation')
-            ->emptyStateHeading(trans('Geen incidenten gerapporteerd'))
-            ->emptyStateDescription(trans('Het lijkt erop dat er momenteel voor deze verhuring geen incidenten zijn geregistreerd.'))
-            ->columns(self::getTableColumnsLayout())
-            ->actions(self::getIncidentTableActions())
-            ->headerActions(self::getHeaderActions());
-    }
-
-    /**
      * Configures the Infolist layout for displaying detailed incident information.
      *
      * This method defines a structured view for incident details, including the reporter's name,
@@ -194,7 +182,7 @@ final class IncidentsRelationManager extends RelationManager
      *
      * @return array<int, Actions\Action> List of header actions for incidents.
      */
-    private static function getHeaderActions(): array
+    private function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make()
@@ -222,7 +210,7 @@ final class IncidentsRelationManager extends RelationManager
      *
      * @return array<int, Tables\Columns\TextColumn> Array of table columns for incidents.
      */
-    private static function getTableColumnsLayout(): array
+    private function getTableColumnsLayout(): array
     {
         return [
             Tables\Columns\TextColumn::make('user.name')
