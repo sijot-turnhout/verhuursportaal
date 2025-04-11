@@ -24,9 +24,7 @@ final class FeedbackSubmissionDataObject extends Data
      * @param  string  $message  The message of the feedback, mapped from 'feedback'.
      */
     public function __construct(
-        #[MapInputName('onderwerp')]
-        public readonly string $subject,
-        #[MapInputName('feedback')]
-        public readonly string $message,
+        #[MapInputName('onderwerp')]  public readonly string $subject,
+        #[MapInputName('feedback')]   public readonly string $message,
     ) {}
 }

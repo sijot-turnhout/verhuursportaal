@@ -10,14 +10,10 @@ use Spatie\LaravelData\Data;
 final class ContactSubmissionData extends Data
 {
     public function __construct(
-        #[MapInputName('voornaam')]
-        public readonly string $first_name,
-        #[MapInputName('achternaam')]
-        public readonly string $last_name,
-        public readonly string $email,
-        #[MapInputName('tekst')]
-        public readonly string $message,
-        #[MapInputName('telefoon_nummer')]
-        public readonly ?string $phone_number,
+        #[MapInputName('voornaam')]         public readonly string $first_name,
+        #[MapInputName('achternaam')]       public readonly string $last_name,
+        #[MapInputName('email')]            public readonly string $email,
+        #[MapInputName('tekst')]            public readonly string $message,
+        #[MapInputName('telefoon_nummer')]  public readonly ?string $phone_number,
     ) {}
 }
