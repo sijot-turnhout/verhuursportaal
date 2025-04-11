@@ -141,21 +141,21 @@ final class QuotationResource extends Resource
                             TextEntry::make('quotation_due_at')->label('Verval datum')->columnSpan(3)->date('d/m/Y')->placeholder('-'),
                         ]),
 
-                        Fieldset::make(trans('Begunstigde'))
-                            ->columns(12)
-                            ->schema([
-                                TextEntry::make('reciever.name')->label('Naam')->columnSpan(2)->icon('heroicon-o-user-circle')->iconColor('primary'),
-                                TextEntry::make('reciever.address')->label('Adres')->columnSpan(4)->icon('heroicon-o-map-pin')->iconColor('primary')->placeholder('Onbekend of niet opgegeven'),
-                                TextEntry::make('reciever.email')->label('Email adres')->columnSpan(3)->icon('heroicon-o-envelope')->iconColor('primary'),
-                                TextEntry::make('reciever.phone_number')->label('Telefoon nummer')->columnSpan(3)->icon('heroicon-o-phone')->iconColor('primary')->placeholder('Onbekend on niet opgegeven'),
+                    Fieldset::make(trans('Begunstigde'))
+                        ->columns(12)
+                        ->schema([
+                            TextEntry::make('reciever.name')->label('Naam')->columnSpan(2)->icon('heroicon-o-user-circle')->iconColor('primary'),
+                            TextEntry::make('reciever.address')->label('Adres')->columnSpan(4)->icon('heroicon-o-map-pin')->iconColor('primary')->placeholder('Onbekend of niet opgegeven'),
+                            TextEntry::make('reciever.email')->label('Email adres')->columnSpan(3)->icon('heroicon-o-envelope')->iconColor('primary'),
+                            TextEntry::make('reciever.phone_number')->label('Telefoon nummer')->columnSpan(3)->icon('heroicon-o-phone')->iconColor('primary')->placeholder('Onbekend on niet opgegeven'),
 
-                            ]),
+                        ]),
 
-                        Fieldset::make(trans('Extra informatie'))
-                            ->columns(12)
-                            ->schema([
-                                TextEntry::make('description')->label('Extra informatie')->columnSpan(12)->hiddenLabel(),
-                            ]),
+                    Fieldset::make(trans('Extra informatie'))
+                        ->columns(12)
+                        ->schema([
+                            TextEntry::make('description')->label('Extra informatie')->columnSpan(12)->hiddenLabel(),
+                        ]),
                 ]),
         ]);
     }
