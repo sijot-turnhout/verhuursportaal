@@ -156,7 +156,7 @@ describe('UserResource tests', function (): void {
             'email' => $record->email,
             'user_group' => $record->user_group,
             'password' => $record->password,
-            'password_confirmation' => $record->password,
+            'passwordConfirmation' => $record->password,
         ];
 
         livewire(CreateUser::class)
