@@ -69,8 +69,6 @@ final class Quotation extends Model implements FinancialAssistance
      * The reference format is `YYYY-XXXXXX`, where `XXXXXX` is a zero-padded sequential number.
      *
      * @todo Consider if we can register this functionality with a job action class
-     *
-     * @return void
      */
     public static function boot(): void
     {
@@ -78,7 +76,7 @@ final class Quotation extends Model implements FinancialAssistance
 
         self::creating(function ($quotation): void {
             $lastQuotation = self::orderBy('id', 'desc')->first();
-            $lastNumber = $lastQuotation ? (int) mb_substr($lastQuotation->reference, -6) : 0;
+            $lastNumber = $lastQuotation ? (int) mb_substr((string) $lastQuotation->reference, -6) : 0;
             $quotation->reference = date('Y') . '-' . mb_str_pad((string) ($lastNumber + 1), 6, '0', STR_PAD_LEFT);
         });
     }
@@ -111,7 +109,7 @@ final class Quotation extends Model implements FinancialAssistance
      * This method queries the quotation lines with the type 'BillingLine'
      * and sums up their 'total_price' values.
      *
-     * @return integer|float|string The subtotal value as an integer, float, or string
+     * @return int|float|string The subtotal value as an integer, float, or string
      */
     public function getSubTotal(): int|float|string
     {
@@ -177,7 +175,7 @@ final class Quotation extends Model implements FinancialAssistance
      * which encapsulates the behavior and transitions allowed for that status. The states define what actions
      * can be taken on the quotation based on its lifecycle stage.
      *
-     * @return QuotationStateContract
+     * @return QuotationStateContract The state object corresponding to the quotation's current status.
      */
     public function state(): QuotationStateContract
     {

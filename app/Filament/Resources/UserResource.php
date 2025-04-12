@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Enums\UserGroup;
+use App\Filament\Actions\GeneratePasswordAction;
 use App\Filament\Clusters\WebmasterResources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -18,6 +21,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 /**
  * @todo Fill in the empty table rows in the overview of the users.
@@ -26,29 +31,21 @@ final class UserResource extends Resource
 {
     /**
      * The resource entity model of the users in the application storage.
-     *
-     * @var ?string
      */
     protected static ?string $model = User::class;
 
     /**
      * The singular resource name in the application backend.
-     *
-     * @return ?string
      */
     protected static ?string $modelLabel = 'gebruiker';
 
     /**
      * The plural model name of the resource in the application.
-     *
-     * @var ?string
      */
     protected static ?string $pluralModelLabel = 'Gebruikers';
 
     /**
      * The name of the navigation icon that will be displayed in the navigation bar.
-     *
-     * @var ?string
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -149,7 +146,7 @@ final class UserResource extends Resource
      * General information section for the user.
      * Here we render the form section for the general information off the user account.
      *
-     * @return Section
+     * @return Section  The configureed filament section for the resource.
      */
     public static function generalInformationSection(): Section
     {
@@ -158,9 +155,9 @@ final class UserResource extends Resource
             ->icon('heroicon-m-user')
             ->schema([
                 Forms\Components\Select::make('user_group')->label('Functie')->required()->options(UserGroup::class)->columnSpan(3),
-                Forms\Components\TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
-                Forms\Components\TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
-                Forms\Components\TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
+                TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
+                TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
+                TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}\d{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
             ])->columns(12);
     }
 
@@ -213,7 +210,7 @@ final class UserResource extends Resource
      * Section that is related to the security information from the user account.
      * Only things such as the password will be handled/registered here.
      *
-     * @return Section
+     * @return Section The configured Filament section for the UserResource
      */
     private static function securityInformationSection(): Section
     {
@@ -221,8 +218,26 @@ final class UserResource extends Resource
             ->icon('heroicon-m-shield-check')
             ->description('Zorg ervoor dat het account een lang willekeurig wachtwoord gebruikt om veilig te blijven')
             ->schema([
-                Forms\Components\TextInput::make('password')->label('Wachtwoord')->required()->minLength(8)->confirmed()->columnSpan(6)->same('password_confirmation')->password()->revealable(),
-                Forms\Components\TextInput::make('password_confirmation')->label('Herhaal wachtwoord')->password()->revealable()->required()->columnSpan(6),
+                TextInput::make('password')
+                    ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
+                    ->password()
+                    ->required(fn($livewire): bool => $livewire instanceof Pages\CreateUser)
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->rule(Password::default())
+                    ->autocomplete('new-password')
+                    ->dehydrated(fn($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                    ->live()
+                    ->columnSpan(6)
+                    ->same('passwordConfirmation')
+                    ->suffixActions([GeneratePasswordAction::make()]),
+                TextInput::make('passwordConfirmation')
+                    ->password()
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->required()
+                    ->columnSpan(6)
+                    ->visible(fn(Get $get): bool => filled($get('password')))
+                    ->dehydrated(false),
             ])
             ->hidden(fn(string $operation): bool => 'edit' === $operation)
             ->columns(12);

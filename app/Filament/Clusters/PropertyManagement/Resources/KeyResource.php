@@ -31,29 +31,21 @@ final class KeyResource extends Resource
 {
     /**
      * This links the resource to the 'Key' model, which is where key data is stored in the database.
-     *
-     * @var string|null
      */
     protected static ?string $model = Key::class;
 
     /**
      * Sets the icon used to represent keys in the admin panel's navigation menu.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-key';
 
     /**
      * The singular label for "Key", used in headings and labels throughout the admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'Sleutel';
 
     /**
      * The plural label for "Keys", used in headings and labels throughout the admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Sleutels';
 
@@ -204,7 +196,8 @@ final class KeyResource extends Resource
                         ->options(fn() => Local::query()->pluck('name', 'id'))
                         ->columnSpan(12)
                         ->requiredIf('is_master_key', MasterKey::False->value)
-                        ->hidden(fn(Forms\Get $get) => $get('is_master_key') === MasterKey::True->value),
+                        ->hidden(fn(Forms\Get $get): bool => $get('is_master_key') === MasterKey::True->value)
+                        ->live(),
 
                     Forms\Components\Textarea::make('description')
                         ->label(trans('Beschrijving/Extra informatie'))

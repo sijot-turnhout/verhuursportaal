@@ -24,7 +24,7 @@
 <body class="d-flex flex-column bg-white h-100">
 <div id="app"> {{-- CONTENT --}}
     <div class="container my-4">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-9">
                 <h3 class="text-brown fw-bold">{{ __('OFFERTE #:nr', ['nr' => $record->reference]) }}</h3>
                 <p class="text-muted mb-0"><small>{{ $record->description }}</small></p>

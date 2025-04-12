@@ -26,8 +26,6 @@ final class EditChangelog extends EditRecord
      * This property defines the resource that this page is associated with.
      * It links to the `ChangelogResource`, which handles the data and presentation
      * logic for the `Changelog` model.
-     *
-     * @var string
      */
     protected static string $resource = ChangelogResource::class;
 

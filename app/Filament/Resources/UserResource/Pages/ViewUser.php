@@ -23,8 +23,6 @@ final class ViewUser extends ViewRecord
      *
      * By associating this wiew with UserResource, the system knows that this page
      * is solely responsible for displaying the information that is connected to this user in the application.
-     *
-     * @var string
      */
     protected static string $resource = UserResource::class;
 

@@ -23,8 +23,6 @@ final class CreateLocal extends CreateRecord
      *
      * This property links the `CreateLocal` page to the `LocalResource` class, which
      * defines the form schema and other configurations for the local resource.
-     *
-     * @var string
      */
     protected static string $resource = LocalResource::class;
 }

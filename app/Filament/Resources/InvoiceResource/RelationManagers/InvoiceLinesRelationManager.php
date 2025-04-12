@@ -26,8 +26,6 @@ final class InvoiceLinesRelationManager extends RelationManager
 {
     /**
      * The relationship name for the invoice lines.
-     *
-     * @var string
      */
     protected static string $relationship = 'invoiceLines';
 

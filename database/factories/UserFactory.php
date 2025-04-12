@@ -15,11 +15,6 @@ use Illuminate\Support\Str;
 final class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -32,26 +27,35 @@ final class UserFactory extends Factory
             'user_group' => UserGroup::Rvb,
             'email_verified_at' => now(),
             'phone_number' => fake()->phoneNumber(),
-            'password' => self::$password ??= Hash::make('password'),
+            'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
     }
 
     /**
      * Indicate that the model's email address should be unverified.
+     *
+     * This method updates the user state by setting the 'email_verified_at' attribute to null,
+     * meaning that the email is not verified. This is useful for testing scenarios where a user
+     * should not be considered as having a verified email.
+     *
+     * @return static Returns the current factory instance with the updated unverified state.
      */
     public function unverified(): static
     {
-        return $this->state(fn(array $attributes) => ['email_verified_at' => null]);
+        return $this->state(fn(array $attributes): array => ['email_verified_at' => null]);
     }
 
     /**
      * Indicate that the user has the webmaster role in the application.
      *
-     * @return static
+     * This method updates the user state by setting the 'user_group' attribute to the value
+     * representing the Webmaster role. Use this state when testing or seeding users with elevated access.
+     *
+     * @return static Returns the current factory instance with the updated state for a webmaster user.
      */
     public function webmaster(): static
     {
-        return $this->state(fn(array $attributes) => ['user_group' => UserGroup::Webmaster]);
+        return $this->state(fn(array $attributes): array => ['user_group' => UserGroup::Webmaster]);
     }
 }

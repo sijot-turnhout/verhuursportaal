@@ -43,7 +43,8 @@ final readonly class InvoiceUtilityUsage
             return false;
         }
 
-        return $lease->utilityStatistics()->each(fn(Utility $metric) => self::addBillinglineToInvoice($lease, $metric));
+        return $lease->utilityStatistics()->each(fn(Utility $metric): BillingItem
+            => self::addBillinglineToInvoice($lease, $metric));
     }
 
     /**
@@ -86,7 +87,7 @@ final readonly class InvoiceUtilityUsage
     {
         return BillingItem::query()->create([
             'creator_id' => Auth::user()->getAuthIdentifier(),
-            'billingdocumentable_type' => get_class($lease->invoice),
+            'billingdocumentable_type' => $lease->invoice::class,
             'billingdocumentable_id' => $lease->invoice_id,
             'unit_price' => $metric->unit_price,
             'name' => $metric->name->getBillingLine(),

@@ -8,6 +8,7 @@ use ArchTech\Enums\Comparable;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use JetBrains\PhpStorm\Deprecated;
 
 /**
  * Enum UserGroup
@@ -100,9 +101,9 @@ enum UserGroup: string implements HasColor, HasLabel, HasIcon
      * group is 'Webmaster'. For new implementations, consider using alternative methods
      * as this method is being phased out.
      *
-     * @deprecated 1.0.0
      * @return bool  True if the user group is 'Webmaster', false otherwise.
      */
+    #[Deprecated(reason: 'Will be solved with the Comperable trait from ArchTech/enums', since: '1.0')]
     public function isWebmaster(): bool
     {
         return self::Webmaster === $this;
@@ -119,9 +120,9 @@ enum UserGroup: string implements HasColor, HasLabel, HasIcon
      * - Old: $user->user_group->isRvb();
      * - New: $user->isBoardMember();
      *
-     * @deprecated 1.0.0
      * @return bool  True if the user group is 'Rvb', false otherwise.
      */
+    #[Deprecated(reason: 'Will be solved with the Comperable trait from ArchTech/enums', since: '1.0')]
     public function isRvb(): bool
     {
         return self::Rvb === $this;

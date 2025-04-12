@@ -21,9 +21,10 @@ final class EditQuotation extends EditRecord
 {
     /**
      * Specifies the resource class associated with this page.
-     * This resource manages quotation records in the system.
+     * Filament uses this information to tie this page to the correct resource configuration.
+     * In this case, the page is connected to the QuotationResource which manages all quotation records.
      *
-     * @var string
+     * @var string The fully-qualified class name of the QuotationResource.
      */
     protected static string $resource = QuotationResource::class;
 

@@ -27,8 +27,10 @@ final class UnlockMetricsAction extends Action
      * Configures the action with a default name, icon, color, and visibility based on
      * the authorization check. When executed, it unlocks the metrics for the owner record.
      *
+     * @todo Refactor the static action class to a more flexible action class
+     *
      * @param  string|null  $name  The name of the action. If not provided, defaults to a translatable string.
-     * @return static
+     * @return static              The configured action class
      */
     public static function make(?string $name = null): static
     {

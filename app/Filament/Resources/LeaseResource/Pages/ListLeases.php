@@ -30,8 +30,6 @@ final class ListLeases extends ListRecords
      *
      * This property links the `ListLeases` page to the `LeaseResource` class, which defines
      * the schema and behavior for managing lease records.
-     *
-     * @var string
      */
     protected static string $resource = LeaseResource::class;
 
@@ -45,8 +43,6 @@ final class ListLeases extends ListRecords
      *
      * This method helps maintain consistency in the UI and ensures that no records from
      * the previous tab remain selected when switching to a new one.
-     *
-     * @return void
      */
     public function updatedActiveTab(): void
     {
@@ -68,7 +64,7 @@ final class ListLeases extends ListRecords
     {
         $statuses = collect(LeaseStatus::cases())
             ->map(
-                fn(LeaseStatus $status) => Tab::make()
+                fn(LeaseStatus $status): Tab => Tab::make()
                     ->label($status->getLabel())
                     ->icon($status->getIcon())
                     ->badgeColor($status->getColor())

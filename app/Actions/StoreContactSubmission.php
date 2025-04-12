@@ -19,7 +19,6 @@ final readonly class StoreContactSubmission
      * Method for processing the contact form data into the storage systems of the application.
      *
      * @param  ContactSubmissionData $contactSubmissionData  The data value object that contains the contact form data
-     * @return void
      */
     public function execute(ContactSubmissionData $contactSubmissionData): void
     {

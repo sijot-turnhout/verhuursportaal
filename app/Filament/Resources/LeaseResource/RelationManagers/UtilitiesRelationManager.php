@@ -39,15 +39,11 @@ final class UtilitiesRelationManager extends RelationManager
 {
     /**
      * Variable for registering a custom name to the panel in the relation manager.
-     *
-     * @car string|null
      */
     protected static ?string $title = 'Verbruik';
 
     /**
      * Variable for defining the name of the relation that will be used in this relation manager.
-     *
-     * @var string
      */
     protected static string $relationship = 'utilityStatistics';
 
@@ -58,8 +54,6 @@ final class UtilitiesRelationManager extends RelationManager
      *
      * Note: The icon name usually follows a naming convention or comes from an icon
      * library (e.g., "heroicon-o-queue-list")
-     *
-     * @var string|null
      */
     protected static ?string $icon = 'heroicon-o-queue-list';
 
@@ -68,7 +62,7 @@ final class UtilitiesRelationManager extends RelationManager
      *
      * @param  Model   $ownerRecord  The owner record of the relation entity. In this case it is the lease entity.
      * @param  string  $pageClass    The name and class FQN for the resource page where this relation manager is rendered.
-     * @return bool
+     * @return bool                  Returns rue if the authenticated user can view the relation manager, false otherwise
      */
     public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
     {
@@ -79,8 +73,6 @@ final class UtilitiesRelationManager extends RelationManager
 
     /**
      * Determine whether the relation manager is readonly on the information view of the main resource.
-     *
-     * @return bool
      */
     public function isReadOnly(): bool
     {
@@ -91,7 +83,7 @@ final class UtilitiesRelationManager extends RelationManager
      * Method for building up the modal that allows us to edit/view the form for the energy metrics.w
      *
      * @param  Form  $form  The form builder class that will be used to build the edit form for the utility metrics.
-     * @return Form
+     * @return Form         The configured form instance
      */
     public function form(Form $form): Form
     {
@@ -107,7 +99,7 @@ final class UtilitiesRelationManager extends RelationManager
      * The method that allows us to define the view table for the relation manager.
      *
      * @param  Table $table The table builder instance that will be used to render the information table.
-     * @return Table
+     * @return Table        The configured table instance
      */
     public function table(Table $table): Table
     {

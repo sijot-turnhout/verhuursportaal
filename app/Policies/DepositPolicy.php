@@ -25,10 +25,9 @@ final readonly class DepositPolicy
      * Only users belonging to specific user groups are permitted to perform deposit-related actions.
      *
      * @param  User $user       The user attempting the action.
-     * @param  string $ability  The specific action being checked.
      * @return bool|null        Returns false to deny all actions if the user lacks necessary permissions, or null to allow further checks.
      */
-    public function before(User $user, string $ability): bool|null
+    public function before(User $user): bool|null
     {
         if ( ! $user->user_group->in(enums: [UserGroup::Rvb, UserGroup::Vzw, UserGroup::Webmaster])) {
             return false;

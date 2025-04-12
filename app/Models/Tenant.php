@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Notifications\ReservationConfirmation;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -73,33 +72,9 @@ final class Tenant extends Model implements BannableInterface
      * Method for sending out the reservation request confirmation to the tenant.
      *
      * @param  Lease $lease The entiry from the lease reservation that has been sotred in them application.
-     * @return void
      */
     public function sendOutReservationConfirmation(Lease $lease): void
     {
         $this->notify((new ReservationConfirmation($lease))->afterCommit());
-    }
-
-    /**
-     * Attribute cast to get the full name of the tenant
-     *
-     * @todo We need to investigate if we can remove this attribute
-     * @deprecated
-     *
-     * @return Attribute<non-falsy-string, never>
-     */
-    protected function fullName(): Attribute
-    {
-        return Attribute::get(fn(): string => "{$this->firstName} {$this->lastName}");
-    }
-
-    /**
-     * Attribute to determine whether the tenant is blacklisted in the application database of not.
-     *
-     * @return Attribute<bool, never-return>
-     */
-    protected function isBlacklisted(): Attribute
-    {
-        return Attribute::get(fn(): bool => $this->isBanned());
     }
 }

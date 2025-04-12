@@ -42,8 +42,6 @@ final class ActivityLogResource extends Resource
      * The Eloquent model class name associated with this resource.
      * This specifies the model that represents individual activity log entries in the database?
      * It is used for retrieving, displaying, and manipulating activity log data.
-     *
-     * @var string|null
      */
     protected static ?string $model = Activity::class;
 
@@ -51,8 +49,6 @@ final class ActivityLogResource extends Resource
      * The singular label used to refer to this resource in the UI.
      * This label used when referring to a single log entry.
      * It provides a user-friendly name for the resource in the Filament admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = "Logboek";
 
@@ -60,8 +56,6 @@ final class ActivityLogResource extends Resource
      * The plural label used to refer to this resource in the UI.
      * This label is used when referring in multiple activity log entries.
      * It provides a user-friendly name for the resource in the Filament admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = "Logboek";
 
@@ -69,8 +63,6 @@ final class ActivityLogResource extends Resource
      * The icon used to represent this resource in the navigation menu of the Filament admin panel.
      * This uses the name of a Heroicon SVG icon.
      * The icon provides a visual cue for the resource in the navigation.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = "heroicon-o-book-open";
 
@@ -87,8 +79,6 @@ final class ActivityLogResource extends Resource
      * The navigation group this resource belongs to.
      * Navigation groups provide another level of organization within the Filament navigation menu, allowing related resources to be grouped under a common heading.
      * This can further enhance the usability of the admin panel, particularly for applications with many resources.
-     *
-     * @var string|null
      */
     protected static ?string $navigationGroup = "Monitoring";
 

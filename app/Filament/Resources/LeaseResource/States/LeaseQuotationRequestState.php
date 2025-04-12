@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\LeaseResource\States;
 
 use App\Enums\LeaseStatus;
+use App\Filament\Resources\LeaseResource\ValueObjects\CancellationDataObject;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class LeaseQuotationRequestState
@@ -38,8 +40,13 @@ final class LeaseQuotationRequestState extends LeaseState
     /**
      * {@inheritdoc}
      */
-    public function transitionToCancelled(): bool
+    public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool
     {
-        return $this->lease->markAs(LeaseStatus::Cancelled);
+        return DB::transaction(function () use ($cancellationDataObject): bool {
+            $status = LeaseStatus::Cancelled;
+            $auditMessage = trans('Heeft de status van een verhuring gewijzigd naar :status', ['status' => $status->getLabel()]);
+
+            return $this->lease->setStatus(newStatus: $status, auditMessage: $auditMessage)->registerCancellation($cancellationDataObject->getReason());
+        });
     }
 }

@@ -24,8 +24,10 @@ final class TransitionToQuotationAction extends StateTransitionAction
     /**
      * Create a new instance of the action.
      *
-     * @param  string|null $name The name of the action.
-     * @return static
+     * @todo Refactor the static action to a more flexible action class.
+     *
+     * @param  string|null $name  The name of the action.
+     * @return static             The static configured action
      */
     public static function make(?string $name = null): static
     {
@@ -61,7 +63,6 @@ final class TransitionToQuotationAction extends StateTransitionAction
      * Performs the action logic on the given lease.
      *
      * @param  Lease $lease The lease to perform the action on.
-     * @return void
      */
     public static function performActionLogic(Model $lease): void
     {

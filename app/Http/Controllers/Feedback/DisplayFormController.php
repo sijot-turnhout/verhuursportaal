@@ -27,6 +27,6 @@ final readonly class DisplayFormController
      */
     public function __invoke(Request $request, Lease $lease): Renderable
     {
-        return view('feedback.submit-form', compact('lease'));
+        return view('feedback.submit-form', ['lease' => $lease]);
     }
 }

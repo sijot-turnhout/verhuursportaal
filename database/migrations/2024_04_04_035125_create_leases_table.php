@@ -24,6 +24,8 @@ return new class () extends Migration {
             $table->foreignIdFor(User::class, 'supervisor_id')->nullable()->references('id')->on('users')->nullOnDelete();
             $table->foreignIdFor(Tenant::class)->nullable()->references('id')->on('tenants');
             $table->string('status');
+            $table->text('cancellation_reason')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
             $table->timestamp('metrics_registered_at')->nullable();
             $table->timestamps();
         });

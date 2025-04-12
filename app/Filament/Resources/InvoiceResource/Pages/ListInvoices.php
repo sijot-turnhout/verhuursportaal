@@ -37,7 +37,7 @@ final class ListInvoices extends ListRecords
     public function getTabs(): array
     {
         $statuses = collect(InvoiceStatus::cases())
-            ->map(fn(InvoiceStatus $status) => Tab::make()
+            ->map(fn(InvoiceStatus $status): Tab => Tab::make()
                 ->label($status->getLabel())
                 ->icon($status->getIcon())
                 ->badgeColor($status->getColor())

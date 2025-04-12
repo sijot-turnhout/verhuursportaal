@@ -21,8 +21,6 @@ final class ListIssues extends ListRecords
      *
      * This property defines which resource this page is associated with.
      * In this case, it links to the `IssueResource`, which handles the data and presentation logic for the `Issue` model.
-     *
-     * @var string
      */
     protected static string $resource = IssueResource::class;
 }

@@ -29,17 +29,9 @@ abstract class StateTransitionAction extends Action
     /**
      * Configures the allowed states for the transition.
      *
-     * @return array<mixed> An array of the allowed states.
+     * @return array<mixed> The list of LeaseStatus enum values that are valid for this transition.
      */
     abstract public static function configureAllowedStates(): array;
-
-    /**
-     * Performs the actual state transition logic on the given model.
-     *
-     * @param  Model $model The model entity to transition
-     * @return void
-     */
-    abstract public static function performActionLogic(Model $model): void;
 
     /**
      * Creates a new instance of the action with the specified configuration.
@@ -47,7 +39,7 @@ abstract class StateTransitionAction extends Action
      * @param  string|null $name        The name of the action.
      * @param  string      $label       The label of the action
      * @param  mixed       $finalState  The final state of the transition.
-     * @return static
+     * @return static                   The configure template configuration for actions related to state transition actions
      */
     public static function buildStateTransitionAction(string $label, mixed $finalState, ?string $name = null): static
     {

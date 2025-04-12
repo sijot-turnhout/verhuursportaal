@@ -48,8 +48,6 @@ final class ManageFeatures extends Command
      * This method is the entry point when the command is called.
      * It retrieves the action (enable, disable, status) and the feature name
      * from the command arguments, then performs the requested action.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -77,7 +75,7 @@ final class ManageFeatures extends Command
         Feature::flushCache();
     }
 
-    protected function enableFeature(string $feature, ?string $scope = null): void
+    private function enableFeature(string $feature): void
     {
         Feature::activateForEveryone($feature);
         $this->info("Feature '{$feature}' enabled globally.");
@@ -89,9 +87,8 @@ final class ManageFeatures extends Command
      * This method activates the feature for everyone.
      *
      * @param  string  $feature  The fully qualified class name of the feature.
-     * @return void
      */
-    protected function disableFeature(string $feature): void
+    private function disableFeature(string $feature): void
     {
         Feature::deactivateForEveryone($feature);
         $this->info("Feature '{$feature}' disabled globally.");
@@ -103,9 +100,8 @@ final class ManageFeatures extends Command
      * This method shows whether the feature is currently active or inactive.
      *
      * @param  string  $feature The fully qualified class name of the feature.
-     * @return void
      */
-    protected function featureStatus(string $feature): void
+    private function featureStatus(string $feature): void
     {
         if (Feature::active($feature)) {
             $this->info("Feature '{$feature}' is active.");

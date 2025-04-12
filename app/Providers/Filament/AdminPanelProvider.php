@@ -48,6 +48,38 @@ class AdminPanelProvider extends PanelProvider
             ->font('Open sans')
             ->databaseNotifications()
             ->maxContentWidth(MaxWidth::Full)
+            ->colors([
+                'gray' => [
+                    '50' => '#f8f9f7',      // Very light mist
+                    '100' => '#e6e3db',
+                    '200' => '#cfcac1',
+                    '300' => '#b1aba2',
+                    '400' => '#8f887e',
+                    '500' => '#6f6861',
+                    '600' => '#555049',
+                    '700' => '#3e3934',
+                    '800' => '#2a2723',
+                    '900' => '#1a1816',
+                    '950' => '#0d0c0b',      // Deep forest shadow
+                ],
+                'primary' => [
+                    '50' => '#eafaf4',
+                    '100' => '#c8f1e2',
+                    '200' => '#9fe2ca',
+                    '300' => '#72d0ae',
+                    '400' => '#46b494',
+                    '500' => '#2f7e66',     // Darkened evergreen for better contrast
+                    '600' => '#25624f',
+                    '700' => '#1a473a',
+                    '800' => '#102e27',
+                    '900' => '#081914',
+                    '950' => '#030c0a',     // Very dark green
+                ],
+                'danger' => '#9c2b2b',      // Deep red (contrast-safe)
+                'success' => '#3b7f57',     // Rich forest green
+                'warning' => '#d4973e',     // Strong amber
+                'info' => '#6d4f3a',        // Bark brown with clarity
+            ])
             ->renderHook(
                 // PanelsRenderHook::BODY_END,
                 PanelsRenderHook::FOOTER,

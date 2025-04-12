@@ -47,7 +47,6 @@ interface StateTransitionActionContract
      * the model's state and any related side effects.
      *
      * @param  Model $model The model undergoing the state transition.
-     * @return void
      */
     public static function performActionLogic(Model $model): void;
 }

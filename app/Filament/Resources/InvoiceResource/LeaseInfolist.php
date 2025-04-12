@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\InvoiceResource;
 
+use App\Enums\LeaseStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Enums\DepositStatus;
 use App\Filament\Clusters\Billing\Resources\DepositResource\Pages\ViewDeposit;
 use App\Models\Lease;
@@ -47,8 +48,35 @@ final readonly class LeaseInfolist
                     self::leaseInformationSection(),
                     self::securityDepositInformationSection(),
                     self::feedbackInformationSection(),
+                    self::cancellationInformationTab(),
                 ]),
         ]);
+    }
+
+    /**
+     * Create the cancellation information section.
+     *
+     * @return Tab The configured Tab instance
+     */
+    private static function cancellationInformationTab(): Tab
+    {
+        return Tab::make('Annulatie gegevens')
+            ->translateLabel()
+            ->icon(fn(Lease $lease): string => $lease->status->getIcon())
+            ->visible(fn(Lease $lease): bool => $lease->status->is(LeaseStatus::Cancelled))
+            ->columns(12)
+            ->schema([
+                TextEntry::make('cancelled_at')
+                    ->label('Geannuleerd op')
+                    ->translateLabel()
+                    ->color('primary')
+                    ->date()
+                    ->columnSpan(3),
+                TextEntry::make('cancellation_reason')
+                    ->label('Reden van de annulatie')
+                    ->translateLabel()
+                    ->columnSpan(9),
+            ]);
     }
 
     /**
@@ -72,7 +100,7 @@ final readonly class LeaseInfolist
                     ->label('Risico profiel')
                     ->translateLabel()->columnSpan(3)
                     ->badge()
-                    ->hintAction(fn(Action $action) => $action->make('check-documentation')
+                    ->hintAction(fn(Action $action): Action => $action->make('check-documentation')
                         ->label('uitleg')
                         ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#risico-analyse')
                         ->openUrlInNewTab()

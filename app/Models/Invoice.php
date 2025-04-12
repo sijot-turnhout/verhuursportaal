@@ -64,8 +64,6 @@ final class Invoice extends Model implements FinancialAssistance
      * Example:
      * - Last payment reference: `2024-000123`
      * - New payment reference: `2024-000124`
-     *
-     * @return void
      */
     public static function boot(): void
     {
@@ -73,7 +71,7 @@ final class Invoice extends Model implements FinancialAssistance
 
         self::creating(function ($invoice): void {
             $lastInvoice = self::orderBy('id', 'desc')->first();
-            $lastNumber = $lastInvoice ? (int) mb_substr($lastInvoice->payment_reference, -6) : 0;
+            $lastNumber = $lastInvoice ? (int) mb_substr((string) $lastInvoice->payment_reference, -6) : 0;
             $invoice->payment_reference = date('Y') . '-' . mb_str_pad((string) ($lastNumber + 1), 6, '0', STR_PAD_LEFT);
         });
     }

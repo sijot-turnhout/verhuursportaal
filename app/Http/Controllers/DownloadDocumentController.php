@@ -19,22 +19,15 @@ final readonly class DownloadDocumentController
         abort_if(boolean: $request->user()->cannot('download-invoice', $record), code: Response::HTTP_NOT_FOUND);
 
         return pdf()
-            ->view('pdfs.invoice', compact('record'))
+            ->view('pdfs.invoice', ['record' => $record])
             ->margins(top: 10, bottom: 10)
             ->name($record->payment_reference . '.pdf');
     }
 
-    /**
-     * @todo Build up this function
-     *
-     * @param Request $request
-     * @param Quotation $record
-     * @return PdfBuilder
-     */
     public function quotation(Request $request, Quotation $record): PdfBuilder
     {
         return pdf()
-            ->view('pdfs.quota', compact('record'))
+            ->view('pdfs.quota', ['record' => $record])
             ->name($record->reference . '.pdf');
     }
 }

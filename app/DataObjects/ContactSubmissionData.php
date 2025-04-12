@@ -14,6 +14,7 @@ final class ContactSubmissionData extends Data
         public readonly string $first_name,
         #[MapInputName('achternaam')]
         public readonly string $last_name,
+        #[MapInputName('email')]
         public readonly string $email,
         #[MapInputName('tekst')]
         public readonly string $message,

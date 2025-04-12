@@ -51,7 +51,7 @@ final class ContactStats extends BaseWidget
      * @param  string $status  The status of contact submissions to count.
      * @return int             The number of contact submissions with the given status.
      */
-    protected function statusCountBaseQuery(string $status): int
+    private function statusCountBaseQuery(string $status): int
     {
         return ContactSubmission::query()->where('status', $status)->count();
     }

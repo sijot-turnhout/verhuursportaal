@@ -24,8 +24,6 @@ final class EditLocal extends EditRecord
      *
      * This property links the `EditLocal` page to the `LocalResource` class, which defines
      * the resource schema and behavior for local resources.
-     *
-     * @var string
      */
     protected static string $resource = LocalResource::class;
 

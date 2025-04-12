@@ -16,51 +16,37 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
     /**
      * The currently applied filter for the chart data. Defaults to 'today'.
      * Available options are typically 'today', 'week', 'month', and 'year'.
-     *
-     * @var string|null
      */
     public ?string $filter = 'today';
 
     /**
      * The icon to display for the widget.
      * Uses Heroicons as icon library.
-     *
-     * @var string|null
      */
     protected static ?string $icon = 'heroicon-o-pencil-square';
 
     /**
      * The color of the widget's icon. Corresponds to Tailwind CSS color names.
-     *
-     * @var string|null
      */
     protected static ?string $iconColor = 'danger';
 
     /**
      * The primary color of the widget. Corresponds to Tailwind CSS color names.
-     *
-     * @var string
      */
     protected static string $color = 'danger';
 
     /**
      * The background color of the widget's icon. Corresponds to Tailwind CSS color names.
-     *
-     * @var string|null
      */
     protected static ?string $iconBackgroundColor = 'danger';
 
     /**
      * The position of the badge icon relative to the badge text. Can be 'before' or 'after'.
-     *
-     * @var string|null
      */
     protected static ?string $badgeIconPosition = 'after';
 
     /**
      * The maximum height of the widget. Uses Tailwind CSS units.
-     *
-     * @var string|null
      */
     protected static ?string $maxHeight = '150px';
 
@@ -202,8 +188,8 @@ final class ActivityRegistrationChart extends AdvancedChartWidget
             ->count();
 
         return [
-            'datasets' => [['label' => trans('geregistreerde handelingen'), 'data' => $data->map(fn(TrendValue $value) => $value->aggregate)]],
-            'labels' => $data->map(fn(TrendValue $value) => match ($period) {
+            'datasets' => [['label' => trans('geregistreerde handelingen'), 'data' => $data->map(fn(TrendValue $value): mixed => $value->aggregate)]],
+            'labels' => $data->map(fn(TrendValue $value): mixed => match ($period) {
                 'perHour' => Carbon::parse($value->date)->format('H:i'),
                 default => $value->date,
             }),

@@ -25,16 +25,23 @@ use Illuminate\Support\HtmlString;
 final class TenantResource extends Resource
 {
     /**
-     * The database model entity for the resource that is related to the tenants.
+     * The database model entity for this resource.
      *
-     * @return string|null
+     * This property tells Filament which Eloquent model is used by the resource.
+     * In this case, we use the Tenant model to retrieve, create, update, and delete tenant records.
+     * The value must be the fully-qualified class name of the model.
+     *
+     * @return string|null The fully-qualified class name of the Tenant model.
      */
     protected static ?string $model = Tenant::class;
 
     /**
-     * The label name that willbe displayed from the database model.
+     * The singular label for the resource.
      *
-     * @return string|null
+     * This label is used in the admin panel to refer to a single tenant record.
+     * When the system needs to display the model name in singular form, it will use this value.
+     *
+     * @return string|null The display name for a single tenant (e.g., "Huurder").
      */
     protected static ?string $modelLabel = 'Huurder';
 
@@ -46,9 +53,12 @@ final class TenantResource extends Resource
     protected static ?string $pluralModelLabel = 'Huurders';
 
     /**
-     * The name of the navigation icon that will be used in the navigation
+     * This property defines the icon that is displayed for this resource in the admin panel's navigation sidebar.
      *
-     * @var string|null
+     * It accepts a string (or null) that is the identifier of the icon.
+     * In our case, we are setting it to 'heroicon-o-users' to visually represent tenant-related functions with a group or user icon.
+     *
+     * @var string|null This value should be a valid icon name or null if not used.
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -123,11 +133,6 @@ final class TenantResource extends Resource
                     ->label('Naam')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\IconColumn::make('isBlacklisted')
-                    ->label('Zwarte lijst')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-badge')
-                    ->falseIcon('heroicon-o-x-circle'),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email adres')
                     ->sortable()

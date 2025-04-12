@@ -22,15 +22,12 @@ final class WebmasterResources extends Cluster
     /**
      * The icon that will be displayed in the application navigation for this cluster.
      * This icon helps users visually identify the Webmaster resources clusters.
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
     /**
      * The label for this cluster in the application navigation.
      * This label is used to identify the cluster in the navigation menu.
-     *
-     * @var string|null
      */
     protected static ?string $navigationLabel = 'Instellingen';
 
@@ -39,16 +36,12 @@ final class WebmasterResources extends Cluster
      *
      * This label is used in breadcrumb navigation to help users understand
      * their current location within the Webmaster resources section.
-     *
-     * @var string|null
      */
     protected static ?string $clusterBreadcrumb = 'Instellingen';
 
     /**
      * The sort order that will be applied to the application navigation.
      * This determines the position where this item will appear in the navigation list.
-     *
-     * @var int|null
      */
     protected static ?int $navigationSort = 10;
 }

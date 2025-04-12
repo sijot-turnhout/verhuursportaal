@@ -21,15 +21,11 @@ final class LeaseManagement extends Cluster
 {
     /**
      * The icon that will be displayed in the application navigation for this cluster.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 
     /**
      * The label for this cluster in the application navigation.
-     *
-     * @var string|null
      */
     protected static ?string $navigationLabel = 'Verhuringen';
 
@@ -38,8 +34,6 @@ final class LeaseManagement extends Cluster
      *
      * This label is used in breadcrumb navigation to help users undestand
      * their current location within the Lease Management cluster.
-     *
-     * @var string|null
      */
     protected static ?string $clusterBreadcrumb = 'Verhuringen';
 }

@@ -19,8 +19,6 @@ final class CreateChangelog extends CreateRecord
      * The resource associated with this page.
      * This property links the page to the ChangelogResource,
      * which defines the data and behaviour for creating changelog records.
-     *
-     * @var string
      */
     protected static string $resource = ChangelogResource::class;
 }

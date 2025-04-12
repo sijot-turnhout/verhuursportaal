@@ -22,7 +22,7 @@ final class CreateQuotation extends CreateRecord
      * Specifies the resource class associated with this page.
      * This resource is responsible for managing quotation records.
      *
-     * @var string
+     * @var string The fully-qualified class name of the QuotationResource.
      */
     protected static string $resource = QuotationResource::class;
 }

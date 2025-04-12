@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\LeaseResource\States;
 
+use App\Filament\Resources\LeaseResource\ValueObjects\CancellationDataObject;
+
 /**
  * Interface LeaseStateContract
  *
@@ -22,7 +24,7 @@ interface LeaseStateContract
      * This method initiates the transition to the quotation request state, which represents
      * the initial phase where the rental request is submitted and a quote is being prepared.
      *
-     * @return bool
+     * @return bool retruns true, if the transition is successfully
      */
     public function transitionToQuotationRequest(): bool;
 
@@ -32,7 +34,7 @@ interface LeaseStateContract
      * This method handles the transition to the optional state, where the lease is provisionally
      * reserved or held as an option pending further confirmation.
      *
-     * @return bool
+     * @return bool returns true, if the transition is successfully
      */
     public function transitionToOption(): bool;
 
@@ -42,7 +44,7 @@ interface LeaseStateContract
      * This method moves the lease to the confirmed state, indicating that the rental agreement
      * has been officially approved and confirmed.
      *
-     * @return bool
+     * @return bool returns true, if the transition is successfully
      */
     public function transitionToConfirmed(): bool;
 
@@ -52,7 +54,7 @@ interface LeaseStateContract
      * This method transitions the lease to the completed state, marking the rental process as
      * finalized with no further actions required.
      *
-     * @return bool
+     * @return bool returns true, if the transition is successfully
      */
     public function transitionToCompleted(): bool;
 
@@ -62,9 +64,10 @@ interface LeaseStateContract
      * This method cancels the lease and moves it to the cancelled state, ending the process
      * without completing the rental agreement.
      *
-     * @return bool
+     * @param  CancellationDataObject $cancellationDataObject  The data object that holds all the information for a lease request cancellation.
+     * @return bool returns true, if the transition is successfully
      */
-    public function transitionToCancelled(): bool;
+    public function transitionToCancelled(CancellationDataObject $cancellationDataObject): bool;
 
     /**
      * Transitions the current state to "Archived."
@@ -76,8 +79,6 @@ interface LeaseStateContract
      * Implementers of this method should ensure the transition process meets any
      * business rules associated with archiving (e.g., permission checks or status validation)
      * and handles any cleanup or notifications relevant to the transition.
-     *
-     * @return void
      */
     public function transitionToArchived(): void;
 }
