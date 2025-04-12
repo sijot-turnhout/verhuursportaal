@@ -7,6 +7,7 @@ use Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector;
 use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
 
 return RectorConfig::configure()
+    ->withAttributesSets()
     ->withPaths([
         __DIR__ . '/app',
         __DIR__ . '/bootstrap/app.php',
