@@ -165,7 +165,7 @@ describe('UserResource tests', function (): void {
             ->call('create')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas(User::class, Arr::except($formData, 'password_confirmation'));
+        $this->assertDatabaseHas(User::class, Arr::except($formData, 'passwordConfirmation'));
     });
 
     /**
