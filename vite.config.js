@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     /**
@@ -28,6 +29,7 @@ export default defineConfig({
                 'resources/css/filament/admin/theme.css',
             ],
             refresh: true,
-        })
+        }),
+        tailwindcss(),
     ],
 });
