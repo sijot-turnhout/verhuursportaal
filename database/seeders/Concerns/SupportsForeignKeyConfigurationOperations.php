@@ -37,8 +37,6 @@ trait SupportsForeignKeyConfigurationOperations
 
     /**
      * Disable foreign key checks for current db driver.
-     *
-     * @return void
      */
     protected function disableForeignKeys(): void
     {
@@ -47,8 +45,6 @@ trait SupportsForeignKeyConfigurationOperations
 
     /**
      * Enable foreign key checks for current db driver.
-     *
-     * @return void
      */
     protected function enableForeignKeys(): void
     {
@@ -57,8 +53,6 @@ trait SupportsForeignKeyConfigurationOperations
 
     /**
      * Return current driver enable command.
-     *
-     * @return mixed
      */
     private function getEnableStatement(): mixed
     {
@@ -67,8 +61,6 @@ trait SupportsForeignKeyConfigurationOperations
 
     /**
      * Return current driver disable command.
-     *
-     * @return mixed
      */
     private function getDisableStatement(): mixed
     {
@@ -77,8 +69,6 @@ trait SupportsForeignKeyConfigurationOperations
 
     /**
      * Returns command array for current db driver.
-     *
-     * @return mixed
      */
     private function getDriverCommands(): mixed
     {

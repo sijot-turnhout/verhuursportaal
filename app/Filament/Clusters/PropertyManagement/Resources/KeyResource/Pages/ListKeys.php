@@ -18,8 +18,6 @@ final class ListKeys extends ListRecords
 {
     /**
      * Connects this page to the KeyResource, which defines how keys are mapped.
-     *
-     * @var string
      */
     protected static string $resource = KeyResource::class;
 

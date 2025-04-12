@@ -20,9 +20,11 @@ final class CreateTenant extends CreateRecord
 {
     /**
      * The resource associated with this page.
-     * This is used by Filament to determine which resource the page is associated with.
      *
-     * @var string
+     * Filament uses this property to know which resource configuration should be applied.
+     * By setting this property, we clearly link this page to the TenantResource, so that all the forms, fields, table columns, and actions defined in TenantResource are used for this page.
+     *
+     * @var string This must be the fully-qualified class name of a Filament Resource.
      */
     protected static string $resource = TenantResource::class;
 }

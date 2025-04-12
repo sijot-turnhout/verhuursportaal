@@ -22,8 +22,6 @@ final class EditInvoice extends EditRecord
 {
     /**
      * The Filament resource class associated with this page.
-     *
-     * @var string
      */
     protected static string $resource = InvoiceResource::class;
 

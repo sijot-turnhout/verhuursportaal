@@ -34,7 +34,10 @@ class LeaseFactory extends Factory
     /**
      * Indicate that the lease request is an optional reservation in waiting of the quotation approval.
      *
-     * @return static
+     * This state modifier sets the 'status' attribute of the lease to the value representing a "quotation option" as defined in the LeaseStatus enum.
+     * It is useful for testing or seeding scenarios where a lease should be simulated as being in the optional reservation state pending quotation approval.
+     *
+     * @return static Returns the current factory instance with the 'quotation option' state applied.
      */
     public function quotationOption(): static
     {
@@ -42,9 +45,12 @@ class LeaseFactory extends Factory
     }
 
     /**
-     * Indicate the the lease request is a new request in the system. And awaiting for further actions.
+     * Indicate that the lease request is a new request in the system and is awaiting further actions.
      *
-     * @return static
+     * This state modifier sets the 'status' attribute of the lease to the value representing a "new request" as defined in the LeaseStatus enum.
+     * This is appropriate when generating lease instances that are freshly submitted and pending processing.
+     *
+     * @return static Returns the current factory instance with the 'new request' state applied.
      */
     public function newRequest(): static
     {
@@ -53,8 +59,9 @@ class LeaseFactory extends Factory
 
     /**
      * Indicate that the lease request is an optional reservation.
+     * This state modifier sets the 'status' attribute to the value corresponding to "option" in the LeaseStatus enum, indicating a lease that is conditionally reserved.
      *
-     * @return static
+     * @return static Returns the current factory instance with the 'option' state applied.
      */
     public function option(): static
     {
@@ -63,8 +70,9 @@ class LeaseFactory extends Factory
 
     /**
      * Indicate that the lease request is a confirmed reservation.
+     * This state modifier sets the 'status' attribute to the "confirmed" value as defined in the LeaseStatus enum, meaning that the lease has been fully agreed upon.
      *
-     * @return static
+     * @return static Returns the current factory instance with the 'confirmed' state applied.
      */
     public function confirmed(): static
     {
@@ -74,7 +82,10 @@ class LeaseFactory extends Factory
     /**
      * Indicate that the lease is finalized in the system.
      *
-     * @return static
+     * This state modifier sets the 'status' attribute to the "finalized" value from the LeaseStatus enum.
+     * This state is used once all lease processing has been completed, marking the lease as fully closed.
+     *
+     * @return static Returns the current factory instance with the 'finalized' state applied.
      */
     public function finalized(): static
     {
@@ -83,8 +94,9 @@ class LeaseFactory extends Factory
 
     /**
      * Indicate that the lease is cancelled during the processing of the request.
+     * This state modifier sets the 'status' attribute to the "cancelled" value as defined in the LeaseStatus enum, representing leases that have been aborted or terminated.
      *
-     * @return static
+     * @return static Returns the current factory instance with the 'cancelled' state applied.
      */
     public function cancelled(): static
     {

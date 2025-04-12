@@ -23,8 +23,6 @@ final class ViewDeposit extends ViewRecord
 {
     /**
      * Specifies the associated resource for this view page, linking it to the DepositResource.
-     *
-     * @var string
      */
     protected static string $resource = DepositResource::class;
 

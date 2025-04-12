@@ -24,15 +24,11 @@ trait InvoiceInfolist
 {
     /**
      * The title of the infolist section. If not set, defaults to 'Factuur informatie'.
-     *
-     * @var string|null
      */
     protected static ?string $infolistSectionTitle = null;
 
     /**
      * The description of the infolist section. If not set, defaults to 'De algemene informatie omtrent de factuur.'
-     *
-     * @var string|null
      */
     protected static ?string $infolistSectionDescription = null;
 

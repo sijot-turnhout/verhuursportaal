@@ -70,7 +70,6 @@ final class MarkAsFinalizedAction extends Action
      *
      * @param  array<mixed>  $formData   Data from the form (contains the signature)
      * @param  Quotation     $quotation  The quotation being finalized.
-     * @return void
      */
     private static function performActionLogic(array $formData, Quotation $quotation): void
     {

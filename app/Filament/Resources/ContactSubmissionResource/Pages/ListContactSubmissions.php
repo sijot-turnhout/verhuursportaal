@@ -29,8 +29,6 @@ final class ListContactSubmissions extends ListRecords
      *
      * This specifies which resource the page is managing. In this case, it
      * is the `ContactSubmissionResource`, which manages contact submissions.
-     *
-     * @var string
      */
     protected static string $resource = ContactSubmissionResource::class;
 

@@ -52,6 +52,7 @@
         "pestphp/pest-plugin-livewire": "^3.0",
         "pestphp/pest-plugin-watch": "^3.0",
         "phpunit/phpunit": "^11.0.1",
+        "rector/rector": "^2.0",
         "staabm/phpstan-todo-by": "^0.2"
     },
     "autoload": {
@@ -92,9 +93,13 @@
         ],
         "lint": "vendor\\bin\\pint",
         "refactor": "vendor\\bin\\rector --memory-limit=3G",
+        "test:lint": "vendor\\bin\\pint --test",
         "test:refactor": "vendor\\bin\\rector --memory-limit=3G --dry-run",
+        "test:types": "vendor\\bin\\phpstan --memory-limit=3G analyse",
         "test": [
-            "@test:refactor"
+            "@test:lint",
+            "@test:refactor",
+            "@test:types"
         ]
     },
     "extra": {

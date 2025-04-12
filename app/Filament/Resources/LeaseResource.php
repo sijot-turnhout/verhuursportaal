@@ -46,10 +46,7 @@ final class LeaseResource extends Resource
 
     /**
      * The Eloquent model associated with this resource.
-     *
      * This property specifies the model that the resource is managing. In this case, it is the `Lease` model.
-     *
-     * @var ?string
      */
     protected static ?string $model = Lease::class;
 
@@ -69,28 +66,19 @@ final class LeaseResource extends Resource
 
     /**
      * The attribute used as the title for records in this resource.
-     *
      * This property defines the attribute of the model that will be used as the title in various views of this resource.
-     *
-     * @var ?string
      */
     protected static ?string $modelLabel = 'Aanvraag';
 
     /**
      * The singular label for this resource.
-     *
      * This property specifies the singular name of the resource entity used in the UI.
-     *
-     * @var ?string
      */
     protected static ?string $pluralModelLabel = 'Aanvragen';
 
     /**
      * The icon used for navigation in the admin panel.
-     *
      * This property sets the icon that represents this resource in the navigation bar.
-     *
-     * @var ?string
      */
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 
@@ -125,11 +113,12 @@ final class LeaseResource extends Resource
                     ->icon('heroicon-m-user')
                     ->iconColor('primary')
                     ->collapsible()
+                    ->compact()
                     ->collapsed(fn(string $operation): bool => 'edit' === $operation)
                     ->schema([
                         Forms\Components\Select::make('tenant_id')->label('Huurder')
                             ->required()
-                            ->relationship('tenant', 'firstName')
+                            ->relationship('tenant', 'name')
                             ->createOptionModalHeading('Registreren van een nieuwe huurder')
                             ->createOptionForm([
                                 Forms\Components\Grid::make(12)->schema([
@@ -204,10 +193,10 @@ final class LeaseResource extends Resource
                     /** @phpstan-ignore-next-line */
                     ->iconColor(fn(Lease $lease) => $lease->risk_accessment_label->getColor() ?? 'gray'),
 
-                Tables\Columns\TextColumn::make('tenant.fullName')->label('Huurder')
+                Tables\Columns\TextColumn::make('tenant.name')->label('Huurder')
                     ->sortable()
                     ->iconColor('warning')
-                    ->icon(static fn(Lease $lease) => $lease->tenant->isBanned() ? 'heroicon-o-exclamation-triangle' : null)
+                    ->icon(static fn(Lease $lease): ?string => $lease->tenant->isBanned() ? 'heroicon-o-exclamation-triangle' : null)
                     ->tooltip(static fn(Lease $lease) => $lease->tenant->isBanned() ? trans('Deze huurder staat op de zwarte lijst') : null)
                     ->iconPosition(IconPosition::Before),
 
@@ -248,7 +237,6 @@ final class LeaseResource extends Resource
      * This method returns the lease's period to be displayed as the title in global search results.
      *
      * @param  Model $record  The lease record being displayed in search results.
-     * @return string
      *
      * @phpstan-param Lease $record
      */

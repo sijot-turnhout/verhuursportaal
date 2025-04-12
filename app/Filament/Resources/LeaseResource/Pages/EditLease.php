@@ -24,8 +24,6 @@ final class EditLease extends EditRecord
      *
      * This property links the `EditLease` page to the `LeaseResource` class, which defines
      * the schema and behavior for managing lease records.
-     *
-     * @var string
      */
     protected static string $resource = LeaseResource::class;
 

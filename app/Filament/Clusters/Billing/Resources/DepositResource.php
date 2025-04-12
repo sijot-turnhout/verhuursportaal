@@ -42,30 +42,22 @@ final class DepositResource extends Resource
     /**
      * The eloquent model associated with this resource.
      * This defines the database table and model used for managing deposit records.
-     *
-     * @var string|null
      */
     protected static ?string $model = Deposit::class;
 
     /**
      * The navigation icon for this resource in the Filament admin panel sidebar.
      * Uses a Heroicon to visually represent the deposit resource?
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
     /**
      * The singular label for this resource displayed in the Filament admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'waarborg';
 
     /**
      * The plural label for this resource displayed in the Filament admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Waarborgen';
 

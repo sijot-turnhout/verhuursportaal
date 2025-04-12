@@ -21,8 +21,6 @@ final class FeedbackSubmissionRequest extends FormRequest
 
     /**
      * The data class used to store and validate feedback submission data.
-     *
-     * @var string
      */
     protected string $dataClass = FeedbackSubmissionDataObject::class;
 

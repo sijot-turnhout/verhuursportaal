@@ -31,8 +31,6 @@ final class InvoiceStats extends StatsOverviewWidget
 {
     /**
      * The polling interval for the widget to auto-refresh data.
-     *
-     * @var string|null
      */
     protected static ?string $pollingInterval = null;
 
@@ -78,7 +76,7 @@ final class InvoiceStats extends StatsOverviewWidget
             ->count();
 
         return Stat::make(trans('Aantal facturen'), Invoice::query()->count())
-            ->chart($invoiceData->map(fn(TrendValue $value) => $value->aggregate)->toArray())
+            ->chart($invoiceData->map(fn(TrendValue $value): mixed => $value->aggregate)->toArray())
             ->color('success');
     }
 

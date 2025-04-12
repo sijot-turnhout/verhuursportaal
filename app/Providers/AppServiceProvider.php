@@ -18,12 +18,14 @@ class AppServiceProvider extends ServiceProvider
         $this->registerLaravelTelescope();
         $this->app->bind(StoreReservation::class, StoreReservationRequest::class);
 
-        KnowledgeBasePanel::configureUsing(fn(KnowledgeBasePanel $panel) => $panel->viteTheme('resources/css/filament/knowledge-base/theme.css'));
+        /** @otod refactor this out of the code becasue its not used. */
+        KnowledgeBasePanel::configureUsing(fn(KnowledgeBasePanel $panel): KnowledgeBasePanel
+            => $panel->viteTheme('resources/css/filament/knowledge-base/theme.css'));
     }
 
     public function boot(): void
     {
-        Gate::define('viewPulse', fn(?User $user) => $user?->user_group->isWebmaster());
+        Gate::define('viewPulse', fn(?User $user): bool => $user?->user_group->isWebmaster());
     }
 
     public function registerLaravelTelescope(): void

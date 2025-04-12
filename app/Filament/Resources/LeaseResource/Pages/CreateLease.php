@@ -23,8 +23,6 @@ final class CreateLease extends CreateRecord
      *
      * This property links the `CreateLease` page to the `LeaseResource` class, which defines
      * the schema and behavior for managing lease records.
-     *
-     * @var string
      */
     protected static string $resource = LeaseResource::class;
 }

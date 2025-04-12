@@ -24,7 +24,7 @@ final class CancellationDataObject extends Data
      * @param string $cancellationReason The reason for the lease cancellation.
      */
     public function __construct(
-        protected readonly string $cancellationReason,
+        private readonly string $cancellationReason,
     ) {}
 
     /**

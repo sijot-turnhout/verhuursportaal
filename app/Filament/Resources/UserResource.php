@@ -31,29 +31,21 @@ final class UserResource extends Resource
 {
     /**
      * The resource entity model of the users in the application storage.
-     *
-     * @var ?string
      */
     protected static ?string $model = User::class;
 
     /**
      * The singular resource name in the application backend.
-     *
-     * @return ?string
      */
     protected static ?string $modelLabel = 'gebruiker';
 
     /**
      * The plural model name of the resource in the application.
-     *
-     * @var ?string
      */
     protected static ?string $pluralModelLabel = 'Gebruikers';
 
     /**
      * The name of the navigation icon that will be displayed in the navigation bar.
-     *
-     * @var ?string
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -154,7 +146,7 @@ final class UserResource extends Resource
      * General information section for the user.
      * Here we render the form section for the general information off the user account.
      *
-     * @return Section
+     * @return Section  The configureed filament section for the resource.
      */
     public static function generalInformationSection(): Section
     {
@@ -165,7 +157,7 @@ final class UserResource extends Resource
                 Forms\Components\Select::make('user_group')->label('Functie')->required()->options(UserGroup::class)->columnSpan(3),
                 TextInput::make('name')->label('Naam + Voornaam')->columnSpan(9)->required()->maxLength(255),
                 TextInput::make('email')->label('Email adres')->columnSpan(6)->required()->maxLength(255)->email(),
-                TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
+                TextInput::make('phone_number')->tel()->label('Telefoon nummer')->telRegex('/^[+]*[(]{0,1}\d{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->columnSpan(6),
             ])->columns(12);
     }
 
@@ -218,7 +210,7 @@ final class UserResource extends Resource
      * Section that is related to the security information from the user account.
      * Only things such as the password will be handled/registered here.
      *
-     * @return Section
+     * @return Section The configured Filament section for the UserResource
      */
     private static function securityInformationSection(): Section
     {
@@ -229,7 +221,7 @@ final class UserResource extends Resource
                 TextInput::make('password')
                     ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
                     ->password()
-                    ->required(fn($livewire) => $livewire instanceof Pages\CreateUser)
+                    ->required(fn($livewire): bool => $livewire instanceof Pages\CreateUser)
                     ->revealable(filament()->arePasswordsRevealable())
                     ->rule(Password::default())
                     ->autocomplete('new-password')

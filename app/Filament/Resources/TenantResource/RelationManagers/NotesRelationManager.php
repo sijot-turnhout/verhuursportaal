@@ -25,29 +25,12 @@ final class NotesRelationManager extends RelationManager
     /**
      * The name of the relationship being managed by this relation manager.
      * This relationship should be defined in the Tenant model.
-     *
-     * @var string
      */
     protected static string $relationship = 'notes';
 
     /**
-     * The singular label for the model managed by this relation manager.
-     * This label is used in various places, such as forms and tables.
-     *
-     * @var string|null
-     */
-    protected static ?string $modelLabel = 'Notitie';
-
-    /**
-     * The plural model name definition for the relation manager.
-     */
-    protected static ?string $pluralModelLabel = 'Notities';
-
-    /**
      * The title for the relation manager page.
      * This title is displayed in the page header.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Notities';
 
@@ -82,6 +65,8 @@ final class NotesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->pluralModelLabel('Notities')
+            ->modelLabel('Notitie')
             ->emptyStateIcon('heroicon-o-book-open')
             ->emptyStateHeading('Geen notities gevonden voor de huurder')
             ->emptyStateDescription('Momenteel zijn er geen notities opgeslagen voor de huurder in het systeem. Om te starten met notities kunt u er simpel weg een aanmaken.')

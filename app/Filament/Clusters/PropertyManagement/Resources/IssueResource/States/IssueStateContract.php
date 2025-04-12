@@ -25,8 +25,6 @@ interface IssueStateContract
      * This method should handle all necessary actions to change the state of an issue
      * from its current state to a closed state. This could involve updating the database,
      * logging the transition, and notifying relevant parties.
-     *
-     * @return void
      */
     public function transitionToClosed(): void;
 
@@ -36,8 +34,6 @@ interface IssueStateContract
      * This method should handle all necessary actions to change the state of an issue
      * from its current state to an open state. This could involve updating the database,
      * logging the transition, and notifying relevant parties.
-     *
-     * @return void
      */
     public function transitionToOpen(): void;
 }

@@ -26,8 +26,10 @@ final class InitializeMetricsAction extends Action
      * The action dispatches a job to register initial utility metrics for the owner
      * record when executed.
      *
+     * @todo Refactor the static action class to a more flexible action class
+     *
      * @param  string|null  $name  The name of the action. If not provided, defaults to a translatable string.
-     * @return static
+     * @return static              The configured action class.
      */
     public static function make(?string $name = null): static
     {

@@ -22,10 +22,9 @@ final class UtilityMetrics
      * This method determines whether the utility metrics feature should be enabled for a specific user.
      * The default behavior is to disable the feature by returning `false`.
      *
-     * @param  User  $user  The user for whom the feature's value is being resolved.
-     * @return bool         Returns `false` to indicate that the feature is disabled by default.
+     * @return bool Returns `false` to indicate that the feature is disabled by default.
      */
-    public function resolve(User $user): bool
+    public function resolve(): bool
     {
         return true;
     }

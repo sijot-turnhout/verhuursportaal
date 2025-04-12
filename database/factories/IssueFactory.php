@@ -24,7 +24,7 @@ class IssueFactory extends Factory
         $user = User::factory()->createQuietly();
 
         return [
-            'issueable_type' => get_class($local),
+            'issueable_type' => $local::class,
             'issueable_id' => $local->id,
             'creator_id' => $user->id,
             'user_id' => $user->id,

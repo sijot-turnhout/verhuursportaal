@@ -23,7 +23,6 @@ final readonly class StatusUpdatedListener
      * the status change activity if a log message is present.
      *
      * @param  StatusUpdated $statusUpdated The event instance containing the status update details.
-     * @return void
      */
     public function handle(StatusUpdated $statusUpdated): void
     {

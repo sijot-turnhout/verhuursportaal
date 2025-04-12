@@ -48,30 +48,22 @@ final class InvoiceResource extends Resource
 
     /**
      * The database model used by this resource.
-     *
-     * @var string|null
      */
     protected static ?string $model = Invoice::class;
 
     /**
      * The singular label for the resource used in views.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'Factuur';
 
     /**
      * The plural label for the resource, shown in navigation and table views.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Facturen';
 
     /**
      * The navigation icon for the resource.
      * This icon is shown in the sidebar navigation.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
 
@@ -80,7 +72,7 @@ final class InvoiceResource extends Resource
      * In this case, the form only allows for editing the `description` (notes) of the invoice.
      *
      * @param  Form $form The instance that will be used to build the form in the resource view.
-     * @return Form
+     * @return Form       The configured form instance
      */
     public static function form(Form $form): Form
     {
@@ -118,7 +110,7 @@ final class InvoiceResource extends Resource
      * Defines the infolist used on the invoice information displays.
      *
      * @param  Infolist $infolist The instance that will be usezd to build the infolist view.
-     * @return Infolist
+     * @return Infolist           The configured Infolist instance
      */
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -199,7 +191,7 @@ final class InvoiceResource extends Resource
      * The table supports searchable and sortable columns, as well as specific actions like viewing, editing, and deleting invoices.
      *
      * @param  Table $table The instance that will be used to render the information table on the overview page.
-     * @return Table
+     * @return Table        The configured filament table instance.
      */
     public static function table(Table $table): Table
     {
@@ -241,7 +233,7 @@ final class InvoiceResource extends Resource
      * Returns the number of active invoices as a navigation badge.
      * This badge will display the number of invoices that are not quotations.
      *
-     * @return string|null
+     * @todo Implement some form of caching
      */
     public static function getNavigationBadge(): ?string
     {

@@ -24,8 +24,6 @@ final class ListLocals extends ListRecords
      *
      * This property links the `ListLocals` page to the `LocalResource` class, which defines
      * the schema and behavior for managing local resources.
-     *
-     * @var string
      */
     protected static string $resource = LocalResource::class;
 

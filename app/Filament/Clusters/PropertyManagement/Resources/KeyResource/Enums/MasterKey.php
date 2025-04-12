@@ -41,8 +41,6 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
 
     /**
      * Get the user-friendly name for this key type.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -54,8 +52,6 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
 
     /**
      * Provides a more detailed explanation of this key type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -80,8 +76,6 @@ enum MasterKey: int implements HasLabel, HasDescription, HasColor, HasIcon
 
     /**
      * Gets the icon used to represent this key type visually.
-     *
-     * @return string
      */
     public function getIcon(): string
     {

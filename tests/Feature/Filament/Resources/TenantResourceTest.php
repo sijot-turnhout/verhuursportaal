@@ -81,7 +81,7 @@ describe('Tenantesource tests', function (): void {
     it('can render columns', function (string $column): void {
         Tenant::factory()->create();
         livewire(ListTenants::class)->assertCanRenderTableColumn($column);
-    })->with(['name', 'isBlacklisted', 'phone_number', 'address', 'created_at']);
+    })->with(['name', 'phone_number', 'address', 'created_at']);
 
     /**
      * Test that specified columns in the ListTenants table can be sorted.

@@ -20,10 +20,9 @@ final class Feedback
      * This method determines if the feedback feature should be active based on the provided scope.
      * By default, this method returns `true`, indicating that the feature is enabled.
      *
-     * @param  mixed  $scope  The scope for which the feedback feature is being resolved. The scope could be user-related, tenant-related, or any other context.
-     * @return bool           Returns `true` to enable the feedback feature for the given scope.
+     * @return bool Returns `true` to enable the feedback feature for the given scope.
      */
-    public function resolve(mixed $scope): bool
+    public function resolve(): bool
     {
         return true;
     }

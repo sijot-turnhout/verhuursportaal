@@ -29,9 +29,12 @@ final class TenantFactory extends Factory
     }
 
     /**
-     * Inidcate that the tenant has been put on the blacklist in the application.
+     * Indicate that the tenant has been put on the blacklist in the application.
      *
-     * @return static
+     * This factory state modifier sets the 'banned_at' attribute to the current timestamp, marking the tenant as blacklisted.
+     * This can be used when generating model instances that require a "banned" state for testing or seeding purposes.
+     *
+     * @return static Returns the current factory instance with the updated state.
      */
     public function blacklisted(): static
     {

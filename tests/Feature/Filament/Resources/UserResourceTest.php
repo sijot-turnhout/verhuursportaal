@@ -156,7 +156,7 @@ describe('UserResource tests', function (): void {
             'email' => $record->email,
             'user_group' => $record->user_group,
             'password' => $record->password,
-            'password_confirmation' => $record->password,
+            'passwordConfirmation' => $record->password,
         ];
 
         livewire(CreateUser::class)
@@ -165,7 +165,7 @@ describe('UserResource tests', function (): void {
             ->call('create')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas(User::class, Arr::except($formData, 'password_confirmation'));
+        $this->assertDatabaseHas(User::class, Arr::except($formData, ['passwordConfirmation', 'password']));
     });
 
     /**

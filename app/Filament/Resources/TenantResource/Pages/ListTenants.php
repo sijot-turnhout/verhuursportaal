@@ -21,9 +21,11 @@ final class ListTenants extends ListRecords
 {
     /**
      * The resource associated with this page.
-     * This is used by Filament to determine which resource the page is associated with.
      *
-     * @var string
+     * This property tells Filament which resource this page is tied to.
+     * In this case, it is bound to the TenantResource, ensuring that all configuration (such as form fields, table columns, and actions) defined in TenantResource is used.
+     *
+     * @var string This should be the fully-qualified class name of a Filament Resource.
      */
     protected static string $resource = TenantResource::class;
 

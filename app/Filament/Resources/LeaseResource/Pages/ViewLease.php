@@ -38,8 +38,6 @@ final class ViewLease extends ViewRecord
      *
      * By associating this view with LeaseResource, the system knows that this page manages leases,
      * ensuring that actions taken here are applied specifically to lease records.
-     *
-     * @var string
      */
     protected static string $resource = LeaseResource::class;
 
@@ -66,7 +64,7 @@ final class ViewLease extends ViewRecord
      *
      * @return ActionGroup  The configured action groud that contains the state trkansition action classes.
      */
-    protected function registerStatusManipulationActions(): ActionGroup
+    private function registerStatusManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
             StateTransitions\TransitionToOptionAction::make(),
@@ -89,7 +87,7 @@ final class ViewLease extends ViewRecord
      *
      * @return ActionGroup  An action group with options for registering and viewing deposits.
      */
-    protected function registerDepositActions(): ActionGroup
+    private function registerDepositActions(): ActionGroup
     {
         return ActionGroup::make([
             ActionGroup::make([
@@ -115,7 +113,7 @@ final class ViewLease extends ViewRecord
      *
      * @return ActionGroup  A group with edit and delete options.
      */
-    protected function registerManipulationActions(): ActionGroup
+    private function registerManipulationActions(): ActionGroup
     {
         return ActionGroup::make([
             AssignAuthenticatedUserAction::make(),

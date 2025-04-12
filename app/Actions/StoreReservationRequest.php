@@ -35,7 +35,6 @@ final readonly class StoreReservationRequest implements StoreReservation
      * and triggering necessary actions.
      *
      * @param  ReservationDataObject $reservationDataObject The data object that contains the initial request data in a mapped form. for the reservation request.
-     * @return void
      */
     public function process(ReservationDataObject $reservationDataObject): void
     {
@@ -108,7 +107,6 @@ final readonly class StoreReservationRequest implements StoreReservation
      * In the backend. So We can keep them informed there about the newly created request.
      *
      * @param  Lease $lease The database entity of the lease that has been created through the request.
-     * @return void
      */
     private function sendOutNotificationToTheBackend(Lease $lease): void
     {

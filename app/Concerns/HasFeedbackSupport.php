@@ -35,7 +35,6 @@ trait HasFeedbackSupport
      * with a validity period specified by $validUntil.
      *
      * @param  Carbon  $validUntil  The timestamp until the feedback request is valid.
-     * @return void
      */
     public function sendFeedbackNotification(Carbon $validUntil): void
     {

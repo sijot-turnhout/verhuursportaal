@@ -24,9 +24,11 @@ final class ViewQuotations extends ViewRecord
 {
     /**
      * Specifies the resource class associated with this view page.
-     * This resource manages the quotation records in the system.
      *
-     * @var string
+     * Filament uses this property to determine which resource configuration should be applied.
+     * In this case, it indicates that the view page is linked to the QuotationResource, which manages all quotation records in the system.
+     *
+     * @var string The fully-qualified class name of the QuotationResource.
      */
     protected static string $resource = QuotationResource::class;
 

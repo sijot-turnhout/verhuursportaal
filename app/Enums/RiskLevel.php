@@ -59,8 +59,6 @@ enum RiskLevel: string implements HasColor, HasLabel
      *
      * Returns the label that represents the risk level, used as a user-friendly name in UI components.
      * For instance, the 'zeer laag' value for VeryLow can be directly displayed to users for easier interpretation.
-     *
-     * @return string
      */
     public function getLabel(): string
     {

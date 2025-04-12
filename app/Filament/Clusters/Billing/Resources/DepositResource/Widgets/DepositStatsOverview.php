@@ -27,7 +27,7 @@ final class DepositStatsOverview extends BaseWidget
      * It can be specified as an integer, a string, or an array, allowing for flexible
      * configuration based on the layout requirements.
      *
-     * @var int|string|array $columnSpan The span can be an integer, a string, or an array.
+     * {@inheritDoc}
      */
     protected int|string|array $columnSpan = '2';
 

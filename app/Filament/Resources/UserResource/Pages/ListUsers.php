@@ -22,8 +22,6 @@ final class ListUsers extends ListRecords
     /**
      * The resource class associated with this page.
      * This defines the resource that this page will manage.
-     *
-     * @var string
      */
     protected static string $resource = UserResource::class;
 

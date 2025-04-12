@@ -22,8 +22,6 @@ interface ShouldPerformAccessment
      *
      * This method coordinates the assessment by calculating the score, assigning a risk label,
      * and registering the result on the associated entity.
-     *
-     * @return void
      */
     public function handle(): void;
 
@@ -39,7 +37,6 @@ interface ShouldPerformAccessment
 
     /**
      * Determines the risk assessment label based on the given score.
-     *
      * Maps the calculated score to a `RiskLevel` enum, categorizing the risk level.
      *
      * @param  int $impactScore  The risk score to evaluate.
@@ -52,7 +49,6 @@ interface ShouldPerformAccessment
      *
      * @param  int       $impactScore          The calculated assessment score.
      * @param  RiskLevel $finalAssesmentLabel  The final risk label based on the score.
-     * @return void
      */
     public function registerAccessmentResult(int $impactScore, RiskLevel $finalAssesmentLabel): void;
 }
