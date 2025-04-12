@@ -17,10 +17,10 @@ return RectorConfig::configure()
         PrivatizeFinalClassMethodRector::class => [
             __DIR__ . '/app/Models/PanAnalytics.php',
             __DIR__ . '/app/Models/Lease.php',
-            __DIR__ . '/app/Filament/Resources/InvoiceResource/Widgets/InvoiceStats.php'
+            __DIR__ . '/app/Filament/Resources/InvoiceResource/Widgets/InvoiceStats.php',
         ],
         DisallowedShortTernaryRuleFixerRector::class => [
-            __DIR__ . '/app/Filament/Support/Concerns/Ownership.php'
+            __DIR__ . '/app/Filament/Support/Concerns/Ownership.php',
         ],
     ])
     ->withPreparedSets(

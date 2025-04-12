@@ -109,7 +109,7 @@ final readonly class UserPolicy
      */
     public function delete(User $user): bool
     {
-        if ( $user->user_group->isWebmaster()) {
+        if ($user->user_group->isWebmaster()) {
             return true;
         }
 

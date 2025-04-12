@@ -56,6 +56,43 @@ final class DocumentRelationManager extends RelationManager
     protected static ?string $icon = 'heroicon-o-cloud';
 
     /**
+     * Retrieve a badge indicating the number of documents associated with the owner record.
+     *
+     * This method checks the number of documents linked to the specified owner record (e.g., a Lease or User).
+     * If there are any associated documents, it returns the count as a string to be displayed as a badge.
+     * If no documents are found, it returns null, indicating the absence of a badge.
+     *
+     * @todo Implement caching here
+     *
+     * @param  Model $ownerRecord  The model instance (e.g., Lease or User) for which to retrieve the document count.
+     * @param  string $pageClass   The page class where the badge might be displayed. This can help differentiate logic based on the page context (currently unused).
+     * @return string|null         The count of associated documents as a string, or null if there are no documents.
+     */
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        /** @phpstan-ignore-next-line */
+        $documentCount = $ownerRecord->documents()->count();
+
+        // Return the document count as a string if greater than zero; otherwise, return null.
+        return $documentCount > 0 ? (string) $documentCount : null;
+    }
+
+    /**
+     * Determines if documents can be viewed for a specific lease record an page class.
+     *
+     * This method checks if the current page is a ViewLease page, ensuring documents are only visible
+     * when viewing lease details and not in other contexts.
+     *
+     * @param  Model   $ownerRecord  The lease record being viewed.
+     * @param  string  $pageClass    The class name of the current page.
+     * @return bool                  Returns true if the page is a ViewLease page, false otherwise
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return new $pageClass() instanceof ViewLease;
+    }
+
+    /**
      * Builds and returns the table schema for displaying a list of documents.
      *
      * The table provides a list of documents associated with a lease, including
@@ -104,43 +141,6 @@ final class DocumentRelationManager extends RelationManager
             ->headerActions([
                 $this->createDocumentAction(),
             ]);
-    }
-
-    /**
-     * Retrieve a badge indicating the number of documents associated with the owner record.
-     *
-     * This method checks the number of documents linked to the specified owner record (e.g., a Lease or User).
-     * If there are any associated documents, it returns the count as a string to be displayed as a badge.
-     * If no documents are found, it returns null, indicating the absence of a badge.
-     *
-     * @todo Implement caching here
-     *
-     * @param  Model $ownerRecord  The model instance (e.g., Lease or User) for which to retrieve the document count.
-     * @param  string $pageClass   The page class where the badge might be displayed. This can help differentiate logic based on the page context (currently unused).
-     * @return string|null         The count of associated documents as a string, or null if there are no documents.
-     */
-    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
-    {
-        /** @phpstan-ignore-next-line */
-        $documentCount = $ownerRecord->documents()->count();
-
-        // Return the document count as a string if greater than zero; otherwise, return null.
-        return $documentCount > 0 ? (string) $documentCount : null;
-    }
-
-    /**
-     * Determines if documents can be viewed for a specific lease record an page class.
-     *
-     * This method checks if the current page is a ViewLease page, ensuring documents are only visible
-     * when viewing lease details and not in other contexts.
-     *
-     * @param  Model   $ownerRecord  The lease record being viewed.
-     * @param  string  $pageClass    The class name of the current page.
-     * @return bool                  Returns true if the page is a ViewLease page, false otherwise
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return new $pageClass() instanceof ViewLease;
     }
 
     /**

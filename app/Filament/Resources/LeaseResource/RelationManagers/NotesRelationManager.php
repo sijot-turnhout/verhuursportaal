@@ -45,6 +45,22 @@ final class NotesRelationManager extends RelationManager
     protected static ?string $icon = 'heroicon-o-book-open';
 
     /**
+     * Determines if notes can be viewed for a specific lease record and page class.
+     *
+     * This method ensures notes are only visible when lease details through
+     * the ViewLease page, restricting access in other contexts for better security
+     * and user expierence.
+     *
+     * @param  Model  $ownerRecord  The lease record being viewed.
+     * @param  string $pageClass    The class name of the current page.
+     * @return bool                 Returns true is the current page is a ViewLease page.
+     */
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return new $pageClass() instanceof ViewLease;
+    }
+
+    /**
      * Configures the table for displaying and managing notes.
      *
      * @param  Table $table The table builder instance to configure.
@@ -74,22 +90,6 @@ final class NotesRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    /**
-     * Determines if notes can be viewed for a specific lease record and page class.
-     *
-     * This method ensures notes are only visible when lease details through
-     * the ViewLease page, restricting access in other contexts for better security
-     * and user expierence.
-     *
-     * @param  Model  $ownerRecord  The lease record being viewed.
-     * @param  string $pageClass    The class name of the current page.
-     * @return bool                 Returns true is the current page is a ViewLease page.
-     */
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return new $pageClass() instanceof ViewLease;
     }
 
     /**

@@ -80,6 +80,14 @@ final class UtilityUsageWidget extends LineChartBase
     }
 
     /**
+     * The chart type to display in the component.
+     */
+    protected function getType(): string
+    {
+        return 'bar';
+    }
+
+    /**
      * Method for getting a chart dataset out of the database.
      *
      * @param  UtilityMetricTypes  $usageMetricTypes  The enum class that contains all the utility metric categories
@@ -91,14 +99,6 @@ final class UtilityUsageWidget extends LineChartBase
             ->between(start: now()->startOfYear(), end: now()->endOfYear())
             ->perMonth()
             ->sum($sumColumn);
-    }
-
-    /**
-     * The chart type to display in the component.
-     */
-    protected function getType(): string
-    {
-        return 'bar';
     }
 
     /**
@@ -115,7 +115,7 @@ final class UtilityUsageWidget extends LineChartBase
 
         return [
             (new GraphDatasetObject('Gas verbruik', $gasUsageBar->map(fn(TrendValue $value): mixed => $value->aggregate), '#ca8a04', '#ca8a04', '#ca8a04'))->toArray(),
-            (new GraphDatasetObject('Water verbruik', $waterUsageBar->map(fn(TrendValue $value):mixed => $value->aggregate), '#1d4ed8', '#1d4ed8', '#1d4ed8'))->toArray(),
+            (new GraphDatasetObject('Water verbruik', $waterUsageBar->map(fn(TrendValue $value): mixed => $value->aggregate), '#1d4ed8', '#1d4ed8', '#1d4ed8'))->toArray(),
             (new GraphDatasetObject('Elektriciteits verbruik', $electricityUsageBar->map(fn(TrendValue $value): mixed => $value->aggregate), '#6d28d9', '#6d28d9', '#6d28d9'))->toArray(),
         ];
     }

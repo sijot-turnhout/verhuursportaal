@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Gate::define('viewPulse', fn(?User $user): bool  => $user?->user_group->isWebmaster());
+        Gate::define('viewPulse', fn(?User $user): bool => $user?->user_group->isWebmaster());
     }
 
     public function registerLaravelTelescope(): void
