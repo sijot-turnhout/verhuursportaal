@@ -70,6 +70,7 @@ final class TransitionToCancelledAction extends StateTransitionAction
      *
      * @param  array<mixed> $data  The cancellation data that is submitted by the authenticated user.
      * @param  Lease        $model The resource entity to perform the state transition on.
+     * @return void
      */
     public static function performFormActionLogic(array $data, Model $model): void
     {

@@ -55,7 +55,6 @@ final class ListDeposits extends ListRecords
      * This method generates an array of tabs based on the different deposit statuses.
      * Each tab is configured with a label, icon, badge, color and a query to filter deposits by status.
      *
-     * @return array<string, string>
      */
     public function getTabs(): array
     {
