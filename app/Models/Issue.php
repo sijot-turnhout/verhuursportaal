@@ -98,6 +98,11 @@ class Issue extends Model
     }
 
     /**
+     * Defines the many-to-many relationship with the Changelog model.
+     *
+     * This method links an Issue with its associated changelog entries, meaning that an issue can have multiple changelogs, and each changelog can relate to multiple issues.
+     * It uses Laravel’s built-in Eloquent "belongsToMany" relationship to manage these connections via a pivot table.
+     *
      * @return BelongsToMany<Changelog, covariant $this>
      */
     public function changelogs(): BelongsToMany
