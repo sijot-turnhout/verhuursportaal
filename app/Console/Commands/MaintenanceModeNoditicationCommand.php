@@ -45,7 +45,7 @@ final class MaintenanceModeNoditicationCommand extends Command
         $this->sendOutMaintenanceNotifications($responses);
     }
 
-    protected function abortIfApplicationIsAlreadyInMaintenance(): void
+    private function abortIfApplicationIsAlreadyInMaintenance(): void
     {
         if (app()->isDownForMaintenance()) {
             warning("Can't send out any down maintenance notifications to the users because the application is already in maintenance mode.");
@@ -55,9 +55,8 @@ final class MaintenanceModeNoditicationCommand extends Command
 
     /**
      * @param array<mixed> $responses
-     * @return void
      */
-    protected function sendOutMaintenanceNotifications(array $responses): void
+    private function sendOutMaintenanceNotifications(array $responses): void
     {
         $this->getUsers()->each(function (User $user) use ($responses): void {
             $languageKeys = ['date' => $responses['maintenanceDate'], 'start' => $responses['start'], 'end' => $responses['end']];
@@ -73,7 +72,7 @@ final class MaintenanceModeNoditicationCommand extends Command
     /**
      * @return Collection<int, User>
      */
-    protected function getUsers(): Collection
+    private function getUsers(): Collection
     {
         return User::all();
     }

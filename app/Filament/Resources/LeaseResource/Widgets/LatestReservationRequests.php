@@ -35,15 +35,11 @@ final class LatestReservationRequests extends BaseWidget
 
     /**
      * The heading text displayed at the top of the widget.
-     *
-     * @var string|null
      */
     protected static ?string $heading = 'Nieuwe aanvragen';
 
     /**
      * The sort order of the widget relative to other widgets.
-     *
-     * @var int|null
      */
     protected static ?int $sort = 2;
 

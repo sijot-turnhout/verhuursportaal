@@ -33,8 +33,6 @@ final class ListDeposits extends ListRecords
 {
     /**
      * Specifies the associated resource for this view page, linking it to the DepositResource.
-     *
-     * @var string
      */
     protected static string $resource = DepositResource::class;
 
@@ -44,8 +42,6 @@ final class ListDeposits extends ListRecords
      *
      * This method ensures that the user sees the first page of results
      * and that no records are selected when switching between tabs.
-     *
-     * @return void
      */
     public function updatedActiveTab(): void
     {
@@ -59,13 +55,13 @@ final class ListDeposits extends ListRecords
      * This method generates an array of tabs based on the different deposit statuses.
      * Each tab is configured with a label, icon, badge, color and a query to filter deposits by status.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getTabs(): array
     {
         return collect(DepositStatus::cases())
             ->map(
-                fn(DepositStatus $status) => Tab::make()
+                fn(DepositStatus $status): Tab => Tab::make()
                     ->label($status->getLabel())
                     ->icon($status->getIcon())
                     ->badgeColor($status->getColor())

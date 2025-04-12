@@ -40,11 +40,17 @@ final readonly class QuotationPolicy
             && $quotation->quotationLines->count() > 0;
     }
 
-    public function delete(User $user, Quotation $quotation): bool
+    /**
+     * @todo Implement docblock
+     */
+    public function delete(User $user): bool
     {
         return $user->user_group->notIn(enums: [UserGroup::Leiding, UserGroup::Vzw]);
     }
 
+    /**
+     * @todo Implement docblock
+     */
     public function download(User $user, Quotation $quotation): bool
     {
         return $quotation->status->isNot(enum: QuotationStatus::Draft);

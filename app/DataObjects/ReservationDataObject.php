@@ -32,8 +32,6 @@ final class ReservationDataObject extends Data
 
     /**
      * Method for mapping only the data that is related to the lease in the data object
-     *
-     * @return self
      */
     public function getLeaseInformation(): self
     {

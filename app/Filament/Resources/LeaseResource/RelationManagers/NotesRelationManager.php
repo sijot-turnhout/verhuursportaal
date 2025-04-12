@@ -22,35 +22,18 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Filament\Resources\LeaseResource\RelationManagers
  */
-class NotesRelationManager extends RelationManager
+final class NotesRelationManager extends RelationManager
 {
     /**
      * The name of the relationship that this manager handles.
-     *
-     * @var string
      */
     protected static string $relationship = 'notes';
 
     /**
-     * The singular label for the model managed by this relation manager.
-     *
-     * @var string|null
-     */
-    protected static ?string $modelLabel = 'Notitie';
-
-    /**
-     * The plural label for the model managed by this relation manager.
-     *
-     * @var string|null
-     */
-    protected static ?string $pluralModelLabel = 'Notities';
-
-    /**
      * The title of the relation manager section.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Notities';
+
     /**
      * The icon name used for representing this relationship in the UI.
      * This string corresponds to an icon identifier, typically used to
@@ -58,10 +41,40 @@ class NotesRelationManager extends RelationManager
      *
      * Note: The icon name usually follows a naming convention or comes from an icon
      * library (e.g., "heroicon-o-book-open")
-     *
-     * @var string|null
      */
     protected static ?string $icon = 'heroicon-o-book-open';
+
+    /**
+     * Configures the table for displaying and managing notes.
+     *
+     * @param  Table $table The table builder instance to configure.
+     * @return Table        The configured table instance.
+     */
+    public function table(Table $table): Table
+    {
+        return $table
+            ->pluralModelLabel('Notities')
+            ->modelLabel('Notitie')
+            ->description(trans('Extra notulen omtrent de reservatie aanvraag zoals bv speciale wensen van de huurder.'))
+            ->columns([
+                Tables\Columns\TextColumn::make('author.name')->label('Ingevoegd door')->weight(FontWeight::Bold),
+                Tables\Columns\TextColumn::make('title')->label('Titel')->searchable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Ingevoegd op')->sortable()->since(),
+                Tables\Columns\TextColumn::make('updated_at')->label('Laast gewijzigd op')->sortable()->since(),
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
 
     /**
      * Determines if notes can be viewed for a specific lease record and page class.
@@ -108,35 +121,5 @@ class NotesRelationManager extends RelationManager
                 Forms\Components\TextInput::make('title')->label('Titel')->required()->maxLength(255)->columnSpan(8),
                 Forms\Components\Textarea::make('body')->label('Notitie')->columnSpan(12)->rows(6),
             ])->columns(12);
-    }
-
-    /**
-     * Configures the table for displaying and managing notes.
-     *
-     * @param  Table $table The table builder instance to configure.
-     * @return Table        The configured table instance.
-     */
-    public function table(Table $table): Table
-    {
-        return $table
-            ->description(trans('Extra notulen omtrent de reservatie aanvraag zoals bv speciale wensen van de huurder.'))
-            ->columns([
-                Tables\Columns\TextColumn::make('author.name')->label('Ingevoegd door')->weight(FontWeight::Bold),
-                Tables\Columns\TextColumn::make('title')->label('Titel')->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Ingevoegd op')->sortable()->since(),
-                Tables\Columns\TextColumn::make('updated_at')->label('Laast gewijzigd op')->sortable()->since(),
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
     }
 }

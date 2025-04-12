@@ -23,7 +23,7 @@ final class TransitionToFinalizedAction extends StateTransitionAction
      * Method to check if the user is authorized to perform the action.
      *
      * @param  Lease $model The resource entity to check against.
-     * @return bool
+     * @return bool         Retruns true if the transition can be performed.
      */
     public static function canTransition(Model $model): bool
     {
@@ -42,7 +42,6 @@ final class TransitionToFinalizedAction extends StateTransitionAction
      * Method to perform the state transition logic that couples with this action class.
      *
      * @param  Lease $lease The resource entity where the state transition happends on.
-     * @return void
      */
     public static function performActionLogic(Model $lease): void
     {

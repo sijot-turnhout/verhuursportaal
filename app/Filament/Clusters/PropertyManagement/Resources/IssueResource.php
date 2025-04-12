@@ -49,8 +49,6 @@ final class IssueResource extends Resource
      *
      * Specifies the icon that will appear next to this resource in the application's
      * backend navigation. The icon should be a valid Heroicons name.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
@@ -59,8 +57,6 @@ final class IssueResource extends Resource
      *
      * This label is used when referring to a single instance of the resource in the
      * application's user interface.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'Werkpunt';
 
@@ -69,8 +65,6 @@ final class IssueResource extends Resource
      *
      * This label is used when referring to multiple instances of the resource in the
      * application's user interface.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Werkpunten';
 
@@ -80,8 +74,6 @@ final class IssueResource extends Resource
      * Defines the group under which this resource will appear in the application's
      * backend navigation menu. Resources can be grouped to provide better organization
      * in the UI.
-     *
-     * @var string|null
      */
     protected static ?string $navigationGroup = 'Problemen & verbeteringen';
 
@@ -151,8 +143,8 @@ final class IssueResource extends Resource
      *
      * @todo GH #14 - Refactoring van de open/close acties voor de werkpunten in de applicatie.
      *
-     * @param  Table $table
-     * @return Table
+     * @param  Table $table  The filament table instance to be configured
+     * @return Table         The configured table instance
      */
     public static function table(Table $table): Table
     {
@@ -197,8 +189,6 @@ final class IssueResource extends Resource
      * This method calculates and returns the value that will be shown as a badge
      * next to the resource name in the navigation menu. Typically, this could be a count
      * of records or any other meaningful number.
-     *
-     * @return string
      */
     public static function getNavigationBadge(): string
     {
@@ -211,8 +201,6 @@ final class IssueResource extends Resource
      * This method determines the color of the badge displayed next to the resource
      * name in the navigation menu, based on a condition such as the number of records.
      * For example, the badge may turn 'danger' (red) if the count exceeds a threshold.
-     *
-     * @return string
      */
     public static function getNavigationBadgeColor(): string
     {

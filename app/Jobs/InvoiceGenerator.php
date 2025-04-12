@@ -27,7 +27,6 @@ final readonly class InvoiceGenerator
      *
      * @param  Lease  $lease               The lease for which the invoice is being generated.
      * @param  string $invoiceDescription  A description to include in the invoice.
-     * @return void
      */
     public static function process(Lease $lease, string $invoiceDescription): void
     {

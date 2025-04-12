@@ -37,8 +37,6 @@ final class LocalResource extends Resource
      *
      * This property specifies the `Local` model, representing a `Local` (location) entity in the database.
      * The model is used to fetch, create, update, and delete records from the `locals` table.
-     *
-     * @var string|null
      */
     protected static ?string $model = Local::class;
 
@@ -47,8 +45,6 @@ final class LocalResource extends Resource
      *
      * This is the human-readable singular label of the resource, used in the backend UI.
      * It represents a single `Local` entity, referred to as "Lokaal".
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'Lokaal';
 
@@ -57,8 +53,6 @@ final class LocalResource extends Resource
      *
      * The icon that will be used in the navigation menu of the application backend.
      * Here, the `heroicon-o-home-modern` icon is used to represent `Local` entities visually.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';
 
@@ -67,8 +61,6 @@ final class LocalResource extends Resource
      *
      * This is the human-readable plural label for the resource, used to refer to multiple `Local` entities.
      * It is displayed in the backend UI as "Lokalen".
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Lokalen';
 

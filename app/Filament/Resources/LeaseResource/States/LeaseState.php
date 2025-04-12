@@ -25,7 +25,6 @@ class LeaseState implements LeaseStateContract
      * LeaseState constructor.
      *
      * @param  Lease $lease The lease model that this state is associated with.
-     * @return void
      */
     public function __construct(
         public readonly Lease $lease,

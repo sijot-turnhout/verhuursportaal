@@ -27,7 +27,6 @@ final readonly class StoreFeedbackSubmission
      *
      * @param  FeedbackSubmissionDataObject $dataObject  The data object containing feedback submission details.
      * @param  Lease                        $lease       The lease instance to associate the feedback with.
-     * @return void
      */
     public function handle(FeedbackSubmissionDataObject $dataObject, Lease $lease): void
     {

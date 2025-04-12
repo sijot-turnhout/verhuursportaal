@@ -35,22 +35,16 @@ final class SecurityDepositRefundReminder extends Command implements Isolatable
     /**
      * The name and signature of the console command.
      * Command can be executed using php artisan lease:refund-deposit-reminder
-     *
-     * @var string
      */
     protected $signature = 'lease:refund-deposit-reminder';
 
     /**
      * The console command description shown in artisan help.
-     *
-     * @var string
      */
     protected $description = 'Checks fdor due security deposit refunds and notifies authorized administrators to process the refunds.';
 
     /**
      * Indicates whether the command should be hidden from the console command list.
-     *
-     * @var bool
      */
     protected $hidden = true;
 
@@ -91,8 +85,6 @@ final class SecurityDepositRefundReminder extends Command implements Isolatable
      *
      * Retrieves users in the Vzw and Rvb user groups and sends a notification
      * indicating that some security deposits are due for refund.
-     *
-     * @return void
      */
     public function notifyAdministrators(): void
     {
@@ -140,7 +132,6 @@ final class SecurityDepositRefundReminder extends Command implements Isolatable
      * - Paid amount
      *
      * @param  Deposit $deposit  The deposit to output the informa^tion for.
-     * @return void
      */
     private function consoleOutputLine(Deposit $deposit): void
     {
@@ -160,8 +151,6 @@ final class SecurityDepositRefundReminder extends Command implements Isolatable
      * Displays:
      * - Title with count of the affected rows
      * - Using a Blade template for consistent formatting
-     *
-     * @return void
      */
     private function consoleOutputHeader(): void
     {

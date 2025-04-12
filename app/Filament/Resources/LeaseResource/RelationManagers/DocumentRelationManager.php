@@ -37,29 +37,11 @@ final class DocumentRelationManager extends RelationManager
 {
     /**
      * Defines the relationship name used in the lease model.
-     *
-     * @var string
      */
     protected static string $relationship = 'documents';
 
     /**
-     * Specifies a singular label for a document item.
-     *
-     * @var string|null
-     */
-    protected static ?string $modelLabel = "Document";
-
-    /**
-     * Specifies a plural label for document items.
-     *
-     * @var string|null
-     */
-    protected static ?string $pluralModelLabel = 'Documenten';
-
-    /**
      * Specifies the title displayed in the interface for this relation.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Documenten';
 
@@ -70,10 +52,59 @@ final class DocumentRelationManager extends RelationManager
      *
      * Note: The icon name usually follows a naming convention or comes from an icon
      * library (e.g., "heroicon-o-cloud")
-     *
-     * @var string|null
      */
     protected static ?string $icon = 'heroicon-o-cloud';
+
+    /**
+     * Builds and returns the table schema for displaying a list of documents.
+     *
+     * The table provides a list of documents associated with a lease, including
+     * columns for file name, uploader, and upload date. Table actions for editing,
+     * downloading, and deleting are also included.
+     *
+     * @param  Table $table The Filament table instance used for building the schema.
+     * @return Table         The configured table instance
+     */
+    public function table(Table $table): Table
+    {
+        return $table
+            ->pluralModelLabel('Documenten')
+            ->modelLabel('Document')
+            ->emptyStateIcon('heroicon-o-cloud')
+            ->emptyStateHeading('Geen documenten geupload')
+            ->emptyStateDescription(trans('Het lijkt erop dat er momenteel nog geen documenten geupload zijn die gerelateerd zijn aan deze reservatie.'))
+            ->description(trans('Geuploade documenten die relevant zijn voor de verhuring zoals contracten, ondertekende offertes en andere documenten'))
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('#')
+                    ->translateLabel()
+                    ->weight(FontWeight::Bold)
+                    ->color('primary'),
+
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label('Geupload door'),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->icon('heroicon-o-document-text')
+                    ->iconColor('primary')
+                    ->label('Bestandsnaam'),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->translateLabel()
+                    ->label('Geupload op'),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+
+                $this->downloadDocumentAction(),
+                $this->deleteDocumentAction(),
+            ])
+            ->bulkActions([DeleteBulkAction::make()])
+            ->headerActions([
+                $this->createDocumentAction(),
+            ]);
+    }
 
     /**
      * Retrieve a badge indicating the number of documents associated with the owner record.
@@ -81,6 +112,8 @@ final class DocumentRelationManager extends RelationManager
      * This method checks the number of documents linked to the specified owner record (e.g., a Lease or User).
      * If there are any associated documents, it returns the count as a string to be displayed as a badge.
      * If no documents are found, it returns null, indicating the absence of a badge.
+     *
+     * @todo Implement caching here
      *
      * @param  Model $ownerRecord  The model instance (e.g., Lease or User) for which to retrieve the document count.
      * @param  string $pageClass   The page class where the badge might be displayed. This can help differentiate logic based on the page context (currently unused).
@@ -133,7 +166,7 @@ final class DocumentRelationManager extends RelationManager
      * file uniqueness, and user-assigned defaults.
      *
      * @param  Form $form The Filament form instance used for building the schema.
-     * @return Form
+     * @return Form       The configured instance.
      */
     public function form(Form $form): Form
     {
@@ -169,55 +202,6 @@ final class DocumentRelationManager extends RelationManager
     }
 
     /**
-     * Builds and returns the table schema for displaying a list of documents.
-     *
-     * The table provides a list of documents associated with a lease, including
-     * columns for file name, uploader, and upload date. Table actions for editing,
-     * downloading, and deleting are also included.
-     *
-     * @param  Table $table The Filament table instance used for building the schema.
-     * @return Table
-     */
-    public function table(Table $table): Table
-    {
-        return $table
-            ->emptyStateIcon('heroicon-o-cloud')
-            ->emptyStateHeading('Geen documenten geupload')
-            ->emptyStateDescription(trans('Het lijkt erop dat er momenteel nog geen documenten geupload zijn die gerelateerd zijn aan deze reservatie.'))
-            ->description(trans('Geuploade documenten die relevant zijn voor de verhuring zoals contracten, ondertekende offertes en andere documenten'))
-            ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('#')
-                    ->translateLabel()
-                    ->weight(FontWeight::Bold)
-                    ->color('primary'),
-
-                Tables\Columns\TextColumn::make('creator.name')
-                    ->label('Geupload door'),
-
-                Tables\Columns\TextColumn::make('name')
-                    ->translateLabel()
-                    ->icon('heroicon-o-document-text')
-                    ->iconColor('primary')
-                    ->label('Bestandsnaam'),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->translateLabel()
-                    ->label('Geupload op'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-
-                $this->downloadDocumentAction(),
-                $this->deleteDocumentAction(),
-            ])
-            ->bulkActions([DeleteBulkAction::make()])
-            ->headerActions([
-                $this->createDocumentAction(),
-            ]);
-    }
-
-    /**
      * Customizes and returns the Create Action for uploading documents.
      *
      * This action allows users to upload a new document via a modal with
@@ -236,7 +220,7 @@ final class DocumentRelationManager extends RelationManager
             ->modalSubmitActionLabel('Uploaden')
             ->createAnother(false)
             ->successNotificationTitle('Het bestand is successvol toegevoegd aan de verhuring')
-            ->modalSubmitAction(fn(StaticAction $action) => $action->icon('heroicon-o-paper-airplane'))
+            ->modalSubmitAction(fn(StaticAction $action): StaticAction => $action->icon('heroicon-o-paper-airplane'))
             ->modalDescription('Upload hier de benodigde documenten in PDF-formaat voor administratie van de verhuring. Zorg ervoor dat alle bestanden duidelijk leesbaar zijn en voldoen aan de interne eisen voor documentatiebeheer.')
             ->label('Document uploaden')
             ->icon('heroicon-o-document-plus');

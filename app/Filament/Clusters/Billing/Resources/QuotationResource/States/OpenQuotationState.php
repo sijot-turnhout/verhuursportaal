@@ -26,8 +26,6 @@ final class OpenQuotationState extends BaseQuotationState
      * This method updates the quotation's status to "Accepted" and records the current timestamp
      * in the `approved_at` field. This signifies that the recipient has reviewed and approved the quotation.
      * The quotation is now considered final and can proceed to the next phase of the transaction.
-     *
-     * @return void
      */
     public function transitionToAccepted(): void
     {
@@ -43,8 +41,6 @@ final class OpenQuotationState extends BaseQuotationState
      * This method updates the quotation's status to "Declined" and records the current timestamp
      * in the `rejected_at` field. This indicates that the recipient has decided not to proceed with the quotation,
      * effectively closing the offer and marking it as declined.
-     *
-     * @return void
      */
     public function transitionToDeclined(): void
     {
@@ -60,8 +56,6 @@ final class OpenQuotationState extends BaseQuotationState
      * This method updates the quotation's status to "Expired" without recording any additional timestamps.
      * A quotation typically expires if the recipient does not take action (accept or decline) within a specified time frame.
      * Expired quotations are no longer valid and cannot be acted upon.
-     *
-     * @return void
      */
     public function transitionToExpired(): void
     {

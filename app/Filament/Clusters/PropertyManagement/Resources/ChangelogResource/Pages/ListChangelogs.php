@@ -19,8 +19,6 @@ final class ListChangelogs extends ListRecords
     /**
      * The resoource that this page is associated with.
      * This links the page to the specific resource (ChangelogResource) that defines the data and behavior.
-     *
-     * @var string
      */
     protected static string $resource = ChangelogResource::class;
 

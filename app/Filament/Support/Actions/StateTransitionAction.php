@@ -39,7 +39,7 @@ abstract class StateTransitionAction extends Action
      * @param  string|null $name        The name of the action.
      * @param  string      $label       The label of the action
      * @param  mixed       $finalState  The final state of the transition.
-     * @return static
+     * @return static                   The configure template configuration for actions related to state transition actions
      */
     public static function buildStateTransitionAction(string $label, mixed $finalState, ?string $name = null): static
     {

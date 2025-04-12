@@ -23,16 +23,12 @@ final class PropertyManagement extends Cluster
     /**
      * The icon that will be displayed in the application navigation for this cluster.
      * This icon helps users visually identify the Property Management section.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = "heroicon-o-home-modern";
 
     /**
      * The label for this cluster in the application navigation.
      * This label is used to identify the cluster in the navigation menu.
-     *
-     * @var string|null
      */
     protected static ?string $navigationLabel = "Lokalenbeheer";
 
@@ -41,8 +37,6 @@ final class PropertyManagement extends Cluster
      *
      * This label is used in breadcrumb navigation to help users understand
      * their current location within the Property Management section.
-     *
-     * @var string|null
      */
     protected static ?string $clusterBreadcrumb = "Lokalenbeheer";
 }

@@ -92,8 +92,6 @@ trait HasUtilityMetrics
      * This critical operation marks utility readings as final by recording the current timestamp.
      * The method includes a safety check to prevent finalization when no utility statistics exist, maintaining data integrity.
      * Once finalized, the metrics become immutable to prevent unauthorized modifications.
-     *
-     * @return void
      */
     public function hasRegisteredMetrics(): bool
     {
@@ -105,8 +103,6 @@ trait HasUtilityMetrics
      * This critical operation marks utility readings as final by recording the current timestamp.
      * The method includes a safety check to prevent finalization when no utility statistics exist, maintaining data integrity.
      * Once finalized, the metrics become immutable to prevent unauthorized modifications.
-     *
-     * @return void
      */
     public function finalizeUtilityMetrics(): void
     {

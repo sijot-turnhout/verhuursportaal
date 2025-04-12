@@ -41,8 +41,6 @@ final class StatsOverview extends LineChartBase
 
     /**
      * Method to register the chart widget heading.
-     *
-     * @return string
      */
     public function getHeading(): string
     {
@@ -51,8 +49,6 @@ final class StatsOverview extends LineChartBase
 
     /**
      * Method to register the description of the chartw widget component.
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -77,35 +73,35 @@ final class StatsOverview extends LineChartBase
             'datasets' => [
                 [
                     'label' => 'Verhuringen',
-                    'data' => $leaseChartData->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $leaseChartData->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => '#2C3830',
                     'borderColor' => '#2C3830',
                     'pointBackgroundColor' => '#2C3830',
                 ],
                 [
                     'label' => 'Offertes',
-                    'data' => $quotationChartData->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $quotationChartData->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => '#1B1E1E',
                     'borderColor' => '#1B1E1E',
                     'pointBackgroundColor' => '#1B1E1E',
                 ],
                 [
                     'label' => 'Huurders',
-                    'data' => $tenantChartData->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $tenantChartData->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => '#AA8344',
                     'borderColor' => '#AA8344',
                     'pointBackgroundColor' => '#AA8344',
                 ],
                 [
                     'label' => 'Contactnames',
-                    'data' => $contactChartData->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $contactChartData->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => '#D3BA75',
                     'borderColor' => '#D3BA75',
                     'pointBackgroundColor' => '#D3BA75',
                 ],
                 [
                     'label' => trans('Feedback'),
-                    'data' => $feedbackChartData->map(fn(TrendValue $value) => $value->aggregate),
+                    'data' => $feedbackChartData->map(fn(TrendValue $value): mixed => $value->aggregate),
                     'backgroundColor' => '#47553C',
                     'borderColor' => '#47553C',
                     'pointBackgroundColor' => '#47553C',
@@ -113,7 +109,7 @@ final class StatsOverview extends LineChartBase
 
             ],
 
-            'labels' => $leaseChartData->map(fn(TrendValue $value) => $value->date),
+            'labels' => $leaseChartData->map(fn(TrendValue $value): mixed => $value->date),
         ];
     }
 }

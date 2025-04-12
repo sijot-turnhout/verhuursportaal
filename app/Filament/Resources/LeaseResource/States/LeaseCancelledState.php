@@ -23,8 +23,6 @@ final class LeaseCancelledState extends LeaseState
      *
      * This method assumes that any preconditions for archiving (such as status checks
      * or authorization) have already been validated by the caller.
-     *
-     * @return void
      */
     public function transitionToArchived(): void
     {

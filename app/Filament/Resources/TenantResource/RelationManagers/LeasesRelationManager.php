@@ -28,34 +28,56 @@ final class LeasesRelationManager extends RelationManager
     /**
      * The name of the relationship being managed by this relation manager.
      * This relationship should be defined in the Tenant model.
-     *
-     * @var string
      */
     protected static string $relationship = 'leases';
 
     /**
-     * The singular label for the model managed by this relation manager.
-     * This label is used in various places, such as forms and tables.
-     *
-     * @var string|null
-     */
-    protected static ?string $modelLabel = 'Verhuring';
-
-    /**
-     * The plural label for the model managed by this relation manager.
-     * This label is used when referring to multiple records of this model.
-     *
-     * @var string|null
-     */
-    protected static ?string $pluralModelLabel = 'Verhuringen';
-
-    /**
      * The title for the relation manager page.
      * This title is displayed in the page header.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Verhuringen';
+
+    /**
+     * Configures the table used to display lease records.
+     *
+     * @todo Implement the empty state configuration.
+     *
+     * @param  Table  $table  The table builder instance to configure.
+     * @return Table          The configured table instance.
+     */
+    public function table(Table $table): Table
+    {
+        return $table
+            ->pluralModelLabel('Verhuringen')
+            ->modelLabel('Verhuring')
+            ->recordTitleAttribute('id')
+            ->columns([
+                Tables\Columns\TextColumn::make('period')->label('Periode')->weight(FontWeight::Bold),
+                Tables\Columns\TextColumn::make('status')->badge()->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('supervisor.name')->label('Verantwoordelijke')->placeholder('- geen toewijzing')->sortable(),
+                Tables\Columns\TextColumn::make('persons')->label('Aantal personen')->sortable()->badge()->icon('heroicon-o-user'),
+                Tables\Columns\TextColumn::make('group')->label('Organisatie')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Aanvragingsdatum')->date()->sortable(),
+            ])
+            ->filters([
+
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
+            ->actions([
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
 
     /**
      * Configures the form used to create or edit lease records.
@@ -113,43 +135,5 @@ final class LeasesRelationManager extends RelationManager
                     ->required()
                     ->columnSpan(12),
             ])->columns(12);
-    }
-
-    /**
-     * Configures the table used to display lease records.
-     *
-     * @param  Table  $table  The table builder instance to configure.
-     * @return Table          The configured table instance.
-     */
-    public function table(Table $table): Table
-    {
-        return $table
-            ->recordTitleAttribute('id')
-            ->columns([
-                Tables\Columns\TextColumn::make('period')->label('Periode')->weight(FontWeight::Bold),
-                Tables\Columns\TextColumn::make('status')->badge()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('supervisor.name')->label('Verantwoordelijke')->placeholder('- geen toewijzing')->sortable(),
-                Tables\Columns\TextColumn::make('persons')->label('Aantal personen')->sortable()->badge()->icon('heroicon-o-user'),
-                Tables\Columns\TextColumn::make('group')->label('Organisatie')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Aanvragingsdatum')->date()->sortable(),
-            ])
-            ->filters([
-
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ]),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
     }
 }

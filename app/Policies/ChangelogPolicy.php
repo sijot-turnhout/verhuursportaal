@@ -45,8 +45,10 @@ final class ChangelogPolicy
      */
     public function reopenChangelog(User $user, Changelog $changelog): bool
     {
-        return $user->user_group->in(enums: [UserGroup::Webmaster, UserGroup::Rvb])
-            || $changelog->user()->is($user)
-            && $changelog->status->is(ChangelogStatus::Closed);
+        if ($user->user_group->in(enums: [UserGroup::Webmaster, UserGroup::Rvb])) {
+            return true;
+        }
+        return $changelog->user()->is($user)
+        && $changelog->status->is(ChangelogStatus::Closed);
     }
 }

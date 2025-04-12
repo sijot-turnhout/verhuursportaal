@@ -20,9 +20,13 @@ final readonly class IssuePolicy
      */
     public function delete(User $user, Issue $issue): bool
     {
-        return $user->owns($issue, 'creator_id')
-            || $user->owns($issue, 'user_id')
-            || $user->user_group->isWebmaster();
+        if ($user->owns($issue, 'creator_id')) {
+            return true;
+        }
+        if ($user->owns($issue, 'user_id')) {
+            return true;
+        }
+        return $user->user_group->isWebmaster();
     }
 
     /**
@@ -33,11 +37,17 @@ final readonly class IssuePolicy
      */
     public function update(User $user, Issue $issue): bool
     {
-        return $user->owns($issue, 'creator_id')
-            || $user->owns($issue, 'user_id')
-            || $user->user_group->isWebmaster()
-            || $user->user_group->isRvb()
-            && null !== $issue->closed_at;
+        if ($user->owns($issue, 'creator_id')) {
+            return true;
+        }
+        if ($user->owns($issue, 'user_id')) {
+            return true;
+        }
+        if ($user->user_group->isWebmaster()) {
+            return true;
+        }
+        return $user->user_group->isRvb()
+        && null !== $issue->closed_at;
     }
 
     /**
@@ -51,11 +61,14 @@ final readonly class IssuePolicy
         if ($issue->status->isClosedIssueTicket()) {
             return false; // Can't close issue tickets that are already closed.
         }
-
         // Proceed with the normalized check to confirm that the authenticated user is allowed to perform the handling.
-        return $user->owns($issue, 'creator_id')
-            || $user->owns($issue, 'user_id')
-            || $user->user_group->isWebmaster();
+        if ($user->owns($issue, 'creator_id')) {
+            return true;
+        }
+        if ($user->owns($issue, 'user_id')) {
+            return true;
+        }
+        return $user->user_group->isWebmaster();
     }
 
     /**
@@ -69,10 +82,13 @@ final readonly class IssuePolicy
         if ($issue->status->isOpenIssueTicket()) {
             return false; // Can't reopen issue tickets that are already open.
         }
-
         // Proceed with the the normalized check to confirm that the authenticated user is allowed to perform the handling.
-        return $user->owns($issue, 'creator_id')
-            || $user->owns($issue, 'user_id')
-            || $user->user_group->isWebmaster();
+        if ($user->owns($issue, 'creator_id')) {
+            return true;
+        }
+        if ($user->owns($issue, 'user_id')) {
+            return true;
+        }
+        return $user->user_group->isWebmaster();
     }
 }

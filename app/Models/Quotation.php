@@ -76,7 +76,7 @@ final class Quotation extends Model implements FinancialAssistance
 
         self::creating(function ($quotation): void {
             $lastQuotation = self::orderBy('id', 'desc')->first();
-            $lastNumber = $lastQuotation ? (int) mb_substr($lastQuotation->reference, -6) : 0;
+            $lastNumber = $lastQuotation ? (int) mb_substr((string) $lastQuotation->reference, -6) : 0;
             $quotation->reference = date('Y') . '-' . mb_str_pad((string) ($lastNumber + 1), 6, '0', STR_PAD_LEFT);
         });
     }

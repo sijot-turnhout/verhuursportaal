@@ -37,7 +37,7 @@ final class TransitionToOptionAction extends StateTransitionAction
      * The method that checks if the authenticated user is authorizated to perform the state transition.
      *
      * @param  Lease $lease The resource entity from the database storage.
-     * @return bool
+     * @return bool         Returns true if the transition can be performed.
      */
     public static function canTransition(Model $lease): bool
     {
@@ -56,7 +56,6 @@ final class TransitionToOptionAction extends StateTransitionAction
      * Method to perform the needed logic for the state transition action.
      *
      * @param  Lease $lease The resource entity that needs the transition update.
-     * @return void
      */
     public static function performActionLogic(Model $lease): void
     {

@@ -15,11 +15,6 @@ use Illuminate\Support\Str;
 final class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -32,7 +27,7 @@ final class UserFactory extends Factory
             'user_group' => UserGroup::Rvb,
             'email_verified_at' => now(),
             'phone_number' => fake()->phoneNumber(),
-            'password' => self::$password ??= Hash::make('password'),
+            'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
     }

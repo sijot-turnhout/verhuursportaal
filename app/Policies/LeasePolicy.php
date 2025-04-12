@@ -110,10 +110,8 @@ final readonly class LeasePolicy
         }
 
         // Users in 'Vzw' or 'Rvb' groups can delete leases with 'Cancelled' or 'Finalized' status
-        return (bool) (
-            $lease->status->in([LeaseStatus::Cancelled, LeaseStatus::Finalized]) &&
-            $user->user_group->in([UserGroup::Vzw, UserGroup::Rvb])
-        );
+        return $lease->status->in([LeaseStatus::Cancelled, LeaseStatus::Finalized])
+            && $user->user_group->in([UserGroup::Vzw, UserGroup::Rvb]);
     }
 
     /**

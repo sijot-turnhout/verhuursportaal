@@ -33,7 +33,6 @@ final class FinalizeMetricsAction extends Action
      * field of the owner record with the current timestamp upon execution.
      *
      * @param  string|null  $name  The name of the action. If not provided, defaults to a translatable string.
-     * @return static
      */
     public static function make(?string $name = null): static
     {
@@ -62,7 +61,7 @@ final class FinalizeMetricsAction extends Action
     private static function performFinalizeMetricsAction(Model|Lease $lease): bool
     {
         return DB::transaction(function () use ($lease) {
-            defer(callback: fn(Lease $lease) => InvoiceUtilityUsage::dispatch($lease));
+            defer(callback: fn(Lease $lease): bool => InvoiceUtilityUsage::dispatch($lease));
 
             return $lease->update(['metrics_registered_at' => now()]);
         });

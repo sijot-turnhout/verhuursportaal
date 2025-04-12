@@ -31,29 +31,21 @@ final class ContactSubmissionResource extends Resource
 {
     /**
      * The entity model resource for the ContactSubmission Resource in the backend.
-     *
-     * @var string|null
      */
     protected static ?string $model = ContactSubmission::class;
 
     /**
      * Thet singular resource entity name
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'contact';
 
     /**
      * The plural model name of the resource
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Contact';
 
     /**
      * The navigation icon name that will be displayed in the navigation bar
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
 
@@ -63,7 +55,7 @@ final class ContactSubmissionResource extends Resource
      * @todo Investigate if its possible to use a alert when a contact message is created in the backend.
      *
      * @param  Table $table The table instance that will be used to build the overview table
-     * @return Table
+     * @return Table        The configured table instance
      */
     public static function table(Table $table): Table
     {
@@ -101,7 +93,7 @@ final class ContactSubmissionResource extends Resource
      * Method to render the infolist in the application backend.
      *
      * @param  Infolist $infolist The infolist builder instance that will be used to build the infolist information.
-     * @return Infolist
+     * @return Infolist           The configured instance of the infolist
      */
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -121,7 +113,7 @@ final class ContactSubmissionResource extends Resource
     /**
      * MMethod to display the item count in the navigation bar item of the resource.
      *
-     * @return string
+     * @todo Implement cashing for the badge count
      */
     public static function getNavigationBadge(): string
     {

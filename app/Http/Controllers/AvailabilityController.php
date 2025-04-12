@@ -22,8 +22,14 @@ use Illuminate\Contracts\Support\Renderable;
 final readonly class AvailabilityController
 {
     /**
-     * @param  GetConfirmedLeasesForCalendar $getConfirmedLeasesForCalendar The query class for getting all the confirmed leases out of the storage.
-     * @return Renderable
+     * Handle the incoming request to display the availability calendar.
+     *
+     * This controller method is invoked when the availability page is requested.
+     * It leverages the given query class instance to retrieve all confirmed leases from storage.
+     * The retrieved leases are then passed to the 'availability' view for rendering.
+     *
+     * @param  GetConfirmedLeasesForCalendar $getConfirmedLeasesForCalendar An instance of a query class that retrieves all confirmed leases.
+     * @return Renderable  The view representing the availability calendar populated with confirmed lease data.
      */
     public function __invoke(GetConfirmedLeasesForCalendar $getConfirmedLeasesForCalendar): Renderable
     {

@@ -24,7 +24,7 @@ interface LeaseStateContract
      * This method initiates the transition to the quotation request state, which represents
      * the initial phase where the rental request is submitted and a quote is being prepared.
      *
-     * @return bool
+     * @return bool retruns true, if the transition is successfully
      */
     public function transitionToQuotationRequest(): bool;
 

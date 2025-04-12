@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
+use Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector;
+use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -13,7 +14,14 @@ return RectorConfig::configure()
         __DIR__ . '/public',
     ])
     ->withSkip([
-        AddOverrideAttributeToOverriddenMethodsRector::class,
+        PrivatizeFinalClassMethodRector::class => [
+            __DIR__ . '/app/Models/PanAnalytics.php',
+            __DIR__ . '/app/Models/Lease.php',
+            __DIR__ . '/app/Filament/Resources/InvoiceResource/Widgets/InvoiceStats.php'
+        ],
+        DisallowedShortTernaryRuleFixerRector::class => [
+            __DIR__ . '/app/Filament/Support/Concerns/Ownership.php'
+        ],
     ])
     ->withPreparedSets(
         deadCode: true,

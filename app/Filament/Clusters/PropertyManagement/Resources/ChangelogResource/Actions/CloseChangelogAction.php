@@ -24,7 +24,7 @@ final class CloseChangelogAction extends Action
      * necessary permissions to close the given changelog.
      *
      * @param  string|null $name Optional. The name of the action. If not provided, a default localized name 'Werklijst afsluiten' is used.
-     * @return static
+     * @return static            The configured action class.
      */
     public static function make(?string $name = null): static
     {

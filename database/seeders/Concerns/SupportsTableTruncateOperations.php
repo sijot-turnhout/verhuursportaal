@@ -15,7 +15,6 @@ trait SupportsTableTruncateOperations
      * Method for truncating a single table in the database.
      *
      * @param  string $table The name of the table that u wish to truncate.
-     * @return mixed
      */
     protected function truncate(string $table): mixed
     {
@@ -31,7 +30,6 @@ trait SupportsTableTruncateOperations
      * Method for truncating multiple tables in the database.
      *
      * @param  array<int, string> $tables The tables that u wish to truncate.
-     * @return void
      */
     protected function truncateMultiple(array $tables): void
     {

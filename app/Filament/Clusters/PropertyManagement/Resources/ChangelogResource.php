@@ -29,36 +29,26 @@ final class ChangelogResource extends Resource
 {
     /**
      * The model that this resource is associated with.
-     *
-     * @var string|null
      */
     protected static ?string $model = Changelog::class;
 
     /**
      * The icon used for the resource's navigation in the Filament admin panel.
-     *
-     * @var string|null
      */
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     /**
      * The label used for the model in the UI, in singular form.
-     *
-     * @var string|null
      */
     protected static ?string $modelLabel = 'Werklijst';
 
     /**
      * The label used for the model in the UI, in plural form.
-     *
-     * @var string|null
      */
     protected static ?string $pluralModelLabel = 'Werklijsten';
 
     /**
      * The navigation group in which this resource will be placed.
-     *
-     * @var string|null
      */
     protected static ?string $navigationGroup = 'Problemen & verbeteringen';
 

@@ -10,8 +10,6 @@ class LineChartBase extends ChartWidget
 {
     /**
      * Configuration variable for setting the max heigt of the chart widget in view
-     *
-     * @var string|null $maxHeight
      */
     protected static ?string $maxHeight = '150px';
 
@@ -33,8 +31,6 @@ class LineChartBase extends ChartWidget
 
     /**
      * The chart type to display in the component.
-     *
-     * @return string
      */
     protected function getType(): string
     {

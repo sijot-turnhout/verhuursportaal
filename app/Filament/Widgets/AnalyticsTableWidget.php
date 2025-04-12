@@ -39,16 +39,12 @@ final class AnalyticsTableWidget extends TableWidget
 
     /**
      * The heading that appears at the top of the widget.
-     *
-     * @var string|null
      */
     protected static ?string $heading = 'Platform analytics';
 
     /**
      * Sort order of the widget on the page.
      * A lower number means the widget will appear earlier.
-     *
-     * @var int|null
      */
     protected static ?int $sort = 2;
 

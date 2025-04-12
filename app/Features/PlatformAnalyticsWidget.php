@@ -20,10 +20,9 @@ final readonly class PlatformAnalyticsWidget
      * This method is used to determine whether the platform analytics widget should be enabled or disabled.
      * By default, it returns `false`, indicating the feature is not active.
      *
-     * @param  mixed $scope The context in which the feature is being resolved. This can be used to dynamically decide the feature's state.
-     * @return bool         The initial value of the feature, defaulting to `false`.
+     * @return bool The initial value of the feature, defaulting to `false`.
      */
-    public function resolve(mixed $scope): bool
+    public function resolve(): bool
     {
         return true;
     }

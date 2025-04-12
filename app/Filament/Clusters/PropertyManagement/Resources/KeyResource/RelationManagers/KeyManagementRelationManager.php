@@ -28,8 +28,6 @@ final class KeyManagementRelationManager extends RelationManager
     /**
      * The name of the relationship managed by this class.
      * This string corresponds to the relationship method name in the Eloquent model.
-     *
-     * @var string
      */
     protected static string $relationship = 'keyManagement';
 
@@ -39,8 +37,6 @@ final class KeyManagementRelationManager extends RelationManager
      * the context or section they are interacting with.
      *
      * Note: The title is in Dutch, meaning "Key Management".
-     *
-     * @var string|null
      */
     protected static ?string $title = "Sleutelbeheer";
 
@@ -51,8 +47,6 @@ final class KeyManagementRelationManager extends RelationManager
      *
      * Note: The icon name usually follows a naming convention or comes from an icon
      * library (e.g., "heroicon-o-key")
-     *
-     * @var string|null
      */
     protected static ?string $icon = 'heroicon-o-key';
 

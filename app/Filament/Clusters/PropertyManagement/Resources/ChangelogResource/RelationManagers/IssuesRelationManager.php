@@ -23,16 +23,12 @@ final class IssuesRelationManager extends RelationManager
 {
     /**
      * The title displayed for this relation manager in the UI.
-     *
-     * @var string|null
      */
     protected static ?string $title = 'Gekoppelde werkpunten';
 
     /**
      * The name of the relationship managed by this relation manager.
      * This specifies the Eloquent relationship method name in the `Changelog` model.
-     *
-     * @var string
      */
     protected static string $relationship = 'issues';
 
@@ -40,7 +36,7 @@ final class IssuesRelationManager extends RelationManager
      * Method to define the infolist view for the information view of the issue ticket;
      *
      * @param  Infolist  $infolist  The infolist builder instance to build up the infolist
-     * @return Infolist
+     * @return Infolist             The configured filament infolist instance.
      */
     public function infolist(Infolist $infolist): Infolist
     {

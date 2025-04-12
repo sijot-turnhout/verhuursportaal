@@ -44,7 +44,7 @@ enum Status: string implements HasColor, HasIcon, HasLabel
      *
      * Returns the color value associated with the status.
      *
-     * @return string
+     * @return string The color associated with the label
      */
     public function getColor(): string
     {

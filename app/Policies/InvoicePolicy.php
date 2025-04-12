@@ -49,7 +49,7 @@ final readonly class InvoicePolicy
      */
     public function update(User $user, Invoice $invoice): bool
     {
-        return in_array($invoice->status, [InvoiceStatus::Draft], true);
+        return $invoice->status === InvoiceStatus::Draft;
     }
 
     /**

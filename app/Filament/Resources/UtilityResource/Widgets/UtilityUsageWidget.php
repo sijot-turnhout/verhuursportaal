@@ -22,15 +22,13 @@ final class UtilityUsageWidget extends LineChartBase
 {
     /**
      * The variablem that contains the applied filter from the chart widget.
-     *
-     * @var string|null
      */
     public ?string $filter = 'unit';
 
     /**
      * Method for registering the Heading title of the chart panel in the widget.
      *
-     * @return string
+     * @return string The heading title for the chart panel.
      */
     public function getHeading(): string
     {
@@ -44,7 +42,7 @@ final class UtilityUsageWidget extends LineChartBase
     /**
      * Method for registering the chart panel description text.
      *
-     * @return string
+     * @return string The description text for the chart panel.
      */
     public function getDescription(): string
     {
@@ -66,7 +64,7 @@ final class UtilityUsageWidget extends LineChartBase
 
         return [
             'datasets' => $utilityUsageStatistics,
-            'labels' => $this->getChartBarInformation(UtilityMetricTypes::Gas, 'usage_total')->map(fn(TrendValue $value) => $value->date),
+            'labels' => $this->getChartBarInformation(UtilityMetricTypes::Gas, 'usage_total')->map(fn(TrendValue $value): string => $value->date),
         ];
     }
 
@@ -87,7 +85,7 @@ final class UtilityUsageWidget extends LineChartBase
      * @param  UtilityMetricTypes  $usageMetricTypes  The enum class that contains all the utility metric categories
      * @return Collection<int|string, TrendValue>
      */
-    protected function getChartBarInformation(UtilityMetricTypes $usageMetricTypes, string $sumColumn): Collection
+    private function getChartBarInformation(UtilityMetricTypes $usageMetricTypes, string $sumColumn): Collection
     {
         return Trend::query(Utility::query()->where('name', $usageMetricTypes))
             ->between(start: now()->startOfYear(), end: now()->endOfYear())
@@ -116,9 +114,9 @@ final class UtilityUsageWidget extends LineChartBase
         $electricityUsageBar = $this->getChartBarInformation(UtilityMetricTypes::Electricity, $sumColumn);
 
         return [
-            (new GraphDatasetObject('Gas verbruik', $gasUsageBar->map(fn(TrendValue $value) => $value->aggregate), '#ca8a04', '#ca8a04', '#ca8a04'))->toArray(),
-            (new GraphDatasetObject('Water verbruik', $waterUsageBar->map(fn(TrendValue $value) => $value->aggregate), '#1d4ed8', '#1d4ed8', '#1d4ed8'))->toArray(),
-            (new GraphDatasetObject('Elektriciteits verbruik', $electricityUsageBar->map(fn(TrendValue $value) => $value->aggregate), '#6d28d9', '#6d28d9', '#6d28d9'))->toArray(),
+            (new GraphDatasetObject('Gas verbruik', $gasUsageBar->map(fn(TrendValue $value): mixed => $value->aggregate), '#ca8a04', '#ca8a04', '#ca8a04'))->toArray(),
+            (new GraphDatasetObject('Water verbruik', $waterUsageBar->map(fn(TrendValue $value):mixed => $value->aggregate), '#1d4ed8', '#1d4ed8', '#1d4ed8'))->toArray(),
+            (new GraphDatasetObject('Elektriciteits verbruik', $electricityUsageBar->map(fn(TrendValue $value): mixed => $value->aggregate), '#6d28d9', '#6d28d9', '#6d28d9'))->toArray(),
         ];
     }
 }

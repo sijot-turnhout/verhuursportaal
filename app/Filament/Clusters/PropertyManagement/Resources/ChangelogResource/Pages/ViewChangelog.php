@@ -24,8 +24,6 @@ final class ViewChangelog extends ViewRecord
      *
      * This property defines which resource this page is associated with.
      * In this case, it links to the 'ChangelogResource', which handles the data and presentation logic for the `Changelog` model.
-     *
-     * @var string
      */
     protected static string $resource = ChangelogResource::class;
 

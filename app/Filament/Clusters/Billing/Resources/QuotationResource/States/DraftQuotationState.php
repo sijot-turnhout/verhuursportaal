@@ -26,8 +26,6 @@ final class DraftQuotationState extends BaseQuotationState
      *
      * This method updates the status of the quotation to 'Open' and sets an expiration date that is two weeks from the current date.
      * The "Open" state indicates that the quotation is now active and viewable by the client.
-     *
-     * @return void
      */
     public function transitionToOpen(): void
     {

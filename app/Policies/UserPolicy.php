@@ -19,7 +19,7 @@ use App\Models\User;
  *
  * @package App\Policies
  */
-final class UserPolicy
+final readonly class UserPolicy
 {
     /**
      * Determines if a user can view a list of all users.
@@ -33,7 +33,11 @@ final class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->user_group->isWebmaster() || $user->user_group->isRvb();
+        if ($user->user_group->isWebmaster()) {
+            return true;
+        }
+
+        return $user->user_group->isRvb();
     }
 
     /**
@@ -44,12 +48,15 @@ final class UserPolicy
      * This restriction is in place to respect user privacy and maintain a secure community environment.
      *
      * @param  User $user   The user initiating the request.
-     * @param  User $model  The user whose details are being requested.
      * @return bool         True if authorized, false otherwise.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user): bool
     {
-        return $user->user_group->isWebmaster() || $user->user_group->isRvb();
+        if ($user->user_group->isWebmaster()) {
+            return true;
+        }
+
+        return $user->user_group->isRvb();
     }
 
     /**
@@ -64,7 +71,11 @@ final class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->user_group->isWebmaster() || $user->user_group->isRvb();
+        if ($user->user_group->isWebmaster()) {
+            return true;
+        }
+
+        return $user->user_group->isRvb();
     }
 
     /**
@@ -75,12 +86,15 @@ final class UserPolicy
      * This restriction protects against unauthorized changes and helps maintain data accuracy, contributing to a more reliable community experience.
      *
      * @param  User $user   The user initiating the request.
-     * @param  User $model  The user whose details are being updated.
      * @return bool         True if authorized, false otherwise.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user): bool
     {
-        return $user->user_group->isWebmaster() || $user->user_group->isRvb();
+        if ($user->user_group->isWebmaster()) {
+            return true;
+        }
+
+        return $user->user_group->isRvb();
     }
 
     /**
@@ -91,11 +105,14 @@ final class UserPolicy
      * Strict control over account deletion is crucial for preventing accidental data loss and maintaining the integrity of our community platform.
      *
      * @param  User  $user   The user initiating the request.
-     * @param  User  $model  The user account being deleted.
      * @return bool          True if authorized, false otherwise.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user): bool
     {
-        return $user->user_group->isWebmaster() || $user->user_group->isRvb();
+        if ( $user->user_group->isWebmaster()) {
+            return true;
+        }
+
+        return $user->user_group->isRvb();
     }
 }

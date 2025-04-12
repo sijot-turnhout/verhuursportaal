@@ -56,7 +56,7 @@ final readonly class LeaseInfolist
     /**
      * Create the cancellation information section.
      *
-     * @return Tab
+     * @return Tab The configured Tab instance
      */
     private static function cancellationInformationTab(): Tab
     {
@@ -100,7 +100,7 @@ final readonly class LeaseInfolist
                     ->label('Risico profiel')
                     ->translateLabel()->columnSpan(3)
                     ->badge()
-                    ->hintAction(fn(Action $action) => $action->make('check-documentation')
+                    ->hintAction(fn(Action $action): Action => $action->make('check-documentation')
                         ->label('uitleg')
                         ->url('https://sijot-turnhout.github.io/verhuur-portaal-documentatie/leases/incidents.html#risico-analyse')
                         ->openUrlInNewTab()
