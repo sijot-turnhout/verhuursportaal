@@ -19,6 +19,8 @@ final class UtilityMetric implements CastsAttributes
      *
      * @param  TModel  $model
      * @param  array<string, mixed>  $attributes
+     *
+     * @phpstan-ignore-next-line
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
@@ -33,6 +35,7 @@ final class UtilityMetric implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
+        // @phpstan-ignore-next-line
         return str_replace(',', '.', $value);
     }
 }

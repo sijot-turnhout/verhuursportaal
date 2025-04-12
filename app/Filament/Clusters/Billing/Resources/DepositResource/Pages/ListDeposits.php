@@ -55,6 +55,7 @@ final class ListDeposits extends ListRecords
      * This method generates an array of tabs based on the different deposit statuses.
      * Each tab is configured with a label, icon, badge, color and a query to filter deposits by status.
      *
+     * @return array<int|string, Tab>
      */
     public function getTabs(): array
     {
@@ -75,7 +76,7 @@ final class ListDeposits extends ListRecords
      * This method returns an array of widgets to be displayed in the header of the page.
      * These widgets can provide additional information or actions related to the deposits.
      *
-     * @return array The array off header widgets.
+     * @return array<class-string<\Filament\Widgets\Widget>|\Filament\Widgets\WidgetConfiguration> The array off header widgets.
      */
     protected function getHeaderWidgets(): array
     {

@@ -93,9 +93,13 @@
         ],
         "lint": "vendor\\bin\\pint",
         "refactor": "vendor\\bin\\rector --memory-limit=3G",
+        "test:lint": "vendor\\bin\\pint --test",
         "test:refactor": "vendor\\bin\\rector --memory-limit=3G --dry-run",
+        "test:types": "vendor\\bin\\phpstan --memory-limit=3G analyse",
         "test": [
-            "@test:refactor"
+            "@test:lint",
+            "@test:refactor",
+            "@test:types"
         ]
     },
     "extra": {

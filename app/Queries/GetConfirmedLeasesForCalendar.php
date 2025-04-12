@@ -14,9 +14,7 @@ final readonly class GetConfirmedLeasesForCalendar
     /**
      * Method for putting all the confirmed leases into an array that is manageable for the fullCalendar system.
      *
-     * @return array<string, string>
-     *
-     *  @phpstan-ignore-next-line
+     * @return list<array<mixed>>
      */
     public function handle(): array
     {
