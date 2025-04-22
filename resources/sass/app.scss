@@ -51,6 +51,63 @@ $border-radius-sm-sketchy: 255px 25px 225px 25px / 25px 225px 25px 255px;
     }
 }
 
+// Client section
+
+.info-icon {
+    color: #ffbf37;
+}
+
+.client-section {
+    background: #ffbf37;
+    position: relative;
+}
+
+.color-heading {
+    font-weight: bold;;
+    color: #3b251a !important;
+}
+
+.meh {
+  position: relative;
+}
+
+.pattern-layer {
+    background-image: url('../img/shape-12.png');
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 60px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.pattern-layer-2 {
+    background-color: #fff;
+    background-image: url('../img/shape-10.png');
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 65px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    z-index: 2;
+}
+
+.pattern-layer-3 {
+    background-image: url('../img/shape-20.png');
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 65px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    z-index: 2;
+}
+
+
 // Buttons
 
 .btn {
@@ -634,14 +691,9 @@ color: #7c6f68;
     color: #92400e;
 }
 
-.bg-need-to-know {
-    background: rgb(210,228,155);
-    background: radial-gradient(circle, rgba(210,228,155,1) 0%, rgba(189,215,50,1) 50%, rgba(210,228,155,1) 100%);
-    border-color: #748d26;
-    box-shadow: 0 .125rem .25rem rgb(116, 141, 38) !important;
-
+.bg-white {
     > .card-title {
-        color: #572600;
+        color: #ffbf37;
     }
 }
 

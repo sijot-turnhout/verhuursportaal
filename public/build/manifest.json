@@ -3,9 +3,21 @@
     "file": "assets/app-background-DxddqnsV.png",
     "src": "resources/img/app-background.png"
   },
+  "resources/img/shape-10.png": {
+    "file": "assets/shape-10-B2VO56z4.png",
+    "src": "resources/img/shape-10.png"
+  },
   "resources/img/shape-11.png": {
     "file": "assets/shape-11-C3Iu0JLK.png",
     "src": "resources/img/shape-11.png"
+  },
+  "resources/img/shape-12.png": {
+    "file": "assets/shape-12-BMLaWOJA.png",
+    "src": "resources/img/shape-12.png"
+  },
+  "resources/img/shape-20.png": {
+    "file": "assets/shape-20-XhWp1VCw.png",
+    "src": "resources/img/shape-20.png"
   },
   "resources/img/shape-9.png": {
     "file": "assets/shape-9-B5JObvYA.png",
@@ -18,7 +30,7 @@
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-BHAHBsgF.css",
+    "file": "assets/app-4mNPX458.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },

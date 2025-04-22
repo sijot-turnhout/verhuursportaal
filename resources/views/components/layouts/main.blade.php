@@ -98,7 +98,7 @@
 
 
             @if (!active(['feedback*', 'debug/feedback']))
-            <div class="shape mt-5"></div>
+            <div class="shape mt-4"></div>
                 <footer id="footer" class="shadow-sm">
                     <div class="container">
                         <div class="row pt-3 pb-4">

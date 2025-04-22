@@ -1,5 +1,5 @@
 <x-layouts.guest>
-    <div id="calendar" class="pt-3"></div>
+    <div id="calendar" class="pt-3 pb-5"></div>
 
     @section ('scripts')
         <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
