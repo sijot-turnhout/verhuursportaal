@@ -513,11 +513,49 @@ div[class^="col"] .row {
 background: linear-gradient(90deg, rgba(41,37,36,1) 35%, rgba(23,23,23,1) 100%);
 }
 
+.shape{
+    background-image: url('../img/shape-9.png');
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 145px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+  }
+
+  .text-footer {
+color: #7c6f68;
+}
+
+.border-social {
+    border-color:rgb(116, 141, 38) !important;
+}
+
 #footer {
-    border-top: #bdd732 3px solid;
+    background-image: url('../img/shape-11.png');
+    background-color: #3b251a;
+}
+
+.sub-footer {
+    background-color: #23150e;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: #bdd732 3px solid;
     border-image: linear-gradient(45deg, #bdd732 , #748d26) 1;
-    background-color: #000;
-    margin-top: 3em;
+}
+
+.inf-icon {
+    color: #ffbf37;
+}
+
+.btn-social {
+    @include button-variant(#ffbf37, #ffbf37);
+    color: #fff !important;
+
+    > .icon {
+        color: #ff6f29;
+    }
 }
 
 .fc-event-time {
