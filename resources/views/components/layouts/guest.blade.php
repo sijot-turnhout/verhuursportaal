@@ -1,56 +1,7 @@
 <x-layouts.main>
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active" style="height: 450px !important">
-                <img src="https://placehold.co/600x400/000000/FFF" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Terrein</h5>
-                </div>
-            </div>
-
-            <div class="carousel-item" style="height: 450px !important">
-                <img src="https://placehold.co/600x400/000000/FFF" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Sanitaire blok</h5>
-                </div>
-            </div>
-
-            <div class="carousel-item" style="height: 450px !important">
-                <img src="https://placehold.co/600x400/000000/FFF" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Keukenl</h5>
-                </div>
-            </div>
-
-            <div class="carousel-item" style="height: 450px !important">
-                <img src="https://placehold.co/600x400/000000/FFF" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Kapoenen + welpen lokaal</h5>
-                </div>
-            </div>
-
-            <div class="carousel-item" style="height: 450px !important">
-                <img src="https://placehold.co/600x400/000000/FFF" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Grote zaal</h5>
-                </div>
-            </div>
-
-            <div class="carousel-item" style="height: 450px !important">
-                <img src="https://placehold.co/600x400/000000/FFF" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Jong-gover lokaal</h5>
-                </div>
-            </div>
-
-            <div class="carousel-item" style="height: 450px !important">
-                <img src="https://placehold.co/600x400/000000/FFF" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Jin Lokaal</h5>
-                </div>
-            </div>
-        </div>
-    </div>
+    <section="header">
+        <img src="{{ asset('img/domein/terrein.jpg') }}" height="600" width="100%" alt="">
+    </section>
 
     <div class="meh">
         <div class="pattern-layer"></div>
