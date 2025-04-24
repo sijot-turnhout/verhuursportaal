@@ -1,4 +1,9 @@
 {
+  "resources/css/filament/admin/theme.css": {
+    "file": "assets/theme-NKGSHxRz.css",
+    "src": "resources/css/filament/admin/theme.css",
+    "isEntry": true
+  },
   "resources/img/app-background.png": {
     "file": "assets/app-background-DxddqnsV.png",
     "src": "resources/img/app-background.png"
@@ -24,18 +29,18 @@
     "src": "resources/img/shape-9.png"
   },
   "resources/js/app.js": {
-    "file": "assets/app-De4R3s3M.js",
+    "file": "assets/app-CVME7tB3.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-4mNPX458.css",
+    "file": "assets/app-DLzCI-4X.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
   "resources/sass/invoice.scss": {
-    "file": "assets/invoice-DNaikqfG.css",
+    "file": "assets/invoice-BNcCiQ4F.css",
     "src": "resources/sass/invoice.scss",
     "isEntry": true
   }
